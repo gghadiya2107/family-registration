@@ -17,7 +17,7 @@ const FooterTwo = () => {
                 <Grid item xs={1}></Grid>
                 <Grid item xs={10}>
                     <Grid container spacing={4}>
-                        <Grid item xs={4}>
+                        <Grid item xs={12} md={4}>
                             <h3 className={style.title}>About Us</h3>
                             <p className={style.desc}>Family register is an Entitlement based Management System which is being developed into an integrated State Social Registry. It consists of family registry, beneficiary management system, beneficiary registry, direct benefit platform and a grievance redressal system.</p>
                        <div className={style.social}>
@@ -29,8 +29,8 @@ const FooterTwo = () => {
                         <TfiYoutube className={style.icon}/>
                        </div>
                         </Grid>
-                        <Grid item xs={1}></Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={1} md={0}></Grid>
+                        <Grid item xs={12} md={3}>
                             <h3 className={style.title}>Links</h3>
                             <p className={style.descLink}>Knowledge Base</p>
                             <p className={style.descLink}>Career</p>
@@ -38,9 +38,9 @@ const FooterTwo = () => {
                             <p className={style.descLink}>Terms of Services</p>
                             <p className={style.descLink}>Privacy Policy</p>
                         </Grid>
-                        <Grid item xs={1}></Grid>
+                        <Grid item xs={1} md={0}></Grid>
 
-                        <Grid item xs={4}>
+                        <Grid item xs={12} md={3}>
                             <h3 className={style.title}>Contact Us</h3>
 
                             <p className={style.desc}>HIMACHAL PRADESH INFORMATION TECHNOLOGY DEPARTMENT
@@ -70,22 +70,22 @@ const FooterTwo = () => {
 
             <div style={{width:"80%", margin : "auto", marginBottom : "-20px"}}>
             <Grid container spacing={3} mt={4}>
-                <Grid item xs={2} className={style.fBorder} style={{paddingTop : 0}}>
+                <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}>
                 <Image src="/f1.png" width={100} height={80} className={style.fImg} />
                 </Grid>
-                <Grid item xs={2} className={style.fBorder} style={{paddingTop : 0}}    >
+                <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
                 <Image src="/f2.png" width={100} height={80} className={style.fImg} />
                 </Grid>
-                <Grid item xs={2} className={style.fBorder} style={{paddingTop : 0}}    >
+                <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
                 <Image src="/f3.png" width={100} height={80} className={style.fImg} />
                 </Grid>
-                <Grid item xs={2} className={style.fBorder} style={{paddingTop : 0}}    >
+                <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
                 <Image src="/f4.png" width={100} height={80} className={style.fImg} />
                 </Grid>
-                <Grid item xs={2} className={style.fBorder} style={{paddingTop : 0}}    >
+                <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
                 <Image src="/f5.png" width={100} height={80} className={style.fImg} />
                 </Grid>
-                <Grid item xs={2} className={style.fBorder1} style={{paddingTop : 0}}    >
+                <Grid item xs={12} sm={4} md={2} className={style.fBorder1} style={{paddingTop : 0}}    >
                 <Image src="/f6.png" width={100} height={80} className={style.fImg} />
                 </Grid>
                 </Grid>

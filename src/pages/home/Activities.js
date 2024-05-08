@@ -61,18 +61,18 @@ const Activities = () => {
             <div className={style.activites}>
                 <Grid container spacing={5} >
                     <Grid item xs={1}></Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={12}  md={2} >
                         <h2 className={style.activityTitle}>
                             Activities
 
                         </h2>
                         <p className={style.activityDesc}>Be an active partner in nation-building. Participate in Groups, Tasks, Discussions, Polls, Blogs and Talks. Contribute Now!</p>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={12} md={8}>
                         <Grid container spacing={0} >
                             {data?.map(v => (
                                 
-                                 <Grid item xs={1.7} className={style.activityCard} style={{backgroundColor : v?.color, padding : "10px 10px"}}>
+                                 <Grid item xs={12}  sm={5} md={1.7} className={style.activityCard} style={{backgroundColor : v?.color, padding : "10px 10px"}}>
                                     <div>
                                     {/* <FaCheckSquare color='white' size={40}/> */}
                                     {v?.icon}

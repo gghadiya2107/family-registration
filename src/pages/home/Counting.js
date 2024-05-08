@@ -42,7 +42,7 @@ const Counting = () => {
                 <Grid item xs={10}>
                     <Grid container spacing={3}>
                         {featureData?.map(v => (
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={4} md={3}>
                             <div className={v?.last ?style.countingCard1 :style.countingCard}>
                                 <div className={style.countingCardBody}>
                                     <div className={style.countingCardImg}>

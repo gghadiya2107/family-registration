@@ -39,7 +39,7 @@ const Services = () => {
                 <Grid item xs={10}>
                     <Grid container spacing={3}>
                         {featureData?.map(v => (
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={4} md={3}>
                             <div className={style.serviceCard}>
                                 <div className={style.serviceCardBody}>
                                     <Image src={v?.image} height={80} width={80} />
