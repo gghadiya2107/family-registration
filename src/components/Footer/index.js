@@ -5,8 +5,8 @@ const Footer = () => {
   return (
     <div>
       <AppBar
-        style={{ height: 40, background: "#1876D0" }}
-        position="fixed"
+        style={{position: "relative", background: "#813600" }}
+        // position="fixed"
         sx={{
           top: "auto",
           bottom: 0,
@@ -14,7 +14,7 @@ const Footer = () => {
         }}
       >
         <Toolbar>
-          <Typography align="center" style={{ fontSize: 14, flex: 1 }} mb={3}>
+          <Typography align="center" style={{ fontSize: 16, flex: 1,margin : 0 }} mb={3}>
             Site designed, developed & hosted by Department of Digital
             Technologies & Governance, Himachal Pradesh
           </Typography>

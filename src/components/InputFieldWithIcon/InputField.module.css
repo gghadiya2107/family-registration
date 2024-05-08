@@ -52,6 +52,6 @@
   font-size: 12px;
   line-height: 1.5;
   letter-spacing: 0.00938em;
-  color: #1876d1;
+  /* color: var(--main-color); */
   margin-bottom: 3px;
 }

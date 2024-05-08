@@ -1,6 +1,6 @@
 .signin {
   color: #fff;
-  background: #1876d1;
+  background: var(--main-color);
   box-shadow: 0 2px 0 rgba(25, 175, 255, 0.1);
   cursor: pointer;
   border: none;
