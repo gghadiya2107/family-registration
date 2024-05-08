@@ -9,20 +9,36 @@ import Feature from "./Feature";
 import TopSection from "./TopSection";
 import Slider from "./Slider";
 import AboutUs from "./AboutUs";
+import HeaderOne from "@/components/Header/HeaderOne";
+import HeaderTwo from "@/components/Header/HeaderTwo";
+import HeaderThree from "@/components/Header/HeaderThree";
+import Activities from "./Activities";
+import Services from "./Services";
+import Counting from "./Counting";
+import FooterOne from "@/components/Footer/FooterOne";
+import FooterTwo from "@/components/Footer/FooterTwo";
 
 
 
 const HomePage = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
+      <HeaderOne />
+      <HeaderTwo />
+      <HeaderThree />
       <div className={style.main}>
        <TopSection />
-        <Slider />
-        <AboutUs />
-        <Feature />
+       <Activities />
+       <Services />
+       <Counting />
+        {/* <Slider /> */}
+        {/* <AboutUs /> */}
+        {/* <Feature /> */}
       </div>
-      <Footer />
+      <FooterTwo />
+      <FooterOne />
+      {/* <Footer /> */}
     </>
   );
 };

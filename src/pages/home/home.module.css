@@ -1,11 +1,11 @@
 .main{
     /* margin-top: 70px; */
     padding-top: 20px;
-    /* background-color: white; */
-    background-image: url(/hp_bg.jpg);
+    background-color: white;
+    /* background-image: url(/hp_bg.jpg);
     background-position: top;
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
 }
 
 .left{
@@ -27,19 +27,23 @@
     margin: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
-    font-size: 2.25rem;
-    line-height: 1.2;
+    font-size: 2rem;
+    line-height: 1.1;
     font-weight: 700;
     padding-bottom : 15px;
 }
 
 .desc{
-    font-size: 1.3rem;
-    line-height: 1.6;
+    font-size: 1.2rem;
+    line-height: 1.3;
     margin-bottom: 4.8rem;
     opacity: 0.6;
     font-weight: 400;
     margin-top: 10px;
+}
+
+.sliderImg{
+    /* object-fit: cover; */
 }
 
 .grid{
@@ -112,8 +116,8 @@
 }
 
 .slider{
-    width: 80%;
-    margin: auto;
+    /* width: 80%; */
+    /* margin: auto; */
 }
 
 .about{
@@ -122,4 +126,97 @@
     margin-bottom: 2rem;    
     font-size: 16px;
     line-height: 25px;
+}
+
+/* activies */
+.activites{
+    background: linear-gradient(180deg, #0f7f8f 0, #223c7b);
+    padding: 20px 0px;
+}
+
+.activityTitle{
+    display: inline-block;
+    /* padding-right: 10px; */
+    text-align: left;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 500;
+
+}
+.activityDesc{
+    color: #fff;
+    margin-top: 10px;
+}
+
+.activityCard{
+    display: grid;
+    place-items: center;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+}
+
+/* services */
+.services{
+    font-size: 40px;
+    font-weight: 400;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.serviceCard{
+    float: left;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, .1);
+    text-align: center;
+}
+
+.serviceCard:hover{
+    background-color: #FAB700;
+}
+.serviceCardBody{
+    padding: 20px;
+}
+.serviceCardTitle{
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+.serviceCarddesc{
+    font-size: 15px;
+}
+
+/* counting */
+.countingMain{
+    border-top: 1px solid #dfdfdf;
+    padding: 40px;
+}
+
+.countingCard{
+    text-align: center;
+    border-right: 1px solid #CECECE;
+}
+.countingCard1{
+    text-align: center;
+}
+
+.countingCardBody{
+    cursor: pointer;
+}
+.countingCardImg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.countingCardCount{
+    margin-left: 5px;
+    font-size: 26px;
+    font-weight: 700;
+}
+.countingCardTitle{
+    font-weight: 400;
+}
+.countingCardDesc{
+    font-size: 14px;
+    margin-top: 5px;
 }
