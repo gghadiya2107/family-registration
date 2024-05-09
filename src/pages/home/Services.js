@@ -26,7 +26,7 @@ let featureData = [
     },
     {
         image: "/rashan.png",
-        title: "Update Rashan Card",
+        title: "Update Ration Card",
     },
 ];
 
