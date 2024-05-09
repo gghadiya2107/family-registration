@@ -149,7 +149,31 @@
     padding-right: 20px;
   /* z-index: 999999; */
 }
+.hamburgerMenu{
+  color : black;
+  position: absolute;
+  /* top: 80px; */
+right: 0;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 3px #777;
+    font-size: inherit;
+    /* left: 0; */
+    line-height: 1.5em;
+    z-index: 9999999;
+    border-top: 3px solid #00a2ff;
+    padding: 5px 0 5px 10px;
+    color: white;
+    padding-right: 20px;
+    width: 160px;
+}
 
+.hamburgerMenuName{
+  border-bottom: 1px dotted #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+  padding-bottom: 2px;
+  cursor: pointer;
+}
 .twoTitle{
   color: #828282;
     text-align: center;
@@ -301,6 +325,10 @@
   width: 60px;
 }
 
+.hamburger{
+  display: none;
+  position: relative;
+}
 
 @media screen and (max-width: 400px) {
   .rightSkip {
@@ -408,6 +436,9 @@
   }
   .none, .twoRight{
     display: none;
+  }
+  .hamburger{
+    display: block;
   }
  
 }

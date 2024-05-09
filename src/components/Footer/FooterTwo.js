@@ -43,7 +43,7 @@ const FooterTwo = () => {
                         <Grid item xs={12} md={3}>
                             <h3 className={style.title}>Contact Us</h3>
 
-                            <p className={style.desc}>HIMACHAL PRADESH INFORMATION TECHNOLOGY DEPARTMENT
+                            <p className={style.desc}>Department of Digital Technologies and Governance
 
 
 

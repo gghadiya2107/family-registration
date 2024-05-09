@@ -1,9 +1,17 @@
-import { AppBar, Box, Button, Grid, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button, Divider, Grid, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import style from './Header.module.css'
+import { LuMenuSquare } from "react-icons/lu";
+
 
 const HeaderTwo = () => {
+  const [openMenu, setOpenMenu] = useState(false);
+
+
+  const toggleMenu = () => {
+    setOpenMenu(!openMenu)
+  }
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -182,6 +190,20 @@ const HeaderTwo = () => {
 
               </div>
             </Typography>
+
+            <div className={style.hamburger}>
+            <div className={style.menuIcon}>
+              <LuMenuSquare  size={30} color="black" style={{cursor : "pointer"}}             onClick={toggleMenu}/>
+            </div>
+
+            {openMenu && <div className={style.hamburgerMenu}>
+              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>Topics</p>
+              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>Services</p>
+              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>My Goverment</p>
+              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>People Groups</p>
+              <p  onClick={toggleMenu} className={style.hamburgerMenuName} >India at a Glance</p>
+            </div>}
+            </div>
 
           </Toolbar>
         </AppBar>

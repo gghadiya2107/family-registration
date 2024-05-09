@@ -21,7 +21,7 @@ const TopSection = () => {
               </p>
             </div>
           </Grid>
-          <Grid item xs={12} md={7} style={{paddingRight : "20px"}}>
+          <Grid item xs={12} md={7} style={{paddingRight : "20px", paddingLeft : "35px"}} >
             <Slider />
           </Grid>
           {/* <Grid item xs={1}></Grid> */}
