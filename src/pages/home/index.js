@@ -24,7 +24,7 @@ const HomePage = () => {
   return (
     <>
       {/* <Header /> */}
-      <HeaderOne />
+      {/* <HeaderOne /> */}
       <HeaderTwo />
       <HeaderThree />
       <div className={style.main}>

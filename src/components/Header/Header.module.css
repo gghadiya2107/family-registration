@@ -20,6 +20,22 @@
   font-size: 12px;
   cursor: pointer;
 }
+.rightMulti{
+  border-right: 1px solid #ddd;
+  padding: 0px 7px;
+  line-height: 29px;
+  color: rgb(27,27,27);
+  font-size: 12px;
+  cursor: pointer;
+}
+.rightSkip{
+  border-right: 1px solid #ddd;
+  padding: 0px 7px;
+  line-height: 29px;
+  color: rgb(27,27,27);
+  font-size: 12px;
+  cursor: pointer;
+}
 .right1{
   border-right: 1px solid #ddd;
   padding: 0px 7px;
@@ -146,16 +162,16 @@
 
 }
 
-.twoRight:hover .mainImg{
+/* .twoRight:hover .mainImg{
   background-color: #D1D1D1;
 }
 .twoRight:hover .outerImg{
   background-color: #8D8C8C;
-}
+} */
 
 .mainImg{
-  /* background-color: #D1D1D1; */
-  background-color: #f2eded;
+  background-color: #5996D9;
+  /* background-color: #f2eded; */
    border-radius: 50%;
    height: 55px;
    width: 55px;
@@ -166,8 +182,8 @@
 
 .outerImg{
   border-radius: 50%;
-  /* background-color: #8D8C8C; */
-  background-color: #c1bfbf;
+  background-color: #2579C4;
+  /* background-color: #c1bfbf; */
   height: 40px;
   width: 40px;
   transition: background-color 1s ease 0;
@@ -176,12 +192,12 @@
 .twoHead{
   color: #0F70CD;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 22px;
 }
 
 .twoDesc{
   color: #428ED8;
-  font-size: 18px;
+  font-size: 16px;
 
 
 }
@@ -279,4 +295,119 @@
   text-transform: uppercase;
   letter-spacing: 0.7px;
   font-weight: 500;
+}
+.hpLogo{
+  height: 60px;
+  width: 60px;
+}
+
+
+@media screen and (max-width: 400px) {
+  .rightSkip {
+    display: none;
+  }
+ 
+}
+
+@media screen and (min-width: 150px) and (max-width: 349px) { 
+  .hpLogo{
+    height: 20px;
+    width: 20px;
+  }
+  .twoHead{
+    font-size: 14px;
+  }
+
+  .twoDesc{
+    font-size: 10px;
+    margin-top: -5px;
+  } 
+}
+
+@media screen and (min-width: 350px) and (max-width: 399px) { 
+  .hpLogo{
+    height: 30px;
+    width: 30px;
+  }
+  .twoHead{
+    font-size: 16px;
+  }
+
+  .twoDesc{
+    font-size: 12px;
+    margin-top: -5px;
+  } 
+}
+
+
+@media screen and (min-width: 200px) and (max-width: 600px) { 
+  .threeOuter{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  .hpLogo{
+    height: 50px;
+    width: 50px;
+  }
+  .twoHead{
+    font-size: 20px;
+  }
+
+  .twoDesc{
+    font-size: 14px;
+    margin-top: -5px;
+  } 
+
+}
+@media screen and (max-width: 600px) {
+  .right1 {
+    display: none;
+  }
+  .right2, .rightMulti {
+    display: none;
+  }
+
+
+ 
+}
+
+@media screen and (min-width: 601px) and (max-width: 899px) { 
+  .threeOuter{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hpLogo{
+    height: 50px;
+    width: 50px;
+  }
+  .twoHead{
+    font-size: 20px;
+  }
+
+  .twoDesc{
+    font-size: 16px;
+    margin-top: -5px;
+  } 
+}
+@media screen and (max-width: 900px) {
+  .most, .threeRight, .threeRight2 {
+    display: none;
+  }
+ 
+  .mediaToolbar{
+    display: grid;
+    place-items: center;
+    
+  }
+  .none, .twoRight{
+    display: none;
+  }
+ 
 }

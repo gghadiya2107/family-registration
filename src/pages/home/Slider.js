@@ -9,25 +9,25 @@ const Slider = () => {
     <div className={style.slider}>
         <Carousel  showArrows={false} showIndicators infiniteLoop useKeyboardArrows stopOnHover autoPlay showStatus={false} swipeable interval={2000} transitionTime={500} emulateTouch={false} swipeScrollTolerance={5}> 
                   <div> 
-                      <Image width={500} height={400} className={style.sliderImg}  src="/slider3.jpg" alt="image1"/> 
+                      <Image width={500} height={300} className={style.sliderImg}  src="/slider3.jpg" alt="image1"/> 
   
                   </div> 
                   <div> 
-                      <Image width={500} height={400} className={style.sliderImg}  src="/slider4.jpg" alt="image2" /> 
-  
-                  </div> 
-                  
-                  <div> 
-                      <Image width={500} height={400} className={style.sliderImg}  src="/slider3.jpg" alt="image1"/> 
-  
-                  </div> 
-                  <div> 
-                      <Image width={500} height={400} className={style.sliderImg}  src="/slider4.jpg" alt="image2" /> 
+                      <Image width={500} height={300} className={style.sliderImg}  src="/slider4.jpg" alt="image2" /> 
   
                   </div> 
                   
                   <div> 
-                      <Image width={500} height={400} className={style.sliderImg}  src="/slider3.jpg" alt="image1"/> 
+                      <Image width={500} height={300} className={style.sliderImg}  src="/slider3.jpg" alt="image1"/> 
+  
+                  </div> 
+                  <div> 
+                      <Image width={500} height={300} className={style.sliderImg}  src="/slider4.jpg" alt="image2" /> 
+  
+                  </div> 
+                  
+                  <div> 
+                      <Image width={500} height={300} className={style.sliderImg}  src="/slider3.jpg" alt="image1"/> 
   
                   </div> 
               </Carousel> 

@@ -13,9 +13,10 @@ const HeaderTwo = () => {
               <div className={style.logo}>
                 <Image
                   src="/hp.png"
-                  width="70"
-                  height="70"
+                  width="60"
+                  height="60"
                   alt="Himachal Pradesh Logo"
+                  className={style.hpLogo}
                 />
               </div>
             </Box>
@@ -75,7 +76,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav1.png"
+                    src="/nav2.png"
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"
@@ -90,7 +91,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav1.png"
+                    src="/nav3.png"
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"
@@ -124,7 +125,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav1.png"
+                    src="/nav4.png"
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"
@@ -148,7 +149,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav1.png"
+                    src="/nav5.png"
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"

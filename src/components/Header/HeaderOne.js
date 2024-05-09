@@ -32,7 +32,7 @@ const HeaderOne = () => {
             {/* Himachal Pradesh Panchayati Raj */}
           </Typography>
 
-          <Typography className={style.right} component="div" >
+          <Typography className={style.rightSkip} component="div" >
             Skip to main contant
           </Typography>
           <Typography className={style.right} component="div" >
@@ -41,7 +41,7 @@ const HeaderOne = () => {
           <Typography className={style.right} component="div" >
             Register
           </Typography>
-          <Typography className={style.right} component="div" >
+          <Typography className={style.rightMulti} component="div" >
             <span className={style.inner}>-A</span>
             <span className={style.inner}>A</span>
             <span className={style.inner}>+A</span>

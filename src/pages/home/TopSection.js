@@ -7,8 +7,8 @@ import Slider from './Slider';
 const TopSection = () => {
   return (
     <Grid container spacing={2} >
-          <Grid item xs={1}></Grid>
-          <Grid item xs={12}  md={3} display={"grid"} style={{ placeItems: "center" }}>
+          {/* <Grid item xs={1}></Grid> */}
+          <Grid item xs={12}  md={5} display={"grid"} style={{ placeItems: "center" }}>
             <div className={style.left}>
               <h3 className={style.heading}>
                 Family Register (Urben Development Department)
@@ -21,10 +21,10 @@ const TopSection = () => {
               </p>
             </div>
           </Grid>
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} md={7} style={{paddingRight : "20px"}}>
             <Slider />
           </Grid>
-          <Grid item xs={1}></Grid>
+          {/* <Grid item xs={1}></Grid> */}
         </Grid>
   )
 }

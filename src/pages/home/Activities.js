@@ -61,14 +61,14 @@ const Activities = () => {
             <div className={style.activites}>
                 <Grid container spacing={5} >
                     <Grid item xs={1}></Grid>
-                    <Grid item xs={12}  md={2} >
+                    <Grid item xs={12}  md={2} className={style.actTitle}>
                         <h2 className={style.activityTitle}>
                             Activities
 
                         </h2>
                         <p className={style.activityDesc}>Be an active partner in nation-building. Participate in Groups, Tasks, Discussions, Polls, Blogs and Talks. Contribute Now!</p>
                     </Grid>
-                    <Grid item xs={12} md={8}>
+                    <Grid item xs={12} md={8} className={style.actTitle}>
                         <Grid container spacing={0} >
                             {data?.map(v => (
                                 

@@ -6,7 +6,7 @@ const HeaderThree = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar className={style.threeAppBar} >
-        <Toolbar style={{minHeight : "50px"}}>
+        <Toolbar style={{minHeight : "50px"}} className={style.mediaToolbar}>
             <div className={style.threeOuter}>
                 <div className={style.inputOuter}>
                     <input className={style.input} type='text' placeholder='Search - Keyword, Phrase'/>
@@ -14,7 +14,7 @@ const HeaderThree = () => {
                 </div>
                
             </div>
-          <Typography component="div" sx={{ flexGrow: 1, marginBottom: 1 ,color :"#813600", fontWeight : "600"}}>
+          <Typography component="div" className={style.none} sx={{ flexGrow: 1, marginBottom: 1 ,color :"#813600", fontWeight : "600"}}>
             {/* Himachal Pradesh Panchayati Raj */}
           </Typography>
 
