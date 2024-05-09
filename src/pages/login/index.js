@@ -8,6 +8,7 @@ import SubmitButton from "@/components/SubmitBtn";
 import { useRouter } from "next/router";
 import CancelBtn from "@/components/CancelBtn";
 import Layout from "@/layout";
+import { getImagePath } from "@/utils/CustomImagePath";
 
 const Login = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const Login = () => {
             <div className={style.cardBody}>
               <div className={style.logo}>
                 <Image
-                  src="/hp.png"
+                  src={getImagePath("/hp.png")}
                   width={100}
                   height={100}
                   alt="Himachal Pradesh logo"

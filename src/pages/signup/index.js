@@ -19,6 +19,7 @@ import { FaUser } from "react-icons/fa";
 
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import SelectDropdown from "@/components/SelectDropdown";
+import { getImagePath } from "@/utils/CustomImagePath";
 
 const SignUp = () => {
   const router = useRouter();
@@ -51,7 +52,7 @@ const SignUp = () => {
           <div className={style.cardBody}>
             <div className={style.logo}>
               <Image
-                src="/hp.png"
+                src={getImagePath("/hp.png")}
                 width={100}
                 height={100}
                 alt="Himachal Pradesh logo"

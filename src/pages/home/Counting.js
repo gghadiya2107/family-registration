@@ -2,6 +2,7 @@ import React from 'react'
 import style from './home.module.css'
 import { Grid } from '@mui/material'
 import Image from 'next/image'
+import { getImagePath } from '@/utils/CustomImagePath';
 
 let featureData = [
     {
@@ -46,7 +47,7 @@ const Counting = () => {
                             <div className={v?.last ?style.countingCard1 :style.countingCard}>
                                 <div className={style.countingCardBody}>
                                     <div className={style.countingCardImg}>
-                                    <Image src={v?.image} height={50} width={50} />
+                                    <Image src={getImagePath(v?.image)} height={50} width={50} />
                                     <h3 className={style.countingCardCount} style={{color : v?.color}}>{v?.count}</h3>
                                     </div>
                                     <h3 className={style.countingCardTitle}>{v?.title}</h3>

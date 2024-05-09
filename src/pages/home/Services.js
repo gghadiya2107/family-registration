@@ -2,6 +2,7 @@ import React from 'react'
 import style from './home.module.css'
 import { Grid } from '@mui/material';
 import Image from 'next/image';
+import { getImagePath } from '@/utils/CustomImagePath';
 
 let featureData = [
     {
@@ -42,7 +43,7 @@ const Services = () => {
                             <Grid item xs={12} sm={4} md={3}>
                             <div className={style.serviceCard}>
                                 <div className={style.serviceCardBody}>
-                                    <Image src={v?.image} height={80} width={80} />
+                                    <Image src={getImagePath(v?.image)} height={80} width={80} />
                                     <h3 className={style.serviceCardTitle}>{v?.title}</h3>
                                     <p className={style.serviceCardDesc}>Registration & Amendment of Establishment under Building and Other Construction Work Act, 1996</p>
                                 </div>

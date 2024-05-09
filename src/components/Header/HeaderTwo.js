@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import style from './Header.module.css'
 import { LuMenuSquare } from "react-icons/lu";
 import MenuData from './MenuData';
+import { getImagePath } from '@/utils/CustomImagePath';
 
 
 const HeaderTwo = () => {
@@ -21,7 +22,7 @@ const HeaderTwo = () => {
             <Box mr={2} style={{ marginBottom: 5 }}>
               <div className={style.logo}>
                 <Image
-                  src="/hp.png"
+                  src={getImagePath("/hp.png")}
                   width="60"
                   height="60"
                   alt="Himachal Pradesh Logo"
@@ -44,7 +45,7 @@ const HeaderTwo = () => {
                  <div className={style.mainImg}>
                    <div className={style.outerImg}>
                      <Image
-                       src={v?.icon}
+                       src={getImagePath(v?.icon)}
                        width="40"
                        height="40"
                        alt="Himachal Pradesh Logo"
@@ -69,7 +70,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav1.png"
+                    src={getImagePath("/nav1.png")}
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"
@@ -110,7 +111,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav2.png"
+                    src={getImagePath("/nav2.png")}
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"
@@ -125,7 +126,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav3.png"
+                    src={getImagePath("/nav3.png")}
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"
@@ -159,7 +160,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav4.png"
+                    src={getImagePath("/nav4.png")}
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"
@@ -183,7 +184,7 @@ const HeaderTwo = () => {
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
-                    src="/nav5.png"
+                    src={getImagePath("/nav5.png")}
                     width="40"
                     height="40"
                     alt="Himachal Pradesh Logo"

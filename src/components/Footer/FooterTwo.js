@@ -8,6 +8,7 @@ import { FaDribbble } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { TfiYoutube } from "react-icons/tfi";
 import Image from 'next/image';
+import { getImagePath } from '@/utils/CustomImagePath';
 
 
 const FooterTwo = () => {
@@ -71,22 +72,22 @@ const FooterTwo = () => {
             <div style={{width:"80%", margin : "auto", marginBottom : "-20px"}}>
             <Grid container spacing={3} mt={4}>
                 <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}>
-                <Image src="/f1.png" width={100} height={80} className={style.fImg} />
+                <Image src={getImagePath("/f1.png")} width={100} height={80} className={style.fImg} />
                 </Grid>
                 <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
-                <Image src="/f2.png" width={100} height={80} className={style.fImg} />
+                <Image src={getImagePath("/f2.png")} width={100} height={80} className={style.fImg} />
                 </Grid>
                 <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
-                <Image src="/f3.png" width={100} height={80} className={style.fImg} />
+                <Image src={getImagePath("/f3.png")} width={100} height={80} className={style.fImg} />
                 </Grid>
                 <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
-                <Image src="/f4.png" width={100} height={80} className={style.fImg} />
+                <Image src={getImagePath("/f4.png")} width={100} height={80} className={style.fImg} />
                 </Grid>
                 <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}    >
-                <Image src="/f5.png" width={100} height={80} className={style.fImg} />
+                <Image src={getImagePath("/f5.png")} width={100} height={80} className={style.fImg} />
                 </Grid>
                 <Grid item xs={12} sm={4} md={2} className={style.fBorder1} style={{paddingTop : 0}}    >
-                <Image src="/f6.png" width={100} height={80} className={style.fImg} />
+                <Image src={getImagePath("/f6.png")} width={100} height={80} className={style.fImg} />
                 </Grid>
                 </Grid>
             </div>

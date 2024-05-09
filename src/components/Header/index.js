@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { useRouter } from "next/router";
 import LoginDialog from "../Dialogs/login";
+import { getImagePath } from "@/utils/CustomImagePath";
 
 
 
@@ -29,7 +30,7 @@ const Header = () => {
           <Box mr={2} style={{ marginBottom: 5 }}>
             <div className={style.logo}>
               <Image
-                src="/hp.png"
+                src={getImagePath("/hp.png")}
                 width="45"
                 height="45"
                 alt="Himachal Pradesh Logo"

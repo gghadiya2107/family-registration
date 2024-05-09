@@ -6,6 +6,7 @@ import InputFieldWithIcon from '@/components/InputFieldWithIcon';
 import SubmitButton from '@/components/SubmitBtn';
 import { AiFillBank } from "react-icons/ai";
 import Image from 'next/image';
+import { getImagePath } from '@/utils/CustomImagePath';
 
 
 const LoginModal = ({handleChangeLogin,loginData,handleSubmitLogIn, setModalFlag}) => {
@@ -13,7 +14,7 @@ const LoginModal = ({handleChangeLogin,loginData,handleSubmitLogIn, setModalFlag
     <div className={style.cardBody} style={{minWidth : "400px"}}>
     <div className={style.logo}>
       <Image
-        src="/hp.png"
+        src={getImagePath("/hp.png")}
         width={100}
         height={100}
         alt="Himachal Pradesh logo"

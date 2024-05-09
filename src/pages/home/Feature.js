@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import Image from 'next/image';
 import React from 'react'
 import style from "./home.module.css";
+import { getImagePath } from '@/utils/CustomImagePath';
 
 
 let featureData = [
@@ -46,7 +47,7 @@ const Feature = () => {
                   <div className={style.card}>
                     <div className={style.cardBody}>
                       <div className={style.cardImg}>
-                      <Image src={v?.image} height={100} width={100} style={{borderRadius :"50%"}}/>
+                      <Image src={getImagePath(v?.image)} height={100} width={100} style={{borderRadius :"50%"}}/>
                       </div>
                       <h5 className={style.cardTitle}>{v?.title}</h5>
                     </div>
