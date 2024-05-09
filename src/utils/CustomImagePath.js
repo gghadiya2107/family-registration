@@ -1,5 +1,6 @@
 export const getImagePath = (path) => {
-    const prefix = ""; // Replace with your desired prefix  
+    const prefix = "/eParivar"; // For staging
+    // const prefix = "/"; // For local
     return `${prefix}${path}`;
   };
   
