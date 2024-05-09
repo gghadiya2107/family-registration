@@ -3,6 +3,7 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import style from './Header.module.css'
 import { LuMenuSquare } from "react-icons/lu";
+import MenuData from './MenuData';
 
 
 const HeaderTwo = () => {
@@ -38,8 +39,33 @@ const HeaderTwo = () => {
               </div>
             </Typography>
 
+            {MenuData?.map(v => (
+                 <Typography className={style.twoRight} component="div" >
+                 <div className={style.mainImg}>
+                   <div className={style.outerImg}>
+                     <Image
+                       src={v?.icon}
+                       width="40"
+                       height="40"
+                       alt="Himachal Pradesh Logo"
+                     />
+                   </div>
+                 </div>
+                 <span className={style.twoTitle}>{v?.title}</span>
+                 <div className={style.menu} style={{width : "40vw", ...v?.style}}>
+                   <Grid container spacing={1} >
+                  {v?.menu && v?.menu?.map(k =>                                       <Grid item xs={4}>
+      <p className={style.item}>{k}</p></Grid>
+)}
+                    
+                   </Grid>
+   
+                 </div>
+               </Typography>
+            ))}
 
-            <Typography className={style.twoRight} component="div" >
+
+            {/* <Typography className={style.twoRight} component="div" >
               <div className={style.mainImg}>
                 <div className={style.outerImg}>
                   <Image
@@ -169,7 +195,7 @@ const HeaderTwo = () => {
                 <Grid container spacing={5} >
                   <Grid item xs={4}>
                     <p className={style.item}>Profiles</p>
-                    <p className={style.item}>National Symbls</p>
+                    <p className={style.item}>National Symbols</p>
                     <p className={style.item}>People and Lifestyle</p>
                     <p className={style.item}>Where to Stay</p>
                   </Grid>
@@ -189,7 +215,7 @@ const HeaderTwo = () => {
                 </Grid>
 
               </div>
-            </Typography>
+            </Typography> */}
 
             <div className={style.hamburger}>
             <div className={style.menuIcon}>
