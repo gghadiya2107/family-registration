@@ -17,28 +17,22 @@ import Services from "./Services";
 import Counting from "./Counting";
 import FooterOne from "@/components/Footer/FooterOne";
 import FooterTwo from "@/components/Footer/FooterTwo";
+import Layout from "@/layout";
 
 
 
 const HomePage = () => {
   return (
     <>
-      {/* <Header /> */}
-      {/* <HeaderOne /> */}
-      <HeaderTwo />
-      <HeaderThree />
-      <div className={style.main}>
-       <TopSection />
-       <Activities />
-       <Services />
-       <Counting />
-        {/* <Slider /> */}
-        {/* <AboutUs /> */}
-        {/* <Feature /> */}
-      </div>
-      <FooterTwo />
-      <FooterOne />
-      {/* <Footer /> */}
+
+      <Layout >
+        <div className={style.main}>
+          <TopSection />
+          <Activities />
+          <Services />
+          <Counting />
+        </div>
+      </Layout>
     </>
   );
 };

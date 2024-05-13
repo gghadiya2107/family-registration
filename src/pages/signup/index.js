@@ -46,7 +46,7 @@ const SignUp = () => {
   };
 
   return (
-    // <Layout>
+    <Layout>
       <div className={style.main}>
         <div className={style.card}>
           <div className={style.cardBody}>
@@ -221,7 +221,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-    // </Layout>
+    </Layout>
   );
 };
 

@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import CancelBtn from "@/components/CancelBtn";
 import Layout from "@/layout";
 import { getImagePath } from "@/utils/CustomImagePath";
+import HeaderTwo from "@/components/Header/HeaderTwo";
+import HeaderThree from "@/components/Header/HeaderThree";
 
 const Login = () => {
   const router = useRouter();
@@ -27,7 +29,8 @@ const Login = () => {
   };
   return (
     <>
-      {/* <Layout> */}
+      <Layout>
+    
         <div className={style.main}>
           <div className={style.card}>
             <div className={style.cardBody}>
@@ -89,7 +92,8 @@ const Login = () => {
             </div>
           </div>
         </div>
-      {/* </Layout> */}
+        
+      </Layout>
     </>
   );
 };
