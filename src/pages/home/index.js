@@ -1,27 +1,41 @@
-import Header from "@/components/Header";
 import style from "./home.module.css";
-
-import React from "react";
-import Footer from "@/components/Footer";
-import { Grid } from "@mui/material";
-import Image from "next/image";
-import Feature from "./Feature";
+import React, { useEffect, useLayoutEffect } from "react";
 import TopSection from "./TopSection";
-import Slider from "./Slider";
-import AboutUs from "./AboutUs";
-import HeaderOne from "@/components/Header/HeaderOne";
-import HeaderTwo from "@/components/Header/HeaderTwo";
-import HeaderThree from "@/components/Header/HeaderThree";
 import Activities from "./Activities";
 import Services from "./Services";
 import Counting from "./Counting";
-import FooterOne from "@/components/Footer/FooterOne";
-import FooterTwo from "@/components/Footer/FooterTwo";
 import Layout from "@/layout";
+import { useSearchParams } from "next/navigation";
+import axiosInstance from "@/network/api";
+import { useDispatch, useSelector } from "react-redux";
+import { verifyToken } from "@/network/actions/verityToken";
+import { useRouter } from "next/router";
 
 
 
 const HomePage = () => {
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const search = searchParams.get('token')
+	
+
+
+  const validateToken = async () => {
+    let body = {
+      token : search || "",
+      secret_key : process.env.NEXT_PUBLIC_SECRET_KEY,
+      service_id : process.env.NEXT_PUBLIC_SERVICE_ID
+    }
+    if(search){
+      dispatch(verifyToken(body,router))
+
+    }
+  }
+  useLayoutEffect(() => {
+  
+    validateToken()
+  }, [search]);
   return (
     <>
 

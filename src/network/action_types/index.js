@@ -1,0 +1,2 @@
+export const VERIFY_SUCCESS = "VERIFY_SUCCESS";
+export const VERIFY_FALIURE = "VERIFY_FALIURE";

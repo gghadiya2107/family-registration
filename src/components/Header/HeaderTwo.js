@@ -17,7 +17,7 @@ const HeaderTwo = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar className={style.twoAppBar} >
+        <AppBar className={style.twoAppBar} style={{zIndex :1}} >
           <Toolbar style={{ margin: "7px 0px" }}>
             <Box mr={2} style={{ marginBottom: 5 }}>
               <div className={style.logo}>
@@ -36,7 +36,7 @@ const HeaderTwo = () => {
                 Family Register
               </div>
               <div className={style.twoDesc}>
-                Urben Development Department
+                Urban Development Department
               </div>
             </Typography>
 

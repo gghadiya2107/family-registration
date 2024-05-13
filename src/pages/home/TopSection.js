@@ -11,14 +11,14 @@ const TopSection = () => {
           <Grid item xs={12}  md={5} display={"grid"} style={{ placeItems: "center" }}>
             <div className={style.left}>
               <h3 className={style.heading}>
-                Family Register (Urben Development Department)
+                Family Register (Urban Development Department)
               </h3>
-              <p className={style.desc}>
+              <div className={style.desc}>
                 Efficiently collect and manage urban household data to maintain
                 an updated Parivar Register, ensuring accurate and essential
                 demographic information for government and civic planning in
                 your city.
-              </p>
+              </div>
             </div>
           </Grid>
           <Grid item xs={12} md={7} style={{paddingRight : "20px", paddingLeft : "35px"}} >

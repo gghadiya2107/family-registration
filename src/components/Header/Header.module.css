@@ -89,7 +89,8 @@
 }
 .threeAppBar{
   box-shadow: none;
-  background-image: url('/bg-noise.png');
+  /* background-image: url('/bg-noise.png'); */
+  background-color: #2579C4;
 
   background-repeat: repeat ;
   /* background: white; */
@@ -309,6 +310,19 @@ right: 0;
 
 
 }
+.threeRightLogin{
+  white-space: nowrap;
+  padding-right: 8px;
+  padding-left: 8px;
+  width: auto;
+  float: left;
+  clear: none;
+  border-left: 1px solid white;
+  font-size: 13px;
+  cursor: pointer;
+
+
+}
 
 .most{
   float: left;
@@ -428,9 +442,12 @@ right: 0;
   .most, .threeRight, .threeRight2 {
     display: none;
   }
+  .threeRightLogin{
+    border-left: none;
+  }
  
   .mediaToolbar{
-    display: grid;
+    /* display: grid; */
     place-items: center;
     
   }
