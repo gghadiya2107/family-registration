@@ -9,7 +9,7 @@ const InputFieldWithIcon = ({ title, icon, placeholder, ...rest }) => {
     <div>
       <p className={style.title}>{title}</p>
       <div className={style.inputField}>
-        <div className={style.icon}>{icon && icon}</div>
+        {/* <div className={style.icon}>{icon && icon}</div> */}
         <input className={style.input} placeholder={placeholder} {...rest} />
       </div>
     </div>

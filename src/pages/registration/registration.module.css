@@ -1,0 +1,22 @@
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card{
+    border: 1px solid #D7DBDC;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.cardBody{
+    display: flex;
+}
+
+.checkbox{
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
