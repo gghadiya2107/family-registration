@@ -3,8 +3,12 @@ import style from "./registration.module.css"
 import { Grid } from '@mui/material'
 import SelectDropdown from '@/components/SelectDropdown'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
-
+import useTranslation from 'next-translate/useTranslation';
 const AddParivar = () => {
+    const { t } = useTranslation('common');
+    console.log(t('welcome')); // Log the translation result
+
+
     const [formData, setFormData] = useState({
         village : ""
     })
@@ -15,6 +19,7 @@ setFormData({...formData, [name] : value})
 }
   return (
     <div style={{marginTop : "20px"}}>
+         <h1>{t('welcome')}</h1>
        <Grid container spacing={3} >
                     <Grid item xs={3}>
                         <SelectDropdown 

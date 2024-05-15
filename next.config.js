@@ -1,4 +1,6 @@
-/** @type {import('next').NextConfig} */
+// next.config.js
+const { i18n } = require('./next-i18next.config')
+
 const nextConfig = {
   reactStrictMode: true,
   basePath: "/urbanregister", // staging
@@ -10,7 +12,8 @@ const nextConfig = {
   },
   flags: {
     DEV_SSR: false,
-  }
+  },
+  i18n
 };
 
-export default nextConfig;
+module.exports = nextConfig;
