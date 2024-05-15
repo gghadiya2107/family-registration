@@ -21,21 +21,21 @@ const FooterTwo = () => {
                         <Grid item xs={12} md={4}>
                             <h3 className={style.title}>About Us</h3>
                             <p className={style.desc}>Family register is an Entitlement based Management System which is being developed into an integrated State Social Registry. It consists of family registry, beneficiary management system, beneficiary registry, direct benefit platform and a grievance redressal system.</p>
-                       <div className={style.social}>
+                       {/* <div className={style.social}>
                         <FaTwitter className={style.icon} />
                         <FaFacebookF className={style.icon}/>
                         <FaGithub className={style.icon}/>
                         <FaDribbble className={style.icon}/>
                         <FaLinkedinIn className={style.icon}/>
                         <TfiYoutube className={style.icon}/>
-                       </div>
+                       </div> */}
                         </Grid>
                         <Grid item xs={1} md={0}></Grid>
                         <Grid item xs={12} md={3}>
                             <h3 className={style.title}>Links</h3>
-                            <p className={style.descLink}>Knowledge Base</p>
-                            <p className={style.descLink}>Career</p>
-                            <p className={style.descLink}>Press Releases</p>
+                            <p className={style.descLink} onClick={() => window.open("https://himparivar.hp.gov.in")}>Him Parivar</p>
+                            <p className={style.descLink}>CM Help Line</p>
+                            <p className={style.descLink} onClick={() => window.open("https://ddtg.hp.gov.in")}>Department Of Digital Technologies And Governance</p>
                             <p className={style.descLink}>Terms of Services</p>
                             <p className={style.descLink}>Privacy Policy</p>
                         </Grid>
@@ -44,17 +44,17 @@ const FooterTwo = () => {
                         <Grid item xs={12} md={3}>
                             <h3 className={style.title}>Contact Us</h3>
 
-                            <p className={style.desc}>Department of Digital Technologies and Governance
+                            <p className={style.desc}>DDTG Himachal Pradesh I.T.Bhawan, Mehli, Shimla-171013
 
 
 
                             </p>
                             <p className={style.desc} style={{ margin: "10px 0" }}>Phone. <a href="tel:+911772628914">+91 1772628914</a>
                                 <br /> Email. <a href="mailto:dirit-hp@nic.in">dirit-hp@nic.in</a></p>
-                            <p className={style.desc}>
+                            {/* <p className={style.desc}>
                                 Office Visiting Hours: <br />
                                 Monday to Friday (010:00 AM to 06:00 PM)
-                            </p>
+                            </p> */}
                         </Grid>
 
                     </Grid>
@@ -65,11 +65,11 @@ const FooterTwo = () => {
 
             </Grid>
 
-            <div className={style.divider}>
+            {/* <div className={style.divider}>
                 <hr className={style.hr}/>
-            </div>
+            </div> */}
 
-            <div style={{width:"80%", margin : "auto", marginBottom : "-20px"}}>
+            {/* <div style={{width:"80%", margin : "auto", marginBottom : "-20px"}}>
             <Grid container spacing={3} mt={4}>
                 <Grid item xs={12} sm={4} md={2} className={style.fBorder} style={{paddingTop : 0}}>
                 <Image src={getImagePath("/f1.png")} width={100} height={80} className={style.fImg} />
@@ -90,7 +90,7 @@ const FooterTwo = () => {
                 <Image src={getImagePath("/f6.png")} width={100} height={80} className={style.fImg} />
                 </Grid>
                 </Grid>
-            </div>
+            </div> */}
         </div>
     )
 }

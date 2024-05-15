@@ -2,9 +2,11 @@
 import { combineReducers } from "redux";
 
 import authDetails from "./auth";
+import survayAnalysis from "./survayAnalysis";
 
 const rootReducer = combineReducers({
-	authDetails
+	authDetails,
+	survayAnalysis
 });
 
 export default rootReducer;

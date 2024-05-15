@@ -17,7 +17,7 @@ const HeaderTwo = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar className={style.twoAppBar} style={{zIndex :1}} >
+        <AppBar className={style.twoAppBar} style={{ zIndex: 1 }} >
           <Toolbar style={{ margin: "7px 0px" }}>
             <Box mr={2} style={{ marginBottom: 5 }}>
               <div className={style.logo}>
@@ -41,28 +41,28 @@ const HeaderTwo = () => {
             </Typography>
 
             {MenuData?.map(v => (
-                 <Typography className={style.twoRight} component="div" >
-                 <div className={style.mainImg}>
-                   <div className={style.outerImg}>
-                     <Image
-                       src={getImagePath(v?.icon)}
-                       width="40"
-                       height="40"
-                       alt="Himachal Pradesh Logo"
-                     />
-                   </div>
-                 </div>
-                 <span className={style.twoTitle}>{v?.title}</span>
-                 <div className={style.menu} style={{width : "40vw", ...v?.style}}>
-                   <Grid container spacing={1} >
-                  {v?.menu && v?.menu?.map(k =>                                       <Grid item xs={4}>
-      <p className={style.item}>{k}</p></Grid>
-)}
-                    
-                   </Grid>
-   
-                 </div>
-               </Typography>
+              <Typography className={style.twoRight} component="div" >
+                <div className={style.mainImg}>
+                  <div className={style.outerImg}>
+                    <Image
+                      src={getImagePath(v?.icon)}
+                      width="40"
+                      height="40"
+                      alt="Himachal Pradesh Logo"
+                    />
+                  </div>
+                </div>
+                <span className={style.twoTitle}>{v?.title}</span>
+              {v?.menu &&   <div className={style.menu} style={{ width: "25vw", ...v?.style }}>
+                  <Grid container spacing={1} >
+                    {v?.menu?.map(k => <Grid item xs={12}>
+                      <p className={style.item}>{k}</p></Grid>
+                    )}
+
+                  </Grid>
+
+                </div>}
+              </Typography>
             ))}
 
 
@@ -219,17 +219,17 @@ const HeaderTwo = () => {
             </Typography> */}
 
             <div className={style.hamburger}>
-            <div className={style.menuIcon}>
-              <LuMenuSquare  size={30} color="black" style={{cursor : "pointer"}}             onClick={toggleMenu}/>
-            </div>
+              <div className={style.menuIcon}>
+                <LuMenuSquare size={30} color="black" style={{ cursor: "pointer" }} onClick={toggleMenu} />
+              </div>
 
-            {openMenu && <div className={style.hamburgerMenu}>
-              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>Topics</p>
-              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>Services</p>
-              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>My Goverment</p>
-              <p  onClick={toggleMenu} className={style.hamburgerMenuName}>People Groups</p>
-              <p  onClick={toggleMenu} className={style.hamburgerMenuName} >India at a Glance</p>
-            </div>}
+              {openMenu && <div className={style.hamburgerMenu}>
+                <p onClick={toggleMenu} className={style.hamburgerMenuName}>Home</p>
+                <p onClick={toggleMenu} className={style.hamburgerMenuName}>Notification</p>
+                {/* <p onClick={toggleMenu} className={style.hamburgerMenuName}>My Goverment</p>
+                <p onClick={toggleMenu} className={style.hamburgerMenuName}>People Groups</p>
+                <p onClick={toggleMenu} className={style.hamburgerMenuName} >India at a Glance</p> */}
+              </div>}
             </div>
 
           </Toolbar>

@@ -6,7 +6,7 @@ const FooterOne = () => {
     <div className={style.footerOne}>
       <p style={{lineHeight : "20px"}}>
         <small>
-        © 2024 Site designed, developed & hosted by Department of Digital
+        © 2024 Site Maintain by Department of Digital
             Technologies & Governance, Himachal Pradesh<br /> All Rights Reserved.
         </small>
       </p>

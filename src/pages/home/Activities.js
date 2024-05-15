@@ -23,11 +23,11 @@ let data = [
         title: "Notifications",
         color: "#dc6800"
     },
-    {
-        icon: <FaBars color='white' size={40}/>,
-        title: "Tenders",
-        color: "#008bbb"
-    },
+    // {
+    //     icon: <FaBars color='white' size={40}/>,
+    //     title: "Tenders",
+    //     color: "#008bbb"
+    // },
     {
         icon: <FiFileText color='white' size={40}/>,
         title: "Procedure",
@@ -35,23 +35,24 @@ let data = [
     },
     {
         icon: <FaHandshake color='white' size={40}/>,
-        title: "Mission",
-        color: "#fba714"
+        title: "Survey",
+        color: "#fba714",
+        url : "https://himparivar.hp.gov.in/urban"
     },
-    {
-        icon: <FaInbox color='white' size={40}/>,
-        title: "Instructions",
-        color: "#ca0c5c"
-    },
-    {
-        icon: <FaUsers color='white' size={40}/>,
-        title: "Meetings",
-        color: "#3b2b6c"
-    },
+    // {
+    //     icon: <FaInbox color='white' size={40}/>,
+    //     title: "Instructions",
+    //     color: "#ca0c5c"
+    // },
+    // {
+    //     icon: <FaUsers color='white' size={40}/>,
+    //     title: "Meetings",
+    //     color: "#3b2b6c"
+    // },
     {
         icon: <FaUsers color='white' size={40}/>,
         title: "Office Circuler",
-        color: "#fba714"
+        color: "#ca0c5c"
     },
 ]
 
@@ -61,9 +62,9 @@ const Activities = () => {
             <div className={style.activites}>
                 <Grid container spacing={5} >
                     <Grid item xs={1}></Grid>
-                    <Grid item xs={12}  md={2} className={style.actTitle}>
+                    <Grid item xs={12}  md={3} className={style.actTitle}>
                         <h2 className={style.activityTitle}>
-                            Activities
+                            Options
 
                         </h2>
                         <p className={style.activityDesc}>Be an active partner in nation-building. Participate in Groups, Tasks, Discussions, Polls, Blogs and Talks. Contribute Now!</p>
@@ -73,7 +74,7 @@ const Activities = () => {
                             {data?.map(v => (
                                 
                                  <Grid item xs={12}  sm={5} md={1.7} className={style.activityCard} style={{backgroundColor : v?.color, padding : "10px 10px"}}>
-                                    <div>
+                                    <div onClick={() => v?.url ? window.open(v?.url) : {}}>
                                     {/* <FaCheckSquare color='white' size={40}/> */}
                                     {v?.icon}
                                         <p style={{color : "white"}}>{v?.title}</p>

@@ -14,3 +14,15 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export default axiosInstance;
+export const survayAnalysis = axios.create({
+	baseURL: process.env.NEXT_PUBLIC_SURVAY_ANALYSIS, // Set your API base URL
+
+	// headers: {
+	// 	"Content-Type": "text/json", // Set the appropriate content type for your data
+	// },
+});
+
+survayAnalysis.interceptors.request.use((config) => {
+	return config;
+});
+

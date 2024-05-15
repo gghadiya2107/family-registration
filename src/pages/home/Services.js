@@ -8,26 +8,32 @@ let featureData = [
     {
         image: "/fe1.png",
         title: "Family Registration",
+        desc : "Registration & Updation of family as per Urban Development Department rules."
     },
     {
         image: "/ekyc.png",
         title: "Family Member eKYC",
+        desc : "Varification of member using Aadhar eKYC."
     },
     {
         image: "/copy.png",
         title: "Copy of Parivar",
+        desc : "Get digital copy of parivar with all the verifyed members."
     },
     {
         image: "/family.png",
         title: "Update Family",
+        desc : "Updation of family and members on real time basis."
     },
     {
-        image: "/member.png",
-        title: "Update Member",
+        image: "/m5.png",
+        title: "Migrate Family",
+        desc : "Migrate family with in any Urban Development Department jurisdiction."
     },
     {
         image: "/rashan.png",
         title: "Update Ration Card",
+        desc : "Verify ration card on the basis of PDS records."
     },
 ];
 
@@ -45,7 +51,7 @@ const Services = () => {
                                 <div className={style.serviceCardBody}>
                                     <Image src={getImagePath(v?.image)} height={80} width={80} />
                                     <h3 className={style.serviceCardTitle}>{v?.title}</h3>
-                                    <p className={style.serviceCardDesc}>Registration & Amendment of Establishment under Building and Other Construction Work Act, 1996</p>
+                                    <p className={style.serviceCardDesc}>{v?.desc}</p>
                                 </div>
                             </div>
                         </Grid>

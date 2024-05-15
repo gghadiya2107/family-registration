@@ -28,11 +28,14 @@ export const verifyToken = (body,router) => {
 				`/validate-token`,
 				body
 			);
+			console.log('response', response)
 			dispatch(tokenVerifySuccess(response.data));
 			setCookiesValues("userData", response?.data)
 			removeQueryParam("token",router)
 		} catch (error) {
 			dispatch(tokenVerifyFaliure(error));
+			console.log('response', error)
+
 		}
 	};
 };

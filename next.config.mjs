@@ -8,6 +8,9 @@ const nextConfig = {
     domains: ["localhost", "himstaging2.hp.gov.in"], // staging
     // domains: ["localhost", ""], // local
   },
+  flags: {
+    DEV_SSR: false,
+  }
 };
 
 export default nextConfig;
