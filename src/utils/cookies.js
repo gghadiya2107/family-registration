@@ -33,7 +33,14 @@ export function getCookieValues(keyName) {
 }
 
 export function removeCookie( key) {
-   
+    const cookies = parseCookies();
+    if (cookies[key]) {
+      // Delete the 'token' cookie
+      destroyCookie(null, key);
+      console.log('Cookie removed successfully');
+    } else {
+      console.log('Cookie does not exist');
+    }
       // If we are on the client side, remove the cookie directly
       destroyCookie(null, key);
     

@@ -109,3 +109,11 @@ a {
     color-scheme: dark;
   }
 }
+
+
+.comingSoon{
+  display: grid;
+  place-items: center;
+  height: 90vh;
+  font-size: 20px;
+}
