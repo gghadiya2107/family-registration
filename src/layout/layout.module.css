@@ -3,6 +3,7 @@
     background-color: #FBFCFE;
     border-right: 1px solid #D7DBDC;
     padding: 20px;
+    /* height: 100%; */
   }
   
   .sidebarList {
@@ -12,7 +13,7 @@
   
   .container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
   }
   
   .mainContent {
@@ -45,7 +46,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 83vh;
+    min-height: 81vh;
+    height: 90%;
+    /* height: auto; */
+    /* min-height: 81vh; */
+    /* height: inherit; */
+    /* height: 100%; */
   }
 
   .topMenu{

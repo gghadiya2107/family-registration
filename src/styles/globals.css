@@ -117,3 +117,7 @@ a {
   height: 90vh;
   font-size: 20px;
 }
+
+.requried{
+  color: red;
+}
