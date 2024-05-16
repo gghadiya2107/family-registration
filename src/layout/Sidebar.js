@@ -70,7 +70,7 @@ const Sidebar = () => {
 
                     className={style.hpLogo}
                 />
-                <div className={style.title}>Family Register</div>
+                <div className={style.title}>Parivar Register</div>
             </div>
             <Divider style={{ marginBottom: "7px" }} />
             <div className={style.outer}>

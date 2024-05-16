@@ -11,7 +11,7 @@ const TopSection = () => {
           <Grid item xs={12}  md={5} display={"grid"} style={{ placeItems: "center" }}>
             <div className={style.left}>
               <h3 className={style.heading}>
-                Family Register (Urban Development Department)
+                Parivar Register (Urban)
               </h3>
               <div className={style.desc}>
                 Efficiently collect and manage urban household data to maintain

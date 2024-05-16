@@ -121,3 +121,8 @@ a {
 .requried{
   color: red;
 }
+
+.error{
+  color: red;
+  font-size: 12px;
+}

@@ -20,7 +20,7 @@ const FooterTwo = () => {
                     <Grid container spacing={4}>
                         <Grid item xs={12} md={4}>
                             <h3 className={style.title}>About Us</h3>
-                            <p className={style.desc}>Family register is an Entitlement based Management System which is being developed into an integrated State Social Registry. It consists of family registry, beneficiary management system, beneficiary registry, direct benefit platform and a grievance redressal system.</p>
+                            <p className={style.desc}>Parivar register is an Entitlement based Management System which is being developed into an integrated State Social Registry. It consists of family registry, beneficiary management system, beneficiary registry, direct benefit platform and a grievance redressal system.</p>
                        {/* <div className={style.social}>
                         <FaTwitter className={style.icon} />
                         <FaFacebookF className={style.icon}/>

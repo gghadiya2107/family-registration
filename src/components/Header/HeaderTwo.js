@@ -33,7 +33,7 @@ const HeaderTwo = () => {
             <Typography component="div" sx={{ flexGrow: 1, marginBottom: 1 }}>
               <div className={style.twoHead}>
 
-                Family Register
+                Parivar Register
               </div>
               <div className={style.twoDesc}>
                 Urban Development Department
