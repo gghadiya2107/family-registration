@@ -51,7 +51,17 @@ const AddMemberModal = ({ handleClose, open }) => {
     const { value, name } = e.target
     if (name == "dastavage") {
 
-      setFormData({ ...formData, [name]: e.target.files[0] })
+      const selectedFile = e.target.files[0];
+
+          if (selectedFile && selectedFile.size <= 1024 * 1024) {
+            setFormData({ ...formData, [name]: e.target.files[0] })
+            setErrors({...errors,dastavage :"" })
+          } else {
+            setFormData({ ...formData, [name]: null })
+
+            setErrors({...errors,dastavage :"File size must be less than 1MB" })
+            // setError('File size must be less than 1MB');
+          }
     } else {
 
       setFormData({ ...formData, [name]: value })
@@ -112,7 +122,10 @@ const AddMemberModal = ({ handleClose, open }) => {
     }
     if (!formData.adharCard) {
       errors.adharCard = "Aadhar card is required";
+    }else if (!formData.adharCard?.trim()?.length < 12) {
+      errors.adharCard = "Please enter 12 digit aadhar card number";
     }
+    
     if (!formData.dastavage) {
       errors.dastavage = "Document is required";
     }
@@ -239,7 +252,7 @@ const AddMemberModal = ({ handleClose, open }) => {
                 title={t('refrenceNumber')}
                 // icon={<IoIosDocument size={20} />}
               placeholder=""
-              type="number"
+              type="text"
               name="refrence"
               value={formData?.refrence}
               onChange={handleChange}
@@ -301,7 +314,7 @@ const AddMemberModal = ({ handleClose, open }) => {
               type="text"
               name="subCategory"
               value={formData?.subCategory}
-              onChange={handleChange}
+              onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
               requried
             />
             {errors?.subCategory && <p className="error">{errors?.subCategory}</p>}
@@ -312,7 +325,7 @@ const AddMemberModal = ({ handleClose, open }) => {
                 title={t('rathinCardNumber')}
                 // icon={<IoIosDocument size={20} />}
               placeholder=""
-              type="number"
+              type="text"
               name="rationCard"
               value={formData?.rationCard}
               onChange={handleChange}
@@ -344,7 +357,7 @@ const AddMemberModal = ({ handleClose, open }) => {
               type="number"
               name="adharCard"
               value={formData?.adharCard}
-              onChange={handleChange}
+              onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
               requried
             />
             {errors?.adharCard && <p className="error">{errors?.adharCard}</p>}
@@ -352,20 +365,22 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <FileUpload
-                title={t('comment')}
+                title={t('document')}
                 subTitle="(Bonafide Himachal)"
               requried
               name="dastavage"
               // value={formData?.rationCard}
               onChange={handleChange}
+              accept="image/*,.pdf"
+
             />
             {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
           </Grid>
           <Grid item xs={24} sm={8} md={6}>
             <TextArea
-              title="टिपण्णी"
-              placeholder="Text area"
+                title={t('comment')}
+                placeholder="Text area"
               requried
               name="description"
               value={formData?.description}

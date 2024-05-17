@@ -13,7 +13,8 @@ const NewFamily = ({setState}) => {
   const { t } = useTranslation("translation");
 
     const [formData, setFormData] = useState({
-        village: "",
+      municipal: "",
+      ward: "",
         makan: "",
         condition: "",
         bpl: "",
@@ -29,8 +30,18 @@ const NewFamily = ({setState}) => {
     const handleChange = (e) => {
         const { value, name } = e.target
         if(name == "dastavage"){
+          const selectedFile = e.target.files[0];
 
+          if (selectedFile && selectedFile.size <= 1024 * 1024) {
             setFormData({ ...formData, [name]: e.target.files[0] })
+            setErrors({...errors,dastavage :"" })
+          } else {
+            setFormData({ ...formData, [name]: null })
+
+            setErrors({...errors,dastavage :"File size must be less than 1MB" })
+            // setError('File size must be less than 1MB');
+          }
+           
         }else{
 
             setFormData({ ...formData, [name]: value })
@@ -38,6 +49,7 @@ const NewFamily = ({setState}) => {
     }
 
     const onSave = () => {
+      console.log('errors', errors)
         const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
@@ -49,8 +61,11 @@ const NewFamily = ({setState}) => {
 
     const validateForm = (formData) => {
         const errors = {};
-        if (!formData.village?.trim()) {
-          errors.village = "Village is required";
+        if (!formData.municipal?.trim()) {
+          errors.municipal = "Municipal is required";
+        }
+        if (!formData.ward?.trim()) {
+          errors.ward = "Ward is required";
         }
         if (!formData.makan?.trim()) {
           errors.makan = "House number is required";
@@ -72,7 +87,10 @@ const NewFamily = ({setState}) => {
         }
         if (!formData.mobile?.trim()) {
           errors.mobile = "Mobile number is required";
+        }else if (!formData.mobile?.trim()?.length < 10) {
+          errors.mobile = "Please enter 10 digit mobie number";
         }
+        
         if (!formData.dastavage) {
           errors.dastavage = "Document is required";
         }
@@ -87,19 +105,32 @@ const NewFamily = ({setState}) => {
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
                 title={t('selectVillage')}
-                name="village"
+                name="municipal"
                 options={[
                     { value: "Himachal Pradesh", label: "Himachal Pradesh" },
                     { value: "Shimla", label: "Shimla" },
                 ]}
-                value={formData?.village}
+                value={formData?.municipal}
                 onChange={handleChange}
                 requried
             />
-   {errors?.village && <p className="error">{errors?.village}</p>}
+   {errors?.municipal && <p className="error">{errors?.municipal}</p>}
 
         </Grid>
-        <Grid item xs={3}></Grid>
+        <Grid item xs={3}>
+        <SelectDropdown
+                title={t('selectWard')}
+                name="ward"
+                options={[
+                    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+                    { value: "Shimla", label: "Shimla" },
+                ]}
+                value={formData?.ward}
+                onChange={handleChange}
+                requried
+            />
+   {errors?.ward && <p className="error">{errors?.ward}</p>}
+        </Grid>
         <Grid item xs={3}></Grid>
         <Grid item xs={3}></Grid>
         <Grid item xs={12} sm={4} md={3}>
@@ -107,7 +138,7 @@ const NewFamily = ({setState}) => {
                 title={t('houseNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
-                type="number"
+                type="text"
                 name="makan"
                 value={formData?.makan}
                 onChange={handleChange}
@@ -168,7 +199,7 @@ const NewFamily = ({setState}) => {
                 type="text"
                 name="subclass"
                 value={formData?.subclass}
-                onChange={handleChange}
+                onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
                 requried
             />
                {errors?.subclass && <p className="error">{errors?.subclass}</p>}
@@ -179,7 +210,7 @@ const NewFamily = ({setState}) => {
                 title={t('rathinCardNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
-                type="number"
+                type="text"
                 name="rationCard"
                 value={formData?.rationCard}
                 onChange={handleChange}
@@ -196,7 +227,7 @@ const NewFamily = ({setState}) => {
                 type="number"
                 name="mobile"
                 value={formData?.mobile}
-                onChange={handleChange}
+                onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
                 requried
             />
                            {errors?.mobile && <p className="error">{errors?.mobile}</p>}
@@ -210,6 +241,7 @@ const NewFamily = ({setState}) => {
                 requried
                 name="dastavage"
                 onChange={handleChange}
+                accept="image/*,.pdf"
             />
                            {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 

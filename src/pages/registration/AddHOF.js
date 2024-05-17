@@ -38,7 +38,17 @@ const AddHOF = ({setState,handleClickOpen}) => {
         const { value, name } = e.target
         if(name == "dastavage"){
 
+          const selectedFile = e.target.files[0];
+
+          if (selectedFile && selectedFile.size <= 1024 * 1024) {
             setFormData({ ...formData, [name]: e.target.files[0] })
+            setErrors({...errors,dastavage :"" })
+          } else {
+            setFormData({ ...formData, [name]: null })
+
+            setErrors({...errors,dastavage :"File size must be less than 1MB" })
+            // setError('File size must be less than 1MB');
+          }
         }else{
 
             setFormData({ ...formData, [name]: value })
@@ -109,6 +119,8 @@ const AddHOF = ({setState,handleClickOpen}) => {
           }
           if (!formData.adharCard) {
             errors.adharCard = "Aadhar card is required";
+          }else if (!formData.adharCard?.trim()?.length < 12) {
+            errors.adharCard = "Please enter 12 digit aadhar card number";
           }
         if (!formData.dastavage) {
           errors.dastavage = "Document is required";
@@ -216,7 +228,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
                 title={t('refrenceNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
-                type="number"
+                type="text"
                 name="refrence"
                 value={formData?.refrence}
                 onChange={handleChange}
@@ -278,7 +290,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
                 type="text"
                 name="subCategory"
                 value={formData?.subCategory}
-                onChange={handleChange}
+                onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
                 requried
             />
                {errors?.subCategory && <p className="error">{errors?.subCategory}</p>}
@@ -289,7 +301,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
                 title={t('rathinCardNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
-                type="number"
+                type="text"
                 name="rationCard"
                 value={formData?.rationCard}
                 onChange={handleChange}
@@ -321,7 +333,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
                 type="number"
                 name="adharCard"
                 value={formData?.adharCard}
-                onChange={handleChange}
+                onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
                 requried
             />
                {errors?.adharCard && <p className="error">{errors?.adharCard}</p>}
@@ -335,6 +347,8 @@ const AddHOF = ({setState,handleClickOpen}) => {
                 name="dastavage"
                 // value={formData?.rationCard}
                 onChange={handleChange}
+                accept="image/*,.pdf"
+
             />
                {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
