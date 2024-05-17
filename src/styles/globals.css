@@ -126,3 +126,30 @@ a {
   color: red;
   font-size: 12px;
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+select {
+  padding-right: 20px; /* Adjust the padding as needed */
+  /* Optionally, you can also set a background color to make the padding visually distinct */
+  background-color: #fff; /* Set background color if needed */
+}
+
+/* Adjust the position and size of the dropdown arrow */
+select::-ms-expand {
+  display: none; /* Hide default arrow in IE */
+}
+
+/* Custom dropdown arrow using a pseudo-element */
+select::after {
+  content: '\25BC'; /* Unicode character for the dropdown arrow */
+  position: absolute;
+  top: 50%; /* Adjust vertical alignment */
+  right: 5px; /* Adjust horizontal alignment */
+  transform: translateY(-50%); /* Center vertically */
+  pointer-events: none; /* Prevent clicking on the pseudo-element */
+}
