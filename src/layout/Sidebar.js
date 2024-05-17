@@ -14,6 +14,9 @@ import { getImagePath } from '@/utils/CustomImagePath';
 import Image from 'next/image';
 import { removeCookie } from '@/utils/cookies';
 
+import { MdGTranslate } from "react-icons/md";
+import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
 
 
 const menu = [
@@ -51,24 +54,33 @@ const menu = [
 
 const Sidebar = () => {
     const router = useRouter()
+
     const currentPath = router.asPath;
-    console.log('currentPath', currentPath)
     const logout = () => {
 
         removeCookie("userData");
         router.push("/")
 
     }
+
+    const changeLanguae = () => {
+        let cLanguage = i18n.language
+        if (cLanguage == "en") {
+            i18n.changeLanguage("hi")
+        } else {
+            i18n.changeLanguage("en")
+        }
+    }
     return (
         <div className={style.sidebar} >
             <div className={style.topMenu}>
                 <Image
-                    src={getImagePath("/hp.png")}
+                    src={getImagePath("/HPGovt.png")}
                     width="45"
-                    height="45"
+                    height="35"
                     alt="Himachal Pradesh Logo"
 
-                    className={style.hpLogo}
+                    // className={style.hpLogo}
                 />
                 <div className={style.title}>Parivar Register</div>
             </div>
@@ -93,6 +105,10 @@ const Sidebar = () => {
                     <div className={style.menu}>
                         <div><FaUserCircle size={20} style={{ marginTop: "5px" }} /></div>
                         <div className={style.menuTitle}>Gaurang Ghadiya</div>
+                    </div>
+                    <div className={style.menu} onClick={changeLanguae}>
+                        <div><MdGTranslate size={20} style={{ marginTop: "5px" }} /></div>
+                        <div className={style.menuTitle} >Change Language to {i18n.language == "en" ? "Hindi" : "English"}</div>
                     </div>
                 </div>
             </div>

@@ -4,8 +4,11 @@ import { Grid } from '@mui/material'
 import KeyValueDetails from '@/components/KeyValueDetails'
 import SubmitButton from '@/components/SubmitBtn'
 
+import { useTranslation } from 'next-i18next'
 
 const FamilyDetails = () => {
+    const { t } = useTranslation("translation");
+
   return (
     <div style={{ marginTop: "20px" }}>
 
@@ -13,47 +16,47 @@ const FamilyDetails = () => {
                         <Grid container spacing={3} >
 
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="परिवार नंबर" value="1037588" />
+                                <KeyValueDetails title={t("familyNumber")}   value="1037588" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="मुखिया का नाम" value="गौरांग घाडिया" />
+                                <KeyValueDetails title={t("headOfFamilyName")} value="गौरांग घाडिया" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="परिवार का मोबाइल नंबर" value="9016193206" />
+                                <KeyValueDetails title={t("mobileNumber")} value="9016193206" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="मकान नंबर" value="301" />
+                                <KeyValueDetails title={t("houseNumber")} value="301" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="परिवार की आर्थिक स्थिति" value="ऐ पि ऐल" />
+                                <KeyValueDetails title={t("financialCondition")} value="ऐ पि ऐल" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="बी पी एल संख्या" value="87689" />
+                                <KeyValueDetails title={t("bplCount")} value="87689" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="वर्ग" value="आजा" />
+                                <KeyValueDetails title={t("category")}  value="आजा" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="उप-वर्ग" value="-" />
+                                <KeyValueDetails title={t("subCategory")}  value="-" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="राशन कार्ड नंबर" value="698698" />
+                                <KeyValueDetails title={t("rathinCardNumber")}  value="698698" />
 
                             </Grid>
                             <Grid item xs={12} sm={4} md={3} >
-                                <KeyValueDetails title="दस्तावेज़" value="आधार कार्ड पीडीऍफ़" />
+                                <KeyValueDetails title={t("document")}  value="आधार कार्ड पीडीऍफ़" />
 
                             </Grid>
                             <Grid item xs={12} sm={12} >
-                                <KeyValueDetails title="टिपण्णी" value="ये परिवार तारीख 10-04-2024 को इस पंचायत में दर्ज किया गया है" />
+                                <KeyValueDetails title={t("comment")}  value="ये परिवार तारीख 10-04-2024 को इस पंचायत में दर्ज किया गया है" />
                             </Grid>
 
                         </Grid>

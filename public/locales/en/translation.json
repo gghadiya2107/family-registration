@@ -1,0 +1,33 @@
+{
+    "welcome": "to my website!",
+    "label": "to my website!",
+    "newFamily" : "New Family",
+    "selectVillage" : "Select Village",
+    "houseNumber" : "House Number",
+    "financialCondition" : "Financial Condition",
+    "bplCount" : "BPL Number",
+    "category" : "Category",
+    "subCategory" : "Sub Category",
+    "rathinCardNumber" : "Ration card number",
+    "mobileNumber" : "Mobile Number",
+    "document": "Document",
+    "addParivar" : "Add Parivar (New Family)",
+    "addMember": "Add Member (New Member)",
+    "saveAndAddHof" : "Save and Add HOF",
+    "headOfFamilyName" : "head of Family Name",
+    "nameOfRelative" : "Name of Relative",
+    "dateOfBirth" : "Date of Birth",
+    "gender" : "Gender",
+    "baseOfRegistration" : "Base Of Registration",
+    "refrenceNumber": "Refrance Number",
+    "education" : "Education",
+    "livelihoodResource" : "livelihood Resource",
+    "religion" : "Religion",
+    "aadharCardNumber" : "Aadhar Card Number",
+    "comment": "Comment",
+    "familyNumber" : "Family Number"
+
+
+
+
+  }

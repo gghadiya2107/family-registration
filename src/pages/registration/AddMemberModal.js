@@ -12,6 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import { Grid } from '@mui/material';
+import { useTranslation } from 'next-i18next'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -23,6 +24,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const AddMemberModal = ({ handleClose, open }) => {
+  const { t } = useTranslation("translation");
+
   const [formData, setFormData] = useState({
     EnglishName: "",
     hindiName: "",
@@ -147,8 +150,8 @@ const AddMemberModal = ({ handleClose, open }) => {
 
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-              title="सदस्य का नाम"
-              subTitle="(in English)"
+                title={t('headOfFamilyName')}
+                subTitle="(in English)"
               // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="text"
@@ -162,8 +165,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-              title="सदस्य का नाम"
-              subTitle="(in Hindi)"
+                title={t('headOfFamilyName')}
+                subTitle="(in Hindi)"
               // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="text"
@@ -177,8 +180,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-              title="संबंधी का नाम एवं संबंध"
-              // icon={<IoIosDocument size={20} />}
+                title={t('nameOfRelative')}
+                // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="text"
               name="relative"
@@ -191,8 +194,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <DatePicker
-              title="जन्म तिथि"
-              type="date"
+                title={t('dateOfBirth')}
+                type="date"
               requried
               name="dob"
               value={formData?.dob}
@@ -203,8 +206,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-              title="लिंग"
-              name="gender"
+                title={t('gender')}
+                name="gender"
               options={[
                 { value: "poor", label: "Male" },
                 { value: "rich", label: "Female" },
@@ -218,8 +221,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-              title="दर्ज करने का आधार"
-              name="registrationBase"
+                title={t('baseOfRegistration')}
+                name="registrationBase"
               options={[
                 { value: "poor", label: "Poor" },
                 { value: "rich", label: "Rich" },
@@ -233,8 +236,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-              title="रेफ़्रेन्स नंबर"
-              // icon={<IoIosDocument size={20} />}
+                title={t('refrenceNumber')}
+                // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="number"
               name="refrence"
@@ -247,8 +250,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-              title="शैक्षिक योग्यता"
-              name="education"
+                title={t('education')}
+                name="education"
               options={[
                 { value: "poor", label: "10th" },
                 { value: "rich", label: "12th" },
@@ -262,8 +265,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-              title="आजीविका का साधन"
-              name="work"
+                title={t('livelihoodResource')}
+                name="work"
               options={[
                 { value: "poor", label: "Poor" },
                 { value: "rich", label: "Rich" },
@@ -277,8 +280,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-              title="वर्ग"
-              name="category"
+                title={t('category')}
+                name="category"
               options={[
                 { value: "poor", label: "Poor" },
                 { value: "rich", label: "Rich" },
@@ -292,8 +295,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-              title="उप-वर्ग"
-              // icon={<IoIosDocument size={20} />}
+                title={t('subCategory')}
+                // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="text"
               name="subCategory"
@@ -306,8 +309,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-              title="राशन कार्ड नंबर"
-              // icon={<IoIosDocument size={20} />}
+                title={t('rathinCardNumber')}
+                // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="number"
               name="rationCard"
@@ -320,8 +323,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-              title="धर्म"
-              name="religion"
+                title={t('religion')}
+                name="religion"
               options={[
                 { value: "poor", label: "Poor" },
                 { value: "rich", label: "Rich" },
@@ -335,8 +338,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-              title="आधार कार्ड नंबर"
-              // icon={<IoIosDocument size={20} />}
+                title={t('aadharCardNumber')}
+                // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="number"
               name="adharCard"
@@ -349,8 +352,8 @@ const AddMemberModal = ({ handleClose, open }) => {
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <FileUpload
-              title="दस्तावेज़"
-              subTitle="(Bonafide Himachal)"
+                title={t('comment')}
+                subTitle="(Bonafide Himachal)"
               requried
               name="dastavage"
               // value={formData?.rationCard}

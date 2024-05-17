@@ -1,3 +1,4 @@
+'use client';
 import style from "./home.module.css";
 import React, { useEffect, useLayoutEffect } from "react";
 import TopSection from "./TopSection";
@@ -10,7 +11,6 @@ import axiosInstance from "@/network/api";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyToken } from "@/network/actions/verityToken";
 import { useRouter } from "next/router";
-
 
 
 const HomePage = () => {

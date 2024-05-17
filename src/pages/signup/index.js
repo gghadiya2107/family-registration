@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from "react";
 import style from "./Signup.module.css";
 import Image from "next/image";

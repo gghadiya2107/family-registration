@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import style from "./layout.module.css"
 
 
 const MainLayout = ({children}) => {
+  const [test, settest] = useState(false)
+
+  useEffect(() => {
+    settest(true)
+}, [])
   return (
-    <>
-    {/* <Sidebar />
-       */}
+    test && <>
 
       <div className={style.container}>
-      {/* Include the Sidebar component */}
       <Sidebar />
       
       {/* Main content */}

@@ -3,13 +3,15 @@ import style from "./registration.module.css"
 import { Grid } from '@mui/material'
 import SelectDropdown from '@/components/SelectDropdown'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
-import useTranslation from 'next-translate/useTranslation';
 import SubmitButton from '@/components/SubmitBtn'
 import FileUpload from '@/components/FileUpload'
 import DatePicker from '@/components/DatePicker'
 import TextArea from '@/components/TextArea'
+import { useTranslation } from 'next-i18next'
 
 const NewFamily = ({setState}) => {
+  const { t } = useTranslation("translation");
+
     const [formData, setFormData] = useState({
         village: "",
         makan: "",
@@ -79,12 +81,12 @@ const NewFamily = ({setState}) => {
       };
   return (
     <div style={{ marginTop: "20px" }}>
-    {/* <h1>{t('welcome')}</h1> */}
+    {/* <div className={style.heading}>{t('newFamily')}</div> */}
     <div className={style.heading}>New Family</div>
     <Grid container spacing={3} >
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="Select Village"
+                title={t('selectVillage')}
                 name="village"
                 options={[
                     { value: "Himachal Pradesh", label: "Himachal Pradesh" },
@@ -102,7 +104,7 @@ const NewFamily = ({setState}) => {
         <Grid item xs={3}></Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="मकान नम्बर"
+                title={t('houseNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
@@ -116,7 +118,7 @@ const NewFamily = ({setState}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="परिवार की आर्थिक स्थिति"
+                title={t('financialCondition')}
                 name="condition"
                 options={[
                     { value: "poor", label: "Poor" },
@@ -131,7 +133,7 @@ const NewFamily = ({setState}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="बी पी एल संख्या"
+                title={t('bplCount')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
@@ -145,7 +147,7 @@ const NewFamily = ({setState}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="वर्ग"
+                title={t('category')}
                 name="class"
                 options={[
                     { value: "poor", label: "Poor" },
@@ -160,7 +162,7 @@ const NewFamily = ({setState}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="उप-वर्ग"
+                title={t('subCategory')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="text"
@@ -174,7 +176,7 @@ const NewFamily = ({setState}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="राशन कार्ड नंबर"
+                title={t('rathinCardNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
@@ -188,7 +190,7 @@ const NewFamily = ({setState}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="परिवार का मोबाइल नंबर"
+                title={t('mobileNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
@@ -203,7 +205,7 @@ const NewFamily = ({setState}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <FileUpload
-                title="दस्तावेज़"
+                title={t('document')}
                 subTitle="(Declaration & Report)"
                 requried
                 name="dastavage"
@@ -214,7 +216,7 @@ const NewFamily = ({setState}) => {
         </Grid>
     </Grid>
     <div className={style.save}>
-        <SubmitButton label="Save and Add HOF" onClick={onSave} />
+        <SubmitButton label={t('saveAndAddHof')} onClick={onSave} />
     </div>
 </div>
   )

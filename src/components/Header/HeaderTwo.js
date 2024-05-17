@@ -22,8 +22,8 @@ const HeaderTwo = () => {
             <Box mr={2} style={{ marginBottom: 5 }}>
               <div className={style.logo}>
                 <Image
-                  src={getImagePath("/hp.png")}
-                  width="60"
+                  src={getImagePath("/HPGovt.png")}
+                  width="80"
                   height="60"
                   alt="Himachal Pradesh Logo"
                   className={style.hpLogo}

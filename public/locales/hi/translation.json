@@ -1,0 +1,32 @@
+{
+    "welcome": "in hindi",
+    "label": "to my !",
+    "newFamily" : "नया परिवार",
+    "selectVillage" : "गांव",
+    "houseNumber" : "मकान नम्बर",
+    "financialCondition" : "परिवार की आर्थिक स्थिति",
+    "bplCount" : "बी पी एल संख्या",
+    "category" : "वर्ग",
+    "subCategory" : "उप-वर्ग",
+    "rathinCardNumber" : "राशन कार्ड नंबर",
+    "mobileNumber" : "परिवार का मोबाइल नंबर",
+    "document": "दस्तावेज़",
+    "addParivar" : "नया परिवार",
+    "addMember": "नया सदस्य",
+    "saveAndAddHof" : "Save and Add HOF",
+    "headOfFamilyName" : "मुखिया का नाम",
+    "nameOfRelative" : "संबंधी का नाम एवं संबंध",
+    "dateOfBirth" : "जन्म तिथि ",
+    "gender" : "लिंग",
+    "baseOfRegistration" : "दर्ज करने का आधार",
+    "refrenceNumber": "रेफ़्रेन्स नंबर",
+    "education" : "शैक्षिक योग्यता",
+    "livelihoodResource" : "आजीविका का साधन",
+    "religion" : "धर्म",
+    "aadharCardNumber" : "आधार कार्ड नंबर",
+    "comment": "टिपण्णी",
+    "familyNumber" : "परिवार नंबर"
+
+
+
+  }

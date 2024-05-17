@@ -3,14 +3,16 @@ import style from "./registration.module.css"
 import { Grid } from '@mui/material'
 import SelectDropdown from '@/components/SelectDropdown'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
-import useTranslation from 'next-translate/useTranslation';
 import SubmitButton from '@/components/SubmitBtn'
 import FileUpload from '@/components/FileUpload'
 import DatePicker from '@/components/DatePicker'
 import TextArea from '@/components/TextArea'
+import { useTranslation } from 'next-i18next'
 
 
 const AddHOF = ({setState,handleClickOpen}) => {
+  const { t } = useTranslation("translation");
+
     const [formData, setFormData] = useState({
         EnglishName: "",
         hindiName: "",
@@ -125,7 +127,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
 
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="मुखिया का नाम"
+                title={t('headOfFamilyName')}
                 subTitle="(in English)"
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
@@ -140,7 +142,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="मुखिया का नाम"
+                title={t('headOfFamilyName')}
                 subTitle="(in Hindi)"
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
@@ -155,7 +157,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="संबंधी का नाम एवं संबंध"
+                title={t('nameOfRelative')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="text"
@@ -169,7 +171,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <DatePicker
-                title="जन्म तिथि"
+                title={t('dateOfBirth')}
                 type="date"
                 requried
                 name="dob"
@@ -181,7 +183,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="लिंग"
+                title={t('gender')}
                 name="gender"
                 options={[
                     { value: "poor", label: "Male" },
@@ -196,7 +198,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="दर्ज करने का आधार"
+                title={t('baseOfRegistration')}
                 name="registrationBase"
                 options={[
                     { value: "poor", label: "Poor" },
@@ -211,7 +213,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="रेफ़्रेन्स नंबर"
+                title={t('refrenceNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
@@ -225,7 +227,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="शैक्षिक योग्यता"
+                title={t('education')}
                 name="education"
                 options={[
                     { value: "poor", label: "10th" },
@@ -240,7 +242,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="आजीविका का साधन"
+                title={t('livelihoodResource')}
                 name="work"
                 options={[
                     { value: "poor", label: "Poor" },
@@ -255,7 +257,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="वर्ग"
+                title={t('category')}
                 name="category"
                 options={[
                     { value: "poor", label: "Poor" },
@@ -270,7 +272,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="उप-वर्ग"
+                title={t('subCategory')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="text"
@@ -284,7 +286,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="राशन कार्ड नंबर"
+                title={t('rathinCardNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
@@ -298,7 +300,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <SelectDropdown
-                title="धर्म"
+                title={t('religion')}
                 name="religion"
                 options={[
                     { value: "poor", label: "Poor" },
@@ -313,7 +315,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title="आधार कार्ड नंबर"
+                title={t('aadharCardNumber')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
@@ -327,7 +329,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
             <FileUpload
-                title="दस्तावेज़"
+                title={t('document')}
                 subTitle="(Bonafide Himachal)"
                 requried
                 name="dastavage"
@@ -339,7 +341,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
         </Grid>
         <Grid item xs={24} sm={8} md={6}>
             <TextArea
-                title="टिपण्णी"
+                title={t('comment')}
                 placeholder="Text area"
                 requried
                 name="description"
