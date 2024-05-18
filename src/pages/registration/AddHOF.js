@@ -14,6 +14,8 @@ import EditFamilyConfirmation from './EditFamilyConfirmation'
 import { useRouter } from 'next/router'
 import AddMemberModal from './AddMemberModal'
 import CloseBtn from '@/components/MoreBtn/CloseBtn'
+import SaveBtn from '@/components/MoreBtn/SaveBtn'
+import DeleteBtn from '@/components/MoreBtn/DeleteBtn'
 
 
 
@@ -28,7 +30,9 @@ const AddHOF = ({ setState, familyDetails }) => {
   const [openModal, setOpenModal] = React.useState(false);
   const [familyDetailsMore, setFamilyDetailsMore] = useState(false)
   const [headDetailsMore, setHeadDetailsMore] = useState(false)
-  const [memberDetailsMore, setMemberDetailsMore] = useState(false)
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [isEditModeHead, setisEditModeHead] = useState(false)
+  const [isEditModeMember, setisEditModeMember] = useState(false)
   const handleClickOpen = () => {
     setOpenModal(true);
   };
@@ -172,6 +176,13 @@ const AddHOF = ({ setState, familyDetails }) => {
     let newData = data?.map((v,index) => index==i ? {...v, memberDetailsMore: !v?.memberDetailsMore}  : v)
     setMemberList(newData)
   }
+
+  const changeisEditModeMember = (v) => {
+    let data = [...memberList]
+    let newData = data?.map((k,index) => index == v ? {...k, isEditModeMember: false}  : k)
+    setMemberList(newData)
+  }
+  console.log('memberList', memberList)
   return (
     <>
       <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} />
@@ -199,10 +210,17 @@ const AddHOF = ({ setState, familyDetails }) => {
               <td className={style.td}>
 
                 <div className="action">
-                  {familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }}/> : 
-                  <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> }
 
-                  <EditBtn title="Edit" onClick={() => { setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></div>
+                  {isEditMode ? <>
+                  <SaveBtn title="Save" onClick={() => {  setIsEditMode(false) }}/>
+                  <CloseBtn title="Close" onClick={() => { setIsEditMode(false) }}/></> 
+                :  
+                <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }}/> : 
+                <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> }
+
+                <EditBtn title="Edit" onClick={() => { setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
+                }
+                 </div>
               </td>
             </tr>
             {familyDetailsMore && <tr >
@@ -256,10 +274,18 @@ const AddHOF = ({ setState, familyDetails }) => {
                   <td className={style.td}>{formData?.category}</td>
                   <td className={style.td}>
 
-                    <div className="action">{headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }}/> : 
+                    <div className="action">
+                    {isEditModeHead ? <>
+                  <SaveBtn title="Save" onClick={() => {  setisEditModeHead(false) }}/>
+                  <CloseBtn title="Close" onClick={() => { setisEditModeHead(false) }}/></> 
+                :  
+                <>  
+                      {headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }}/> : 
                   <MoreBtn title="More" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} /> }
 
-                      <EditBtn title="Edit" onClick={() => { setConfirmationData(formData); setEditModalType("head"); handleOpen() }} /></div>
+                      <EditBtn title="Edit" onClick={() => { setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
+                      </>}
+                      </div>
                   </td>
                 </tr>
                 {headDetailsMore && <tr  >
@@ -313,10 +339,19 @@ const AddHOF = ({ setState, familyDetails }) => {
                       <td className={style.td}>
 
                         <div className="action">
-                        {v?.memberDetailsMore ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }}/> : 
+
+                        {v?.isEditModeMember ? <>
+                  <SaveBtn title="Save" onClick={() => {  changeisEditModeMember(index) }}/>
+                  <DeleteBtn title="Delete" onClick={() => {  changeisEditModeMember(index) }}/>
+                  <CloseBtn title="Close" onClick={() => { changeisEditModeMember(index) }}/></> 
+                :  
+                <>  
+                        {v?.memberDetailsMore  ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }}/> : 
                   <MoreBtn title="More" onClick={() => { openMemberDetails(index) }} /> }
 
-                          <EditBtn title="Edit" onClick={() => { setConfirmationData(v); setEditModalType("member"); handleOpen() }} /></div>
+                          <EditBtn title="Edit" onClick={() => { setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
+                          </>}
+                          </div>
                       </td>
                     </tr>
                     {v?.memberDetailsMore && <tr  >
@@ -598,7 +633,7 @@ const AddHOF = ({ setState, familyDetails }) => {
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
           </div></>}
-      <EditFamilyConfirmation handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} />
+      <EditFamilyConfirmation memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode}setisEditModeHead={setisEditModeHead} setisEditModeMember={setisEditModeMember}/>
     </>
   )
 }

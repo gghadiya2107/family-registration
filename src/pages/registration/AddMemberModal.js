@@ -42,7 +42,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
     religion: "",
     adharCard: "",
     dastavage: "",
-    description: ""
+    description: "",
+    isEditModeMember : false,
   })
   const [errors, setErrors] = useState({});
   console.log('errors', errors)
@@ -74,7 +75,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
     // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
-      setFormData({  EnglishName: "", memberDetailsMore : false,
+      setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
       hindiName: "",
       relative: "",
       dob: "",

@@ -12,7 +12,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
   }));
 
-const EditFamilyConfirmation = ({handleClose, open, data, EditModalType}) => {
+const EditFamilyConfirmation = ({memberList, setMemberList, handleClose, open, data, EditModalType,setIsEditMode, setisEditModeHead, setisEditModeMember}) => {
+  const changeMemberList = () => {
+    setisEditModeMember(true); handleClose()
+
+    let data1 = [...memberList]
+    let newData = data1?.map(v => data?.EnglishName == v?.EnglishName ? {...v, isEditModeMember:true } : v)
+    setMemberList(newData)
+  }
   return (
     <>
        <BootstrapDialog
@@ -60,8 +67,12 @@ const EditFamilyConfirmation = ({handleClose, open, data, EditModalType}) => {
         </div>}
       </DialogContent>
       <DialogActions>
-        <CancelBtn  onClick={handleClose} label="Cancel" />
-        <SubmitButton onClick={() => {}} style={{marginLeft : "10px",borderRadius : "4px"}} label="Confirm" />
+       {EditModalType == "family" &&<> <CancelBtn  onClick={() => {setIsEditMode(false); handleClose()}} label="Cancel" />
+        <SubmitButton onClick={() => {setIsEditMode(true); handleClose()}} style={{marginLeft : "10px",borderRadius : "4px"}} label="Confirm" /></>}
+        {EditModalType == "head" &&<><CancelBtn  onClick={() => {setisEditModeHead(false); handleClose()}} label="Cancel" />
+        <SubmitButton onClick={() => {setisEditModeHead(true); handleClose()}} style={{marginLeft : "10px",borderRadius : "4px"}} label="Confirm" /></>}
+        {EditModalType == "member" &&<><CancelBtn  onClick={() => {setisEditModeMember(false); handleClose()}} label="Cancel" />
+        <SubmitButton onClick={() => {changeMemberList()}} style={{marginLeft : "10px",borderRadius : "4px"}} label="Confirm" /></>}
 
       </DialogActions>
     </BootstrapDialog>
