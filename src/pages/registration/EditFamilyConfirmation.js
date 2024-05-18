@@ -12,7 +12,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
   }));
 
-const EditFamilyConfirmation = ({handleClose, open}) => {
+const EditFamilyConfirmation = ({handleClose, open, data, EditModalType}) => {
   return (
     <>
        <BootstrapDialog
@@ -38,9 +38,26 @@ const EditFamilyConfirmation = ({handleClose, open}) => {
         {/* <CloseIcon /> */}
       </IconButton>
       <DialogContent dividers style={{fontSize : "18px"}}>
+        {EditModalType == "family" &&<div>
+
         <p >Are you sure you want to edit the Family residing in:</p>
-        <p style={{margin : "10px 0"}}><b>Municipality:</b> <>Shimla</></p>
-        <p><b>Ward:</b> <>Mehli</></p>
+        <p style={{margin : "10px 0"}}><b>Municipality:</b> <>{data?.municipal}</></p>
+        <p><b>Ward:</b> <>{data?.ward}</></p>
+        </div>}
+        {EditModalType == "head" &&<div>
+
+        <p >Are you sure you want to edit the Family residing in:</p>
+        <p style={{margin : "10px 0"}}><b>Municipality:</b> <>{data?.municipal}</></p>
+        <p><b>Ward:</b> <>{data?.ward}</></p>
+        <p style={{marginTop : "10px"}}><b>With the Head of Family as:</b> <>{data?.EnglishName}</></p>
+        </div>}
+        {EditModalType == "member" &&<div>
+
+        <p >Are you sure you want to edit the details of</p>
+        <p style={{marginBottom : "10px"}}> <b>{data?.EnglishName}</b></p>
+        <p><>with Aadhaar Number</> </p>
+        <b>{data?.adharCard}</b>
+        </div>}
       </DialogContent>
       <DialogActions>
         <CancelBtn  onClick={handleClose} label="Cancel" />

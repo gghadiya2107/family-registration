@@ -20,6 +20,8 @@ const AddHOF = ({setState,familyDetails}) => {
   const { t } = useTranslation("translation");
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [confirmationData, setConfirmationData] = useState({})
+  const [EditModalType, setEditModalType] = useState(null) // family, head, member
   const [saveHof, setSaveHof] = useState(false)
   const [memberList, setMemberList] = useState([])
   const [openModal, setOpenModal] = React.useState(false);
@@ -188,7 +190,7 @@ const AddHOF = ({setState,familyDetails}) => {
 
                                           <div className="action"><MoreBtn title="More"  onClick={() => {}} />
                                           
-                                          <EditBtn title="Edit"  onClick={handleOpen} /></div>
+                                          <EditBtn title="Edit"  onClick={() => {setConfirmationData(familyDetails); setEditModalType("family"); handleOpen()}} /></div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -220,7 +222,7 @@ const AddHOF = ({setState,familyDetails}) => {
 
                                           <div className="action"><MoreBtn title="More"  onClick={() => {}} />
                                           
-                                          <EditBtn title="Edit"  onClick={handleOpen} /></div>
+                                          <EditBtn title="Edit"  onClick={() => {setConfirmationData(formData); setEditModalType("head"); handleOpen()}} /></div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -228,7 +230,7 @@ const AddHOF = ({setState,familyDetails}) => {
                       
 
                         </div>
-                        <div className={style.heading} style={{marginBottom : "5px", marginTop : "20px"}}>Family Member Details</div>
+                       {memberList?.length > 0 && <><div className={style.heading} style={{marginBottom : "5px", marginTop : "20px"}}>Family Member Details</div>
         <div className={style.tablewrapper} style={{margin : "0"}}>
                             <table className={style.table}>
                                 <thead className={style.thead}>
@@ -251,7 +253,7 @@ const AddHOF = ({setState,familyDetails}) => {
 
                                           <div className="action"><MoreBtn title="More"  onClick={() => {}} />
                                           
-                                          <EditBtn title="Edit"  onClick={handleOpen} /></div>
+                                          <EditBtn title="Edit"  onClick={() => {setConfirmationData(v); setEditModalType("member"); handleOpen()}}/></div>
                                         </td>
                                     </tr>
                                   </>))}
@@ -259,7 +261,7 @@ const AddHOF = ({setState,familyDetails}) => {
                             </table>
                       
 
-                        </div>
+                        </div></>}
                         <div className={style.save} style={{float : "none", textAlign : "center"}}> 
         <SubmitButton label="Add member" onClick={addMember} />
         <SubmitButton label="Save Family" onClick={() => router.push("/familyList")} style={{ marginLeft: "20px" }}/>
@@ -507,7 +509,7 @@ const AddHOF = ({setState,familyDetails}) => {
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
     </div></>}
-    <EditFamilyConfirmation handleClose={handleClose} open={open} />
+    <EditFamilyConfirmation handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType}/>
 </>
   )
 }
