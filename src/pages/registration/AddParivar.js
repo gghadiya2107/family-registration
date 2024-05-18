@@ -13,27 +13,32 @@ import AddHOF from './AddHOF'
 // }
 
 
-const AddParivar = () => {
-    const [open, setOpen] = React.useState(false);
-    const [state, setState] = useState("1")
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+const AddParivar = ({state, setState}) => {
+    const [formData, setFormData] = useState({
+        municipal: "",
+        ward: "",
+          makan: "",
+          condition: "",
+          bpl: "",
+          class: "",
+          subclass: "",
+          rationCard: "",
+          mobile: "",
+          dastavage:""
+      })
+  
     return (
         <>
             {state == "1" ?
-                <NewFamily setState={setState} />
+                <NewFamily setState={setState} formData={formData} setFormData={setFormData}/>
                 : state == "2" ?
 
-                    <AddHOF setState={setState} handleClickOpen={handleClickOpen} />
+                    <AddHOF setState={setState}  familyDetails={formData}/>
                     :
                     <FamilyDetails />
             }
 
-            <AddMemberModal handleClose={handleClose} open={open} />
+            {/* <AddMemberModal handleCloseModal={handleClose} openModal={open} /> */}
         </>
     )
 }

@@ -23,7 +23,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const AddMemberModal = ({ handleClose, open }) => {
+const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   const { t } = useTranslation("translation");
 
   const [formData, setFormData] = useState({
@@ -46,6 +46,7 @@ const AddMemberModal = ({ handleClose, open }) => {
   })
   const [errors, setErrors] = useState({});
   console.log('errors', errors)
+  console.log('formData modal', formData)
 
   const handleChange = (e) => {
     const { value, name } = e.target
@@ -69,9 +70,27 @@ const AddMemberModal = ({ handleClose, open }) => {
   }
 
   const onSave = () => {
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
+      setFormData({  EnglishName: "",
+      hindiName: "",
+      relative: "",
+      dob: "",
+      gender: "",
+      registrationBase: "",
+      refrence: "",
+      education: "",
+      work: "",
+      category: "",
+      subCategory: "",
+      rationCard: "",
+      religion: "",
+      adharCard: "",
+      dastavage: "",
+      description: ""})
+      setMemberList([...memberList,{...formData}])
       handleClose()
       console.log("Form submitted successfully:", formData);
     } else {

@@ -17,6 +17,8 @@ import { removeCookie } from '@/utils/cookies';
 import { MdGTranslate } from "react-icons/md";
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
+import { FaRegListAlt } from "react-icons/fa";
+
 
 
 const menu = [
@@ -49,6 +51,11 @@ const menu = [
         title: "Check Parivar Details",
         url: "/details",
         icon: <TbReportSearch size={20} />
+    },
+    {
+        title: "List of Family",
+        url: "/familyList",
+        icon: <FaRegListAlt size={20} />
     },
 ]
 

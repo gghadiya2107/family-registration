@@ -153,3 +153,8 @@ select::after {
   transform: translateY(-50%); /* Center vertically */
   pointer-events: none; /* Prevent clicking on the pseudo-element */
 }
+
+.action{
+  display: flex;
+  /* justify-content: space-between; */
+}

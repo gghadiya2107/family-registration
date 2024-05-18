@@ -8,10 +8,36 @@ import FileUpload from '@/components/FileUpload'
 import DatePicker from '@/components/DatePicker'
 import TextArea from '@/components/TextArea'
 import { useTranslation } from 'next-i18next'
+import MoreBtn from '@/components/MoreBtn'
+import EditBtn from '@/components/EditBtn'
+import EditFamilyConfirmation from './EditFamilyConfirmation'
+import { useRouter } from 'next/router'
+import AddMemberModal from './AddMemberModal'
 
 
-const AddHOF = ({setState,handleClickOpen}) => {
+
+const AddHOF = ({setState,familyDetails}) => {
   const { t } = useTranslation("translation");
+  const router = useRouter()
+  const [open, setOpen] = useState(false)
+  const [saveHof, setSaveHof] = useState(false)
+  const [memberList, setMemberList] = useState([])
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+  console.log('memberList', memberList)
+  console.log('familyDetails', familyDetails)
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+  const handleOpen = () => {
+    setOpen(true)
+  }
 
     const [formData, setFormData] = useState({
         EnglishName: "",
@@ -33,6 +59,7 @@ const AddHOF = ({setState,handleClickOpen}) => {
     })
     const [errors, setErrors] = useState({});
     console.log('errors', errors)
+    console.log('formData', formData)
 
     const handleChange = (e) => {
         const { value, name } = e.target
@@ -56,7 +83,8 @@ const AddHOF = ({setState,handleClickOpen}) => {
     }
 
     const addMember = () => {
-        const validationErrors = validateForm(formData);
+        const validationErrors = {};
+        // const validationErrors = validateForm(formData);
         if (Object.keys(validationErrors).length === 0) {
             setErrors({})
             handleClickOpen()
@@ -67,7 +95,8 @@ const AddHOF = ({setState,handleClickOpen}) => {
     }
 
     const onSave = () => {
-        const validationErrors = validateForm(formData);
+        const validationErrors = {};
+        // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("3")
       console.log("Form submitted successfully:", formData);
@@ -132,9 +161,112 @@ const AddHOF = ({setState,handleClickOpen}) => {
         return errors;
       };
   return (
-    <div style={{ marginTop: "20px" }}>
+    <>
+            <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList}/>
 
-    <div className={style.heading}>Add HOF/member</div>
+    <div className={style.heading} style={{marginBottom : "5px"}}>Family Details</div>
+    <div className={style.tablewrapper} style={{margin : "0"}}>
+                            <table className={style.table}>
+                                <thead className={style.thead}>
+                                    <tr className={style.tr}>
+                                        <th className={style.th}>Municipality</th>
+                                        <th className={style.th}>Ward</th>
+                                        <th className={style.th}>BPL Number</th>
+                                        <th className={style.th}>Rashan Card Number</th>
+                                        <th className={style.th}>Mobile Number</th>
+                                        <th className={style.th}></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr className={style.tr}>
+                                        <td className={style.td}>{familyDetails?.municipal}</td>
+                                        <td className={style.td}>{familyDetails?.ward}</td>
+                                        <td className={style.td}>{familyDetails?.bpl}</td>
+                                        <td className={style.td}>{familyDetails?.rationCard}</td>
+                                        <td className={style.td}>{familyDetails?.mobile}</td>
+                                        <td className={style.td}>
+
+                                          <div className="action"><MoreBtn title="More"  onClick={() => {}} />
+                                          
+                                          <EditBtn title="Edit"  onClick={handleOpen} /></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                      
+
+                        </div>
+    {saveHof  ?
+    <>
+        <div className={style.heading} style={{marginBottom : "5px", marginTop : "20px"}}>Family Head Details</div>
+        <div className={style.tablewrapper} style={{margin : "0"}}>
+                            <table className={style.table}>
+                                <thead className={style.thead}>
+                                    <tr className={style.tr}>
+                                    <th className={style.th}>Head of Family Name</th>
+                                        <th className={style.th}>Rashan Card Number</th>
+                                        <th className={style.th}>Economic Status</th>
+                                        <th className={style.th}>Social Category</th>
+                                        <th className={style.th}></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr className={style.tr}>
+                                    <td className={style.td}>{formData?.EnglishName}</td>
+                                        <td className={style.td}>{formData?.rationCard}</td>
+                                        <td className={style.td}>A.P.L</td>
+                                        <td className={style.td}>{formData?.category}</td>
+                                        <td className={style.td}>
+
+                                          <div className="action"><MoreBtn title="More"  onClick={() => {}} />
+                                          
+                                          <EditBtn title="Edit"  onClick={handleOpen} /></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                      
+
+                        </div>
+                        <div className={style.heading} style={{marginBottom : "5px", marginTop : "20px"}}>Family Member Details</div>
+        <div className={style.tablewrapper} style={{margin : "0"}}>
+                            <table className={style.table}>
+                                <thead className={style.thead}>
+                                    <tr className={style.tr}>
+                                        <th className={style.th}>Name</th>
+                                        <th className={style.th}>Date of Birth</th>
+                                        <th className={style.th}>Aadhar Number</th>
+                                        <th className={style.th}>eKYC Varification Status</th>
+                                        <th className={style.th}></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {memberList?.map(v => (<>
+                                    <tr className={style.tr}>
+                                        <td className={style.td}>{v?.EnglishName}</td>
+                                        <td className={style.td}>{v?.dob}</td>
+                                        <td className={style.td}>{v?.adharCard}</td>
+                                        <td className={style.td}>Document not Attached</td>
+                                        <td className={style.td}>
+
+                                          <div className="action"><MoreBtn title="More"  onClick={() => {}} />
+                                          
+                                          <EditBtn title="Edit"  onClick={handleOpen} /></div>
+                                        </td>
+                                    </tr>
+                                  </>))}
+                                </tbody>
+                            </table>
+                      
+
+                        </div>
+                        <div className={style.save} style={{float : "none", textAlign : "center"}}> 
+        <SubmitButton label="Add member" onClick={addMember} />
+        <SubmitButton label="Save Family" onClick={() => router.push("/familyList")} style={{ marginLeft: "20px" }}/>
+        </div>
+    </>
+    
+    : <>    <div className={style.heading} style={{marginTop : "20px"}}>Add HOF/member</div>
     <Grid container spacing={3} >
 
         <Grid item xs={12} sm={4} md={3}>
@@ -370,10 +502,13 @@ const AddHOF = ({setState,handleClickOpen}) => {
 
     </Grid>
     <div className={style.save}>
-        <SubmitButton label="Add member" onClick={addMember} />
-        <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} />
-    </div>
-</div>
+    <SubmitButton label="Save" onClick={() => setSaveHof(true)} />
+        {/* <SubmitButton label="Back" onClick={() => setState("1")} />
+        <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
+        <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
+    </div></>}
+    <EditFamilyConfirmation handleClose={handleClose} open={open} />
+</>
   )
 }
 

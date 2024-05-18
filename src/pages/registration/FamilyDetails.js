@@ -10,7 +10,7 @@ const FamilyDetails = () => {
     const { t } = useTranslation("translation");
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    <div>
 
                         <div className={style.heading}>Confirm Family Details</div>
                         <Grid container spacing={3} >

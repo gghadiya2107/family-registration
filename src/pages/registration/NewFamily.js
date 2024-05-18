@@ -9,21 +9,10 @@ import DatePicker from '@/components/DatePicker'
 import TextArea from '@/components/TextArea'
 import { useTranslation } from 'next-i18next'
 
-const NewFamily = ({setState}) => {
+const NewFamily = ({setState, formData, setFormData}) => {
   const { t } = useTranslation("translation");
 
-    const [formData, setFormData] = useState({
-      municipal: "",
-      ward: "",
-        makan: "",
-        condition: "",
-        bpl: "",
-        class: "",
-        subclass: "",
-        rationCard: "",
-        mobile: "",
-        dastavage:""
-    })
+    
     const [errors, setErrors] = useState({});
     console.log('errors', errors)
 
@@ -49,8 +38,9 @@ const NewFamily = ({setState}) => {
     }
 
     const onSave = () => {
-      console.log('errors', errors)
-        const validationErrors = validateForm(formData);
+      console.log('errors', errors, formData.mobile?.trim()?.length)
+        const validationErrors = {};
+        // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
       console.log("Form submitted successfully:", formData);
@@ -87,7 +77,8 @@ const NewFamily = ({setState}) => {
         }
         if (!formData.mobile?.trim()) {
           errors.mobile = "Mobile number is required";
-        }else if (!formData.mobile?.trim()?.length < 10) {
+        }
+         if (formData.mobile?.trim()?.length < 10) {
           errors.mobile = "Please enter 10 digit mobie number";
         }
         

@@ -30,7 +30,8 @@
 
 .heading{
     text-align: center;
-    background-color: #F0F4F8;
+    background-color: #d8dbdc;
+    /* background-color: #F0F4F8; */
     padding: 10px 0;
     margin-bottom: 20px;
     font-weight: 600;
@@ -69,14 +70,14 @@
 .th{
     padding: 10px 0;
     font-size: 14px;
-    background-color: #F0F4F8;
+    background-color: #ebedef;
+    /* background-color: #F0F4F8; */
     padding-left: 7px;
 
 }
 
 .tr:hover{
-    background-color: #F0F4F8;
-
+    /* background-color: #F0F4F8; */
 }
 .td{
     padding: 10px 0;
