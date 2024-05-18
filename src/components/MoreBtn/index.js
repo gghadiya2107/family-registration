@@ -1,6 +1,7 @@
 import React from 'react'
 import style from './morebtn.module.css'
 import { FaArrowCircleLeft } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 
 const MoreBtn = ({ title, onClick, ...rest }) => {

@@ -74,7 +74,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
     // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
-      setFormData({  EnglishName: "",
+      setFormData({  EnglishName: "", memberDetailsMore : false,
       hindiName: "",
       relative: "",
       dob: "",
