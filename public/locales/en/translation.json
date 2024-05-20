@@ -26,7 +26,32 @@
     "religion" : "Religion",
     "aadharCardNumber" : "Aadhar Card Number",
     "comment": "Comment",
-    "familyNumber" : "Family Number"
+    "familyNumber" : "Family Number",
+    "validateMunucipal" : "Municipal is required",
+    "validateward" : "Ward is required",
+    "ValidateHouseNumber" : "House number is required",
+    "validateCondition" : "Family condition is required",
+    "validateBPL" : "BPL count is required",
+    "validateCategory" : "Category is required",
+    "validateSubCategory" : "Sub category is required",
+    "validateRationCard" :  "Ration card number is required",
+    "validateMobile" : "Mobile number is required",
+    "validateMobileLength" : "Please enter 10 digit mobie number",
+    "validateDocument" : "Document is required",
+    "validateFileSize" : "File size must be less than 1MB",
+    "validateHeadName" : "Name is required",
+    "validateRelativeName" : "Relative is required",
+    "validateDOB" :  "Date of birth is required",
+    "validateGender" : "Gender is required",
+    "validateBaseOfRegistration" : "Base of registraation is required",
+    "validateRefrenceNumber" : "Refrance is required",
+    "validateEducation" : "Education is required",
+    "validateWork" : "Work is required",
+    "validateReligion" : "Religion is required",
+    "validateAadhar" :  "Aadhar card is required",
+    "validateAadharLength" : "Please enter 12 digit aadhar card number",
+    "validateComment" : "Description is required"
+
 
 
 

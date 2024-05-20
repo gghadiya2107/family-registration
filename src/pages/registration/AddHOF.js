@@ -83,7 +83,7 @@ const AddHOF = ({ setState, familyDetails }) => {
       } else {
         setFormData({ ...formData, [name]: null })
 
-        setErrors({ ...errors, dastavage: "File size must be less than 1MB" })
+        setErrors({ ...errors, dastavage: t('validateFileSize') })
         // setError('File size must be less than 1MB');
       }
     } else {
@@ -115,57 +115,68 @@ const AddHOF = ({ setState, familyDetails }) => {
     }
   }
 
+  const handleSaveHOF = () => {
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
+    if (Object.keys(validationErrors).length === 0) {
+      setSaveHof(true)
+      console.log("Form submitted successfully:", formData);
+    } else {
+      setErrors(validationErrors);
+    }
+  }
+
   const validateForm = (formData) => {
     const errors = {};
     if (!formData.EnglishName?.trim()) {
-      errors.EnglishName = "Name is required";
+      errors.EnglishName = t("validateHeadName");
     }
     if (!formData.hindiName?.trim()) {
-      errors.hindiName = "Name is required";
+      errors.hindiName = t("validateHeadName");
     }
     if (!formData.relative?.trim()) {
-      errors.relative = "Relative is required";
+      errors.relative = t("validateRelativeName");
     }
     if (!formData.dob?.trim()) {
-      errors.dob = "Date of birth is required";
+      errors.dob = t("validateDOB");
     }
     if (!formData.gender?.trim()) {
-      errors.gender = "Gender is required";
+      errors.gender = t("validateGender")
     }
     if (!formData.registrationBase?.trim()) {
-      errors.registrationBase = "Base of registraation is required";
+      errors.registrationBase = t("validateBaseOfRegistration");
     }
     if (!formData.refrence?.trim()) {
-      errors.refrence = "Refrance is required";
+      errors.refrence = t("validateRefrenceNumber");
     }
     if (!formData.education?.trim()) {
-      errors.education = "Education is required";
+      errors.education = t("validateEducation");
     }
     if (!formData.work) {
-      errors.work = "Work is required";
+      errors.work = t("validateWork");
     }
     if (!formData.category) {
-      errors.category = "Category is required";
+      errors.category = t("validateCategory");
     }
     if (!formData.subCategory) {
-      errors.subCategory = "Sub category is required";
+      errors.subCategory = t("validateSubCategory");
     }
     if (!formData.rationCard) {
-      errors.rationCard = "Ration Card is required";
+      errors.rationCard = t("validateRationCard");
     }
     if (!formData.religion) {
-      errors.religion = "Religion is required";
+      errors.religion = t("validateReligion");
     }
     if (!formData.adharCard) {
-      errors.adharCard = "Aadhar card is required";
-    } else if (!formData.adharCard?.trim()?.length < 12) {
-      errors.adharCard = "Please enter 12 digit aadhar card number";
+      errors.adharCard = t("validateAadhar");
+    } else if (formData.adharCard?.trim()?.length < 12) {
+      errors.adharCard = t("validateAadharLength");
     }
     if (!formData.dastavage) {
-      errors.dastavage = "Document is required";
+      errors.dastavage = t("validateDocument");
     }
     if (!formData.description) {
-      errors.description = "Description is required";
+      errors.description = t("validateComment");
     }
 
     return errors;
@@ -218,7 +229,7 @@ const AddHOF = ({ setState, familyDetails }) => {
                     <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> :
                       <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} />}
 
-                      <EditBtn title="Edit" onClick={() => { setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
+                      <EditBtn title="Edit" disabled={familyDetailsMore} onClick={() => { setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
                   }
                 </div>
               </td>
@@ -406,7 +417,7 @@ const AddHOF = ({ setState, familyDetails }) => {
                           {headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} /> :
                             <MoreBtn title="More" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} />}
 
-                          <EditBtn title="Edit" onClick={() => { setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
+                          <EditBtn title="Edit" disabled={headDetailsMore} onClick={() => { setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
                         </>}
                     </div>
                   </td>
@@ -592,7 +603,7 @@ const AddHOF = ({ setState, familyDetails }) => {
                               {v?.memberDetailsMore ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }} /> :
                                 <MoreBtn title="More" onClick={() => { openMemberDetails(index) }} />}
 
-                              <EditBtn title="Edit" onClick={() => { setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
+                              <EditBtn title="Edit" disabled={v?.memberDetailsMore} onClick={() => { setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
                             </>}
                         </div>
                       </td>
@@ -994,7 +1005,7 @@ const AddHOF = ({ setState, familyDetails }) => {
 
           </Grid>
           <div className={style.save}>
-            <SubmitButton label="Save" onClick={() => setSaveHof(true)} />
+            <SubmitButton label="Save" onClick={() => handleSaveHOF()} />
             {/* <SubmitButton label="Back" onClick={() => setState("1")} />
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}

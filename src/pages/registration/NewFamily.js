@@ -27,7 +27,7 @@ const NewFamily = ({setState, formData, setFormData}) => {
           } else {
             setFormData({ ...formData, [name]: null })
 
-            setErrors({...errors,dastavage :"File size must be less than 1MB" })
+            setErrors({...errors,dastavage : t('validateFileSize') })
             // setError('File size must be less than 1MB');
           }
            
@@ -52,38 +52,38 @@ const NewFamily = ({setState, formData, setFormData}) => {
     const validateForm = (formData) => {
         const errors = {};
         if (!formData.municipal?.trim()) {
-          errors.municipal = "Municipal is required";
+          errors.municipal = t('validateMunucipal');
         }
         if (!formData.ward?.trim()) {
-          errors.ward = "Ward is required";
+          errors.ward = t("validateward");
         }
         if (!formData.makan?.trim()) {
-          errors.makan = "House number is required";
+          errors.makan = t("ValidateHouseNumber");
         }
         if (!formData.condition?.trim()) {
-          errors.condition = "Family condition is required";
+          errors.condition = t("validateCondition");
         }
         if (!formData.bpl?.trim()) {
-          errors.bpl = "BPL count is required";
+          errors.bpl = t("validateBPL");
         }
         if (!formData.class?.trim()) {
-          errors.class = "Category is required";
+          errors.class = t("validateCategory");
         }
         if (!formData.subclass?.trim()) {
-          errors.subclass = "Sub category is required";
+          errors.subclass = t("validateSubCategory");
         }
         if (!formData.rationCard?.trim()) {
-          errors.rationCard = "Ration card number is required";
+          errors.rationCard = t("validateRationCard");
         }
         if (!formData.mobile?.trim()) {
-          errors.mobile = "Mobile number is required";
+          errors.mobile = t("validateMobile");
         }
          if (formData.mobile?.trim()?.length < 10) {
-          errors.mobile = "Please enter 10 digit mobie number";
+          errors.mobile = t("validateMobileLength");
         }
         
         if (!formData.dastavage) {
-          errors.dastavage = "Document is required";
+          errors.dastavage = t("validateDocument");
         }
        
         return errors;

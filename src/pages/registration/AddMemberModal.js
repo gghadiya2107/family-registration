@@ -71,8 +71,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   }
 
   const onSave = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
@@ -102,55 +102,54 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   const validateForm = (formData) => {
     const errors = {};
     if (!formData.EnglishName?.trim()) {
-      errors.EnglishName = "Name is required";
+      errors.EnglishName = t("validateHeadName");
     }
     if (!formData.hindiName?.trim()) {
-      errors.hindiName = "Name is required";
+      errors.hindiName = t("validateHeadName");
     }
     if (!formData.relative?.trim()) {
-      errors.relative = "Relative is required";
+      errors.relative = t("validateRelativeName");
     }
     if (!formData.dob?.trim()) {
-      errors.dob = "Date of birth is required";
+      errors.dob = t("validateDOB");
     }
     if (!formData.gender?.trim()) {
-      errors.gender = "Gender is required";
+      errors.gender = t("validateGender")
     }
     if (!formData.registrationBase?.trim()) {
-      errors.registrationBase = "Base of registraation is required";
+      errors.registrationBase = t("validateBaseOfRegistration");
     }
     if (!formData.refrence?.trim()) {
-      errors.refrence = "Refrance is required";
+      errors.refrence = t("validateRefrenceNumber");
     }
     if (!formData.education?.trim()) {
-      errors.education = "Education is required";
+      errors.education = t("validateEducation");
     }
     if (!formData.work) {
-      errors.work = "Work is required";
+      errors.work = t("validateWork");
     }
     if (!formData.category) {
-      errors.category = "Category is required";
+      errors.category = t("validateCategory");
     }
     if (!formData.subCategory) {
-      errors.subCategory = "Sub category is required";
+      errors.subCategory = t("validateSubCategory");
     }
     if (!formData.rationCard) {
-      errors.rationCard = "Ration Card is required";
+      errors.rationCard = t("validateRationCard");
     }
     if (!formData.religion) {
-      errors.religion = "Religion is required";
+      errors.religion = t("validateReligion");
     }
     if (!formData.adharCard) {
-      errors.adharCard = "Aadhar card is required";
-    }else if (!formData.adharCard?.trim()?.length < 12) {
-      errors.adharCard = "Please enter 12 digit aadhar card number";
+      errors.adharCard = t("validateAadhar");
+    } else if (formData.adharCard?.trim()?.length < 12) {
+      errors.adharCard = t("validateAadharLength");
     }
-    
     if (!formData.dastavage) {
-      errors.dastavage = "Document is required";
+      errors.dastavage = t("validateDocument");
     }
     if (!formData.description) {
-      errors.description = "Description is required";
+      errors.description = t("validateComment");
     }
 
     return errors;
