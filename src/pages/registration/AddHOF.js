@@ -19,10 +19,13 @@ import DeleteBtn from '@/components/MoreBtn/DeleteBtn'
 
 
 
-const AddHOF = ({ setState, familyDetails }) => {
+const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
   const { t } = useTranslation("translation");
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [familyDetailsExtra, setFamilyDetailsExtra] = useState(familyDetails)
+  const [headDetailsExtra, setheadDetailsExtra] = useState()
+  const [memberDetailsExtra, setMemberDetailsExtra] = useState({})
   const [confirmationData, setConfirmationData] = useState({})
   const [EditModalType, setEditModalType] = useState(null) // family, head, member
   const [saveHof, setSaveHof] = useState(false)
@@ -89,6 +92,66 @@ const AddHOF = ({ setState, familyDetails }) => {
     } else {
 
       setFormData({ ...formData, [name]: value })
+    }
+  }
+  const handleChangeFamilyDetails = (e) => {
+    const { value, name } = e.target
+    if (name == "dastavage") {
+
+      const selectedFile = e.target.files[0];
+
+      if (selectedFile && selectedFile.size <= 1024 * 1024) {
+        setFamilyDetailsExtra({ ...familyDetailsExtra, [name]: e.target.files[0] })
+        // setErrors({ ...errors, dastavage: "" })
+      } else {
+        setFamilyDetailsExtra({ ...familyDetailsExtra, [name]: null })
+
+        // setErrors({ ...errors, dastavage: t('validateFileSize') })
+        // setError('File size must be less than 1MB');
+      }
+    } else {
+
+      setFamilyDetailsExtra({ ...familyDetailsExtra, [name]: value })
+    }
+  }
+  const handleChangeHeadDetails = (e) => {
+    const { value, name } = e.target
+    if (name == "dastavage") {
+
+      const selectedFile = e.target.files[0];
+
+      if (selectedFile && selectedFile.size <= 1024 * 1024) {
+        setheadDetailsExtra({ ...headDetailsExtra, [name]: e.target.files[0] })
+        // setErrors({ ...errors, dastavage: "" })
+      } else {
+        setheadDetailsExtra({ ...headDetailsExtra, [name]: null })
+
+        // setErrors({ ...errors, dastavage: t('validateFileSize') })
+        // setError('File size must be less than 1MB');
+      }
+    } else {
+
+      setheadDetailsExtra({ ...headDetailsExtra, [name]: value })
+    }
+  }
+  const handleChangeMemberDetails = (e) => {
+    const { value, name } = e.target
+    if (name == "dastavage") {
+
+      const selectedFile = e.target.files[0];
+
+      if (selectedFile && selectedFile.size <= 1024 * 1024) {
+        setMemberDetailsExtra({ ...memberDetailsExtra, [name]: e.target.files[0] })
+        // setErrors({ ...errors, dastavage: "" })
+      } else {
+        setMemberDetailsExtra({ ...headDetailsExtra, [name]: null })
+
+        // setErrors({ ...errors, dastavage: t('validateFileSize') })
+        // setError('File size must be less than 1MB');
+      }
+    } else {
+
+      setMemberDetailsExtra({ ...memberDetailsExtra, [name]: value })
     }
   }
 
@@ -190,9 +253,25 @@ const AddHOF = ({ setState, familyDetails }) => {
 
   const changeisEditModeMember = (v) => {
     let data = [...memberList]
+    let newData = data?.map((k, index) => index == v ? { ...memberDetailsExtra, isEditModeMember: false } : k)
+    setMemberList(newData)
+  }
+  const changeisEditModeMemberClose = (v) => {
+    let data = [...memberList]
     let newData = data?.map((k, index) => index == v ? { ...k, isEditModeMember: false } : k)
     setMemberList(newData)
   }
+  const changeisEditModeMemberDelete = (v) => {
+    let data = [...memberList]
+    let newData = data?.filter((k, index) => index != v )
+    setMemberList(newData)
+  }
+
+  // const saveEditMember = (v) => {
+  //   let data = [...memberList]
+  //   let newData = data?.map((k, index) => index == v ? memberDetailsExtra : k)
+  //   setMemberList(newData)
+  // }
   console.log('memberList', memberList)
   return (
     <>
@@ -223,7 +302,7 @@ const AddHOF = ({ setState, familyDetails }) => {
                 <div className="action">
 
                   {isEditMode ? <>
-                    <SaveBtn title="Save" onClick={() => { setIsEditMode(false) }} />
+                    <SaveBtn title="Save" onClick={() => {setFamilyDetails(familyDetailsExtra); setIsEditMode(false) }} />
                     <CloseBtn title="Close" onClick={() => { setIsEditMode(false) }} /></>
                     :
                     <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> :
@@ -270,8 +349,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                         { value: "Himachal Pradesh", label: "Himachal Pradesh" },
                         { value: "Shimla", label: "Shimla" },
                       ]}
-                      value={familyDetails?.municipal}
-                      onChange={handleChange}
+                      value={familyDetailsExtra?.municipal}
+                      onChange={handleChangeFamilyDetails}
                       requried
                     />
                     <SelectDropdown
@@ -283,8 +362,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                         { value: "poor", label: "Poor" },
                         { value: "rich", label: "Rich" },
                       ]}
-                      value={familyDetails?.condition}
-                      onChange={handleChange}
+                      value={familyDetailsExtra?.condition}
+                      onChange={handleChangeFamilyDetails}
                       requried
                     />
                     <InputFieldWithIcon
@@ -295,8 +374,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                       placeholder=""
                       type="text"
                       name="subclass"
-                      value={familyDetails?.subclass}
-                      onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
+                      value={familyDetailsExtra?.subclass}
+                      onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeFamilyDetails(e) : null}
                       requried
                     />
                   </Grid>
@@ -310,8 +389,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                         { value: "Himachal Pradesh", label: "Himachal Pradesh" },
                         { value: "Shimla", label: "Shimla" },
                       ]}
-                      value={familyDetails?.ward}
-                      onChange={handleChange}
+                      value={familyDetailsExtra?.ward}
+                      onChange={handleChangeFamilyDetails}
                       requried
                     />
                     <InputFieldWithIcon
@@ -322,8 +401,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                       placeholder=""
                       type="number"
                       name="bpl"
-                      value={familyDetails?.bpl}
-                      onChange={handleChange}
+                      value={familyDetailsExtra?.bpl}
+                      onChange={handleChangeFamilyDetails}
                       requried
                     />
                     <InputFieldWithIcon
@@ -334,8 +413,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                       placeholder=""
                       type="text"
                       name="rationCard"
-                      value={familyDetails?.rationCard}
-                      onChange={handleChange}
+                      value={familyDetailsExtra?.rationCard}
+                      onChange={handleChangeFamilyDetails}
                       requried
                     />
                   </Grid>
@@ -348,8 +427,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                       placeholder=""
                       type="text"
                       name="makan"
-                      value={familyDetails?.makan}
-                      onChange={handleChange}
+                      value={familyDetailsExtra?.makan}
+                      onChange={handleChangeFamilyDetails}
                       requried
                     />
                     <SelectDropdown
@@ -361,8 +440,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                         { value: "poor", label: "Poor" },
                         { value: "rich", label: "Rich" },
                       ]}
-                      value={familyDetails?.class}
-                      onChange={handleChange}
+                      value={familyDetailsExtra?.class}
+                      onChange={handleChangeFamilyDetails}
                       requried
                     />
                     <InputFieldWithIcon
@@ -373,8 +452,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                       placeholder=""
                       type="number"
                       name="mobile"
-                      value={familyDetails?.mobile}
-                      onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
+                      value={familyDetailsExtra?.mobile}
+                      onChange={(e) => e.target.value?.length > 10 ? null : handleChangeFamilyDetails(e)}
                       requried
                     />
                   </Grid>
@@ -410,14 +489,14 @@ const AddHOF = ({ setState, familyDetails }) => {
 
                     <div className="action">
                       {isEditModeHead ? <>
-                        <SaveBtn title="Save" onClick={() => { setisEditModeHead(false) }} />
+                        <SaveBtn title="Save" onClick={() => {setFormData(headDetailsExtra); setisEditModeHead(false) }} />
                         <CloseBtn title="Close" onClick={() => { setisEditModeHead(false) }} /></>
                         :
                         <>
                           {headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} /> :
                             <MoreBtn title="More" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} />}
 
-                          <EditBtn title="Edit" disabled={headDetailsMore} onClick={() => { setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
+                          <EditBtn title="Edit" disabled={headDetailsMore} onClick={() => {setheadDetailsExtra(formData); setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
                         </>}
                     </div>
                   </td>
@@ -459,8 +538,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                           placeholder=""
                           type="text"
                           name="EnglishName"
-                          value={formData?.EnglishName}
-                          onChange={handleChange}
+                          value={headDetailsExtra?.EnglishName}
+                          onChange={handleChangeHeadDetails}
                           requried
                         />
                         <DatePicker
@@ -470,8 +549,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                           type="date"
                           requried
                           name="dob"
-                          value={formData?.dob}
-                          onChange={handleChange}
+                          value={headDetailsExtra?.dob}
+                          onChange={handleChangeHeadDetails}
                         />
                         <SelectDropdown
                           title={t('gender')}
@@ -482,8 +561,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                             { value: "poor", label: "Male" },
                             { value: "rich", label: "Female" },
                           ]}
-                          value={formData?.gender}
-                          onChange={handleChange}
+                          value={headDetailsExtra?.gender}
+                          onChange={handleChangeHeadDetails}
                           requried
                         />                  </Grid>
                       <Grid item xs={4}>
@@ -495,8 +574,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                           placeholder=""
                           type="text"
                           name="refrence"
-                          value={formData?.refrence}
-                          onChange={handleChange}
+                          value={headDetailsExtra?.refrence}
+                          onChange={handleChangeHeadDetails}
                           requried
                         />
                         <SelectDropdown
@@ -508,8 +587,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                             { value: "poor", label: "Poor" },
                             { value: "rich", label: "Rich" },
                           ]}
-                          value={formData?.religion}
-                          onChange={handleChange}
+                          value={headDetailsExtra?.religion}
+                          onChange={handleChangeHeadDetails}
                           requried
                         />                                <SelectDropdown
                           style={{ marginBottom: "20px" }}
@@ -520,8 +599,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                             { value: "poor", label: "Poor" },
                             { value: "rich", label: "Rich" },
                           ]}
-                          value={formData?.category}
-                          onChange={handleChange}
+                          value={headDetailsExtra?.category}
+                          onChange={handleChangeHeadDetails}
                           requried
                         />
                       </Grid>
@@ -534,8 +613,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                           placeholder=""
                           type="text"
                           name="subCategory"
-                          value={formData?.subCategory}
-                          onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
+                          value={headDetailsExtra?.subCategory}
+                          onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeHeadDetails(e) : null}
                           requried
                         />
                         <InputFieldWithIcon
@@ -546,8 +625,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                           placeholder=""
                           type="text"
                           name="rationCard"
-                          value={formData?.rationCard}
-                          onChange={handleChange}
+                          value={headDetailsExtra?.rationCard}
+                          onChange={handleChangeHeadDetails}
                           requried
                         />
                         <InputFieldWithIcon
@@ -558,8 +637,8 @@ const AddHOF = ({ setState, familyDetails }) => {
                           placeholder=""
                           type="number"
                           name="adharCard"
-                          value={formData?.adharCard}
-                          onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
+                          value={headDetailsExtra?.adharCard}
+                          onChange={(e) => e.target.value?.length > 12 ? null : handleChangeHeadDetails(e)}
                           requried
                         />
                       </Grid>
@@ -596,14 +675,14 @@ const AddHOF = ({ setState, familyDetails }) => {
 
                           {v?.isEditModeMember ? <>
                             <SaveBtn title="Save" onClick={() => { changeisEditModeMember(index) }} />
-                            <DeleteBtn title="Delete" onClick={() => { changeisEditModeMember(index) }} />
-                            <CloseBtn title="Close" onClick={() => { changeisEditModeMember(index) }} /></>
+                            <DeleteBtn title="Delete" onClick={() => { changeisEditModeMemberDelete(index) }} />
+                            <CloseBtn title="Close" onClick={() => { changeisEditModeMemberClose(index) }} /></>
                             :
                             <>
                               {v?.memberDetailsMore ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }} /> :
                                 <MoreBtn title="More" onClick={() => { openMemberDetails(index) }} />}
 
-                              <EditBtn title="Edit" disabled={v?.memberDetailsMore} onClick={() => { setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
+                              <EditBtn title="Edit" disabled={v?.memberDetailsMore} onClick={() => {setMemberDetailsExtra(v); setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
                             </>}
                         </div>
                       </td>
@@ -638,121 +717,121 @@ const AddHOF = ({ setState, familyDetails }) => {
 
                         <Grid container spacing={5}>
                           <Grid item xs={4}>
-                          <InputFieldWithIcon
-                                            style={{marginBottom : "20px"}}
+                            <InputFieldWithIcon
+                              style={{ marginBottom: "20px" }}
 
-                title={t('headOfFamilyName')}
-                subTitle="(in English)"
-              // icon={<IoIosDocument size={20} />}
-              placeholder=""
-              type="text"
-              name="EnglishName"
-              value={v?.EnglishName}
-              onChange={handleChange}
-              requried
-            />                         
- <DatePicker
-                title={t('dateOfBirth')}
-                style={{marginBottom : "20px"}}
-                type="date"
-              requried
-              name="dob"
-              value={v?.dob}
-              onChange={handleChange}
-            />                    
-  <SelectDropdown
-                title={t('gender')}
-                style={{marginBottom : "20px"}}
-                name="gender"
-              options={[
-                { value: "poor", label: "Male" },
-                { value: "rich", label: "Female" },
-              ]}
-              value={v?.gender}
-              onChange={handleChange}
-              requried
-            />        
-  <SelectDropdown
-  style={{marginBottom : "20px"}}
-                title={t('isVerified')}
-                name="isVerified"
-              options={[
-                { value: "poor", label: "Verified" },
-                { value: "rich", label: "Not Varified" },
-              ]}
-              value={v?.isVerified}
-              onChange={handleChange}
-              requried
-            />
+                              title={t('headOfFamilyName')}
+                              subTitle="(in English)"
+                              // icon={<IoIosDocument size={20} />}
+                              placeholder=""
+                              type="text"
+                              name="EnglishName"
+                              value={memberDetailsExtra?.EnglishName}
+                              onChange={handleChangeMemberDetails}
+                              requried
+                            />
+                            <DatePicker
+                              title={t('dateOfBirth')}
+                              style={{ marginBottom: "20px" }}
+                              type="date"
+                              requried
+                              name="dob"
+                              value={memberDetailsExtra?.dob}
+                              onChange={handleChangeMemberDetails}
+                            />
+                            <SelectDropdown
+                              title={t('gender')}
+                              style={{ marginBottom: "20px" }}
+                              name="gender"
+                              options={[
+                                { value: "poor", label: "Male" },
+                                { value: "rich", label: "Female" },
+                              ]}
+                              value={memberDetailsExtra?.gender}
+                              onChange={handleChangeMemberDetails}
+                              requried
+                            />
+                            <SelectDropdown
+                              style={{ marginBottom: "20px" }}
+                              title={t('isVerified')}
+                              name="isVerified"
+                              options={[
+                                { value: "poor", label: "Verified" },
+                                { value: "rich", label: "Not Varified" },
+                              ]}
+                              value={memberDetailsExtra?.isVerified}
+                              onChange={handleChangeMemberDetails}
+                              requried
+                            />
                           </Grid>
                           <Grid item xs={4}>
-                          <InputFieldWithIcon
-                          style={{marginBottom : "20px"}}
-                title={t('refrenceNumber')}
-                // icon={<IoIosDocument size={20} />}
-              placeholder=""
-              type="text"
-              name="refrence"
-              value={v?.refrence}
-              onChange={handleChange}
-              requried
-            />
- <SelectDropdown
-                title={t('religion')}
-                style={{marginBottom : "20px"}}
-                name="religion"
-              options={[
-                { value: "poor", label: "Poor" },
-                { value: "rich", label: "Rich" },
-              ]}
-              value={v?.religion}
-              onChange={handleChange}
-              requried
-            />
-                                                    <SelectDropdown
-                                                    style={{marginBottom : "20px"}}
-                title={t('category')}
-                name="category"
-              options={[
-                { value: "poor", label: "Poor" },
-                { value: "rich", label: "Rich" },
-              ]}
-              value={v?.category}
-              onChange={handleChange}
-              requried
-            />
+                            <InputFieldWithIcon
+                              style={{ marginBottom: "20px" }}
+                              title={t('refrenceNumber')}
+                              // icon={<IoIosDocument size={20} />}
+                              placeholder=""
+                              type="text"
+                              name="refrence"
+                              value={memberDetailsExtra?.refrence}
+                              onChange={handleChangeMemberDetails}
+                              requried
+                            />
+                            <SelectDropdown
+                              title={t('religion')}
+                              style={{ marginBottom: "20px" }}
+                              name="religion"
+                              options={[
+                                { value: "poor", label: "Poor" },
+                                { value: "rich", label: "Rich" },
+                              ]}
+                              value={memberDetailsExtra?.religion}
+                              onChange={handleChangeMemberDetails}
+                              requried
+                            />
+                            <SelectDropdown
+                              style={{ marginBottom: "20px" }}
+                              title={t('category')}
+                              name="category"
+                              options={[
+                                { value: "poor", label: "Poor" },
+                                { value: "rich", label: "Rich" },
+                              ]}
+                              value={memberDetailsExtra?.category}
+                              onChange={handleChangeMemberDetails}
+                              requried
+                            />
                           </Grid>
                           <Grid item xs={4}>
-                          <InputFieldWithIcon
-                          style={{marginBottom : "20px"}}
-                title={t('subCategory')}
-              placeholder=""
-              type="text"
-              name="subCategory"
-              value={v?.subCategory}
-              onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
-              requried
-            />
- <InputFieldWithIcon
- style={{marginBottom : "20px"}}
-                title={t('rathinCardNumber')}
-              placeholder=""
-              type="text"
-              name="rationCard"
-              value={v?.rationCard}
-              onChange={handleChange}
-              requried
-            />
- <InputFieldWithIcon
- style={{marginBottom : "20px"}}
-                title={t('aadharCardNumber')}
-              placeholder=""
-              type="number"
-              name="adharCard"
-              value={v?.adharCard}
-              onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
-              requried
-            />
+                            <InputFieldWithIcon
+                              style={{ marginBottom: "20px" }}
+                              title={t('subCategory')}
+                              placeholder=""
+                              type="text"
+                              name="subCategory"
+                              value={memberDetailsExtra?.subCategory}
+                              onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeMemberDetails(e) : null}
+                              requried
+                            />
+                            <InputFieldWithIcon
+                              style={{ marginBottom: "20px" }}
+                              title={t('rathinCardNumber')}
+                              placeholder=""
+                              type="text"
+                              name="rationCard"
+                              value={memberDetailsExtra?.rationCard}
+                              onChange={handleChangeMemberDetails}
+                              requried
+                            />
+                            <InputFieldWithIcon
+                              style={{ marginBottom: "20px" }}
+                              title={t('aadharCardNumber')}
+                              placeholder=""
+                              type="number"
+                              name="adharCard"
+                              value={memberDetailsExtra?.adharCard}
+                              onChange={(e) => e.target.value?.length > 12 ? null : handleChangeMemberDetails(e)}
+                              requried
+                            />
                           </Grid>
                         </Grid>
                       </td>
@@ -764,7 +843,7 @@ const AddHOF = ({ setState, familyDetails }) => {
 
             </div></>}
           <div className={style.save} style={{ float: "none", textAlign: "center" }}>
-            <SubmitButton label="Add member" onClick={addMember} />
+            <SubmitButton label="Add Member" onClick={addMember} />
             <SubmitButton label="Save Family" onClick={() => router.push("/familyList")} style={{ marginLeft: "20px" }} />
           </div>
         </>

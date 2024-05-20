@@ -33,7 +33,7 @@ const AddParivar = ({state, setState}) => {
                 <NewFamily setState={setState} formData={formData} setFormData={setFormData}/>
                 : state == "2" ?
 
-                    <AddHOF setState={setState}  familyDetails={formData}/>
+                    <AddHOF setState={setState}  familyDetails={formData} setFamilyDetails={setFormData}/>
                     :
                     <FamilyDetails />
             }

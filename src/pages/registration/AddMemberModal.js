@@ -14,6 +14,13 @@ import IconButton from '@mui/material/IconButton';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'next-i18next'
 
+function generateUserId() {
+  const timestamp = Date.now(); // Current timestamp in milliseconds
+  const randomNum = Math.floor(Math.random() * 9000) + 1000; // Random 4-digit number
+  const userId = timestamp.toString() + randomNum.toString();
+  return userId;
+}
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -71,8 +78,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   }
 
   const onSave = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
@@ -91,7 +98,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
       adharCard: "",
       dastavage: "",
       description: ""})
-      setMemberList([...memberList,{...formData}])
+      setMemberList([...memberList,{...formData, id : generateUserId()}])
       handleClose()
       console.log("Form submitted successfully:", formData);
     } else {
