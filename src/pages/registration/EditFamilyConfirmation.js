@@ -12,12 +12,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
   }));
 
-const EditFamilyConfirmation = ({memberList, setMemberList, handleClose, open, data, EditModalType,setIsEditMode, setisEditModeHead, setisEditModeMember}) => {
+const EditFamilyConfirmation = ({memberList, setMemberList, handleClose, open, data, EditModalType,setIsEditMode, setisEditModeHead}) => {
   const changeMemberList = () => {
-    setisEditModeMember(true); handleClose()
+    // setisEditModeMember(true);
+     handleClose()
 
     let data1 = [...memberList]
-    let newData = data1?.map(v => data?.EnglishName == v?.EnglishName ? {...v, isEditModeMember:true } : v)
+    let newData = data1?.map(v => data?.EnglishName == v?.EnglishName ? {...v, isEditModeMember:true } : {...v, isEditModeMember:false } )
     setMemberList(newData)
   }
   return (

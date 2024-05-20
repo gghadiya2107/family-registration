@@ -381,6 +381,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
                 // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="number"
+              onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
               name="adharCard"
               value={formData?.adharCard}
               onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}

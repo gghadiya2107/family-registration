@@ -147,6 +147,7 @@ const SignUpMpdal = ({handleChange, handleSubmit,signUpData,setModalFlag}) => {
             icon={<BsFillTelephoneFill size={20} />}
             placeholder=""
             type="number"
+            onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
             name="mobileNumber"
             value={signUpData?.mobileNumber}
             onChange={handleChange}

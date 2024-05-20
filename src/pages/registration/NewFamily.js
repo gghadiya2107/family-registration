@@ -39,8 +39,8 @@ const NewFamily = ({setState, formData, setFormData}) => {
 
     const onSave = () => {
       console.log('errors', errors, formData.mobile?.trim()?.length)
-        const validationErrors = {};
-        // const validationErrors = validateForm(formData);
+        // const validationErrors = {};
+        const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
       console.log("Form submitted successfully:", formData);
@@ -159,6 +159,7 @@ const NewFamily = ({setState, formData, setFormData}) => {
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
+                onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
                 name="bpl"
                 value={formData?.bpl}
                 onChange={handleChange}
@@ -218,7 +219,8 @@ const NewFamily = ({setState, formData, setFormData}) => {
                 type="number"
                 name="mobile"
                 value={formData?.mobile}
-                onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
+                onChange={(e) =>  e.target.value?.length > 10 ? null : handleChange(e)}
+                onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
                 requried
             />
                            {errors?.mobile && <p className="error">{errors?.mobile}</p>}

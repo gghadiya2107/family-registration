@@ -19,11 +19,11 @@ import DeleteBtn from '@/components/MoreBtn/DeleteBtn'
 
 
 
-const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
+const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const { t } = useTranslation("translation");
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const [familyDetailsExtra, setFamilyDetailsExtra] = useState(familyDetails)
+  const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
   const [headDetailsExtra, setheadDetailsExtra] = useState()
   const [memberDetailsExtra, setMemberDetailsExtra] = useState({})
   const [confirmationData, setConfirmationData] = useState({})
@@ -35,7 +35,6 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
   const [headDetailsMore, setHeadDetailsMore] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [isEditModeHead, setisEditModeHead] = useState(false)
-  const [isEditModeMember, setisEditModeMember] = useState(false)
   const handleClickOpen = () => {
     setOpenModal(true);
   };
@@ -71,6 +70,9 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
     description: ""
   })
   const [errors, setErrors] = useState({});
+  const [familyError, setFamilyError] = useState({})
+  const [headError, setHeadError] = useState({})
+const [memberError, setMemberError] = useState({})
   console.log('errors', errors)
   console.log('formData', formData)
 
@@ -158,6 +160,7 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
   const addMember = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
+    console.log('validationErrors', validationErrors,formData)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       handleClickOpen()
@@ -255,16 +258,21 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
     let data = [...memberList]
     let newData = data?.map((k, index) => index == v ? { ...memberDetailsExtra, isEditModeMember: false } : k)
     setMemberList(newData)
+    setMemberError({})
+
   }
   const changeisEditModeMemberClose = (v) => {
     let data = [...memberList]
     let newData = data?.map((k, index) => index == v ? { ...k, isEditModeMember: false } : k)
     setMemberList(newData)
+    setMemberError({})
   }
   const changeisEditModeMemberDelete = (v) => {
     let data = [...memberList]
-    let newData = data?.filter((k, index) => index != v )
+    let newData = data?.filter((k, index) => index != v)
     setMemberList(newData)
+    setMemberError({})
+
   }
 
   // const saveEditMember = (v) => {
@@ -273,6 +281,171 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
   //   setMemberList(newData)
   // }
   console.log('memberList', memberList)
+
+  const saveFamilyAfterEdit = () => {
+    const validationErrors = validateFormFamily(familyDetailsExtra);
+    if (Object.keys(validationErrors).length === 0) {
+      setFamilyDetails(familyDetailsExtra); setIsEditMode(false)
+      setFamilyError({})
+    } else {
+      setFamilyError(validationErrors);
+    }
+  }
+  const saveHeadAfterEdit = () => {
+    const validationErrors = validateFormHead(headDetailsExtra);
+    if (Object.keys(validationErrors).length === 0) {
+      setFormData(headDetailsExtra); setisEditModeHead(false)
+      setHeadError({})
+    } else {
+      setHeadError(validationErrors);
+    }
+  }
+  const saveMemberAfterEdit = (index) => {
+    const validationErrors = validateFormMember(memberDetailsExtra);
+    if (Object.keys(validationErrors).length === 0) {
+      // setFormData(headDetailsExtra); setisEditModeHead(false)
+      changeisEditModeMember(index)
+      setMemberError({})
+    } else {
+      setMemberError(validationErrors);
+    }
+  }
+
+  const validateFormMember = (memberDetailsExtra) => {
+    const errors = {};
+    if (!memberDetailsExtra.EnglishName?.trim()) {
+      errors.EnglishName = t("validateHeadName");
+    }
+
+    if (!memberDetailsExtra.dob?.trim()) {
+      errors.dob = t("validateDOB");
+    }
+    if (!memberDetailsExtra.gender?.trim()) {
+      errors.gender = t("validateGender")
+    }
+    // if (!memberDetailsExtra.registrationBase?.trim()) {
+    //   errors.registrationBase = t("validateBaseOfRegistration");
+    // }
+    if (!memberDetailsExtra.refrence?.trim()) {
+      errors.refrence = t("validateRefrenceNumber");
+    }
+    // if (!memberDetailsExtra.education?.trim()) {
+    //   errors.education = t("validateEducation");
+    // }
+    // if (!memberDetailsExtra.work) {
+    //   errors.work = t("validateWork");
+    // }
+    if (!memberDetailsExtra.category) {
+      errors.category = t("validateCategory");
+    }
+    if (!memberDetailsExtra.subCategory) {
+      errors.subCategory = t("validateSubCategory");
+    }
+    if (!memberDetailsExtra.rationCard) {
+      errors.rationCard = t("validateRationCard");
+    }
+    if (!memberDetailsExtra.religion) {
+      errors.religion = t("validateReligion");
+    }
+    if (!memberDetailsExtra.adharCard) {
+      errors.adharCard = t("validateAadhar");
+    } else if (memberDetailsExtra.adharCard?.trim()?.length < 12) {
+      errors.adharCard = t("validateAadharLength");
+    }
+    // if (!memberDetailsExtra.dastavage) {
+    //   errors.dastavage = t("validateDocument");
+    // }
+    // if (!memberDetailsExtra.description) {
+    //   errors.description = t("validateComment");
+    // }
+
+    return errors;
+  };
+  const validateFormHead = (headDetailsExtra) => {
+    const errors = {};
+    if (!headDetailsExtra.EnglishName?.trim()) {
+      errors.EnglishName = t("validateHeadName");
+    }
+
+    if (!headDetailsExtra.dob?.trim()) {
+      errors.dob = t("validateDOB");
+    }
+    if (!headDetailsExtra.gender?.trim()) {
+      errors.gender = t("validateGender")
+    }
+    // if (!headDetailsExtra.registrationBase?.trim()) {
+    //   errors.registrationBase = t("validateBaseOfRegistration");
+    // }
+    if (!headDetailsExtra.refrence?.trim()) {
+      errors.refrence = t("validateRefrenceNumber");
+    }
+    // if (!headDetailsExtra.education?.trim()) {
+    //   errors.education = t("validateEducation");
+    // }
+    // if (!headDetailsExtra.work) {
+    //   errors.work = t("validateWork");
+    // }
+    if (!headDetailsExtra.category) {
+      errors.category = t("validateCategory");
+    }
+    if (!headDetailsExtra.subCategory) {
+      errors.subCategory = t("validateSubCategory");
+    }
+    if (!headDetailsExtra.rationCard) {
+      errors.rationCard = t("validateRationCard");
+    }
+    if (!headDetailsExtra.religion) {
+      errors.religion = t("validateReligion");
+    }
+    if (!headDetailsExtra.adharCard) {
+      errors.adharCard = t("validateAadhar");
+    } else if (headDetailsExtra.adharCard?.trim()?.length < 12) {
+      errors.adharCard = t("validateAadharLength");
+    }
+    // if (!headDetailsExtra.dastavage) {
+    //   errors.dastavage = t("validateDocument");
+    // }
+    // if (!headDetailsExtra.description) {
+    //   errors.description = t("validateComment");
+    // }
+
+    return errors;
+  };
+
+  const validateFormFamily = (familyDetailsExtra) => {
+    const errors = {};
+    if (!familyDetailsExtra.municipal?.trim()) {
+      errors.municipal = t('validateMunucipal');
+    }
+    if (!familyDetailsExtra.ward?.trim()) {
+      errors.ward = t("validateward");
+    }
+    if (!familyDetailsExtra.makan?.trim()) {
+      errors.makan = t("ValidateHouseNumber");
+    }
+    if (!familyDetailsExtra.condition?.trim()) {
+      errors.condition = t("validateCondition");
+    }
+    if (!familyDetailsExtra.bpl?.trim()) {
+      errors.bpl = t("validateBPL");
+    }
+    if (!familyDetailsExtra.class?.trim()) {
+      errors.class = t("validateCategory");
+    }
+    if (!familyDetailsExtra.subclass?.trim()) {
+      errors.subclass = t("validateSubCategory");
+    }
+    if (!familyDetailsExtra.rationCard?.trim()) {
+      errors.rationCard = t("validateRationCard");
+    }
+    if (!familyDetailsExtra.mobile?.trim()) {
+      errors.mobile = t("validateMobile");
+    }
+    if (familyDetailsExtra.mobile?.trim()?.length < 10) {
+      errors.mobile = t("validateMobileLength");
+    }
+    return errors;
+  };
   return (
     <>
       <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} />
@@ -302,13 +475,13 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                 <div className="action">
 
                   {isEditMode ? <>
-                    <SaveBtn title="Save" onClick={() => {setFamilyDetails(familyDetailsExtra); setIsEditMode(false) }} />
-                    <CloseBtn title="Close" onClick={() => { setIsEditMode(false) }} /></>
+                    <SaveBtn title="Save" onClick={() => { saveFamilyAfterEdit() }} />
+                    <CloseBtn title="Close" onClick={() => {setFamilyError({}); setIsEditMode(false) }} /></>
                     :
                     <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> :
                       <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} />}
 
-                      <EditBtn title="Edit" disabled={familyDetailsMore} onClick={() => { setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
+                      <EditBtn title="Edit" disabled={familyDetailsMore} onClick={() => {setFamilyDetailsExtra(familyDetails); setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
                   }
                 </div>
               </td>
@@ -339,10 +512,10 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
             </tr> : isEditMode ? <tr >
               <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
-                <Grid container spacing={5} >
+                <Grid container spacing={3} style={{ marginBottom: "20px" }}>
                   <Grid item xs={4} >
                     <SelectDropdown
-                      style={{ marginBottom: "20px" }}
+
                       title={t('selectVillage')}
                       name="municipal"
                       options={[
@@ -353,9 +526,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
+                    {familyError?.municipal && <p className="error">{familyError?.municipal}</p>}
+                  </Grid>
+                  <Grid item xs={4} >
                     <SelectDropdown
                       title={t('financialCondition')}
-                      style={{ marginBottom: "20px" }}
 
                       name="condition"
                       options={[
@@ -366,9 +541,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
+                    {familyError?.condition && <p className="error">{familyError?.condition}</p>}
+                  </Grid>
+                  <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('subCategory')}
-                      style={{ marginBottom: "20px" }}
 
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
@@ -378,11 +555,12 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                       onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeFamilyDetails(e) : null}
                       requried
                     />
+                    {familyError?.subclass && <p className="error">{familyError?.subclass}</p>}
+
                   </Grid>
                   <Grid item xs={4}>
                     <SelectDropdown
                       title={t('selectWard')}
-                      style={{ marginBottom: "20px" }}
 
                       name="ward"
                       options={[
@@ -393,21 +571,26 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
+                    {familyError?.ward && <p className="error">{familyError?.ward}</p>}
+                  </Grid>
+                  <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('bplCount')}
-                      style={{ marginBottom: "20px" }}
 
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="number"
+                      onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
                       name="bpl"
                       value={familyDetailsExtra?.bpl}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
+                    {familyError?.bpl && <p className="error">{familyError?.bpl}</p>}
+                  </Grid>
+                  <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('rathinCardNumber')}
-                      style={{ marginBottom: "20px" }}
 
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
@@ -417,11 +600,12 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
+                    {familyError?.rationCard && <p className="error">{familyError?.rationCard}</p>}
+
                   </Grid>
                   <Grid item xs={4}>
                     <InputFieldWithIcon
                       title={t('houseNumber')}
-                      style={{ marginBottom: "20px" }}
 
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
@@ -431,9 +615,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
+                    {familyError?.makan && <p className="error">{familyError?.makan}</p>}
+                  </Grid>
+                  <Grid item xs={4} >
                     <SelectDropdown
                       title={t('category')}
-                      style={{ marginBottom: "20px" }}
 
                       name="class"
                       options={[
@@ -444,18 +630,23 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
+                    {familyError?.class && <p className="error">{familyError?.class}</p>}
+                  </Grid>
+                  <Grid item xs={4} >
                     <InputFieldWithIcon
-                      style={{ marginBottom: "20px" }}
 
                       title={t('mobileNumber')}
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="number"
+                      onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
                       name="mobile"
                       value={familyDetailsExtra?.mobile}
                       onChange={(e) => e.target.value?.length > 10 ? null : handleChangeFamilyDetails(e)}
                       requried
                     />
+                    {familyError?.mobile && <p className="error">{familyError?.mobile}</p>}
+
                   </Grid>
                 </Grid>
               </td>
@@ -489,14 +680,14 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
 
                     <div className="action">
                       {isEditModeHead ? <>
-                        <SaveBtn title="Save" onClick={() => {setFormData(headDetailsExtra); setisEditModeHead(false) }} />
-                        <CloseBtn title="Close" onClick={() => { setisEditModeHead(false) }} /></>
+                        <SaveBtn title="Save" onClick={() => { saveHeadAfterEdit() }} />
+                        <CloseBtn title="Close" onClick={() => {setHeadError({}); setisEditModeHead(false) }} /></>
                         :
                         <>
                           {headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} /> :
                             <MoreBtn title="More" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} />}
 
-                          <EditBtn title="Edit" disabled={headDetailsMore} onClick={() => {setheadDetailsExtra(formData); setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
+                          <EditBtn title="Edit" disabled={headDetailsMore} onClick={() => { setheadDetailsExtra(formData); setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
                         </>}
                     </div>
                   </td>
@@ -527,10 +718,9 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                 </tr> : isEditModeHead ? <tr  >
                   <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
-                    <Grid container spacing={5}>
-                      <Grid item xs={4}>
+                    <Grid container spacing={3} style={{marginBottom : "20px"}}>
+                      <Grid item xs={4} >
                         <InputFieldWithIcon
-                          style={{ marginBottom: "20px" }}
 
                           title={t('headOfFamilyName')}
                           subTitle="(in English)"
@@ -542,9 +732,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           onChange={handleChangeHeadDetails}
                           requried
                         />
+                        {headError?.EnglishName && <p className="error">{headError?.EnglishName}</p>}
+                      </Grid>
+                      <Grid item xs={4}>
                         <DatePicker
                           title={t('dateOfBirth')}
-                          style={{ marginBottom: "20px" }}
 
                           type="date"
                           requried
@@ -552,9 +744,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           value={headDetailsExtra?.dob}
                           onChange={handleChangeHeadDetails}
                         />
+                        {headError?.dob && <p className="error">{headError?.dob}</p>}
+                      </Grid>
+                      <Grid item xs={4}>
                         <SelectDropdown
                           title={t('gender')}
-                          style={{ marginBottom: "20px" }}
 
                           name="gender"
                           options={[
@@ -564,10 +758,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           value={headDetailsExtra?.gender}
                           onChange={handleChangeHeadDetails}
                           requried
-                        />                  </Grid>
+                        />
+                        {headError?.gender && <p className="error">{headError?.gender}</p>}
+                      </Grid>
                       <Grid item xs={4}>
                         <InputFieldWithIcon
-                          style={{ marginBottom: "20px" }}
 
                           title={t('refrenceNumber')}
                           // icon={<IoIosDocument size={20} />}
@@ -578,9 +773,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           onChange={handleChangeHeadDetails}
                           requried
                         />
+                        {headError?.refrence && <p className="error">{headError?.refrence}</p>}
+                      </Grid>
+                      <Grid item xs={4}>
                         <SelectDropdown
                           title={t('religion')}
-                          style={{ marginBottom: "20px" }}
 
                           name="religion"
                           options={[
@@ -590,8 +787,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           value={headDetailsExtra?.religion}
                           onChange={handleChangeHeadDetails}
                           requried
-                        />                                <SelectDropdown
-                          style={{ marginBottom: "20px" }}
+                        />
+                        {headError?.religion && <p className="error">{headError?.religion}</p>}
+                      </Grid>
+                      <Grid item xs={4}>
+                        <SelectDropdown
 
                           title={t('category')}
                           name="category"
@@ -603,11 +803,12 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           onChange={handleChangeHeadDetails}
                           requried
                         />
+                        {headError?.category && <p className="error">{headError?.category}</p>}
+
                       </Grid>
                       <Grid item xs={4}>
                         <InputFieldWithIcon
                           title={t('subCategory')}
-                          style={{ marginBottom: "20px" }}
 
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
@@ -617,9 +818,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeHeadDetails(e) : null}
                           requried
                         />
+                        {headError?.subCategory && <p className="error">{headError?.subCategory}</p>}
+                      </Grid>
+                      <Grid item xs={4}>
                         <InputFieldWithIcon
                           title={t('rathinCardNumber')}
-                          style={{ marginBottom: "20px" }}
 
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
@@ -629,18 +832,23 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                           onChange={handleChangeHeadDetails}
                           requried
                         />
+                        {headError?.rationCard && <p className="error">{headError?.rationCard}</p>}
+                      </Grid>
+                      <Grid item xs={4}>
                         <InputFieldWithIcon
                           title={t('aadharCardNumber')}
-                          style={{ marginBottom: "20px" }}
 
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="number"
+                          onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
                           name="adharCard"
                           value={headDetailsExtra?.adharCard}
                           onChange={(e) => e.target.value?.length > 12 ? null : handleChangeHeadDetails(e)}
                           requried
                         />
+                        {headError?.adharCard && <p className="error">{headError?.adharCard}</p>}
+
                       </Grid>
                     </Grid>
                   </td>
@@ -674,15 +882,15 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                         <div className="action">
 
                           {v?.isEditModeMember ? <>
-                            <SaveBtn title="Save" onClick={() => { changeisEditModeMember(index) }} />
+                            <SaveBtn title="Save" onClick={() => {saveMemberAfterEdit(index)  }} />
                             <DeleteBtn title="Delete" onClick={() => { changeisEditModeMemberDelete(index) }} />
-                            <CloseBtn title="Close" onClick={() => { changeisEditModeMemberClose(index) }} /></>
+                            <CloseBtn title="Close" onClick={() => {setMemberError({}); changeisEditModeMemberClose(index) }} /></>
                             :
                             <>
                               {v?.memberDetailsMore ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }} /> :
                                 <MoreBtn title="More" onClick={() => { openMemberDetails(index) }} />}
 
-                              <EditBtn title="Edit" disabled={v?.memberDetailsMore} onClick={() => {setMemberDetailsExtra(v); setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
+                              <EditBtn title="Edit" disabled={v?.memberDetailsMore} onClick={() => { setMemberDetailsExtra(v); setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
                             </>}
                         </div>
                       </td>
@@ -715,10 +923,10 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                     </tr> : v?.isEditModeMember ? <tr  >
                       <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
-                        <Grid container spacing={5}>
+                        <Grid container spacing={3} style={{marginBottom : "20px"}}>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              style={{ marginBottom: "20px" }}
+                              
 
                               title={t('headOfFamilyName')}
                               subTitle="(in English)"
@@ -730,18 +938,24 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={handleChangeMemberDetails}
                               requried
                             />
+                                                    {memberError?.EnglishName && <p className="error">{memberError?.EnglishName}</p>}
+                                                    </Grid>
+                          <Grid item xs={4}>
                             <DatePicker
                               title={t('dateOfBirth')}
-                              style={{ marginBottom: "20px" }}
+                              
                               type="date"
                               requried
                               name="dob"
                               value={memberDetailsExtra?.dob}
                               onChange={handleChangeMemberDetails}
                             />
+                                                    {memberError?.dob && <p className="error">{memberError?.dob}</p>}
+                                                    </Grid>
+                          <Grid item xs={4}>
                             <SelectDropdown
                               title={t('gender')}
-                              style={{ marginBottom: "20px" }}
+                              
                               name="gender"
                               options={[
                                 { value: "poor", label: "Male" },
@@ -751,8 +965,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={handleChangeMemberDetails}
                               requried
                             />
+                                                    {memberError?.gender && <p className="error">{memberError?.gender}</p>}
+                                                    </Grid>
+                          <Grid item xs={4}>
                             <SelectDropdown
-                              style={{ marginBottom: "20px" }}
+                              
                               title={t('isVerified')}
                               name="isVerified"
                               options={[
@@ -763,10 +980,12 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={handleChangeMemberDetails}
                               requried
                             />
+                                                    {memberError?.isVerified && <p className="error">{memberError?.isVerified}</p>}
+
                           </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              style={{ marginBottom: "20px" }}
+                              
                               title={t('refrenceNumber')}
                               // icon={<IoIosDocument size={20} />}
                               placeholder=""
@@ -776,9 +995,12 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={handleChangeMemberDetails}
                               requried
                             />
+                                                    {memberError?.refrence && <p className="error">{memberError?.refrence}</p>}
+                                                    </Grid>
+                          <Grid item xs={4}>
                             <SelectDropdown
                               title={t('religion')}
-                              style={{ marginBottom: "20px" }}
+                              
                               name="religion"
                               options={[
                                 { value: "poor", label: "Poor" },
@@ -788,8 +1010,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={handleChangeMemberDetails}
                               requried
                             />
+                                                    {memberError?.religion && <p className="error">{memberError?.religion}</p>}
+                                                    </Grid>
+                          <Grid item xs={4}>
                             <SelectDropdown
-                              style={{ marginBottom: "20px" }}
+                              
                               title={t('category')}
                               name="category"
                               options={[
@@ -800,10 +1025,12 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={handleChangeMemberDetails}
                               requried
                             />
+                                                    {memberError?.category && <p className="error">{memberError?.category}</p>}
+
                           </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              style={{ marginBottom: "20px" }}
+                              
                               title={t('subCategory')}
                               placeholder=""
                               type="text"
@@ -812,8 +1039,11 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeMemberDetails(e) : null}
                               requried
                             />
+                                                    {memberError?.subCategory && <p className="error">{memberError?.subCategory}</p>}
+                                                    </Grid>
+                          <Grid item xs={4}>
                             <InputFieldWithIcon
-                              style={{ marginBottom: "20px" }}
+                              
                               title={t('rathinCardNumber')}
                               placeholder=""
                               type="text"
@@ -822,16 +1052,22 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                               onChange={handleChangeMemberDetails}
                               requried
                             />
+                                                    {memberError?.rationCard && <p className="error">{memberError?.rationCard}</p>}
+                                                    </Grid>
+                          <Grid item xs={4}>
                             <InputFieldWithIcon
-                              style={{ marginBottom: "20px" }}
+                              
                               title={t('aadharCardNumber')}
                               placeholder=""
                               type="number"
+                              onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
                               name="adharCard"
                               value={memberDetailsExtra?.adharCard}
                               onChange={(e) => e.target.value?.length > 12 ? null : handleChangeMemberDetails(e)}
                               requried
                             />
+                                                    {memberError?.adharCard && <p className="error">{memberError?.adharCard}</p>}
+
                           </Grid>
                         </Grid>
                       </td>
@@ -1045,6 +1281,7 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
+                onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
                 name="adharCard"
                 value={formData?.adharCard}
                 onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
@@ -1089,7 +1326,7 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
           </div></>}
-      <EditFamilyConfirmation memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} setisEditModeMember={setisEditModeMember} />
+      <EditFamilyConfirmation memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead}/>
     </>
   )
 }
