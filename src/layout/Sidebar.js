@@ -12,7 +12,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { Divider } from '@mui/material';
 import { getImagePath } from '@/utils/CustomImagePath';
 import Image from 'next/image';
-import { removeCookie } from '@/utils/cookies';
+import { getCookieValues, removeCookie } from '@/utils/cookies';
 
 import { MdGTranslate } from "react-icons/md";
 import { useTranslation } from 'react-i18next';
@@ -61,7 +61,8 @@ const menu = [
 
 const Sidebar = () => {
     const router = useRouter()
-
+    const userData = getCookieValues("userData") || null
+console.log('userData', userData)
     const currentPath = router.asPath;
     const logout = () => {
 
@@ -112,6 +113,7 @@ const Sidebar = () => {
                     <div className={style.menu}>
                         <div><FaUserCircle size={20} style={{ marginTop: "5px" }} /></div>
                         <div className={style.menuTitle}>Gaurang Ghadiya</div>
+                        {/* <div className={style.menuTitle}>{userData?.user_id}</div> */}
                     </div>
                     <div className={style.menu} onClick={changeLanguae}>
                         <div><MdGTranslate size={20} style={{ marginTop: "5px" }} /></div>

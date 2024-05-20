@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './Header.module.css'
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
 import { MdArrowDropDown } from "react-icons/md";
@@ -11,6 +11,11 @@ const HeaderThree = () => {
   const dispatch = useDispatch()
   const [search, setSearch] = useState("")
   const userData = getCookieValues("userData") || null
+  const [test, settest] = useState(false)
+
+  useEffect(() => {
+    settest(true)
+}, [])
   console.log('userData', userData)
 
   const handleSearch = (e) => {
@@ -28,7 +33,7 @@ const HeaderThree = () => {
     // }, 1000);
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    test &&  <Box sx={{ flexGrow: 1 }}>
       <script src="https://himstaging2.hp.gov.in/nodeapi/iframe/sso-iframe.js" defer=""></script>
       <AppBar className={style.threeAppBar} >
         <Toolbar style={{minHeight : "50px"}} className={style.mediaToolbar}>
@@ -59,11 +64,11 @@ const HeaderThree = () => {
           <Typography component="div" className={style.threeRightLogin} onClick={() => window.open("https://sso.hp.gov.in/official/site/login?onboardingapp=urbanregister", "_blank", "noopener,noreferrer")} >
           Officer Login
           </Typography></> 
-          {/* : 
+           {/* : 
             <Typography component="div" className={style.threeRightLogin} onClick={() => logout() }>
             Logout
            </Typography>
-          } */}
+          }  */}
          
         
           

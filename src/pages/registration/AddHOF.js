@@ -156,8 +156,8 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
   }
 
   const addMember = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       handleClickOpen()
@@ -179,8 +179,8 @@ const AddHOF = ({ setState, familyDetails,setFamilyDetails }) => {
   }
 
   const handleSaveHOF = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setSaveHof(true)
       console.log("Form submitted successfully:", formData);
