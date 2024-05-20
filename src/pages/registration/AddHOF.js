@@ -173,13 +173,13 @@ const AddHOF = ({ setState, familyDetails }) => {
 
   const openMemberDetails = (i) => {
     let data = [...memberList]
-    let newData = data?.map((v,index) => index==i ? {...v, memberDetailsMore: !v?.memberDetailsMore}  : v)
+    let newData = data?.map((v, index) => index == i ? { ...v, memberDetailsMore: !v?.memberDetailsMore } : v)
     setMemberList(newData)
   }
 
   const changeisEditModeMember = (v) => {
     let data = [...memberList]
-    let newData = data?.map((k,index) => index == v ? {...k, isEditModeMember: false}  : k)
+    let newData = data?.map((k, index) => index == v ? { ...k, isEditModeMember: false } : k)
     setMemberList(newData)
   }
   console.log('memberList', memberList)
@@ -212,19 +212,19 @@ const AddHOF = ({ setState, familyDetails }) => {
                 <div className="action">
 
                   {isEditMode ? <>
-                  <SaveBtn title="Save" onClick={() => {  setIsEditMode(false) }}/>
-                  <CloseBtn title="Close" onClick={() => { setIsEditMode(false) }}/></> 
-                :  
-                <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }}/> : 
-                <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> }
+                    <SaveBtn title="Save" onClick={() => { setIsEditMode(false) }} />
+                    <CloseBtn title="Close" onClick={() => { setIsEditMode(false) }} /></>
+                    :
+                    <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> :
+                      <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} />}
 
-                <EditBtn title="Edit" onClick={() => { setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
-                }
-                 </div>
+                      <EditBtn title="Edit" onClick={() => { setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
+                  }
+                </div>
               </td>
             </tr>
-            {familyDetailsMore && <tr >
-              <td colspan="6" style={{padding : "20px 20px 0 20px"}}>
+            {familyDetailsMore ? <tr >
+              <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
                 <Grid container spacing={5}>
                   <Grid item xs={4}>
@@ -233,20 +233,143 @@ const AddHOF = ({ setState, familyDetails }) => {
                     <p className={style.expandMargin}><b>Sub Category:</b> {familyDetails?.subclass}</p>
                   </Grid>
                   <Grid item xs={4}>
-                  <p className={style.expandMargin}><b>Ward:</b> {familyDetails?.ward}</p>
-                  <p className={style.expandMargin}><b>BPL Number:</b> {familyDetails?.bpl}</p>
-                  <p className={style.expandMargin}><b>Ration card number:</b> {familyDetails?.rationCard}</p>
+                    <p className={style.expandMargin}><b>Ward:</b> {familyDetails?.ward}</p>
+                    <p className={style.expandMargin}><b>BPL Number:</b> {familyDetails?.bpl}</p>
+                    <p className={style.expandMargin}><b>Ration card number:</b> {familyDetails?.rationCard}</p>
 
                   </Grid>
                   <Grid item xs={4}>
-                  <p className={style.expandMargin}><b>House Number:</b> {familyDetails?.makan}</p>
-                  <p className={style.expandMargin}><b>Category:</b> {familyDetails?.class}</p>
-                  <p className={style.expandMargin}><b>Mobile Number:</b> {familyDetails?.mobile}</p>
+                    <p className={style.expandMargin}><b>House Number:</b> {familyDetails?.makan}</p>
+                    <p className={style.expandMargin}><b>Category:</b> {familyDetails?.class}</p>
+                    <p className={style.expandMargin}><b>Mobile Number:</b> {familyDetails?.mobile}</p>
 
                   </Grid>
                 </Grid>
               </td>
-            </tr>}
+            </tr> : isEditMode ? <tr >
+              <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
+
+                <Grid container spacing={5} >
+                  <Grid item xs={4} >
+                    <SelectDropdown
+                      style={{ marginBottom: "20px" }}
+                      title={t('selectVillage')}
+                      name="municipal"
+                      options={[
+                        { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+                        { value: "Shimla", label: "Shimla" },
+                      ]}
+                      value={familyDetails?.municipal}
+                      onChange={handleChange}
+                      requried
+                    />
+                    <SelectDropdown
+                      title={t('financialCondition')}
+                      style={{ marginBottom: "20px" }}
+
+                      name="condition"
+                      options={[
+                        { value: "poor", label: "Poor" },
+                        { value: "rich", label: "Rich" },
+                      ]}
+                      value={familyDetails?.condition}
+                      onChange={handleChange}
+                      requried
+                    />
+                    <InputFieldWithIcon
+                      title={t('subCategory')}
+                      style={{ marginBottom: "20px" }}
+
+                      // icon={<IoIosDocument size={20} />}
+                      placeholder=""
+                      type="text"
+                      name="subclass"
+                      value={familyDetails?.subclass}
+                      onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
+                      requried
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <SelectDropdown
+                      title={t('selectWard')}
+                      style={{ marginBottom: "20px" }}
+
+                      name="ward"
+                      options={[
+                        { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+                        { value: "Shimla", label: "Shimla" },
+                      ]}
+                      value={familyDetails?.ward}
+                      onChange={handleChange}
+                      requried
+                    />
+                    <InputFieldWithIcon
+                      title={t('bplCount')}
+                      style={{ marginBottom: "20px" }}
+
+                      // icon={<IoIosDocument size={20} />}
+                      placeholder=""
+                      type="number"
+                      name="bpl"
+                      value={familyDetails?.bpl}
+                      onChange={handleChange}
+                      requried
+                    />
+                    <InputFieldWithIcon
+                      title={t('rathinCardNumber')}
+                      style={{ marginBottom: "20px" }}
+
+                      // icon={<IoIosDocument size={20} />}
+                      placeholder=""
+                      type="text"
+                      name="rationCard"
+                      value={familyDetails?.rationCard}
+                      onChange={handleChange}
+                      requried
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <InputFieldWithIcon
+                      title={t('houseNumber')}
+                      style={{ marginBottom: "20px" }}
+
+                      // icon={<IoIosDocument size={20} />}
+                      placeholder=""
+                      type="text"
+                      name="makan"
+                      value={familyDetails?.makan}
+                      onChange={handleChange}
+                      requried
+                    />
+                    <SelectDropdown
+                      title={t('category')}
+                      style={{ marginBottom: "20px" }}
+
+                      name="class"
+                      options={[
+                        { value: "poor", label: "Poor" },
+                        { value: "rich", label: "Rich" },
+                      ]}
+                      value={familyDetails?.class}
+                      onChange={handleChange}
+                      requried
+                    />
+                    <InputFieldWithIcon
+                      style={{ marginBottom: "20px" }}
+
+                      title={t('mobileNumber')}
+                      // icon={<IoIosDocument size={20} />}
+                      placeholder=""
+                      type="number"
+                      name="mobile"
+                      value={familyDetails?.mobile}
+                      onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
+                      requried
+                    />
+                  </Grid>
+                </Grid>
+              </td>
+            </tr> : null}
           </tbody>
         </table>
 
@@ -275,43 +398,163 @@ const AddHOF = ({ setState, familyDetails }) => {
                   <td className={style.td}>
 
                     <div className="action">
-                    {isEditModeHead ? <>
-                  <SaveBtn title="Save" onClick={() => {  setisEditModeHead(false) }}/>
-                  <CloseBtn title="Close" onClick={() => { setisEditModeHead(false) }}/></> 
-                :  
-                <>  
-                      {headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }}/> : 
-                  <MoreBtn title="More" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} /> }
+                      {isEditModeHead ? <>
+                        <SaveBtn title="Save" onClick={() => { setisEditModeHead(false) }} />
+                        <CloseBtn title="Close" onClick={() => { setisEditModeHead(false) }} /></>
+                        :
+                        <>
+                          {headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} /> :
+                            <MoreBtn title="More" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} />}
 
-                      <EditBtn title="Edit" onClick={() => { setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
-                      </>}
-                      </div>
+                          <EditBtn title="Edit" onClick={() => { setConfirmationData(formData); setEditModalType("head"); handleOpen() }} />
+                        </>}
+                    </div>
                   </td>
                 </tr>
-                {headDetailsMore && <tr  >
-              <td colspan="6" style={{padding : "20px 20px 0 20px"}}>
+                {headDetailsMore ? <tr  >
+                  <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
-                <Grid container spacing={5}>
-                  <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.EnglishName}</p>
-                    <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.dob}</p>
-                    <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
-                  </Grid>
-                  <Grid item xs={4}>
-                  <p className={style.expandMargin}><b>Refrance Number:</b> {formData?.refrence}</p>
-                  <p className={style.expandMargin}><b>Religion:</b> {formData?.religion}</p>
-                  <p className={style.expandMargin}><b>Category:</b> {formData?.category}</p>
+                    <Grid container spacing={5}>
+                      <Grid item xs={4}>
+                        <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.EnglishName}</p>
+                        <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.dob}</p>
+                        <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <p className={style.expandMargin}><b>Refrance Number:</b> {formData?.refrence}</p>
+                        <p className={style.expandMargin}><b>Religion:</b> {formData?.religion}</p>
+                        <p className={style.expandMargin}><b>Category:</b> {formData?.category}</p>
 
-                  </Grid>
-                  <Grid item xs={4}>
-                  <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p>
-                  <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCard}</p>
-                  <p className={style.expandMargin}><b>Aadhar Card Number:</b> {formData?.adharCard}</p>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p>
+                        <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCard}</p>
+                        <p className={style.expandMargin}><b>Aadhar Card Number:</b> {formData?.adharCard}</p>
 
-                  </Grid>
-                </Grid>
-              </td>
-            </tr>}
+                      </Grid>
+                    </Grid>
+                  </td>
+                </tr> : isEditModeHead ? <tr  >
+                  <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
+
+                    <Grid container spacing={5}>
+                      <Grid item xs={4}>
+                        <InputFieldWithIcon
+                          style={{ marginBottom: "20px" }}
+
+                          title={t('headOfFamilyName')}
+                          subTitle="(in English)"
+                          // icon={<IoIosDocument size={20} />}
+                          placeholder=""
+                          type="text"
+                          name="EnglishName"
+                          value={formData?.EnglishName}
+                          onChange={handleChange}
+                          requried
+                        />
+                        <DatePicker
+                          title={t('dateOfBirth')}
+                          style={{ marginBottom: "20px" }}
+
+                          type="date"
+                          requried
+                          name="dob"
+                          value={formData?.dob}
+                          onChange={handleChange}
+                        />
+                        <SelectDropdown
+                          title={t('gender')}
+                          style={{ marginBottom: "20px" }}
+
+                          name="gender"
+                          options={[
+                            { value: "poor", label: "Male" },
+                            { value: "rich", label: "Female" },
+                          ]}
+                          value={formData?.gender}
+                          onChange={handleChange}
+                          requried
+                        />                  </Grid>
+                      <Grid item xs={4}>
+                        <InputFieldWithIcon
+                          style={{ marginBottom: "20px" }}
+
+                          title={t('refrenceNumber')}
+                          // icon={<IoIosDocument size={20} />}
+                          placeholder=""
+                          type="text"
+                          name="refrence"
+                          value={formData?.refrence}
+                          onChange={handleChange}
+                          requried
+                        />
+                        <SelectDropdown
+                          title={t('religion')}
+                          style={{ marginBottom: "20px" }}
+
+                          name="religion"
+                          options={[
+                            { value: "poor", label: "Poor" },
+                            { value: "rich", label: "Rich" },
+                          ]}
+                          value={formData?.religion}
+                          onChange={handleChange}
+                          requried
+                        />                                <SelectDropdown
+                          style={{ marginBottom: "20px" }}
+
+                          title={t('category')}
+                          name="category"
+                          options={[
+                            { value: "poor", label: "Poor" },
+                            { value: "rich", label: "Rich" },
+                          ]}
+                          value={formData?.category}
+                          onChange={handleChange}
+                          requried
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <InputFieldWithIcon
+                          title={t('subCategory')}
+                          style={{ marginBottom: "20px" }}
+
+                          // icon={<IoIosDocument size={20} />}
+                          placeholder=""
+                          type="text"
+                          name="subCategory"
+                          value={formData?.subCategory}
+                          onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
+                          requried
+                        />
+                        <InputFieldWithIcon
+                          title={t('rathinCardNumber')}
+                          style={{ marginBottom: "20px" }}
+
+                          // icon={<IoIosDocument size={20} />}
+                          placeholder=""
+                          type="text"
+                          name="rationCard"
+                          value={formData?.rationCard}
+                          onChange={handleChange}
+                          requried
+                        />
+                        <InputFieldWithIcon
+                          title={t('aadharCardNumber')}
+                          style={{ marginBottom: "20px" }}
+
+                          // icon={<IoIosDocument size={20} />}
+                          placeholder=""
+                          type="number"
+                          name="adharCard"
+                          value={formData?.adharCard}
+                          onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
+                          requried
+                        />
+                      </Grid>
+                    </Grid>
+                  </td>
+                </tr> : null}
               </tbody>
             </table>
 
@@ -330,7 +573,7 @@ const AddHOF = ({ setState, familyDetails }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {memberList?.map((v,index) => (<>
+                  {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.EnglishName}</td>
                       <td className={style.td}>{v?.dob}</td>
@@ -340,46 +583,169 @@ const AddHOF = ({ setState, familyDetails }) => {
 
                         <div className="action">
 
-                        {v?.isEditModeMember ? <>
-                  <SaveBtn title="Save" onClick={() => {  changeisEditModeMember(index) }}/>
-                  <DeleteBtn title="Delete" onClick={() => {  changeisEditModeMember(index) }}/>
-                  <CloseBtn title="Close" onClick={() => { changeisEditModeMember(index) }}/></> 
-                :  
-                <>  
-                        {v?.memberDetailsMore  ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }}/> : 
-                  <MoreBtn title="More" onClick={() => { openMemberDetails(index) }} /> }
+                          {v?.isEditModeMember ? <>
+                            <SaveBtn title="Save" onClick={() => { changeisEditModeMember(index) }} />
+                            <DeleteBtn title="Delete" onClick={() => { changeisEditModeMember(index) }} />
+                            <CloseBtn title="Close" onClick={() => { changeisEditModeMember(index) }} /></>
+                            :
+                            <>
+                              {v?.memberDetailsMore ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }} /> :
+                                <MoreBtn title="More" onClick={() => { openMemberDetails(index) }} />}
 
-                          <EditBtn title="Edit" onClick={() => { setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
-                          </>}
-                          </div>
+                              <EditBtn title="Edit" onClick={() => { setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
+                            </>}
+                        </div>
                       </td>
                     </tr>
-                    {v?.memberDetailsMore && <tr  >
-              <td colspan="6" style={{padding : "20px 20px 0 20px"}}>
+                    {v?.memberDetailsMore ? <tr  >
+                      <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
-                <Grid container spacing={5}>
-                  <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Member Name:</b> {v?.EnglishName}</p>
-                    <p className={style.expandMargin}><b>Date of Birth:</b> {v?.dob}</p>
-                    <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
-                    <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p>
+                        <Grid container spacing={5}>
+                          <Grid item xs={4}>
+                            <p className={style.expandMargin}><b>Member Name:</b> {v?.EnglishName}</p>
+                            <p className={style.expandMargin}><b>Date of Birth:</b> {v?.dob}</p>
+                            <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
+                            <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p>
 
-                  </Grid>
-                  <Grid item xs={4}>
-                  <p className={style.expandMargin}><b>Refrance Number:</b> {v?.refrence}</p>
-                  <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
-                  <p className={style.expandMargin}><b>Category:</b> {v?.category}</p>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <p className={style.expandMargin}><b>Refrance Number:</b> {v?.refrence}</p>
+                            <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
+                            <p className={style.expandMargin}><b>Category:</b> {v?.category}</p>
 
-                  </Grid>
-                  <Grid item xs={4}>
-                  <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p>
-                  <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCard}</p>
-                  <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.adharCard}</p>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p>
+                            <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCard}</p>
+                            <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.adharCard}</p>
 
-                  </Grid>
-                </Grid>
-              </td>
-            </tr>}
+                          </Grid>
+                        </Grid>
+                      </td>
+                    </tr> : v?.isEditModeMember ? <tr  >
+                      <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
+
+                        <Grid container spacing={5}>
+                          <Grid item xs={4}>
+                          <InputFieldWithIcon
+                                            style={{marginBottom : "20px"}}
+
+                title={t('headOfFamilyName')}
+                subTitle="(in English)"
+              // icon={<IoIosDocument size={20} />}
+              placeholder=""
+              type="text"
+              name="EnglishName"
+              value={v?.EnglishName}
+              onChange={handleChange}
+              requried
+            />                         
+ <DatePicker
+                title={t('dateOfBirth')}
+                style={{marginBottom : "20px"}}
+                type="date"
+              requried
+              name="dob"
+              value={v?.dob}
+              onChange={handleChange}
+            />                    
+  <SelectDropdown
+                title={t('gender')}
+                style={{marginBottom : "20px"}}
+                name="gender"
+              options={[
+                { value: "poor", label: "Male" },
+                { value: "rich", label: "Female" },
+              ]}
+              value={v?.gender}
+              onChange={handleChange}
+              requried
+            />        
+  <SelectDropdown
+  style={{marginBottom : "20px"}}
+                title={t('isVerified')}
+                name="isVerified"
+              options={[
+                { value: "poor", label: "Verified" },
+                { value: "rich", label: "Not Varified" },
+              ]}
+              value={v?.isVerified}
+              onChange={handleChange}
+              requried
+            />
+                          </Grid>
+                          <Grid item xs={4}>
+                          <InputFieldWithIcon
+                          style={{marginBottom : "20px"}}
+                title={t('refrenceNumber')}
+                // icon={<IoIosDocument size={20} />}
+              placeholder=""
+              type="text"
+              name="refrence"
+              value={v?.refrence}
+              onChange={handleChange}
+              requried
+            />
+ <SelectDropdown
+                title={t('religion')}
+                style={{marginBottom : "20px"}}
+                name="religion"
+              options={[
+                { value: "poor", label: "Poor" },
+                { value: "rich", label: "Rich" },
+              ]}
+              value={v?.religion}
+              onChange={handleChange}
+              requried
+            />
+                                                    <SelectDropdown
+                                                    style={{marginBottom : "20px"}}
+                title={t('category')}
+                name="category"
+              options={[
+                { value: "poor", label: "Poor" },
+                { value: "rich", label: "Rich" },
+              ]}
+              value={v?.category}
+              onChange={handleChange}
+              requried
+            />
+                          </Grid>
+                          <Grid item xs={4}>
+                          <InputFieldWithIcon
+                          style={{marginBottom : "20px"}}
+                title={t('subCategory')}
+              placeholder=""
+              type="text"
+              name="subCategory"
+              value={v?.subCategory}
+              onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
+              requried
+            />
+ <InputFieldWithIcon
+ style={{marginBottom : "20px"}}
+                title={t('rathinCardNumber')}
+              placeholder=""
+              type="text"
+              name="rationCard"
+              value={v?.rationCard}
+              onChange={handleChange}
+              requried
+            />
+ <InputFieldWithIcon
+ style={{marginBottom : "20px"}}
+                title={t('aadharCardNumber')}
+              placeholder=""
+              type="number"
+              name="adharCard"
+              value={v?.adharCard}
+              onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
+              requried
+            />
+                          </Grid>
+                        </Grid>
+                      </td>
+                    </tr> : null}
                   </>))}
                 </tbody>
               </table>
@@ -633,7 +999,7 @@ const AddHOF = ({ setState, familyDetails }) => {
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
           </div></>}
-      <EditFamilyConfirmation memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode}setisEditModeHead={setisEditModeHead} setisEditModeMember={setisEditModeMember}/>
+      <EditFamilyConfirmation memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} setisEditModeMember={setisEditModeMember} />
     </>
   )
 }
