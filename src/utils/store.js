@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { thunk } from "redux-thunk"; // Use Redux Thunk for async actions
 import rootReducer from "@/network/reducers"; // Create a rootReducer
 // import { composeWithDevTools } from "@redux-devtools/extension";
