@@ -5,8 +5,9 @@ const SelectDropdown = ({ options, value, onChange,icon, title ,requried, ...res
     <div>
     <p className={style.title}>{title}{requried && <span className="requried"> *</span>}</p>
     <div className={style.inputField}>
-      <select value={value} onChange={onChange} className={style.input} {...rest}>
-      {options.map(option => (
+      <select value={value} onChange={onChange} className={style.input} placeholder="select..." {...rest}>
+      <option  value="" disabled selected hidden >Select...</option>
+      {options?.map(option => (
         <option key={option.value} value={option.value} >
           {option.label}
         </option>

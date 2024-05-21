@@ -16,6 +16,7 @@ import AddHOF from './AddHOF'
 const AddParivar = ({state, setState}) => {
     const [formData, setFormData] = useState({
         municipal: "",
+        district: "",
         ward: "",
           makan: "",
           condition: "",

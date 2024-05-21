@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from "./registration.module.css"
 import { Grid } from '@mui/material'
 import SelectDropdown from '@/components/SelectDropdown'
@@ -16,13 +16,22 @@ import AddMemberModal from './AddMemberModal'
 import CloseBtn from '@/components/MoreBtn/CloseBtn'
 import SaveBtn from '@/components/MoreBtn/SaveBtn'
 import DeleteBtn from '@/components/MoreBtn/DeleteBtn'
+import { getMunicipalities } from '@/network/actions/getMunicipalities'
+import { useDispatch, useSelector } from 'react-redux'
+import { getDistrict } from '@/network/actions/getDistrict'
+import { getWard } from '@/network/actions/getWard'
 
 
 
 const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const { t } = useTranslation("translation");
   const router = useRouter()
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
+  const districtList = useSelector((state) => state.getDistrict?.data?.data)
+  const municipalList = useSelector((state) => state.getMunicipalities?.data?.data)
+  const wardList = useSelector((state) => state.getWard?.data?.data)
+
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
   const [headDetailsExtra, setheadDetailsExtra] = useState()
   const [memberDetailsExtra, setMemberDetailsExtra] = useState({})
@@ -35,6 +44,16 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const [headDetailsMore, setHeadDetailsMore] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [isEditModeHead, setisEditModeHead] = useState(false)
+  const [nameTitle, setNameTitle] = useState({})
+  useEffect(() => {
+    dispatch(getDistrict())
+  }, [])
+  useEffect(() => {
+    setNameTitle({municipal :municipalList?.find(v => v?.municipalId == familyDetails?.municipal)?.municipalName,
+
+      ward : wardList?.find(v => v?.wardNo == familyDetails?.ward)?.wardName 
+    })
+  }, [familyDetails])
   const handleClickOpen = () => {
     setOpenModal(true);
   };
@@ -72,7 +91,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const [errors, setErrors] = useState({});
   const [familyError, setFamilyError] = useState({})
   const [headError, setHeadError] = useState({})
-const [memberError, setMemberError] = useState({})
+  const [memberError, setMemberError] = useState({})
   console.log('errors', errors)
   console.log('formData', formData)
 
@@ -160,7 +179,7 @@ const [memberError, setMemberError] = useState({})
   const addMember = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
-    console.log('validationErrors', validationErrors,formData)
+    console.log('validationErrors', validationErrors, formData)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       handleClickOpen()
@@ -417,6 +436,9 @@ const [memberError, setMemberError] = useState({})
     if (!familyDetailsExtra.municipal?.trim()) {
       errors.municipal = t('validateMunucipal');
     }
+    if (!familyDetailsExtra.district?.trim()) {
+      errors.district = t('validateDistrict');
+    }
     if (!familyDetailsExtra.ward?.trim()) {
       errors.ward = t("validateward");
     }
@@ -465,8 +487,8 @@ const [memberError, setMemberError] = useState({})
           </thead>
           <tbody>
             <tr className={style.tr}>
-              <td className={style.td}>{familyDetails?.municipal}</td>
-              <td className={style.td}>{familyDetails?.ward}</td>
+              <td className={style.td}>{ nameTitle?.municipal}</td>
+              <td className={style.td}>{nameTitle?.ward}</td>
               <td className={style.td}>{familyDetails?.bpl}</td>
               <td className={style.td}>{familyDetails?.rationCard}</td>
               <td className={style.td}>{familyDetails?.mobile}</td>
@@ -476,12 +498,12 @@ const [memberError, setMemberError] = useState({})
 
                   {isEditMode ? <>
                     <SaveBtn title="Save" onClick={() => { saveFamilyAfterEdit() }} />
-                    <CloseBtn title="Close" onClick={() => {setFamilyError({}); setIsEditMode(false) }} /></>
+                    <CloseBtn title="Close" onClick={() => { setFamilyError({}); setIsEditMode(false) }} /></>
                     :
                     <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> :
                       <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} />}
 
-                      <EditBtn title="Edit" disabled={familyDetailsMore} onClick={() => {setFamilyDetailsExtra(familyDetails); setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
+                      <EditBtn title="Edit" disabled={familyDetailsMore} onClick={() => { setFamilyDetailsExtra(familyDetails); setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
                   }
                 </div>
               </td>
@@ -491,12 +513,12 @@ const [memberError, setMemberError] = useState({})
 
                 <Grid container spacing={5}>
                   <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Municipality:</b> {familyDetails?.municipal}</p>
+                    <p className={style.expandMargin}><b>Municipality:</b> {nameTitle?.municipal}</p>
                     <p className={style.expandMargin}><b>Financial Condition:</b> {familyDetails?.condition}</p>
                     <p className={style.expandMargin}><b>Sub Category:</b> {familyDetails?.subclass}</p>
                   </Grid>
                   <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Ward:</b> {familyDetails?.ward}</p>
+                    <p className={style.expandMargin}><b>Ward:</b> {nameTitle?.ward}</p>
                     <p className={style.expandMargin}><b>BPL Number:</b> {familyDetails?.bpl}</p>
                     <p className={style.expandMargin}><b>Ration card number:</b> {familyDetails?.rationCard}</p>
 
@@ -513,35 +535,43 @@ const [memberError, setMemberError] = useState({})
               <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
                 <Grid container spacing={3} style={{ marginBottom: "20px" }}>
+                  <Grid item xs={4}>
+                    <SelectDropdown
+                      title={t('district')}
+                      name="district"
+                      options={districtList?.map(v => ({ value: v?.districtCode, label: v?.districtName }))}
+                      value={familyDetailsExtra?.district}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                      requried
+                    />
+                    {familyError?.district && <p className="error">{familyError?.district}</p>}
+
+                  </Grid>
                   <Grid item xs={4} >
                     <SelectDropdown
 
                       title={t('selectVillage')}
                       name="municipal"
-                      options={[
-                        { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-                        { value: "Shimla", label: "Shimla" },
-                      ]}
+                      options={municipalList?.map(v => ({ value: v?.municipalId, label: v?.municipalName }))}
+
                       value={familyDetailsExtra?.municipal}
-                      onChange={handleChangeFamilyDetails}
+                      onChange={(e) => {handleChangeFamilyDetails(e); dispatch(getWard({municipalId: e.target.value}))}}
                       requried
                     />
                     {familyError?.municipal && <p className="error">{familyError?.municipal}</p>}
                   </Grid>
-                  <Grid item xs={4} >
+                  <Grid item xs={4}>
                     <SelectDropdown
-                      title={t('financialCondition')}
+                      title={t('selectWard')}
 
-                      name="condition"
-                      options={[
-                        { value: "poor", label: "Poor" },
-                        { value: "rich", label: "Rich" },
-                      ]}
-                      value={familyDetailsExtra?.condition}
+                      name="ward"
+                      options={wardList?.map(v => ({ value: v?.wardNo, label: v?.wardName }))}
+
+                      value={familyDetailsExtra?.ward}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.condition && <p className="error">{familyError?.condition}</p>}
+                    {familyError?.ward && <p className="error">{familyError?.ward}</p>}
                   </Grid>
                   <Grid item xs={4} >
                     <InputFieldWithIcon
@@ -558,21 +588,22 @@ const [memberError, setMemberError] = useState({})
                     {familyError?.subclass && <p className="error">{familyError?.subclass}</p>}
 
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={4} >
                     <SelectDropdown
-                      title={t('selectWard')}
+                      title={t('financialCondition')}
 
-                      name="ward"
+                      name="condition"
                       options={[
-                        { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-                        { value: "Shimla", label: "Shimla" },
+                        { value: "poor", label: "Poor" },
+                        { value: "rich", label: "Rich" },
                       ]}
-                      value={familyDetailsExtra?.ward}
+                      value={familyDetailsExtra?.condition}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.ward && <p className="error">{familyError?.ward}</p>}
+                    {familyError?.condition && <p className="error">{familyError?.condition}</p>}
                   </Grid>
+
                   <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('bplCount')}
@@ -580,7 +611,7 @@ const [memberError, setMemberError] = useState({})
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="number"
-                      onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
+                      onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                       name="bpl"
                       value={familyDetailsExtra?.bpl}
                       onChange={handleChangeFamilyDetails}
@@ -639,7 +670,7 @@ const [memberError, setMemberError] = useState({})
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="number"
-                      onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
+                      onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                       name="mobile"
                       value={familyDetailsExtra?.mobile}
                       onChange={(e) => e.target.value?.length > 10 ? null : handleChangeFamilyDetails(e)}
@@ -681,7 +712,7 @@ const [memberError, setMemberError] = useState({})
                     <div className="action">
                       {isEditModeHead ? <>
                         <SaveBtn title="Save" onClick={() => { saveHeadAfterEdit() }} />
-                        <CloseBtn title="Close" onClick={() => {setHeadError({}); setisEditModeHead(false) }} /></>
+                        <CloseBtn title="Close" onClick={() => { setHeadError({}); setisEditModeHead(false) }} /></>
                         :
                         <>
                           {headDetailsMore ? <CloseBtn title="Close" onClick={() => { setHeadDetailsMore(!headDetailsMore) }} /> :
@@ -718,7 +749,7 @@ const [memberError, setMemberError] = useState({})
                 </tr> : isEditModeHead ? <tr  >
                   <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
-                    <Grid container spacing={3} style={{marginBottom : "20px"}}>
+                    <Grid container spacing={3} style={{ marginBottom: "20px" }}>
                       <Grid item xs={4} >
                         <InputFieldWithIcon
 
@@ -841,7 +872,7 @@ const [memberError, setMemberError] = useState({})
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="number"
-                          onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
+                          onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                           name="adharCard"
                           value={headDetailsExtra?.adharCard}
                           onChange={(e) => e.target.value?.length > 12 ? null : handleChangeHeadDetails(e)}
@@ -882,9 +913,9 @@ const [memberError, setMemberError] = useState({})
                         <div className="action">
 
                           {v?.isEditModeMember ? <>
-                            <SaveBtn title="Save" onClick={() => {saveMemberAfterEdit(index)  }} />
+                            <SaveBtn title="Save" onClick={() => { saveMemberAfterEdit(index) }} />
                             <DeleteBtn title="Delete" onClick={() => { changeisEditModeMemberDelete(index) }} />
-                            <CloseBtn title="Close" onClick={() => {setMemberError({}); changeisEditModeMemberClose(index) }} /></>
+                            <CloseBtn title="Close" onClick={() => { setMemberError({}); changeisEditModeMemberClose(index) }} /></>
                             :
                             <>
                               {v?.memberDetailsMore ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }} /> :
@@ -923,10 +954,10 @@ const [memberError, setMemberError] = useState({})
                     </tr> : v?.isEditModeMember ? <tr  >
                       <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
 
-                        <Grid container spacing={3} style={{marginBottom : "20px"}}>
+                        <Grid container spacing={3} style={{ marginBottom: "20px" }}>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              
+
 
                               title={t('headOfFamilyName')}
                               subTitle="(in English)"
@@ -938,24 +969,24 @@ const [memberError, setMemberError] = useState({})
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                                                    {memberError?.EnglishName && <p className="error">{memberError?.EnglishName}</p>}
-                                                    </Grid>
+                            {memberError?.EnglishName && <p className="error">{memberError?.EnglishName}</p>}
+                          </Grid>
                           <Grid item xs={4}>
                             <DatePicker
                               title={t('dateOfBirth')}
-                              
+
                               type="date"
                               requried
                               name="dob"
                               value={memberDetailsExtra?.dob}
                               onChange={handleChangeMemberDetails}
                             />
-                                                    {memberError?.dob && <p className="error">{memberError?.dob}</p>}
-                                                    </Grid>
+                            {memberError?.dob && <p className="error">{memberError?.dob}</p>}
+                          </Grid>
                           <Grid item xs={4}>
                             <SelectDropdown
                               title={t('gender')}
-                              
+
                               name="gender"
                               options={[
                                 { value: "poor", label: "Male" },
@@ -965,11 +996,11 @@ const [memberError, setMemberError] = useState({})
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                                                    {memberError?.gender && <p className="error">{memberError?.gender}</p>}
-                                                    </Grid>
+                            {memberError?.gender && <p className="error">{memberError?.gender}</p>}
+                          </Grid>
                           <Grid item xs={4}>
                             <SelectDropdown
-                              
+
                               title={t('isVerified')}
                               name="isVerified"
                               options={[
@@ -980,12 +1011,12 @@ const [memberError, setMemberError] = useState({})
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                                                    {memberError?.isVerified && <p className="error">{memberError?.isVerified}</p>}
+                            {memberError?.isVerified && <p className="error">{memberError?.isVerified}</p>}
 
                           </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              
+
                               title={t('refrenceNumber')}
                               // icon={<IoIosDocument size={20} />}
                               placeholder=""
@@ -995,12 +1026,12 @@ const [memberError, setMemberError] = useState({})
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                                                    {memberError?.refrence && <p className="error">{memberError?.refrence}</p>}
-                                                    </Grid>
+                            {memberError?.refrence && <p className="error">{memberError?.refrence}</p>}
+                          </Grid>
                           <Grid item xs={4}>
                             <SelectDropdown
                               title={t('religion')}
-                              
+
                               name="religion"
                               options={[
                                 { value: "poor", label: "Poor" },
@@ -1010,11 +1041,11 @@ const [memberError, setMemberError] = useState({})
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                                                    {memberError?.religion && <p className="error">{memberError?.religion}</p>}
-                                                    </Grid>
+                            {memberError?.religion && <p className="error">{memberError?.religion}</p>}
+                          </Grid>
                           <Grid item xs={4}>
                             <SelectDropdown
-                              
+
                               title={t('category')}
                               name="category"
                               options={[
@@ -1025,12 +1056,12 @@ const [memberError, setMemberError] = useState({})
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                                                    {memberError?.category && <p className="error">{memberError?.category}</p>}
+                            {memberError?.category && <p className="error">{memberError?.category}</p>}
 
                           </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              
+
                               title={t('subCategory')}
                               placeholder=""
                               type="text"
@@ -1039,11 +1070,11 @@ const [memberError, setMemberError] = useState({})
                               onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeMemberDetails(e) : null}
                               requried
                             />
-                                                    {memberError?.subCategory && <p className="error">{memberError?.subCategory}</p>}
-                                                    </Grid>
+                            {memberError?.subCategory && <p className="error">{memberError?.subCategory}</p>}
+                          </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              
+
                               title={t('rathinCardNumber')}
                               placeholder=""
                               type="text"
@@ -1052,21 +1083,21 @@ const [memberError, setMemberError] = useState({})
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                                                    {memberError?.rationCard && <p className="error">{memberError?.rationCard}</p>}
-                                                    </Grid>
+                            {memberError?.rationCard && <p className="error">{memberError?.rationCard}</p>}
+                          </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-                              
+
                               title={t('aadharCardNumber')}
                               placeholder=""
                               type="number"
-                              onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
+                              onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                               name="adharCard"
                               value={memberDetailsExtra?.adharCard}
                               onChange={(e) => e.target.value?.length > 12 ? null : handleChangeMemberDetails(e)}
                               requried
                             />
-                                                    {memberError?.adharCard && <p className="error">{memberError?.adharCard}</p>}
+                            {memberError?.adharCard && <p className="error">{memberError?.adharCard}</p>}
 
                           </Grid>
                         </Grid>
@@ -1281,7 +1312,7 @@ const [memberError, setMemberError] = useState({})
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="number"
-                onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
+                onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                 name="adharCard"
                 value={formData?.adharCard}
                 onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
@@ -1326,7 +1357,7 @@ const [memberError, setMemberError] = useState({})
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
           </div></>}
-      <EditFamilyConfirmation memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead}/>
+      <EditFamilyConfirmation nameTitle={nameTitle} memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} />
     </>
   )
 }

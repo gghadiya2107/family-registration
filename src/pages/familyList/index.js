@@ -1,49 +1,69 @@
 import SelectDropdown from '@/components/SelectDropdown'
 import MainLayout from '@/layout/MainLayout'
 import { Grid } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'next-i18next'
 import style from './familyList.module.css'
 import ViewBtn from '@/components/MoreBtn/ViewBtn'
 import VerifyBtn from '@/components/MoreBtn/VerifyBtn'
+import { useDispatch, useSelector } from 'react-redux'
+import { getMunicipalities } from '@/network/actions/getMunicipalities'
+import { getWard } from '@/network/actions/getWard'
+import { getDistrict } from '@/network/actions/getDistrict'
 
 const FamilyList = () => {
   const { t } = useTranslation("translation");
-
+  const dispatch = useDispatch()
+  const districtList = useSelector((state) => state.getDistrict?.data?.data)
+  const municipalList = useSelector((state) => state.getMunicipalities?.data?.data)
+  const wardList = useSelector((state) => state.getWard?.data?.data)
   const [formData, setFormData] = useState({
     municipal : "",
     ward : ""
   })
 
-  const handleChange = () => {
+  useEffect(() => {
+    dispatch(getDistrict())
+  }, [])
+
+  const handleChange = (e) => {
     const {name, value} = e.target
     setFormData({...formData, [name] : value})
   }
   return (
     <MainLayout>
         <Grid container spacing={3} >
-        <Grid item xs={12} sm={4} md={6}>
+        <Grid item xs={12} sm={4} md={4}>
+        <SelectDropdown
+                      title={t('district')}
+                      name="district"
+                      options={districtList?.map(v => ({ value: v?.districtCode, label: v?.districtName }))}
+                      value={formData?.district}
+                      onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                      // requried
+                    />
+           
+
+        </Grid>
+        <Grid item xs={12} sm={4} md={4}>
             <SelectDropdown
                 title={t('selectVillage')}
                 name="municipal"
-                options={[
-                    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-                    { value: "Shimla", label: "Shimla" },
-                ]}
+                options={municipalList?.map(v => ({ value: v?.municipalId, label: v?.municipalName }))}
+
                 value={formData?.municipal}
-                onChange={handleChange}
+                onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
+
                 // requried
             />
 
         </Grid>
-        <Grid item xs={12} sm={4} md={6}>
+        <Grid item xs={12} sm={4} md={4}>
         <SelectDropdown
                 title={t('selectWard')}
                 name="ward"
-                options={[
-                    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-                    { value: "Shimla", label: "Shimla" },
-                ]}
+                options={wardList?.map(v => ({ value: v?.wardNo, label: v?.wardName }))}
+
                 value={formData?.ward}
                 onChange={handleChange}
                 // requried

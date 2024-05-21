@@ -50,7 +50,9 @@
     "validateReligion" : "धर्म आवश्यक है",
     "validateAadhar" :  "आधार कार्ड नंबर आवश्यक है",
     "validateAadharLength" : "कृपया 12 अंकों का आधार कार्ड नंबर दर्ज करें",
-    "validateComment" : "टिपण्णी आवश्यक है"
+    "validateComment" : "टिपण्णी आवश्यक है",
+    "district" : "ज़िला",
+    "validateDistrict" : "ज़िला आवश्यक है"
 
 
 
