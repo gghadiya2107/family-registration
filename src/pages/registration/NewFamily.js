@@ -28,7 +28,6 @@ const NewFamily = ({setState, formData, setFormData}) => {
             setFormData({ ...formData, [name]: null })
 
             setErrors({...errors,dastavage : t('validateFileSize') })
-            // setError('File size must be less than 1MB');
           }
            
         }else{
@@ -38,12 +37,10 @@ const NewFamily = ({setState, formData, setFormData}) => {
     }
 
     const onSave = () => {
-      console.log('errors', errors, formData.mobile?.trim()?.length)
         // const validationErrors = {};
         const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
-      console.log("Form submitted successfully:", formData);
     } else {
       setErrors(validationErrors);
     }
