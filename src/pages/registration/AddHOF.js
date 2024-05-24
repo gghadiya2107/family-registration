@@ -45,7 +45,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const qualificationList = useSelector((state) => state.getQualification?.data)
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
-  console.log('genderlist', genderlist)
+  console.log('categorylist', categorylist)
 
 
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
@@ -204,8 +204,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   }
 
   const addMember = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     console.log('validationErrors', validationErrors, formData)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
@@ -228,8 +228,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   }
 
   const handleSaveHOF = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setSaveHof(true)
       console.log("Form submitted successfully:", formData);
@@ -718,7 +718,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 <tr className={style.tr}>
                   <th className={style.th}>Head of Family Name</th>
                   <th className={style.th}>Rashan Card Number</th>
-                  <th className={style.th}>Economic Status</th>
+                  <th className={style.th}>Religion</th>
                   <th className={style.th}>Social Category</th>
                   <th className={style.th}></th>
                 </tr>
@@ -727,8 +727,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 <tr className={style.tr}>
                   <td className={style.td}>{formData?.EnglishName}</td>
                   <td className={style.td}>{formData?.rationCard}</td>
-                  <td className={style.td}>A.P.L</td>
-                  <td className={style.td}>{formData?.category}</td>
+                  <td className={style.td}>{religionList?.find(v => v?.id == formData?.religion)?.nameE}</td>
+                  <td className={style.td}>{categorylist?.find(v => v?.id == formData?.category)?.nameE}</td>
                   <td className={style.td}>
 
                     <div className="action">
@@ -747,17 +747,17 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 </tr>
                 {headDetailsMore ? <tr  >
                   <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
-
+                  {console.log('formData', formData,genderlist)}
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.EnglishName}</p>
                         <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.dob}</p>
-                        <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
+                        <p className={style.expandMargin}><b>Gender:</b> {genderlist?.find(v => v?.id == formData?.gender)?.nameE}</p>
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Refrance Number:</b> {formData?.refrence}</p>
-                        <p className={style.expandMargin}><b>Religion:</b> {formData?.religion}</p>
-                        <p className={style.expandMargin}><b>Category:</b> {formData?.category}</p>
+                        <p className={style.expandMargin}><b>Religion:</b> {religionList?.find(v => v?.id == formData?.religion)?.nameE}</p>
+                        <p className={style.expandMargin}><b>Category:</b> {categorylist?.find(v => v?.id == formData?.category)?.nameE}</p>
 
                       </Grid>
                       <Grid item xs={4}>
@@ -949,14 +949,14 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           <Grid item xs={4}>
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.EnglishName}</p>
                             <p className={style.expandMargin}><b>Date of Birth:</b> {v?.dob}</p>
-                            <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
+                            <p className={style.expandMargin}><b>Gender:</b> {genderlist?.find(k => k?.id == v?.gender)?.nameE}</p>
                             <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p>
 
                           </Grid>
                           <Grid item xs={4}>
                             <p className={style.expandMargin}><b>Refrance Number:</b> {v?.refrence}</p>
-                            <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
-                            <p className={style.expandMargin}><b>Category:</b> {v?.category}</p>
+                            <p className={style.expandMargin}><b>Religion:</b> {religionList?.find(k => k?.id == v?.religion)?.nameE}</p>
+                            <p className={style.expandMargin}><b>Category:</b> {categorylist?.find(k => k?.id == v?.category)?.nameE}</p>
 
                           </Grid>
                           <Grid item xs={4}>

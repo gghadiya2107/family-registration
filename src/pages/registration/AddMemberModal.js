@@ -101,8 +101,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   }
 
   const onSave = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,

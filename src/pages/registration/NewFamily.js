@@ -54,8 +54,8 @@ useEffect(() => {
   }
 
   const onSave = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
     } else {
