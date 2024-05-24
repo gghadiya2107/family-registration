@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "^2.2.4",
     "axios": "^1.6.8",
     "body-parser": "^1.20.2",
+    "crypto-js": "^4.2.0",
     "fs": "^0.0.1-security",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^1.2.2",

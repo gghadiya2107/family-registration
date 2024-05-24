@@ -25,4 +25,16 @@ export const survayAnalysis = axios.create({
 survayAnalysis.interceptors.request.use((config) => {
 	return config;
 });
+export const apiCall = axios.create({
+	baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // Set your API base URL
+
+	// headers: {
+	// 	"Content-Type": "text/json", // Set the appropriate content type for your data
+	// },
+});
+
+apiCall.interceptors.request.use((config) => {
+	return config;
+});
+
 

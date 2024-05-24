@@ -1,10 +1,11 @@
 // actions/someActions.js
-import  { survayAnalysis } from "../api";
+import  { apiCall, survayAnalysis } from "../api";
 
 import {
     GET_WARD_SUCCESS,
     GET_WARD_FALIURE,
 } from "../action_types";
+import { decryptData, encryptData } from "@/utils/encryptDecryot";
 // Action Creators
 export const getWardSuccess = (data) => ({
 	type: GET_WARD_SUCCESS,
@@ -22,10 +23,12 @@ export const getWard = (body) => {
 	return async (dispatch) => {
 
 		try {
-			const response = await survayAnalysis.get(
-				`/urban-survey-dashboard/getWards?municipalId=${body?.municipalId}`
+			const response = await apiCall.get(
+				`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.municipalId)}&masterName=${encryptData("ward")}`
 			);
-			dispatch(getWardSuccess(response.data));
+			let responseData = decryptData(response?.data?.data)
+
+			dispatch(getWardSuccess(responseData));
 		} catch (error) {
 			dispatch(getWardFaliure(error));
 		}

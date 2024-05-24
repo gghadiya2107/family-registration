@@ -1,10 +1,11 @@
 // actions/someActions.js
-import  { survayAnalysis } from "../api";
+import  { apiCall, survayAnalysis } from "../api";
 
 import {
     GET_DISTRICT_SUCCESS,
     GET_DISTRICT_FALIURE,
 } from "../action_types";
+import { decryptData, encryptData } from "@/utils/encryptDecryot";
 // Action Creators
 export const getDistrictSuccess = (data) => ({
 	type: GET_DISTRICT_SUCCESS,
@@ -22,10 +23,11 @@ export const getDistrict = () => {
 	return async (dispatch) => {
 
 		try {
-			const response = await survayAnalysis.get(
-				`/urban-survey-dashboard/getDistricts`
+			const response = await apiCall.get(
+				`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("district")}`
 			);
-			dispatch(getDistrictSuccess(response.data));
+			let responseData = decryptData(response?.data?.data)
+			dispatch(getDistrictSuccess(responseData));
 		} catch (error) {
 			dispatch(getDistrictFaliure(error));
 		}

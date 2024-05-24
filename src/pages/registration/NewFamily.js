@@ -17,9 +17,10 @@ const NewFamily = ({ setState, formData, setFormData }) => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const [errors, setErrors] = useState({});
-  const districtList = useSelector((state) => state.getDistrict?.data?.data)
-  const municipalList = useSelector((state) => state.getMunicipalities?.data?.data)
-  const wardList = useSelector((state) => state.getWard?.data?.data)
+  const districtList = useSelector((state) => state.getDistrict?.data)
+  const municipalList = useSelector((state) => state.getMunicipalities?.data)
+  const wardList = useSelector((state) => state.getWard?.data)
+  console.log('wardList',wardList)
 
 useEffect(() => {
   dispatch(getDistrict())
@@ -47,8 +48,8 @@ useEffect(() => {
   }
 
   const onSave = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
     } else {
@@ -107,7 +108,7 @@ useEffect(() => {
           <SelectDropdown
             title={t('district')}
             name="district"
-            options={districtList?.map(v => ({value : v?.districtCode, label : v?.districtName}))}
+            options={districtList?.map(v => ({value : v?.lgdCode, label : v?.nameE})) || []}
             value={formData?.district ?? null}
             onChange={(e) => {handleChange(e); dispatch(getMunicipalities({districtCode: e.target.value}))}}
             requried
@@ -119,7 +120,7 @@ useEffect(() => {
           <SelectDropdown
             title={t('selectVillage')}
             name="municipal"
-            options={municipalList?.map(v => ({value : v?.municipalId, label : v?.municipalName}))}
+            options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
 
             value={formData?.municipal}
             onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
@@ -132,7 +133,7 @@ useEffect(() => {
           <SelectDropdown
             title={t('selectWard')}
             name="ward"
-            options={wardList?.map(v => ({value : v?.wardNo, label : v?.wardName}))}
+            options={wardList?.map(v => ({value : v?.id, label : v?.name}))}
 
             value={formData?.ward}
             onChange={handleChange}

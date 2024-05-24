@@ -28,9 +28,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
-  const districtList = useSelector((state) => state.getDistrict?.data?.data)
-  const municipalList = useSelector((state) => state.getMunicipalities?.data?.data)
-  const wardList = useSelector((state) => state.getWard?.data?.data)
+  const districtList = useSelector((state) => state.getDistrict?.data)
+  const municipalList = useSelector((state) => state.getMunicipalities?.data)
+  const wardList = useSelector((state) => state.getWard?.data)
 
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
   const [headDetailsExtra, setheadDetailsExtra] = useState()
@@ -49,9 +49,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     dispatch(getDistrict())
   }, [])
   useEffect(() => {
-    setNameTitle({municipal :municipalList?.find(v => v?.municipalId == familyDetails?.municipal)?.municipalName,
+    setNameTitle({municipal :municipalList?.find(v => v?.id == familyDetails?.municipal)?.name,
 
-      ward : wardList?.find(v => v?.wardNo == familyDetails?.ward)?.wardName 
+      ward : wardList?.find(v => v?.id == familyDetails?.ward)?.name 
     })
   }, [familyDetails])
   const handleClickOpen = () => {
@@ -539,7 +539,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                     <SelectDropdown
                       title={t('district')}
                       name="district"
-                      options={districtList?.map(v => ({ value: v?.districtCode, label: v?.districtName }))}
+                      options={districtList?.map(v => ({value : v?.lgdCode, label : v?.nameE})) || []}
                       value={familyDetailsExtra?.district}
                       onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
                       requried
@@ -552,7 +552,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                       title={t('selectVillage')}
                       name="municipal"
-                      options={municipalList?.map(v => ({ value: v?.municipalId, label: v?.municipalName }))}
+                      options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
 
                       value={familyDetailsExtra?.municipal}
                       onChange={(e) => {handleChangeFamilyDetails(e); dispatch(getWard({municipalId: e.target.value}))}}
@@ -565,7 +565,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       title={t('selectWard')}
 
                       name="ward"
-                      options={wardList?.map(v => ({ value: v?.wardNo, label: v?.wardName }))}
+                      options={wardList?.map(v => ({value : v?.id, label : v?.name}))}
 
                       value={familyDetailsExtra?.ward}
                       onChange={handleChangeFamilyDetails}
