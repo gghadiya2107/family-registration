@@ -72,7 +72,7 @@ const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClos
         <SubmitButton onClick={() => {setIsEditMode(true); handleClose()}} style={{marginLeft : "10px",borderRadius : "4px"}} label="Confirm" /></>}
         {EditModalType == "head" &&<><CancelBtn  onClick={() => {setisEditModeHead(false); handleClose()}} label="Cancel" />
         <SubmitButton onClick={() => {setisEditModeHead(true); handleClose()}} style={{marginLeft : "10px",borderRadius : "4px"}} label="Confirm" /></>}
-        {EditModalType == "member" &&<><CancelBtn  onClick={() => {setisEditModeMember(false); handleClose()}} label="Cancel" />
+        {EditModalType == "member" &&<><CancelBtn  onClick={() => {handleClose()}} label="Cancel" />
         <SubmitButton onClick={() => {changeMemberList()}} style={{marginLeft : "10px",borderRadius : "4px"}} label="Confirm" /></>}
 
       </DialogActions>

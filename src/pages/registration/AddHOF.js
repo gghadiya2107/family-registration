@@ -21,6 +21,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDistrict } from '@/network/actions/getDistrict'
 import { getWard } from '@/network/actions/getWard'
 import { getEconomicStatus } from '@/network/actions/economicStatus'
+import { getCategory } from '@/network/actions/getCategory'
+import { getGender } from '@/network/actions/getGender'
+import { getMemberStatus } from '@/network/actions/getMemberStatus'
+import { getQualification } from '@/network/actions/getQualification'
+import { getProfession } from '@/network/actions/getProfession'
+import { getReligion } from '@/network/actions/getReligion'
 
 
 
@@ -33,6 +39,13 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
+  const categorylist = useSelector((state) => state.getCategory?.data)
+  const genderlist = useSelector((state) => state.getGender?.data)
+  const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
+  const qualificationList = useSelector((state) => state.getQualification?.data)
+  const profesionList = useSelector((state) => state.getProfession?.data)
+  const religionList = useSelector((state) => state.getReligion?.data)
+  console.log('genderlist', genderlist)
 
 
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
@@ -51,13 +64,21 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   useEffect(() => {
     dispatch(getDistrict())
     dispatch(getEconomicStatus())
+    dispatch(getCategory())
+    dispatch(getGender())
+    dispatch(getMemberStatus())
+    dispatch(getQualification())
+    dispatch(getProfession())
+    dispatch(getReligion())
+
 
   }, [])
   useEffect(() => {
     setNameTitle({municipal :municipalList?.find(v => v?.id == familyDetails?.municipal)?.name,
 
       ward : wardList?.find(v => v?.id == familyDetails?.ward)?.name ,
-      condition : economicStatusList?.find(v => v?.id == familyDetails?.condition)?.nameE
+      condition : economicStatusList?.find(v => v?.id == familyDetails?.condition)?.nameE,
+      class : categorylist?.find(v => v?.id == familyDetails?.class)?.nameE
     })
   }, [familyDetails])
   const handleClickOpen = () => {
@@ -183,8 +204,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   }
 
   const addMember = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     console.log('validationErrors', validationErrors, formData)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
@@ -207,8 +228,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   }
 
   const handleSaveHOF = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setSaveHof(true)
       console.log("Form submitted successfully:", formData);
@@ -531,7 +552,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                   </Grid>
                   <Grid item xs={4}>
                     <p className={style.expandMargin}><b>House Number:</b> {familyDetails?.makan}</p>
-                    <p className={style.expandMargin}><b>Category:</b> {familyDetails?.class}</p>
+                    <p className={style.expandMargin}><b>Category:</b> {nameTitle?.class}</p>
                     <p className={style.expandMargin}><b>Mobile Number:</b> {familyDetails?.mobile}</p>
 
                   </Grid>
@@ -657,10 +678,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       title={t('category')}
 
                       name="class"
-                      options={[
-                        { value: "poor", label: "Poor" },
-                        { value: "rich", label: "Rich" },
-                      ]}
+                      options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
                       value={familyDetailsExtra?.class}
                       onChange={handleChangeFamilyDetails}
                       requried
@@ -786,10 +804,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           title={t('gender')}
 
                           name="gender"
-                          options={[
-                            { value: "poor", label: "Male" },
-                            { value: "rich", label: "Female" },
-                          ]}
+                          options={genderlist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                           value={headDetailsExtra?.gender}
                           onChange={handleChangeHeadDetails}
                           requried
@@ -815,10 +831,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           title={t('religion')}
 
                           name="religion"
-                          options={[
-                            { value: "poor", label: "Poor" },
-                            { value: "rich", label: "Rich" },
-                          ]}
+                          options={religionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                           value={headDetailsExtra?.religion}
                           onChange={handleChangeHeadDetails}
                           requried
@@ -830,10 +844,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                           title={t('category')}
                           name="category"
-                          options={[
-                            { value: "poor", label: "Poor" },
-                            { value: "rich", label: "Rich" },
-                          ]}
+                          options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                           value={headDetailsExtra?.category}
                           onChange={handleChangeHeadDetails}
                           requried
@@ -992,10 +1004,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                               title={t('gender')}
 
                               name="gender"
-                              options={[
-                                { value: "poor", label: "Male" },
-                                { value: "rich", label: "Female" },
-                              ]}
+                              options={genderlist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                               value={memberDetailsExtra?.gender}
                               onChange={handleChangeMemberDetails}
                               requried
@@ -1037,10 +1047,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                               title={t('religion')}
 
                               name="religion"
-                              options={[
-                                { value: "poor", label: "Poor" },
-                                { value: "rich", label: "Rich" },
-                              ]}
+                              options={religionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                               value={memberDetailsExtra?.religion}
                               onChange={handleChangeMemberDetails}
                               requried
@@ -1052,10 +1060,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                               title={t('category')}
                               name="category"
-                              options={[
-                                { value: "poor", label: "Poor" },
-                                { value: "rich", label: "Rich" },
-                              ]}
+                              options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                               value={memberDetailsExtra?.category}
                               onChange={handleChangeMemberDetails}
                               requried
@@ -1182,10 +1188,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('gender')}
                 name="gender"
-                options={[
-                  { value: "poor", label: "Male" },
-                  { value: "rich", label: "Female" },
-                ]}
+                options={genderlist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                 value={formData?.gender}
                 onChange={handleChange}
                 requried
@@ -1197,10 +1201,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('baseOfRegistration')}
                 name="registrationBase"
-                options={[
-                  { value: "poor", label: "Poor" },
-                  { value: "rich", label: "Rich" },
-                ]}
+                options={memberStatusList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                 value={formData?.registrationBase}
                 onChange={handleChange}
                 requried
@@ -1226,10 +1228,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('education')}
                 name="education"
-                options={[
-                  { value: "poor", label: "10th" },
-                  { value: "rich", label: "12th" },
-                ]}
+                options={qualificationList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                 value={formData?.education}
                 onChange={handleChange}
                 requried
@@ -1241,10 +1241,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('livelihoodResource')}
                 name="work"
-                options={[
-                  { value: "poor", label: "Poor" },
-                  { value: "rich", label: "Rich" },
-                ]}
+                options={profesionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                 value={formData?.work}
                 onChange={handleChange}
                 requried
@@ -1256,10 +1254,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('category')}
                 name="category"
-                options={[
-                  { value: "poor", label: "Poor" },
-                  { value: "rich", label: "Rich" },
-                ]}
+                options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                 value={formData?.category}
                 onChange={handleChange}
                 requried
@@ -1299,10 +1295,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('religion')}
                 name="religion"
-                options={[
-                  { value: "poor", label: "Poor" },
-                  { value: "rich", label: "Rich" },
-                ]}
+                options={religionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                 value={formData?.religion}
                 onChange={handleChange}
                 requried

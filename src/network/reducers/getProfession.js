@@ -1,20 +1,20 @@
 // reducers/someReducer.js
-import { GET_DISTRICT_FALIURE, GET_DISTRICT_SUCCESS } from "../action_types";
+import { GET_DISTRICT_FALIURE, GET_DISTRICT_SUCCESS, GET_PROFESSION_FALIURE, GET_PROFESSION_SUCCESS } from "../action_types";
 
 const initialState = {
 	data: [],
 	error: null,
 };
 
-const getDistrict = (state = initialState, action) => {
+const getProfession = (state = initialState, action) => {
 	switch (action.type) {
-		case GET_DISTRICT_SUCCESS:
+		case GET_PROFESSION_SUCCESS:
 			return {
 				...state,
 				data: action.payload,
 				error: null,
 			};
-		case GET_DISTRICT_FALIURE:
+		case GET_PROFESSION_FALIURE:
 			return {
 				...state,
 				data: [],
@@ -25,4 +25,4 @@ const getDistrict = (state = initialState, action) => {
 	}
 };
 
-export default getDistrict;
+export default getProfession;

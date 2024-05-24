@@ -13,6 +13,7 @@ import { getDistrict } from '@/network/actions/getDistrict'
 import { getMunicipalities } from '@/network/actions/getMunicipalities'
 import { getWard } from '@/network/actions/getWard'
 import { getEconomicStatus } from '@/network/actions/economicStatus'
+import { getCategory } from '@/network/actions/getCategory'
 
 const NewFamily = ({ setState, formData, setFormData }) => {
   const { t } = useTranslation("translation");
@@ -22,11 +23,13 @@ const NewFamily = ({ setState, formData, setFormData }) => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
-  console.log('getEconomicStatus',economicStatusList)
+  const categorylist = useSelector((state) => state.getCategory?.data)
+  console.log('categorylist',categorylist)
 
 useEffect(() => {
   dispatch(getDistrict())
   dispatch(getEconomicStatus())
+  dispatch(getCategory())
 }, [])
 
 
@@ -190,10 +193,7 @@ useEffect(() => {
           <SelectDropdown
             title={t('category')}
             name="class"
-            options={[
-              { value: "poor", label: "Poor" },
-              { value: "rich", label: "Rich" },
-            ]}
+            options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
             value={formData?.class}
             onChange={handleChange}
             requried

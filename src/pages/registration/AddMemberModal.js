@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectDropdown from '@/components/SelectDropdown'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
 import SubmitButton from '@/components/SubmitBtn'
@@ -13,6 +13,13 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'next-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCategory } from '@/network/actions/getCategory'
+import { getGender } from '@/network/actions/getGender'
+import { getMemberStatus } from '@/network/actions/getMemberStatus'
+import { getQualification } from '@/network/actions/getQualification'
+import { getProfession } from '@/network/actions/getProfession'
+import { getReligion } from '@/network/actions/getReligion'
 
 function generateUserId() {
   const timestamp = Date.now(); // Current timestamp in milliseconds
@@ -32,7 +39,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   const { t } = useTranslation("translation");
-
+  const dispatch = useDispatch()
+  const categorylist = useSelector((state) => state.getCategory?.data)
+  const genderlist = useSelector((state) => state.getGender?.data)
+  const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
+  const qualificationList = useSelector((state) => state.getQualification?.data)
+  const profesionList = useSelector((state) => state.getProfession?.data)
+  const religionList = useSelector((state) => state.getReligion?.data)
   const [formData, setFormData] = useState({
     EnglishName: "",
     hindiName: "",
@@ -56,6 +69,16 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   console.log('errors', errors)
   console.log('formData modal', formData)
 
+  useEffect(() => {
+    dispatch(getCategory())
+    dispatch(getGender())
+    dispatch(getMemberStatus())
+    dispatch(getQualification())
+    dispatch(getProfession())
+    dispatch(getReligion())
+
+  }, [])
+
   const handleChange = (e) => {
     const { value, name } = e.target
     if (name == "dastavage") {
@@ -78,8 +101,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   }
 
   const onSave = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
@@ -247,10 +270,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
             <SelectDropdown
                 title={t('gender')}
                 name="gender"
-              options={[
-                { value: "poor", label: "Male" },
-                { value: "rich", label: "Female" },
-              ]}
+                options={genderlist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
               value={formData?.gender}
               onChange={handleChange}
               requried
@@ -262,10 +283,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
             <SelectDropdown
                 title={t('baseOfRegistration')}
                 name="registrationBase"
-              options={[
-                { value: "poor", label: "Poor" },
-                { value: "rich", label: "Rich" },
-              ]}
+                options={memberStatusList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
               value={formData?.registrationBase}
               onChange={handleChange}
               requried
@@ -291,10 +310,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
             <SelectDropdown
                 title={t('education')}
                 name="education"
-              options={[
-                { value: "poor", label: "10th" },
-                { value: "rich", label: "12th" },
-              ]}
+                options={qualificationList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
               value={formData?.education}
               onChange={handleChange}
               requried
@@ -306,10 +323,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
             <SelectDropdown
                 title={t('livelihoodResource')}
                 name="work"
-              options={[
-                { value: "poor", label: "Poor" },
-                { value: "rich", label: "Rich" },
-              ]}
+                options={profesionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
               value={formData?.work}
               onChange={handleChange}
               requried
@@ -321,10 +336,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
             <SelectDropdown
                 title={t('category')}
                 name="category"
-              options={[
-                { value: "poor", label: "Poor" },
-                { value: "rich", label: "Rich" },
-              ]}
+                options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
+
               value={formData?.category}
               onChange={handleChange}
               requried
@@ -364,11 +377,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
             <SelectDropdown
                 title={t('religion')}
                 name="religion"
-              options={[
-                { value: "poor", label: "Poor" },
-                { value: "rich", label: "Rich" },
-              ]}
-              value={formData?.religion}
+                options={religionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                value={formData?.religion}
               onChange={handleChange}
               requried
             />
