@@ -20,6 +20,7 @@ import { getMunicipalities } from '@/network/actions/getMunicipalities'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDistrict } from '@/network/actions/getDistrict'
 import { getWard } from '@/network/actions/getWard'
+import { getEconomicStatus } from '@/network/actions/economicStatus'
 
 
 
@@ -31,6 +32,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
+  const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
+
 
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
   const [headDetailsExtra, setheadDetailsExtra] = useState()
@@ -47,11 +50,14 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const [nameTitle, setNameTitle] = useState({})
   useEffect(() => {
     dispatch(getDistrict())
+    dispatch(getEconomicStatus())
+
   }, [])
   useEffect(() => {
     setNameTitle({municipal :municipalList?.find(v => v?.id == familyDetails?.municipal)?.name,
 
-      ward : wardList?.find(v => v?.id == familyDetails?.ward)?.name 
+      ward : wardList?.find(v => v?.id == familyDetails?.ward)?.name ,
+      condition : economicStatusList?.find(v => v?.id == familyDetails?.condition)?.nameE
     })
   }, [familyDetails])
   const handleClickOpen = () => {
@@ -514,7 +520,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 <Grid container spacing={5}>
                   <Grid item xs={4}>
                     <p className={style.expandMargin}><b>Municipality:</b> {nameTitle?.municipal}</p>
-                    <p className={style.expandMargin}><b>Financial Condition:</b> {familyDetails?.condition}</p>
+                    <p className={style.expandMargin}><b>Financial Condition:</b> {nameTitle?.condition}</p>
                     <p className={style.expandMargin}><b>Sub Category:</b> {familyDetails?.subclass}</p>
                   </Grid>
                   <Grid item xs={4}>
@@ -593,10 +599,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       title={t('financialCondition')}
 
                       name="condition"
-                      options={[
-                        { value: "poor", label: "Poor" },
-                        { value: "rich", label: "Rich" },
-                      ]}
+                      options={economicStatusList?.map(v => ({value : v?.id, label : v?.nameE}))}
+
                       value={familyDetailsExtra?.condition}
                       onChange={handleChangeFamilyDetails}
                       requried

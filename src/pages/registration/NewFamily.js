@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDistrict } from '@/network/actions/getDistrict'
 import { getMunicipalities } from '@/network/actions/getMunicipalities'
 import { getWard } from '@/network/actions/getWard'
+import { getEconomicStatus } from '@/network/actions/economicStatus'
 
 const NewFamily = ({ setState, formData, setFormData }) => {
   const { t } = useTranslation("translation");
@@ -20,10 +21,12 @@ const NewFamily = ({ setState, formData, setFormData }) => {
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
-  console.log('wardList',wardList)
+  const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
+  console.log('getEconomicStatus',economicStatusList)
 
 useEffect(() => {
   dispatch(getDistrict())
+  dispatch(getEconomicStatus())
 }, [])
 
 
@@ -160,10 +163,7 @@ useEffect(() => {
           <SelectDropdown
             title={t('financialCondition')}
             name="condition"
-            options={[
-              { value: "poor", label: "Poor" },
-              { value: "rich", label: "Rich" },
-            ]}
+            options={economicStatusList?.map(v => ({value : v?.id, label : v?.nameE}))}
             value={formData?.condition}
             onChange={handleChange}
             requried
