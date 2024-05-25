@@ -27,6 +27,8 @@ import { getMemberStatus } from '@/network/actions/getMemberStatus'
 import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
+import translateToHindi from '@/utils/translate'
+
 
 
 
@@ -74,11 +76,12 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
   }, [])
   useEffect(() => {
-    setNameTitle({municipal :municipalList?.find(v => v?.id == familyDetails?.municipal)?.name,
+    setNameTitle({
+      municipal: municipalList?.find(v => v?.id == familyDetails?.municipal)?.name,
 
-      ward : wardList?.find(v => v?.id == familyDetails?.ward)?.name ,
-      condition : economicStatusList?.find(v => v?.id == familyDetails?.condition)?.nameE,
-      class : categorylist?.find(v => v?.id == familyDetails?.class)?.nameE
+      ward: wardList?.find(v => v?.id == familyDetails?.ward)?.name,
+      condition: economicStatusList?.find(v => v?.id == familyDetails?.condition)?.nameE,
+      class: categorylist?.find(v => v?.id == familyDetails?.class)?.nameE
     })
   }, [familyDetails])
   const handleClickOpen = () => {
@@ -107,9 +110,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     refrence: "",
     education: "",
     work: "",
-    category: "",
+    category: familyDetails?.class || "",
     subCategory: "",
-    rationCard: "",
+    rationCard: familyDetails?.rationCard ||"",
     religion: "",
     adharCard: "",
     dastavage: "",
@@ -122,8 +125,23 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   console.log('errors', errors)
   console.log('formData', formData)
 
+  const changeLang = async(name) => {
+    if(name){
+
+      const text  = await translateToHindi(name);
+      if(text){
+        
+        console.log('text', text)
+        setFormData({ ...formData, hindiName: text })
+        // return text
+      }
+    }
+  }
+
   const handleChange = (e) => {
     const { value, name } = e.target
+   
+
     if (name == "dastavage") {
 
       const selectedFile = e.target.files[0];
@@ -204,8 +222,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   }
 
   const addMember = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     console.log('validationErrors', validationErrors, formData)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
@@ -228,8 +246,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   }
 
   const handleSaveHOF = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setSaveHof(true)
       console.log("Form submitted successfully:", formData);
@@ -270,9 +288,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!formData.category) {
       errors.category = t("validateCategory");
     }
-    if (!formData.subCategory) {
-      errors.subCategory = t("validateSubCategory");
-    }
+    // if (!formData.subCategory) {
+    //   errors.subCategory = t("validateSubCategory");
+    // }
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
@@ -384,9 +402,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!memberDetailsExtra.category) {
       errors.category = t("validateCategory");
     }
-    if (!memberDetailsExtra.subCategory) {
-      errors.subCategory = t("validateSubCategory");
-    }
+    // if (!memberDetailsExtra.subCategory) {
+    //   errors.subCategory = t("validateSubCategory");
+    // }
     if (!memberDetailsExtra.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
@@ -434,9 +452,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!headDetailsExtra.category) {
       errors.category = t("validateCategory");
     }
-    if (!headDetailsExtra.subCategory) {
-      errors.subCategory = t("validateSubCategory");
-    }
+    // if (!headDetailsExtra.subCategory) {
+    //   errors.subCategory = t("validateSubCategory");
+    // }
     if (!headDetailsExtra.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
@@ -481,9 +499,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!familyDetailsExtra.class?.trim()) {
       errors.class = t("validateCategory");
     }
-    if (!familyDetailsExtra.subclass?.trim()) {
-      errors.subclass = t("validateSubCategory");
-    }
+    // if (!familyDetailsExtra.subclass?.trim()) {
+    //   errors.subclass = t("validateSubCategory");
+    // }
     if (!familyDetailsExtra.rationCard?.trim()) {
       errors.rationCard = t("validateRationCard");
     }
@@ -497,7 +515,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   };
   return (
     <>
-      <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} />
+      <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} familyDetails={familyDetails}/>
 
       <div className={style.heading} style={{ marginBottom: "5px" }}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
@@ -514,7 +532,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
           </thead>
           <tbody>
             <tr className={style.tr}>
-              <td className={style.td}>{ nameTitle?.municipal}</td>
+              <td className={style.td}>{nameTitle?.municipal}</td>
               <td className={style.td}>{nameTitle?.ward}</td>
               <td className={style.td}>{familyDetails?.bpl}</td>
               <td className={style.td}>{familyDetails?.rationCard}</td>
@@ -542,7 +560,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                   <Grid item xs={4}>
                     <p className={style.expandMargin}><b>Municipality:</b> {nameTitle?.municipal}</p>
                     <p className={style.expandMargin}><b>Financial Condition:</b> {nameTitle?.condition}</p>
-                    <p className={style.expandMargin}><b>Sub Category:</b> {familyDetails?.subclass}</p>
+                    <p className={style.expandMargin}><b>Category:</b> {nameTitle?.class}</p>
+
+                    {/* <p className={style.expandMargin}><b>Sub Category:</b> {familyDetails?.subclass}</p> */}
                   </Grid>
                   <Grid item xs={4}>
                     <p className={style.expandMargin}><b>Ward:</b> {nameTitle?.ward}</p>
@@ -552,7 +572,6 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                   </Grid>
                   <Grid item xs={4}>
                     <p className={style.expandMargin}><b>House Number:</b> {familyDetails?.makan}</p>
-                    <p className={style.expandMargin}><b>Category:</b> {nameTitle?.class}</p>
                     <p className={style.expandMargin}><b>Mobile Number:</b> {familyDetails?.mobile}</p>
 
                   </Grid>
@@ -566,7 +585,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                     <SelectDropdown
                       title={t('district')}
                       name="district"
-                      options={districtList?.map(v => ({value : v?.lgdCode, label : v?.nameE})) || []}
+                      options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
                       value={familyDetailsExtra?.district}
                       onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
                       requried
@@ -579,10 +598,10 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                       title={t('selectVillage')}
                       name="municipal"
-                      options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
+                      options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
 
                       value={familyDetailsExtra?.municipal}
-                      onChange={(e) => {handleChangeFamilyDetails(e); dispatch(getWard({municipalId: e.target.value}))}}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value })) }}
                       requried
                     />
                     {familyError?.municipal && <p className="error">{familyError?.municipal}</p>}
@@ -592,7 +611,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       title={t('selectWard')}
 
                       name="ward"
-                      options={wardList?.map(v => ({value : v?.id, label : v?.name}))}
+                      options={wardList?.map(v => ({ value: v?.id, label: v?.name }))}
 
                       value={familyDetailsExtra?.ward}
                       onChange={handleChangeFamilyDetails}
@@ -610,9 +629,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       name="subclass"
                       value={familyDetailsExtra?.subclass}
                       onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeFamilyDetails(e) : null}
-                      requried
                     />
-                    {familyError?.subclass && <p className="error">{familyError?.subclass}</p>}
+                    {/* {familyError?.subclass && <p className="error">{familyError?.subclass}</p>} */}
 
                   </Grid>
                   <Grid item xs={4} >
@@ -620,7 +638,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       title={t('financialCondition')}
 
                       name="condition"
-                      options={economicStatusList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                      options={economicStatusList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                       value={familyDetailsExtra?.condition}
                       onChange={handleChangeFamilyDetails}
@@ -655,6 +673,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       value={familyDetailsExtra?.rationCard}
                       onChange={handleChangeFamilyDetails}
                       requried
+                      // disabled
                     />
                     {familyError?.rationCard && <p className="error">{familyError?.rationCard}</p>}
 
@@ -676,9 +695,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                   <Grid item xs={4} >
                     <SelectDropdown
                       title={t('category')}
-
+                      // disabled
                       name="class"
-                      options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
+                      options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
                       value={familyDetailsExtra?.class}
                       onChange={handleChangeFamilyDetails}
                       requried
@@ -747,7 +766,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 </tr>
                 {headDetailsMore ? <tr  >
                   <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
-                  {console.log('formData', formData,genderlist)}
+                    {console.log('formData', formData, genderlist)}
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.EnglishName}</p>
@@ -761,9 +780,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p>
                         <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCard}</p>
                         <p className={style.expandMargin}><b>Aadhar Card Number:</b> {formData?.adharCard}</p>
+                        {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
                       </Grid>
                     </Grid>
@@ -804,7 +823,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           title={t('gender')}
 
                           name="gender"
-                          options={genderlist?.map(v => ({value : v?.id, label : v?.nameE}))}
+                          options={genderlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                           value={headDetailsExtra?.gender}
                           onChange={handleChangeHeadDetails}
@@ -831,7 +850,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           title={t('religion')}
 
                           name="religion"
-                          options={religionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                          options={religionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                           value={headDetailsExtra?.religion}
                           onChange={handleChangeHeadDetails}
@@ -844,8 +863,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                           title={t('category')}
                           name="category"
-                          options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
-
+                          options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+disabled
                           value={headDetailsExtra?.category}
                           onChange={handleChangeHeadDetails}
                           requried
@@ -863,14 +882,14 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           name="subCategory"
                           value={headDetailsExtra?.subCategory}
                           onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeHeadDetails(e) : null}
-                          requried
+                        // requried
                         />
-                        {headError?.subCategory && <p className="error">{headError?.subCategory}</p>}
+                        {/* {headError?.subCategory && <p className="error">{headError?.subCategory}</p>} */}
                       </Grid>
                       <Grid item xs={4}>
                         <InputFieldWithIcon
                           title={t('rathinCardNumber')}
-
+disabled
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="text"
@@ -950,7 +969,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.EnglishName}</p>
                             <p className={style.expandMargin}><b>Date of Birth:</b> {v?.dob}</p>
                             <p className={style.expandMargin}><b>Gender:</b> {genderlist?.find(k => k?.id == v?.gender)?.nameE}</p>
-                            <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p>
+                            {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
 
                           </Grid>
                           <Grid item xs={4}>
@@ -960,7 +979,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                           </Grid>
                           <Grid item xs={4}>
-                            <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p>
+                            {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCard}</p>
                             <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.adharCard}</p>
 
@@ -1004,7 +1023,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                               title={t('gender')}
 
                               name="gender"
-                              options={genderlist?.map(v => ({value : v?.id, label : v?.nameE}))}
+                              options={genderlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                               value={memberDetailsExtra?.gender}
                               onChange={handleChangeMemberDetails}
@@ -1012,7 +1031,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                             />
                             {memberError?.gender && <p className="error">{memberError?.gender}</p>}
                           </Grid>
-                          <Grid item xs={4}>
+                          {/* <Grid item xs={4}>
                             <SelectDropdown
 
                               title={t('isVerified')}
@@ -1027,7 +1046,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                             />
                             {memberError?.isVerified && <p className="error">{memberError?.isVerified}</p>}
 
-                          </Grid>
+                          </Grid> */}
                           <Grid item xs={4}>
                             <InputFieldWithIcon
 
@@ -1047,7 +1066,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                               title={t('religion')}
 
                               name="religion"
-                              options={religionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                              options={religionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                               value={memberDetailsExtra?.religion}
                               onChange={handleChangeMemberDetails}
@@ -1060,8 +1079,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
                               title={t('category')}
                               name="category"
-                              options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
-
+                              options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+disabled
                               value={memberDetailsExtra?.category}
                               onChange={handleChangeMemberDetails}
                               requried
@@ -1078,13 +1097,13 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                               name="subCategory"
                               value={memberDetailsExtra?.subCategory}
                               onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeMemberDetails(e) : null}
-                              requried
+                            // requried
                             />
-                            {memberError?.subCategory && <p className="error">{memberError?.subCategory}</p>}
+                            {/* {memberError?.subCategory && <p className="error">{memberError?.subCategory}</p>} */}
                           </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
-
+  disabled
                               title={t('rathinCardNumber')}
                               placeholder=""
                               type="text"
@@ -1137,7 +1156,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 type="text"
                 name="EnglishName"
                 value={formData?.EnglishName}
-                onChange={handleChange}
+                onChange={(e) => {handleChange(e)}}
+                onBlur={(e) => changeLang(e.target.value)}
                 requried
               />
               {errors?.EnglishName && <p className="error">{errors?.EnglishName}</p>}
@@ -1146,6 +1166,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
             <Grid item xs={12} sm={4} md={3}>
               <InputFieldWithIcon
                 title={t('headOfFamilyName')}
+                disabled
                 subTitle="(in Hindi)"
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
@@ -1188,7 +1209,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('gender')}
                 name="gender"
-                options={genderlist?.map(v => ({value : v?.id, label : v?.nameE}))}
+                options={genderlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                 value={formData?.gender}
                 onChange={handleChange}
@@ -1201,7 +1222,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('baseOfRegistration')}
                 name="registrationBase"
-                options={memberStatusList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                options={memberStatusList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                 value={formData?.registrationBase}
                 onChange={handleChange}
@@ -1228,7 +1249,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('education')}
                 name="education"
-                options={qualificationList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                options={qualificationList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                 value={formData?.education}
                 onChange={handleChange}
@@ -1241,7 +1262,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('livelihoodResource')}
                 name="work"
-                options={profesionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                options={profesionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                 value={formData?.work}
                 onChange={handleChange}
@@ -1254,8 +1275,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('category')}
                 name="category"
-                options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
-
+                options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+disabled
                 value={formData?.category}
                 onChange={handleChange}
                 requried
@@ -1272,9 +1293,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 name="subCategory"
                 value={formData?.subCategory}
                 onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
-                requried
+              // requried
               />
-              {errors?.subCategory && <p className="error">{errors?.subCategory}</p>}
+              {/* {errors?.subCategory && <p className="error">{errors?.subCategory}</p>} */}
 
             </Grid>
             <Grid item xs={12} sm={4} md={3}>
@@ -1287,6 +1308,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 value={formData?.rationCard}
                 onChange={handleChange}
                 requried
+                disabled
               />
               {errors?.rationCard && <p className="error">{errors?.rationCard}</p>}
 
@@ -1295,7 +1317,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
               <SelectDropdown
                 title={t('religion')}
                 name="religion"
-                options={religionList?.map(v => ({value : v?.id, label : v?.nameE}))}
+                options={religionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
                 value={formData?.religion}
                 onChange={handleChange}

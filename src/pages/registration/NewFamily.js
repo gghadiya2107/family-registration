@@ -54,8 +54,8 @@ useEffect(() => {
   }
 
   const onSave = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
     } else {
@@ -86,9 +86,9 @@ useEffect(() => {
     if (!formData.class?.trim()) {
       errors.class = t("validateCategory");
     }
-    if (!formData.subclass?.trim()) {
-      errors.subclass = t("validateSubCategory");
-    }
+    // if (!formData.subclass?.trim()) {
+    //   errors.subclass = t("validateSubCategory");
+    // }
     if (!formData.rationCard?.trim()) {
       errors.rationCard = t("validateRationCard");
     }
@@ -127,7 +127,7 @@ useEffect(() => {
             title={t('selectVillage')}
             name="municipal"
             options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
-
+            disabled={formData?.district != "" ?false : true}
             value={formData?.municipal}
             onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
             requried
@@ -139,6 +139,8 @@ useEffect(() => {
           <SelectDropdown
             title={t('selectWard')}
             name="ward"
+            disabled={formData?.district != "" && formData?.municipal != "" ? false : true}
+
             options={wardList?.map(v => ({value : v?.id, label : v?.name}))}
 
             value={formData?.ward}
@@ -174,7 +176,7 @@ useEffect(() => {
           {errors?.condition && <p className="error">{errors?.condition}</p>}
 
         </Grid>
-        <Grid item xs={12} sm={4} md={3}>
+      {formData?.condition == "2" &&  <Grid item xs={12} sm={4} md={3}>
           <InputFieldWithIcon
             title={t('bplCount')}
             // icon={<IoIosDocument size={20} />}
@@ -188,7 +190,7 @@ useEffect(() => {
           />
           {errors?.bpl && <p className="error">{errors?.bpl}</p>}
 
-        </Grid>
+        </Grid>}
         <Grid item xs={12} sm={4} md={3}>
           <SelectDropdown
             title={t('category')}
@@ -210,9 +212,8 @@ useEffect(() => {
             name="subclass"
             value={formData?.subclass}
             onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
-            requried
           />
-          {errors?.subclass && <p className="error">{errors?.subclass}</p>}
+          {/* {errors?.subclass && <p className="error">{errors?.subclass}</p>} */}
 
         </Grid>
         <Grid item xs={12} sm={4} md={3}>

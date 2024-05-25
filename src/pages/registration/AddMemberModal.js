@@ -20,6 +20,7 @@ import { getMemberStatus } from '@/network/actions/getMemberStatus'
 import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
+import translateToHindi from '@/utils/translate'
 
 function generateUserId() {
   const timestamp = Date.now(); // Current timestamp in milliseconds
@@ -37,7 +38,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
+const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDetails}) => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const categorylist = useSelector((state) => state.getCategory?.data)
@@ -56,9 +57,9 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
     refrence: "",
     education: "",
     work: "",
-    category: "",
+    category: familyDetails?.class || "",
     subCategory: "",
-    rationCard: "",
+    rationCard: familyDetails?.rationCard || "",
     religion: "",
     adharCard: "",
     dastavage: "",
@@ -101,8 +102,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
   }
 
   const onSave = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
@@ -184,6 +185,19 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
 
     return errors;
   };
+
+  const changeLang = async(name) => {
+    if(name){
+
+      const text  = await translateToHindi(name);
+      if(text){
+        
+        console.log('text', text)
+        setFormData({ ...formData, hindiName: text })
+        // return text
+      }
+    }
+  }
   return (
     <BootstrapDialog
       onClose={handleClose}
@@ -220,6 +234,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
               name="EnglishName"
               value={formData?.EnglishName}
               onChange={handleChange}
+              onBlur={(e) => changeLang(e.target.value)}
               requried
             />
             {errors?.EnglishName && <p className="error">{errors?.EnglishName}</p>}
@@ -228,6 +243,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
                 title={t('headOfFamilyName')}
+                disabled
                 subTitle="(in Hindi)"
               // icon={<IoIosDocument size={20} />}
               placeholder=""
@@ -337,7 +353,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
                 title={t('category')}
                 name="category"
                 options={categorylist?.map(v => ({value : v?.id, label : v?.nameE}))}
-
+              disabled
               value={formData?.category}
               onChange={handleChange}
               requried
@@ -369,6 +385,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList}) => {
               value={formData?.rationCard}
               onChange={handleChange}
               requried
+              disabled
             />
             {errors?.rationCard && <p className="error">{errors?.rationCard}</p>}
 
