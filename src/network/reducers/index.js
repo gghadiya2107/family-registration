@@ -13,6 +13,7 @@ import getQualification from "./getQualification";
 import getProfession from "./getProfession";
 import getReligion from "./getReligion";
 import getGender from "./getGender";
+import getRationDetails from "./getRationDetails";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
 	getMemberStatus,
 	getQualification,
 	getProfession,
-	getReligion
+	getReligion,
+	getRationDetails
 });
 
 export default rootReducer;

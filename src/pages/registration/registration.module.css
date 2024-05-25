@@ -91,3 +91,8 @@
 .expandMargin{
     margin-bottom: 20px;
 }
+
+.checkbox{
+    height: 17px;
+    width: 17px;
+}
