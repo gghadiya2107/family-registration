@@ -29,7 +29,6 @@ export const getRationDetails = (value) => {
 			let responseData = decryptData(response?.data?.data)
 			dispatch(getRationDetailsSuccess(responseData));
 		} catch (error) {
-			console.log('error', error)
 			dispatch(getRationDetailsFaliure(error?.response?.data?.message));
 		}
 	};

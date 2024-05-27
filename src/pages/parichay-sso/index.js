@@ -25,7 +25,6 @@ export async function getServerSideProps(context) {
 
 
 const ParichaySSO = ({data}) => {
-	console.log('postData', data)
 	const router = useRouter()
 
 	useEffect(() => {

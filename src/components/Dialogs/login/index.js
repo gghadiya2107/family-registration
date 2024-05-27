@@ -60,7 +60,6 @@ const LoginDialog = ({handleClose, open}) => {
       };
     
       const handleSubmit = () => {
-        console.log("signUpData", signUpData);
       };
     const handleChangeLogin = (e) => {
         const { name, value } = e.target;
@@ -68,7 +67,6 @@ const LoginDialog = ({handleClose, open}) => {
       };
     
       const handleSubmitLogIn = () => {
-        console.log("loginData", loginData);
       };
   return (
     <BootstrapDialog

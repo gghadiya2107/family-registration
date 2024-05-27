@@ -26,7 +26,6 @@ const Login = () => {
   };
 
   const handleSubmit = () => {
-    console.log("loginData", loginData);
   };
   return (
     <>

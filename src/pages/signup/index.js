@@ -43,7 +43,6 @@ const SignUp = () => {
   };
 
   const handleSubmit = () => {
-    console.log("signUpData", signUpData);
   };
 
   return (

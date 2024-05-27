@@ -19,7 +19,6 @@ const HeaderThree = () => {
   useEffect(() => {
     settest(true)
 }, [])
-  console.log('userData', userData)
 
   const handleSearch = (e) => {
     // dispatch()

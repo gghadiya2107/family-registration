@@ -47,7 +47,6 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const qualificationList = useSelector((state) => state.getQualification?.data)
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
-  console.log('categorylist', categorylist)
 
 
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
@@ -90,9 +89,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-  console.log('memberList', memberList)
-  console.log('familyDetails', familyDetails)
-
+ 
   const handleClose = () => {
     setOpen(false)
   }
@@ -122,16 +119,13 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const [familyError, setFamilyError] = useState({})
   const [headError, setHeadError] = useState({})
   const [memberError, setMemberError] = useState({})
-  console.log('errors', errors)
-  console.log('formData', formData)
-
+ 
   const changeLang = async(name) => {
     if(name){
 
       const text  = await translateToHindi(name);
       if(text){
         
-        console.log('text', text)
         setFormData({ ...formData, hindiName: text })
         // return text
       }
@@ -224,11 +218,9 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const addMember = () => {
     const validationErrors = {};
     // const validationErrors = validateForm(formData);
-    console.log('validationErrors', validationErrors, formData)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       handleClickOpen()
-      console.log("Form submitted successfully:", formData);
     } else {
       setErrors(validationErrors);
     }
@@ -239,7 +231,6 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("3")
-      console.log("Form submitted successfully:", formData);
     } else {
       setErrors(validationErrors);
     }
@@ -250,7 +241,6 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     // const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setSaveHof(true)
-      console.log("Form submitted successfully:", formData);
     } else {
       setErrors(validationErrors);
     }
@@ -344,7 +334,6 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   //   let newData = data?.map((k, index) => index == v ? memberDetailsExtra : k)
   //   setMemberList(newData)
   // }
-  console.log('memberList', memberList)
 
   const saveFamilyAfterEdit = () => {
     const validationErrors = validateFormFamily(familyDetailsExtra);
@@ -766,7 +755,6 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                 </tr>
                 {headDetailsMore ? <tr  >
                   <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
-                    {console.log('formData', formData, genderlist)}
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.EnglishName}</p>

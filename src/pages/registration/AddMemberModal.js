@@ -67,8 +67,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     isEditModeMember : false,
   })
   const [errors, setErrors] = useState({});
-  console.log('errors', errors)
-  console.log('formData modal', formData)
+
 
   useEffect(() => {
     dispatch(getCategory())
@@ -124,7 +123,6 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
       description: ""})
       setMemberList([...memberList,{...formData, id : generateUserId()}])
       handleClose()
-      console.log("Form submitted successfully:", formData);
     } else {
       setErrors(validationErrors);
     }
@@ -192,7 +190,6 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
       const text  = await translateToHindi(name);
       if(text){
         
-        console.log('text', text)
         setFormData({ ...formData, hindiName: text })
         // return text
       }

@@ -41,7 +41,6 @@ const Counting = () => {
     const [count, setCount] = useState([])
     const dispatch = useDispatch()
     const data = useSelector(state => state.survayAnalysis?.data?.data)
-    console.log('data', data)
     useEffect(() => {
       dispatch(getSurvayAnalysis())
     }, [])
