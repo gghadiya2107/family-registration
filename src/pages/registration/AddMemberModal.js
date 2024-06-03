@@ -21,6 +21,7 @@ import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
+import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
 
 function generateUserId() {
   const timestamp = Date.now(); // Current timestamp in milliseconds
@@ -39,6 +40,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDetails}) => {
+  console.log('familyDetails', familyDetails)
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const categorylist = useSelector((state) => state.getCategory?.data)
@@ -67,6 +69,11 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     isEditModeMember : false,
   })
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setFormData({...formData,rationCard: familyDetails?.rationCard,category: familyDetails?.class  })
+  }, [familyDetails])
+  
 
 
   useEffect(() => {
@@ -101,8 +108,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
   }
 
   const onSave = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
@@ -142,22 +149,22 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     if (!formData.dob?.trim()) {
       errors.dob = t("validateDOB");
     }
-    if (!formData.gender?.trim()) {
+    if (!formData.gender?.trim() || formData?.gender == "0") {
       errors.gender = t("validateGender")
     }
-    if (!formData.registrationBase?.trim()) {
+    if (!formData.registrationBase?.trim() || formData?.registrationBase == "0") {
       errors.registrationBase = t("validateBaseOfRegistration");
     }
     if (!formData.refrence?.trim()) {
       errors.refrence = t("validateRefrenceNumber");
     }
-    if (!formData.education?.trim()) {
+    if (!formData.education?.trim() || formData?.education == "0") {
       errors.education = t("validateEducation");
     }
-    if (!formData.work) {
+    if (!formData.work || formData?.work == "0") {
       errors.work = t("validateWork");
     }
-    if (!formData.category) {
+    if (!formData.category || formData?.category == "0") {
       errors.category = t("validateCategory");
     }
     if (!formData.subCategory) {
@@ -166,7 +173,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
-    if (!formData.religion) {
+    if (!formData.religion || formData?.religion == "0") {
       errors.religion = t("validateReligion");
     }
     if (!formData.adharCard) {
@@ -232,6 +239,11 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
               value={formData?.EnglishName}
               onChange={handleChange}
               onBlur={(e) => changeLang(e.target.value)}
+              onKeyDown={(e) => {
+                if (!isAlphabateKey(e.key)) {
+                  e.preventDefault();
+                }
+              }}
               requried
             />
             {errors?.EnglishName && <p className="error">{errors?.EnglishName}</p>}
@@ -262,6 +274,11 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
               name="relative"
               value={formData?.relative}
               onChange={handleChange}
+              onKeyDown={(e) => {
+                if (!isAlphabateKey(e.key)) {
+                  e.preventDefault();
+                }
+              }} 
               requried
             />
             {errors?.relative && <p className="error">{errors?.relative}</p>}
@@ -315,6 +332,11 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
               value={formData?.refrence}
               onChange={handleChange}
               requried
+              onKeyDown={(e) => {
+                if (!isAlphanumericKey(e.key)) {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors?.refrence && <p className="error">{errors?.refrence}</p>}
 
@@ -366,8 +388,13 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
               type="text"
               name="subCategory"
               value={formData?.subCategory}
-              onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
+              onChange={handleChange}
               requried
+              onKeyDown={(e) => {
+                if (!isAlphabateKey(e.key)) {
+                  e.preventDefault();
+                }
+              }}
             />
             {errors?.subCategory && <p className="error">{errors?.subCategory}</p>}
 

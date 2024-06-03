@@ -28,6 +28,7 @@ import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
+import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
 
 
 
@@ -237,8 +238,8 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   }
 
   const handleSaveHOF = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setSaveHof(true)
     } else {
@@ -260,22 +261,22 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!formData.dob?.trim()) {
       errors.dob = t("validateDOB");
     }
-    if (!formData.gender?.trim()) {
+    if (!formData.gender?.trim() || formData?.gender == "0") {
       errors.gender = t("validateGender")
     }
-    if (!formData.registrationBase?.trim()) {
+    if (!formData.registrationBase?.trim() || formData?.registrationBase == "0") {
       errors.registrationBase = t("validateBaseOfRegistration");
     }
     if (!formData.refrence?.trim()) {
       errors.refrence = t("validateRefrenceNumber");
     }
-    if (!formData.education?.trim()) {
+    if (!formData.education?.trim() || formData?.education == "0") {
       errors.education = t("validateEducation");
     }
-    if (!formData.work) {
+    if (!formData.work || formData?.work == "0") {
       errors.work = t("validateWork");
     }
-    if (!formData.category) {
+    if (!formData.category || formData?.category == "0") {
       errors.category = t("validateCategory");
     }
     // if (!formData.subCategory) {
@@ -284,7 +285,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
-    if (!formData.religion) {
+    if (!formData.religion || formData?.religion == "0") {
       errors.religion = t("validateReligion");
     }
     if (!formData.adharCard) {
@@ -373,7 +374,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!memberDetailsExtra.dob?.trim()) {
       errors.dob = t("validateDOB");
     }
-    if (!memberDetailsExtra.gender?.trim()) {
+    if (!memberDetailsExtra.gender?.trim() ||  memberDetailsExtra.gender == "0") {
       errors.gender = t("validateGender")
     }
     // if (!memberDetailsExtra.registrationBase?.trim()) {
@@ -388,7 +389,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     // if (!memberDetailsExtra.work) {
     //   errors.work = t("validateWork");
     // }
-    if (!memberDetailsExtra.category) {
+    if (!memberDetailsExtra.category ||  memberDetailsExtra.category == "0") {
       errors.category = t("validateCategory");
     }
     // if (!memberDetailsExtra.subCategory) {
@@ -397,7 +398,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!memberDetailsExtra.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
-    if (!memberDetailsExtra.religion) {
+    if (!memberDetailsExtra.religion ||  memberDetailsExtra.religion == "0") {
       errors.religion = t("validateReligion");
     }
     if (!memberDetailsExtra.adharCard) {
@@ -423,7 +424,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!headDetailsExtra.dob?.trim()) {
       errors.dob = t("validateDOB");
     }
-    if (!headDetailsExtra.gender?.trim()) {
+    if (!headDetailsExtra.gender?.trim() ||  headDetailsExtra.gender == "0") {
       errors.gender = t("validateGender")
     }
     // if (!headDetailsExtra.registrationBase?.trim()) {
@@ -438,7 +439,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     // if (!headDetailsExtra.work) {
     //   errors.work = t("validateWork");
     // }
-    if (!headDetailsExtra.category) {
+    if (!headDetailsExtra.category ||  headDetailsExtra.category == "0") {
       errors.category = t("validateCategory");
     }
     // if (!headDetailsExtra.subCategory) {
@@ -447,7 +448,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!headDetailsExtra.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
-    if (!headDetailsExtra.religion) {
+    if (!headDetailsExtra.religion ||  headDetailsExtra.religion == "0") {
       errors.religion = t("validateReligion");
     }
     if (!headDetailsExtra.adharCard) {
@@ -479,13 +480,13 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     if (!familyDetailsExtra.makan?.trim()) {
       errors.makan = t("ValidateHouseNumber");
     }
-    if (!familyDetailsExtra.condition?.trim()) {
+    if (!familyDetailsExtra.condition?.trim() ||  familyDetailsExtra.condition == "0") {
       errors.condition = t("validateCondition");
     }
-    if (!familyDetailsExtra.bpl?.trim()) {
+    if (familyDetailsExtra.condition == "2" &&!familyDetailsExtra.bpl?.trim()) {
       errors.bpl = t("validateBPL");
     }
-    if (!familyDetailsExtra.class?.trim()) {
+    if (!familyDetailsExtra.class?.trim() ||  familyDetailsExtra.class == "0") {
       errors.class = t("validateCategory");
     }
     // if (!familyDetailsExtra.subclass?.trim()) {
@@ -617,7 +618,12 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       type="text"
                       name="subclass"
                       value={familyDetailsExtra?.subclass}
-                      onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeFamilyDetails(e) : null}
+                      onKeyDown={(e) => {
+                        if (!isAlphabateKey(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onChange={handleChangeFamilyDetails}
                     />
                     {/* {familyError?.subclass && <p className="error">{familyError?.subclass}</p>} */}
 
@@ -636,7 +642,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                     {familyError?.condition && <p className="error">{familyError?.condition}</p>}
                   </Grid>
 
-                  <Grid item xs={4} >
+                 {familyDetailsExtra?.condition == "2" && <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('bplCount')}
 
@@ -650,7 +656,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       requried
                     />
                     {familyError?.bpl && <p className="error">{familyError?.bpl}</p>}
-                  </Grid>
+                  </Grid>}
                   <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('rathinCardNumber')}
@@ -662,6 +668,11 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       value={familyDetailsExtra?.rationCard}
                       onChange={handleChangeFamilyDetails}
                       requried
+                      onKeyDown={(e) => {
+                        if (!isAlphanumericKey(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                       // disabled
                     />
                     {familyError?.rationCard && <p className="error">{familyError?.rationCard}</p>}
@@ -678,6 +689,11 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                       value={familyDetailsExtra?.makan}
                       onChange={handleChangeFamilyDetails}
                       requried
+                      onKeyDown={(e) => {
+                        if (!isAlphanumericKey(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                     {familyError?.makan && <p className="error">{familyError?.makan}</p>}
                   </Grid>
@@ -790,6 +806,11 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           name="EnglishName"
                           value={headDetailsExtra?.EnglishName}
                           onChange={handleChangeHeadDetails}
+                          onKeyDown={(e) => {
+                            if (!isAlphabateKey(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                           requried
                         />
                         {headError?.EnglishName && <p className="error">{headError?.EnglishName}</p>}
@@ -830,6 +851,11 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
                           value={headDetailsExtra?.refrence}
                           onChange={handleChangeHeadDetails}
                           requried
+                          onKeyDown={(e) => {
+                            if (!isAlphanumericKey(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                         {headError?.refrence && <p className="error">{headError?.refrence}</p>}
                       </Grid>
@@ -869,8 +895,13 @@ disabled
                           type="text"
                           name="subCategory"
                           value={headDetailsExtra?.subCategory}
-                          onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeHeadDetails(e) : null}
+                          onChange={handleChangeHeadDetails}
                         // requried
+                        onKeyDown={(e) => {
+                          if (!isAlphabateKey(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                         />
                         {/* {headError?.subCategory && <p className="error">{headError?.subCategory}</p>} */}
                       </Grid>
@@ -884,6 +915,11 @@ disabled
                           name="rationCard"
                           value={headDetailsExtra?.rationCard}
                           onChange={handleChangeHeadDetails}
+                          onKeyDown={(e) => {
+                            if (!isAlphanumericKey(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                           requried
                         />
                         {headError?.rationCard && <p className="error">{headError?.rationCard}</p>}
@@ -990,6 +1026,11 @@ disabled
                               name="EnglishName"
                               value={memberDetailsExtra?.EnglishName}
                               onChange={handleChangeMemberDetails}
+                              onKeyDown={(e) => {
+                                if (!isAlphabateKey(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                               requried
                             />
                             {memberError?.EnglishName && <p className="error">{memberError?.EnglishName}</p>}
@@ -1046,6 +1087,11 @@ disabled
                               value={memberDetailsExtra?.refrence}
                               onChange={handleChangeMemberDetails}
                               requried
+                              onKeyDown={(e) => {
+                                if (!isAlphanumericKey(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {memberError?.refrence && <p className="error">{memberError?.refrence}</p>}
                           </Grid>
@@ -1084,8 +1130,13 @@ disabled
                               type="text"
                               name="subCategory"
                               value={memberDetailsExtra?.subCategory}
-                              onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChangeMemberDetails(e) : null}
+                              onChange={handleChangeMemberDetails}
                             // requried
+                            onKeyDown={(e) => {
+                              if (!isAlphabateKey(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
                             />
                             {/* {memberError?.subCategory && <p className="error">{memberError?.subCategory}</p>} */}
                           </Grid>
@@ -1099,6 +1150,11 @@ disabled
                               value={memberDetailsExtra?.rationCard}
                               onChange={handleChangeMemberDetails}
                               requried
+                              onKeyDown={(e) => {
+                                if (!isAlphanumericKey(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             {memberError?.rationCard && <p className="error">{memberError?.rationCard}</p>}
                           </Grid>
@@ -1146,6 +1202,11 @@ disabled
                 value={formData?.EnglishName}
                 onChange={(e) => {handleChange(e)}}
                 onBlur={(e) => changeLang(e.target.value)}
+                onKeyDown={(e) => {
+                  if (!isAlphabateKey(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
                 requried
               />
               {errors?.EnglishName && <p className="error">{errors?.EnglishName}</p>}
@@ -1176,6 +1237,11 @@ disabled
                 name="relative"
                 value={formData?.relative}
                 onChange={handleChange}
+                onKeyDown={(e) => {
+                  if (!isAlphabateKey(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
                 requried
               />
               {errors?.relative && <p className="error">{errors?.relative}</p>}
@@ -1228,6 +1294,11 @@ disabled
                 name="refrence"
                 value={formData?.refrence}
                 onChange={handleChange}
+                onKeyDown={(e) => {
+                  if (!isAlphanumericKey(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
                 requried
               />
               {errors?.refrence && <p className="error">{errors?.refrence}</p>}
@@ -1281,8 +1352,11 @@ disabled
                 name="subCategory"
                 value={formData?.subCategory}
                 onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
-              // requried
-              />
+                onKeyDown={(e) => {
+                  if (!isAlphabateKey(e.key)) {
+                    e.preventDefault();
+                  }
+                }}              />
               {/* {errors?.subCategory && <p className="error">{errors?.subCategory}</p>} */}
 
             </Grid>

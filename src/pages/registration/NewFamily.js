@@ -16,6 +16,7 @@ import { getEconomicStatus } from '@/network/actions/economicStatus'
 import { getCategory } from '@/network/actions/getCategory'
 import { debounce } from 'lodash';
 import { getRationDetails } from '@/network/actions/getRationDetails'
+import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
 
 
 const NewFamily = ({ setState, formData, setFormData }) => {
@@ -29,6 +30,7 @@ const NewFamily = ({ setState, formData, setFormData }) => {
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
   const categorylist = useSelector((state) => state.getCategory?.data)
   const rationDetails = useSelector((state) => state.getRationDetails?.data || [])
+  console.log("rationDetails",rationDetails)
 
 useEffect(() => {
   dispatch(getDistrict())
@@ -70,8 +72,8 @@ const debouncedSearch = debounce(async (value) => {
   }
 
   const onSave = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setState("2")
     } else {
@@ -79,27 +81,28 @@ const debouncedSearch = debounce(async (value) => {
     }
   }
 
+  console.log('formData', formData)
   const validateForm = (formData) => {
     const errors = {};
-    if (!formData.municipal?.trim()) {
+    if (!formData.municipal?.trim() || formData?.municipal == "0") {
       errors.municipal = t('validateMunucipal');
     }
-    if (!formData.district?.trim()) {
+    if (!formData.district?.trim() || formData?.district == "0") {
       errors.district = t('validateDistrict');
     }
-    if (!formData.ward?.trim()) {
+    if (!formData.ward?.trim() || formData?.ward == "0") {
       errors.ward = t("validateward");
     }
     if (!formData.makan?.trim()) {
       errors.makan = t("ValidateHouseNumber");
     }
-    if (!formData.condition?.trim()) {
+    if (!formData.condition?.trim() || formData?.condition == "0") {
       errors.condition = t("validateCondition");
     }
-    if (!formData.bpl?.trim()) {
+    if (formData?.condition == "2" && !formData.bpl?.trim()) {
       errors.bpl = t("validateBPL");
     }
-    if (!formData.class?.trim()) {
+    if (!formData.class?.trim() || formData?.class == "0") {
       errors.class = t("validateCategory");
     }
     // if (!formData.subclass?.trim()) {
@@ -175,6 +178,11 @@ const debouncedSearch = debounce(async (value) => {
             name="makan"
             value={formData?.makan}
             onChange={handleChange}
+            onKeyDown={(e) => {
+              if (!isAlphanumericKey(e.key)) {
+                e.preventDefault();
+              }
+            }}
             requried
           />
           {errors?.makan && <p className="error">{errors?.makan}</p>}
@@ -227,7 +235,12 @@ const debouncedSearch = debounce(async (value) => {
             type="text"
             name="subclass"
             value={formData?.subclass}
-            onChange={(e) => (/^[a-zA-Z]+$/.test(e.target.value) || e.target.value == "") ? handleChange(e) : null}
+            onChange={handleChange}
+            onKeyDown={(e) => {
+              if (!isAlphabateKey(e.key)) {
+                e.preventDefault();
+              }
+            }}
           />
           {/* {errors?.subclass && <p className="error">{errors?.subclass}</p>} */}
 
@@ -241,6 +254,11 @@ const debouncedSearch = debounce(async (value) => {
             name="rationCard"
             value={formData?.rationCard}
             onChange={handleChange}
+            onKeyDown={(e) => {
+              if (!isAlphanumericKey(e.key)) {
+                e.preventDefault();
+              }
+            }}
             requried
           />
           {errors?.rationCard && <p className="error">{errors?.rationCard}</p>}
