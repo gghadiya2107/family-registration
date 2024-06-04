@@ -73,6 +73,8 @@ console.log('getFamilyByIdData', getFamilyByIdData)
   const [isEditMode, setIsEditMode] = useState(false)
   const [isEditModeHead, setisEditModeHead] = useState(false)
   const [nameTitle, setNameTitle] = useState({})
+  console.log('memberList', memberList)
+  // console.log('formData', formData)
   useEffect(() => {
     dispatch(getDistrict())
     dispatch(getEconomicStatus())
@@ -84,6 +86,28 @@ console.log('getFamilyByIdData', getFamilyByIdData)
     dispatch(getProfession())
     dispatch(getReligion())
   }, [])
+
+  
+  const [formData, setFormData] = useState({
+    EnglishName: "",
+    hindiName: "",
+    relation : "",
+    relative: "",
+    dob: "",
+    gender: "",
+    registrationBase: "",
+    refrence: "",
+    education: "",
+    work: "",
+    category: familyDetails?.class || "",
+    subCategory: "",
+    rationCard: familyDetails?.rationCard ||"",
+    religion: "",
+    adharCard: "",
+    dastavage: "",
+    description: ""
+  })
+
 
   useEffect(() => {
     if(addFamilyData?.id){
@@ -99,8 +123,16 @@ console.log('getFamilyByIdData', getFamilyByIdData)
 setSaveHof(true)
       setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
       setFormData(getfamilymemberList?.find(v => v?.isHead == "true"))
+    }else{setSaveHof(false)
+      setMemberList([])
+      setFormData({})
     }
+    // return () => { setFormData({})
+    // setMemberList([])}
+   
   }, [getfamilymemberList])
+
+  console.log('formData', formData)
   
   
   useEffect(() => {
@@ -126,31 +158,11 @@ setSaveHof(true)
     setOpen(true)
   }
 
-  const [formData, setFormData] = useState({
-    EnglishName: "",
-    hindiName: "",
-    relation : "",
-    relative: "",
-    dob: "",
-    gender: "",
-    registrationBase: "",
-    refrence: "",
-    education: "",
-    work: "",
-    category: familyDetails?.class || "",
-    subCategory: "",
-    rationCard: familyDetails?.rationCard ||"",
-    religion: "",
-    adharCard: "",
-    dastavage: "",
-    description: ""
-  })
-
   useEffect(() => {
     
 if(familyDetails){
 
-  setFormData({...formData, rationCard: familyDetails?.rationCard,category: familyDetails?.class})
+  setFormData({...formData, rationCard: getFamilyByIdData?.rationCardNo,category: familyDetails?.class})
 }
   }, [familyDetails])
   

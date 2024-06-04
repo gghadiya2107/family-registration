@@ -18,7 +18,7 @@ const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClos
      handleClose()
 
     let data1 = [...memberList]
-    let newData = data1?.map(v => data?.EnglishName == v?.EnglishName ? {...v, isEditModeMember:true } : {...v, isEditModeMember:false } )
+    let newData = data1?.map(v => data?.memberName == v?.memberName ? {...v, isEditModeMember:true } : {...v, isEditModeMember:false } )
     setMemberList(newData)
   }
   return (

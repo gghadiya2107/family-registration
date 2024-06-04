@@ -122,7 +122,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
       dispatch(getfamilymember(addFamilyData?.id))
     // setSaveHof(true)
     setErrors({})
-    setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
+    setFormData({...formData,  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
     hindiName: "",
     relative: "",
     dob: "",
