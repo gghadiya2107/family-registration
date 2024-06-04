@@ -125,7 +125,7 @@ setSaveHof(true)
       setFormData(getfamilymemberList?.find(v => v?.isHead == "true"))
     }else{setSaveHof(false)
       setMemberList([])
-      setFormData({})
+      setFormData({rationCard: getFamilyByIdData?.rationCardNo,category: familyDetails?.class})
     }
     // return () => { setFormData({})
     // setMemberList([])}
