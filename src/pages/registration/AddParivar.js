@@ -4,6 +4,7 @@ import AddMemberModal from './AddMemberModal'
 import FamilyDetails from './FamilyDetails'
 import NewFamily from './NewFamily'
 import AddHOF from './AddHOF'
+import { useSelector } from 'react-redux';
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 // export async function getStaticProps({ locale }) {
@@ -14,6 +15,7 @@ import AddHOF from './AddHOF'
 
 
 const AddParivar = ({state, setState}) => {
+    // console.log("addFamilyData",addFamilyData)
     const [formData, setFormData] = useState({
         municipal: "",
         district: "",

@@ -17,6 +17,8 @@ import { getCategory } from '@/network/actions/getCategory'
 import { debounce } from 'lodash';
 import { getRationDetails } from '@/network/actions/getRationDetails'
 import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
+import { addFamily } from '@/network/actions/addFamily'
+import toast, { Toaster } from 'react-hot-toast'
 
 
 const NewFamily = ({ setState, formData, setFormData }) => {
@@ -30,7 +32,7 @@ const NewFamily = ({ setState, formData, setFormData }) => {
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
   const categorylist = useSelector((state) => state.getCategory?.data)
   const rationDetails = useSelector((state) => state.getRationDetails?.data || [])
-  console.log("rationDetails",rationDetails)
+ 
 
 useEffect(() => {
   dispatch(getDistrict())
@@ -73,8 +75,26 @@ const debouncedSearch = debounce(async (value) => {
 
   const onSave = () => {
     // const validationErrors = {};
+
     const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
+      let body = {
+        houseAddress:formData?.makan || "",
+        rationCardNo:formData?.rationCard || "",
+        socialSubCategory: formData?.subclass || "",
+        wardId: formData?.ward || 0,
+        districtCode: formData?.district || 0,
+        socialCategoryId: formData?.class || 0,
+        municipalityId: formData?.municipal || 0,
+        mobileNumber: formData?.mobile || "",
+        bplNumber: formData?.bpl || "",
+        active:true
+    }
+    console.log('body', body)
+    
+      
+      dispatch(addFamily(body))
+
       setState("2")
     } else {
       setErrors(validationErrors);
@@ -126,6 +146,7 @@ const debouncedSearch = debounce(async (value) => {
   };
   return (
     <div style={{ marginTop: "20px" }}>
+
       {/* <div className={style.heading}>{t('newFamily')}</div> */}
       <div className={style.heading}>New Family</div>
       <Grid container spacing={3} >

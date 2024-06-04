@@ -29,6 +29,8 @@ import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
 import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
+import { getFamilyById } from '@/network/actions/getFamilyById'
+import { getRelation } from '@/network/actions/getRelation'
 
 
 
@@ -44,12 +46,16 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
   const categorylist = useSelector((state) => state.getCategory?.data)
   const genderlist = useSelector((state) => state.getGender?.data)
+  const relationlist = useSelector((state) => state.getRelation?.data)
   const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
   const qualificationList = useSelector((state) => state.getQualification?.data)
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
+  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
+  const addFamilyData = useSelector((state) => state.addFamily?.data || [])
 
-
+console.log('relationlist', relationlist)
+console.log('getFamilyByIdData', getFamilyByIdData)
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
   const [headDetailsExtra, setheadDetailsExtra] = useState()
   const [memberDetailsExtra, setMemberDetailsExtra] = useState({})
@@ -68,6 +74,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
     dispatch(getEconomicStatus())
     dispatch(getCategory())
     dispatch(getGender())
+    dispatch(getRelation())
     dispatch(getMemberStatus())
     dispatch(getQualification())
     dispatch(getProfession())
@@ -75,6 +82,15 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
 
 
   }, [])
+
+  useEffect(() => {
+    if(addFamilyData){
+
+      dispatch(getFamilyById(addFamilyData?.id))
+    }
+
+  }, [addFamilyData])
+  
   useEffect(() => {
     setNameTitle({
       municipal: municipalList?.find(v => v?.id == familyDetails?.municipal)?.name,
@@ -506,7 +522,6 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   return (
     <>
       <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} familyDetails={familyDetails}/>
-
       <div className={style.heading} style={{ marginBottom: "5px" }}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
         <table className={style.table}>
@@ -1228,9 +1243,20 @@ disabled
               {errors?.hindiName && <p className="error">{errors?.hindiName}</p>}
 
             </Grid>
-            <Grid item xs={12} sm={4} md={3}>
+            <Grid item xs={12} sm={4} md={3} >
+            <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
+           <div style={{display : "flex"}}>
+           <SelectDropdown
+                style={{paddingTop : 0, paddingBottom : 0}}
+                name="relation"
+                options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+
+                value={formData?.relation}
+                onChange={handleChange}
+                // requried
+              />
               <InputFieldWithIcon
-                title={t('nameOfRelative')}
+                // title={t('nameOfRelative')}
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="text"
@@ -1242,8 +1268,9 @@ disabled
                     e.preventDefault();
                   }
                 }}
-                requried
+                // requried
               />
+           </div>
               {errors?.relative && <p className="error">{errors?.relative}</p>}
 
             </Grid>
