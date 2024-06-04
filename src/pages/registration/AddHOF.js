@@ -38,6 +38,7 @@ import { getfamilymember } from '@/network/actions/getfamilymember'
 
 
 const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
+  console.log('familyDetails', familyDetails)
   const { t } = useTranslation("translation");
   const router = useRouter()
   const dispatch = useDispatch()
@@ -92,6 +93,15 @@ console.log('getFamilyByIdData', getFamilyByIdData)
     }
 
   }, [addFamilyData])
+
+  useEffect(() => {
+    if(getfamilymemberList?.length > 0){
+setSaveHof(true)
+      setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
+      setFormData(getfamilymemberList?.find(v => v?.isHead == "true"))
+    }
+  }, [getfamilymemberList])
+  
   
   useEffect(() => {
     setNameTitle({
@@ -135,6 +145,15 @@ console.log('getFamilyByIdData', getFamilyByIdData)
     dastavage: "",
     description: ""
   })
+
+  useEffect(() => {
+    
+if(familyDetails){
+
+  setFormData({...formData, rationCard: familyDetails?.rationCard,category: familyDetails?.class})
+}
+  }, [familyDetails])
+  
   const [errors, setErrors] = useState({});
   const [familyError, setFamilyError] = useState({})
   const [headError, setHeadError] = useState({})
@@ -568,11 +587,11 @@ console.log('getFamilyByIdData', getFamilyByIdData)
           </thead>
           <tbody>
             <tr className={style.tr}>
-              <td className={style.td}>{nameTitle?.municipal}</td>
-              <td className={style.td}>{nameTitle?.ward}</td>
-              <td className={style.td}>{familyDetails?.bpl}</td>
-              <td className={style.td}>{familyDetails?.rationCard}</td>
-              <td className={style.td}>{familyDetails?.mobile}</td>
+              <td className={style.td}>{getFamilyByIdData?.municipalName}</td>
+              <td className={style.td}>{getFamilyByIdData?.wardName}</td>
+              <td className={style.td}>{getFamilyByIdData?.bplNumber}</td>
+              <td className={style.td}>{getFamilyByIdData?.rationCardNo}</td>
+              <td className={style.td}>{getFamilyByIdData?.mobileNumber}</td>
               <td className={style.td}>
 
                 <div className="action">
@@ -594,21 +613,21 @@ console.log('getFamilyByIdData', getFamilyByIdData)
 
                 <Grid container spacing={5}>
                   <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Municipality:</b> {nameTitle?.municipal}</p>
-                    <p className={style.expandMargin}><b>Financial Condition:</b> {nameTitle?.condition}</p>
-                    <p className={style.expandMargin}><b>Category:</b> {nameTitle?.class}</p>
+                    <p className={style.expandMargin}><b>Municipality:</b> {getFamilyByIdData?.municipalName}</p>
+                    <p className={style.expandMargin}><b>Financial Condition:</b> {getFamilyByIdData?.economic}</p>
+                    <p className={style.expandMargin}><b>Category:</b> {getFamilyByIdData?.socialCategory}</p>
 
                     {/* <p className={style.expandMargin}><b>Sub Category:</b> {familyDetails?.subclass}</p> */}
                   </Grid>
                   <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Ward:</b> {nameTitle?.ward}</p>
-                    <p className={style.expandMargin}><b>BPL Number:</b> {familyDetails?.bpl}</p>
-                    <p className={style.expandMargin}><b>Ration card number:</b> {familyDetails?.rationCard}</p>
+                    <p className={style.expandMargin}><b>Ward:</b> {getFamilyByIdData?.wardName}</p>
+                    <p className={style.expandMargin}><b>BPL Number:</b> {getFamilyByIdData?.bplNumber}</p>
+                    <p className={style.expandMargin}><b>Ration card number:</b> {getFamilyByIdData?.rationCardNo}</p>
 
                   </Grid>
                   <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>House Number:</b> {familyDetails?.makan}</p>
-                    <p className={style.expandMargin}><b>Mobile Number:</b> {familyDetails?.mobile}</p>
+                    <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
+                    <p className={style.expandMargin}><b>Mobile Number:</b> {getFamilyByIdData?.mobileNumber}</p>
 
                   </Grid>
                 </Grid>
@@ -795,10 +814,10 @@ console.log('getFamilyByIdData', getFamilyByIdData)
               </thead>
               <tbody>
                 <tr className={style.tr}>
-                  <td className={style.td}>{formData?.EnglishName}</td>
-                  <td className={style.td}>{formData?.rationCard}</td>
-                  <td className={style.td}>{religionList?.find(v => v?.id == formData?.religion)?.nameE}</td>
-                  <td className={style.td}>{categorylist?.find(v => v?.id == formData?.category)?.nameE}</td>
+                  <td className={style.td}>{formData?.memberName}</td>
+                  <td className={style.td}>{formData?.rationCardNo}</td>
+                  <td className={style.td}>{ formData?.religion}</td>
+                  <td className={style.td}>{formData?.socialCategory}</td>
                   <td className={style.td}>
 
                     <div className="action">
@@ -819,19 +838,19 @@ console.log('getFamilyByIdData', getFamilyByIdData)
                   <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.EnglishName}</p>
-                        <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.dob}</p>
-                        <p className={style.expandMargin}><b>Gender:</b> {genderlist?.find(v => v?.id == formData?.gender)?.nameE}</p>
+                        <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.memberName}</p>
+                        <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.date_of_birth}</p>
+                        <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Refrance Number:</b> {formData?.refrence}</p>
-                        <p className={style.expandMargin}><b>Religion:</b> {religionList?.find(v => v?.id == formData?.religion)?.nameE}</p>
-                        <p className={style.expandMargin}><b>Category:</b> {categorylist?.find(v => v?.id == formData?.category)?.nameE}</p>
+                        <p className={style.expandMargin}><b>Refrance Number:</b> {formData?.reference_no}</p>
+                        <p className={style.expandMargin}><b>Religion:</b> {formData?.religion}</p>
+                        <p className={style.expandMargin}><b>Category:</b> {formData?.socialCategory}</p>
 
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCard}</p>
-                        <p className={style.expandMargin}><b>Aadhar Card Number:</b> {formData?.adharCard}</p>
+                        <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCardNo}</p>
+                        <p className={style.expandMargin}><b>Aadhar Card Number:</b> {formData?.aadhaarNo}</p>
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
                       </Grid>
@@ -1009,9 +1028,9 @@ disabled
                 <tbody>
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
-                      <td className={style.td}>{v?.EnglishName}</td>
-                      <td className={style.td}>{v?.dob}</td>
-                      <td className={style.td}>{v?.adharCard}</td>
+                      <td className={style.td}>{v?.memberName}</td>
+                      <td className={style.td}>{v?.date_of_birth}</td>
+                      <td className={style.td}>{v?.aadhaarNo}</td>
                       <td className={style.td}>Document not Attached</td>
                       <td className={style.td}>
 
@@ -1036,22 +1055,22 @@ disabled
 
                         <Grid container spacing={5}>
                           <Grid item xs={4}>
-                            <p className={style.expandMargin}><b>Member Name:</b> {v?.EnglishName}</p>
-                            <p className={style.expandMargin}><b>Date of Birth:</b> {v?.dob}</p>
-                            <p className={style.expandMargin}><b>Gender:</b> {genderlist?.find(k => k?.id == v?.gender)?.nameE}</p>
+                            <p className={style.expandMargin}><b>Member Name:</b> {v?.memberName}</p>
+                            <p className={style.expandMargin}><b>Date of Birth:</b> {v?.date_of_birth}</p>
+                            <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
                             {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
 
                           </Grid>
                           <Grid item xs={4}>
-                            <p className={style.expandMargin}><b>Refrance Number:</b> {v?.refrence}</p>
-                            <p className={style.expandMargin}><b>Religion:</b> {religionList?.find(k => k?.id == v?.religion)?.nameE}</p>
-                            <p className={style.expandMargin}><b>Category:</b> {categorylist?.find(k => k?.id == v?.category)?.nameE}</p>
+                            <p className={style.expandMargin}><b>Refrance Number:</b> {v?.reference_no}</p>
+                            <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
+                            <p className={style.expandMargin}><b>Category:</b> { v?.socialCategory}</p>
 
                           </Grid>
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
-                            <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCard}</p>
-                            <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.adharCard}</p>
+                            <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
+                            <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.aadhaarNo}</p>
 
                           </Grid>
                         </Grid>

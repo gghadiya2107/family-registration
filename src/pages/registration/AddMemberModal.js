@@ -131,9 +131,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     refrence: "",
     education: "",
     work: "",
-    category: "",
     subCategory: "",
-    rationCard: "",
     religion: "",
     adharCard: "",
     dastavage: "",
@@ -145,6 +143,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
   const onSave = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
+    console.log('validationErrors', validationErrors)
     if (Object.keys(validationErrors).length === 0) {
       let body = {
         "memberName":formData?.EnglishName || "",

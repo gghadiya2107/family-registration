@@ -88,7 +88,8 @@ const debouncedSearch = debounce(async (value) => {
         municipalityId: formData?.municipal || 0,
         mobileNumber: formData?.mobile || "",
         bplNumber: formData?.bpl || "",
-        active:true
+        active:true,
+        economicId : formData?.condition || 0
     }
     console.log('body', body)
     
