@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import SelectDropdown from '@/components/SelectDropdown'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
 import SubmitButton from '@/components/SubmitBtn'
+import style from "./registration.module.css"
+
 import FileUpload from '@/components/FileUpload'
 import DatePicker from '@/components/DatePicker'
 import TextArea from '@/components/TextArea'
@@ -22,6 +24,9 @@ import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
 import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
+import { addfamilymember } from '@/network/actions/addfamilymember'
+import { getfamilymember } from '@/network/actions/getfamilymember'
+import { getRelation } from '@/network/actions/getRelation'
 
 function generateUserId() {
   const timestamp = Date.now(); // Current timestamp in milliseconds
@@ -43,6 +48,9 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
   console.log('familyDetails', familyDetails)
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
+  const addFamilyData = useSelector((state) => state.addFamily?.data || [])
+  const relationlist = useSelector((state) => state.getRelation?.data)
+
   const categorylist = useSelector((state) => state.getCategory?.data)
   const genderlist = useSelector((state) => state.getGender?.data)
   const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
@@ -53,6 +61,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     EnglishName: "",
     hindiName: "",
     relative: "",
+    relation : "",
     dob: "",
     gender: "",
     registrationBase: "",
@@ -80,6 +89,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     dispatch(getCategory())
     dispatch(getGender())
     dispatch(getMemberStatus())
+    dispatch(getRelation())
+
     dispatch(getQualification())
     dispatch(getProfession())
     dispatch(getReligion())
@@ -107,29 +118,57 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     }
   }
 
+    const extra = () => {
+      dispatch(getfamilymember(addFamilyData?.id))
+    // setSaveHof(true)
+    setErrors({})
+    setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
+    hindiName: "",
+    relative: "",
+    dob: "",
+    gender: "",
+    registrationBase: "",
+    refrence: "",
+    education: "",
+    work: "",
+    category: "",
+    subCategory: "",
+    rationCard: "",
+    religion: "",
+    adharCard: "",
+    dastavage: "",
+    description: ""})
+    setMemberList([...memberList,{...formData, id : generateUserId()}])
+    handleClose()
+  }
+
   const onSave = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
-      setErrors({})
-      setFormData({  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
-      hindiName: "",
-      relative: "",
-      dob: "",
-      gender: "",
-      registrationBase: "",
-      refrence: "",
-      education: "",
-      work: "",
-      category: "",
-      subCategory: "",
-      rationCard: "",
-      religion: "",
-      adharCard: "",
-      dastavage: "",
-      description: ""})
-      setMemberList([...memberList,{...formData, id : generateUserId()}])
-      handleClose()
+      let body = {
+        "memberName":formData?.EnglishName || "",
+"memberNameHin": formData?.hindiName ||  "",
+"relativeName": formData?.relative || "",
+"relationId":formData?.relation || 0,
+"dateOfBirth":formData?.dob || "",
+"genderId": formData?.gender || 0,
+"memberStatusId": formData?.registrationBase || 0,
+"referenceNo":formData?.refrence || "",
+"qualificationId": formData?.education || 0,
+"professionId": formData?.work || 0,
+"socialCategoryId": formData?.category || 0,
+"socialSubCategory": formData?.subCategory || "",
+"rationCardNo":formData?.rationCard || "",
+"religionId": formData?.religion || 0,
+"aadhaarNo":formData?.adharCard || "",
+"isHead":false,
+"remarks":formData?.description || "",
+"familyId":addFamilyData?.id
+
+      }
+      dispatch(addfamilymember(body,extra))
+    
     } else {
       setErrors(validationErrors);
     }
@@ -265,25 +304,37 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
             {errors?.hindiName && <p className="error">{errors?.hindiName}</p>}
 
           </Grid>
-          <Grid item xs={12} sm={4} md={3}>
-            <InputFieldWithIcon
-                title={t('nameOfRelative')}
-                // icon={<IoIosDocument size={20} />}
-              placeholder=""
-              type="text"
-              name="relative"
-              value={formData?.relative}
-              onChange={handleChange}
-              onKeyDown={(e) => {
-                if (!isAlphabateKey(e.key)) {
-                  e.preventDefault();
-                }
-              }} 
-              requried
-            />
-            {errors?.relative && <p className="error">{errors?.relative}</p>}
+          <Grid item xs={12} sm={4} md={3} >
+            <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
+           <div style={{display : "flex"}}>
+           <SelectDropdown
+                style={{paddingTop : 6, paddingBottom : 6}}
+                name="relation"
+                options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-          </Grid>
+                value={formData?.relation}
+                onChange={handleChange}
+                // requried
+              />
+              <InputFieldWithIcon
+                // title={t('nameOfRelative')}
+                // icon={<IoIosDocument size={20} />}
+                placeholder=""
+                type="text"
+                name="relative"
+                value={formData?.relative}
+                onChange={handleChange}
+                onKeyDown={(e) => {
+                  if (!isAlphabateKey(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
+                // requried
+              />
+           </div>
+              {errors?.relative && <p className="error">{errors?.relative}</p>}
+
+            </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <DatePicker
                 title={t('dateOfBirth')}

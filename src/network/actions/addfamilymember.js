@@ -4,39 +4,40 @@ import { toast } from 'react-hot-toast';
 
 
 import {
-    ADD_FAMILY_SUCCESS,
-    ADD_FAMILY_FALIURE,
+ 
+    ADD_FAMILY_MEMBER_SUCCESS,
+    ADD_FAMILY_MEMBER_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData, encryptDataPost } from "@/utils/encryptDecryot";
 // Action Creators
-export const addFamilySuccess = (data) => ({
-	type: ADD_FAMILY_SUCCESS,
+export const addfamilymemberSuccess = (data) => ({
+	type: ADD_FAMILY_MEMBER_SUCCESS,
 	payload: data,
 });
 
-export const addFamilyFaliure = (error) => ({
-	type: ADD_FAMILY_FALIURE,
+export const addfamilymemberFaliure = (error) => ({
+	type: ADD_FAMILY_MEMBER_FALIURE,
 	payload: error,
 });
 
 
 // Async Action to Fetch Data
-export const addFamily = (body,setState) => {
+export const addfamilymember = (body,extra) => {
 	return async (dispatch) => {
 
 		try {
 			const response = await apiCall.post(
-				`/urbanregister/addfamily`, encryptDataPost(JSON.stringify(body))
+				`/urbanregister/addfamilymember`, encryptDataPost(JSON.stringify(body))
 			);
 			let responseData = decryptData(response?.data?.data)
-			setState("2")
+            console.log('responseData add member', responseData)
             toast.success( responseData?.message)
-			dispatch(addFamilySuccess(responseData));
+            extra()
+			dispatch(addfamilymemberSuccess(responseData));
 		} catch (error) {   
-            console.log('error', error)
+            console.log('error member', error)
             toast.error(error?.response?.data?.message)
-            console.log('error', error?.response?.data?.message)
-			dispatch(addFamilyFaliure(error));
+			dispatch(addfamilymemberFaliure(error));
 		}
 	};
 };

@@ -31,6 +31,8 @@ import translateToHindi from '@/utils/translate'
 import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
 import { getFamilyById } from '@/network/actions/getFamilyById'
 import { getRelation } from '@/network/actions/getRelation'
+import { addfamilymember } from '@/network/actions/addfamilymember'
+import { getfamilymember } from '@/network/actions/getfamilymember'
 
 
 
@@ -52,9 +54,10 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
 
-console.log('relationlist', relationlist)
+console.log('getfamilymemberList', getfamilymemberList)
 console.log('getFamilyByIdData', getFamilyByIdData)
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
   const [headDetailsExtra, setheadDetailsExtra] = useState()
@@ -79,14 +82,13 @@ console.log('getFamilyByIdData', getFamilyByIdData)
     dispatch(getQualification())
     dispatch(getProfession())
     dispatch(getReligion())
-
-
   }, [])
 
   useEffect(() => {
-    if(addFamilyData){
+    if(addFamilyData?.id){
 
       dispatch(getFamilyById(addFamilyData?.id))
+      dispatch(getfamilymember(addFamilyData?.id))
     }
 
   }, [addFamilyData])
@@ -117,6 +119,7 @@ console.log('getFamilyByIdData', getFamilyByIdData)
   const [formData, setFormData] = useState({
     EnglishName: "",
     hindiName: "",
+    relation : "",
     relative: "",
     dob: "",
     gender: "",
@@ -253,11 +256,39 @@ console.log('getFamilyByIdData', getFamilyByIdData)
     }
   }
 
+  const extra = () => {
+    setSaveHof(true)
+    dispatch(getfamilymember(addFamilyData?.id))
+  }
+
   const handleSaveHOF = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
+    console.log('formData hof', formData)
     if (Object.keys(validationErrors).length === 0) {
-      setSaveHof(true)
+      let body = {
+        "memberName":formData?.EnglishName || "",
+"memberNameHin": formData?.hindiName ||  "",
+"relativeName": formData?.relative || "",
+"relationId":formData?.relation || 0,
+"dateOfBirth":formData?.dob || "",
+"genderId": formData?.gender || 0,
+"memberStatusId": formData?.registrationBase || 0,
+"referenceNo":formData?.refrence || "",
+"qualificationId": formData?.education || 0,
+"professionId": formData?.work || 0,
+"socialCategoryId": formData?.category || 0,
+"socialSubCategory": formData?.subCategory || "",
+"rationCardNo":formData?.rationCard || "",
+"religionId": formData?.religion || 0,
+"aadhaarNo":formData?.adharCard || "",
+"isHead":true,
+"remarks":formData?.description || "",
+"familyId":addFamilyData?.id
+
+      }
+      dispatch(addfamilymember(body,extra))
+      // setSaveHof(true)
     } else {
       setErrors(validationErrors);
     }
@@ -271,7 +302,7 @@ console.log('getFamilyByIdData', getFamilyByIdData)
     if (!formData.hindiName?.trim()) {
       errors.hindiName = t("validateHeadName");
     }
-    if (!formData.relative?.trim()) {
+    if (!formData.relative?.trim() || !formData?.relation || formData?.relation == "0") {
       errors.relative = t("validateRelativeName");
     }
     if (!formData.dob?.trim()) {
@@ -1247,7 +1278,7 @@ disabled
             <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
            <div style={{display : "flex"}}>
            <SelectDropdown
-                style={{paddingTop : 0, paddingBottom : 0}}
+                style={{paddingTop : 6, paddingBottom : 6}}
                 name="relation"
                 options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 

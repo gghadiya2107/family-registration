@@ -93,10 +93,11 @@ const debouncedSearch = debounce(async (value) => {
     console.log('body', body)
     
       
-      dispatch(addFamily(body))
+      dispatch(addFamily(body,setState))
 
-      setState("2")
+     
     } else {
+      console.log('validationErrors', validationErrors)
       setErrors(validationErrors);
     }
   }
