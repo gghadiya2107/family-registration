@@ -18,6 +18,7 @@ const FamilyList = () => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const [formData, setFormData] = useState({
+    district: "",
     municipal: "",
     ward: ""
   })
@@ -40,7 +41,6 @@ const FamilyList = () => {
             options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
             value={formData?.district}
             onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
-          // requried
           />
 
 
@@ -50,11 +50,9 @@ const FamilyList = () => {
             title={t('selectVillage')}
             name="municipal"
             options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
-
+            disabled={formData?.district != "" ?false : true}
             value={formData?.municipal}
             onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
-
-          // requried
           />
 
         </Grid>
@@ -64,8 +62,8 @@ const FamilyList = () => {
             name="ward"
             options={wardList?.map(v => ({ value: v?.id, label: v?.name }))}
             value={formData?.ward}
+            disabled={formData?.district != "" && formData?.municipal != "" ? false : true}
             onChange={handleChange}
-          // requried
           />
         </Grid>
       </Grid>

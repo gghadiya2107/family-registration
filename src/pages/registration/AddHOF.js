@@ -416,6 +416,7 @@ if(familyDetails){
 
   const saveFamilyAfterEdit = () => {
     const validationErrors = validateFormFamily(familyDetailsExtra);
+    console.log('familyDetailsExtra', familyDetailsExtra)
     if (Object.keys(validationErrors).length === 0) {
       setFamilyDetails(familyDetailsExtra); setIsEditMode(false)
       setFamilyError({})
@@ -546,41 +547,44 @@ if(familyDetails){
 
   const validateFormFamily = (familyDetailsExtra) => {
     const errors = {};
-    if (!familyDetailsExtra.municipal?.trim()) {
-      errors.municipal = t('validateMunucipal');
+    console.log('!familyDetailsExtra.municipal?.trim()', !familyDetailsExtra.municipal?.trim(),familyDetailsExtra.municipal?.trim(),familyDetailsExtra)
+    if (!familyDetailsExtra.municipalName?.trim()) {
+      errors.municipalName = t('validateMunucipal');
     }
     if (!familyDetailsExtra.district?.trim()) {
       errors.district = t('validateDistrict');
     }
-    if (!familyDetailsExtra.ward?.trim()) {
-      errors.ward = t("validateward");
+    if (!familyDetailsExtra.wardName?.trim()) {
+      errors.wardName = t("validateward");
     }
-    if (!familyDetailsExtra.makan?.trim()) {
-      errors.makan = t("ValidateHouseNumber");
+    if (!familyDetailsExtra.houseAddress?.trim()) {
+      errors.houseAddress = t("ValidateHouseNumber");
     }
-    if (!familyDetailsExtra.condition?.trim() ||  familyDetailsExtra.condition == "0") {
-      errors.condition = t("validateCondition");
+    if (!familyDetailsExtra.economic?.trim() ||  familyDetailsExtra.economic == "0") {
+      errors.economic = t("validateCondition");
     }
-    if (familyDetailsExtra.condition == "2" &&!familyDetailsExtra.bpl?.trim()) {
-      errors.bpl = t("validateBPL");
+    if (familyDetailsExtra.economic == "2" &&!familyDetailsExtra.bplNumber?.trim()) {
+      errors.bplNumber = t("validateBPL");
     }
-    if (!familyDetailsExtra.class?.trim() ||  familyDetailsExtra.class == "0") {
-      errors.class = t("validateCategory");
+    if (!familyDetailsExtra.socialCategory?.trim() ||  familyDetailsExtra.socialCategory == "0") {
+      errors.socialCategory = t("validateCategory");
     }
     // if (!familyDetailsExtra.subclass?.trim()) {
     //   errors.subclass = t("validateSubCategory");
     // }
-    if (!familyDetailsExtra.rationCard?.trim()) {
-      errors.rationCard = t("validateRationCard");
+    if (!familyDetailsExtra.rationCardNo?.trim()) {
+      errors.rationCardNo = t("validateRationCard");
     }
-    if (!familyDetailsExtra.mobile?.trim()) {
-      errors.mobile = t("validateMobile");
+    if (!familyDetailsExtra.mobileNumber?.trim()) {
+      errors.mobileNumber = t("validateMobile");
     }
-    if (familyDetailsExtra.mobile?.trim()?.length < 10) {
-      errors.mobile = t("validateMobileLength");
+    if (familyDetailsExtra.mobileNumber?.trim()?.length < 10) {
+      errors.mobileNumber = t("validateMobileLength");
     }
     return errors;
   };
+
+  console.log('familyDetailsExtra', familyDetailsExtra)
   return (
     <>
       <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} familyDetails={familyDetails}/>
@@ -615,7 +619,7 @@ if(familyDetails){
                     <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> :
                       <MoreBtn title="More" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} />}
 
-                      <EditBtn title="Edit" disabled={familyDetailsMore} onClick={() => { setFamilyDetailsExtra(familyDetails); setConfirmationData(familyDetails); setEditModalType("family"); handleOpen() }} /></>
+                      <EditBtn title="Edit" disabled={familyDetailsMore} onClick={() => { setFamilyDetailsExtra(getFamilyByIdData); setConfirmationData(getFamilyByIdData); setEditModalType("family"); handleOpen() }} /></>
                   }
                 </div>
               </td>
@@ -664,27 +668,27 @@ if(familyDetails){
                     <SelectDropdown
 
                       title={t('selectVillage')}
-                      name="municipal"
+                      name="municipalName"
                       options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
 
-                      value={familyDetailsExtra?.municipal}
+                      value={familyDetailsExtra?.municipalName}
                       onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value })) }}
                       requried
                     />
-                    {familyError?.municipal && <p className="error">{familyError?.municipal}</p>}
+                    {familyError?.municipalName && <p className="error">{familyError?.municipalName}</p>}
                   </Grid>
                   <Grid item xs={4}>
                     <SelectDropdown
                       title={t('selectWard')}
 
-                      name="ward"
+                      name="wardName"
                       options={wardList?.map(v => ({ value: v?.id, label: v?.name }))}
 
-                      value={familyDetailsExtra?.ward}
+                      value={familyDetailsExtra?.wardName}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.ward && <p className="error">{familyError?.ward}</p>}
+                    {familyError?.wardName && <p className="error">{familyError?.wardName}</p>}
                   </Grid>
                   <Grid item xs={4} >
                     <InputFieldWithIcon
@@ -693,8 +697,8 @@ if(familyDetails){
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="text"
-                      name="subclass"
-                      value={familyDetailsExtra?.subclass}
+                      name="socialSubCategory"
+                      value={familyDetailsExtra?.socialSubCategory}
                       onKeyDown={(e) => {
                         if (!isAlphabateKey(e.key)) {
                           e.preventDefault();
@@ -709,17 +713,17 @@ if(familyDetails){
                     <SelectDropdown
                       title={t('financialCondition')}
 
-                      name="condition"
+                      name="economic"
                       options={economicStatusList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-                      value={familyDetailsExtra?.condition}
+                      value={familyDetailsExtra?.economic}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.condition && <p className="error">{familyError?.condition}</p>}
+                    {familyError?.economic && <p className="error">{familyError?.economic}</p>}
                   </Grid>
 
-                 {familyDetailsExtra?.condition == "2" && <Grid item xs={4} >
+                 {familyDetailsExtra?.economic == "2" && <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('bplCount')}
 
@@ -727,12 +731,12 @@ if(familyDetails){
                       placeholder=""
                       type="number"
                       onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                      name="bpl"
-                      value={familyDetailsExtra?.bpl}
+                      name="bplNumber"
+                      value={familyDetailsExtra?.bplNumber}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.bpl && <p className="error">{familyError?.bpl}</p>}
+                    {familyError?.bplNumber && <p className="error">{familyError?.bplNumber}</p>}
                   </Grid>}
                   <Grid item xs={4} >
                     <InputFieldWithIcon
@@ -741,8 +745,8 @@ if(familyDetails){
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="text"
-                      name="rationCard"
-                      value={familyDetailsExtra?.rationCard}
+                      name="rationCardNo"
+                      value={familyDetailsExtra?.rationCardNo}
                       onChange={handleChangeFamilyDetails}
                       requried
                       onKeyDown={(e) => {
@@ -752,7 +756,7 @@ if(familyDetails){
                       }}
                       // disabled
                     />
-                    {familyError?.rationCard && <p className="error">{familyError?.rationCard}</p>}
+                    {familyError?.rationCardNo && <p className="error">{familyError?.rationCardNo}</p>}
 
                   </Grid>
                   <Grid item xs={4}>
@@ -762,8 +766,8 @@ if(familyDetails){
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="text"
-                      name="makan"
-                      value={familyDetailsExtra?.makan}
+                      name="houseAddress"
+                      value={familyDetailsExtra?.houseAddress}
                       onChange={handleChangeFamilyDetails}
                       requried
                       onKeyDown={(e) => {
@@ -772,19 +776,19 @@ if(familyDetails){
                         }
                       }}
                     />
-                    {familyError?.makan && <p className="error">{familyError?.makan}</p>}
+                    {familyError?.houseAddress && <p className="error">{familyError?.houseAddress}</p>}
                   </Grid>
                   <Grid item xs={4} >
                     <SelectDropdown
                       title={t('category')}
                       // disabled
-                      name="class"
+                      name="socialCategory"
                       options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
-                      value={familyDetailsExtra?.class}
+                      value={familyDetailsExtra?.socialCategory}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.class && <p className="error">{familyError?.class}</p>}
+                    {familyError?.socialCategory && <p className="error">{familyError?.socialCategory}</p>}
                   </Grid>
                   <Grid item xs={4} >
                     <InputFieldWithIcon
@@ -794,12 +798,12 @@ if(familyDetails){
                       placeholder=""
                       type="number"
                       onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                      name="mobile"
-                      value={familyDetailsExtra?.mobile}
+                      name="mobileNumber"
+                      value={familyDetailsExtra?.mobileNumber}
                       onChange={(e) => e.target.value?.length > 10 ? null : handleChangeFamilyDetails(e)}
                       requried
                     />
-                    {familyError?.mobile && <p className="error">{familyError?.mobile}</p>}
+                    {familyError?.mobileNumber && <p className="error">{familyError?.mobileNumber}</p>}
 
                   </Grid>
                 </Grid>
@@ -1528,7 +1532,7 @@ disabled
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
           </div></>}
-      <EditFamilyConfirmation nameTitle={nameTitle} memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} />
+      <EditFamilyConfirmation nameTitle={nameTitle} memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} getFamilyByIdData={getFamilyByIdData}/>
     </>
   )
 }
