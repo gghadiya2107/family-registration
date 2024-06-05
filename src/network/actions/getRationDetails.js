@@ -6,6 +6,7 @@ import {
     GET_RATION_DETAILS_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData } from "@/utils/encryptDecryot";
+import { ApiGetNoAuth } from "../apiData";
 // Action Creators
 export const getRationDetailsSuccess = (data) => ({
 	type: GET_RATION_DETAILS_SUCCESS,
@@ -23,11 +24,15 @@ export const getRationDetails = (value) => {
 	return async (dispatch) => {
 
 		try {
-			const response = await apiCall.get(
-				`/ration/fetch-details?rationCardNo=${encryptData(value)}`
-			);
-			let responseData = decryptData(response?.data?.data)
-			dispatch(getRationDetailsSuccess(responseData));
+			let params = {
+				rationCardNo : value,
+			}
+			const response = await ApiGetNoAuth(`/master-data?`, params);
+			// const response = await apiCall.get(
+			// 	`/ration/fetch-details?rationCardNo=${encryptData(value)}`
+			// );
+			// let responseData = decryptData(response?.data?.data)
+			dispatch(getRationDetailsSuccess(response));
 		} catch (error) {
 			dispatch(getRationDetailsFaliure(error?.response?.data?.message));
 		}

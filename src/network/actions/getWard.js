@@ -6,6 +6,7 @@ import {
     GET_WARD_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData } from "@/utils/encryptDecryot";
+import { ApiGetNoAuth } from "../apiData";
 // Action Creators
 export const getWardSuccess = (data) => ({
 	type: GET_WARD_SUCCESS,
@@ -23,12 +24,19 @@ export const getWard = (body) => {
 	return async (dispatch) => {
 
 		try {
-			const response = await apiCall.get(
-				`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.municipalId)}&masterName=${encryptData("ward")}`
-			);
-			let responseData = decryptData(response?.data?.data)
+			let params = {
+				status : "true",
+				masterName : "ward",
+				parentId: body?.municipalId
 
-			dispatch(getWardSuccess(responseData));
+			}
+			const response = await ApiGetNoAuth(`/master-data?`, params);
+			// const response = await apiCall.get(
+			// 	`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.municipalId)}&masterName=${encryptData("ward")}`
+			// );
+			// let responseData = decryptData(response?.data?.data)
+
+			dispatch(getWardSuccess(response));
 		} catch (error) {
 			dispatch(getWardFaliure(error));
 		}

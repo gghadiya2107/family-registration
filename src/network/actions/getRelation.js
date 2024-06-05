@@ -8,6 +8,7 @@ import {
     GET_RELATION_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData } from "@/utils/encryptDecryot";
+import { ApiGetNoAuth } from "../apiData";
 // Action Creators
 export const getRelationSuccess = (data) => ({
 	type: GET_RELATION_SUCCESS,
@@ -25,11 +26,16 @@ export const getRelation = () => {
 	return async (dispatch) => {
 
 		try {
-			const response = await apiCall.get(
-				`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("relation")}`
-			);
-			let responseData = decryptData(response?.data?.data)
-			dispatch(getRelationSuccess(responseData));
+			let params = {
+				status : "true",
+				masterName : "relation",
+			}
+			const response = await ApiGetNoAuth(`/master-data?`, params);
+			// const response = await apiCall.get(
+			// 	`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("relation")}`
+			// );
+			// let responseData = decryptData(response?.data?.data)
+			dispatch(getRelationSuccess(response));
 		} catch (error) {
 			dispatch(getRelationFaliure(error));
 		}

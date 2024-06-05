@@ -3,20 +3,6 @@ import CryptoJS from 'crypto-js';
 
 const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY_ENCRYPT_DECRYPT;
 
-// Encryption function
-// export function encryptData(data) {
-//     const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
-//     const encryptedWithPlusSign = encodeURIComponent(encrypted);
-//     return encryptedWithPlusSign;
-// }
-
-// Decryption function
-// export function decryptData(encryptedData) {
-//     const encryptedWithoutPlusSign = encodeURIComponent(encryptedData);
-//     const bytes = CryptoJS.AES.decrypt(encryptedWithoutPlusSign, secretKey);
-//     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-// }
-
 export function decryptData(urlEncodedEncrypted) {
 
     try {

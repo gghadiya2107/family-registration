@@ -6,6 +6,7 @@ import {
     GET_RELIGION_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData } from "@/utils/encryptDecryot";
+import { ApiGetNoAuth } from "../apiData";
 // Action Creators
 export const getReligionSuccess = (data) => ({
 	type: GET_RELIGION_SUCCESS,
@@ -23,11 +24,16 @@ export const getReligion = () => {
 	return async (dispatch) => {
 
 		try {
-			const response = await apiCall.get(
-				`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("religion")}`
-			);
-			let responseData = decryptData(response?.data?.data)
-			dispatch(getReligionSuccess(responseData));
+			let params = {
+				status : "true",
+				masterName : "religion",
+			}
+			const response = await ApiGetNoAuth(`/master-data?`, params);
+			// const response = await apiCall.get(
+			// 	`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("religion")}`
+			// );
+			// let responseData = decryptData(response?.data?.data)
+			dispatch(getReligionSuccess(response));
 		} catch (error) {
 			dispatch(getReligionFaliure(error));
 		}

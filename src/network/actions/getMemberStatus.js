@@ -6,6 +6,7 @@ import {
     GET_MEMBER_STATUS_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData } from "@/utils/encryptDecryot";
+import { ApiGetNoAuth } from "../apiData";
 // Action Creators
 export const getMemberStatusSuccess = (data) => ({
 	type: GET_MEMBER_STATUS_SUCCESS,
@@ -23,11 +24,16 @@ export const getMemberStatus = () => {
 	return async (dispatch) => {
 
 		try {
-			const response = await apiCall.get(
-				`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("memberStatus")}`
-			);
-			let responseData = decryptData(response?.data?.data)
-			dispatch(getMemberStatusSuccess(responseData));
+			let params = {
+				status : "true",
+				masterName : "memberStatus"
+			}
+			const response = await ApiGetNoAuth(`/master-data?`, params);
+			// const response = await apiCall.get(
+			// 	`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("memberStatus")}`
+			// );
+			// let responseData = decryptData(response?.data?.data)
+			dispatch(getMemberStatusSuccess(response));
 		} catch (error) {
 			dispatch(getMemberStatusFaliure(error));
 		}

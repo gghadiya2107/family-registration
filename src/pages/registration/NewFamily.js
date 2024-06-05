@@ -73,6 +73,8 @@ const debouncedSearch = debounce(async (value) => {
     }
   }
 
+  console.log('rationCardData', rationCardData)
+
   const onSave = () => {
     // const validationErrors = {};
 

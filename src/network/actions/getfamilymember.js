@@ -8,6 +8,7 @@ import {
     GET_FAMILY_MEMBER_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData, encryptDataGet, encryptDataPost } from "@/utils/encryptDecryot";
+import { ApiGetNoAuth } from "../apiData";
 // Action Creators
 export const getfamilymemberSuccess = (data) => ({
 	type: GET_FAMILY_MEMBER_SUCCESS,
@@ -26,13 +27,17 @@ export const getfamilymember = (family_id) => {
 	return async (dispatch) => {
 
 		try {
-			const response = await apiCall.get(
-				`/urbanregister/getfamilymember?family_id=${encryptDataGet(JSON.stringify(family_id))}`
-			);
-			let responseData = decryptData(response?.data?.data)
-            console.log('response getfamilymember', responseData)
-console.log('family_id', responseData)
-			dispatch(getfamilymemberSuccess(responseData));
+			let params = {
+				family_id : JSON.stringify(family_id),
+			}
+			const response = await ApiGetNoAuth(`/urbanregister/getfamilymember?`, params);
+// 			const response = await apiCall.get(
+// 				`/urbanregister/getfamilymember?family_id=${encryptDataGet(JSON.stringify(family_id))}`
+// 			);
+// 			let responseData = decryptData(response?.data?.data)
+//             console.log('response getfamilymember', responseData)
+// console.log('family_id', responseData)
+			dispatch(getfamilymemberSuccess(response));
 		} catch (error) {
             console.log('error', error)
             toast.error(error?.response?.data?.message)

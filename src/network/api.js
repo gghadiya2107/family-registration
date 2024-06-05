@@ -14,6 +14,9 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export default axiosInstance;
+
+
+
 export const survayAnalysis = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_SURVAY_ANALYSIS, // Set your API base URL
 
@@ -25,6 +28,9 @@ export const survayAnalysis = axios.create({
 survayAnalysis.interceptors.request.use((config) => {
 	return config;
 });
+
+
+
 export const apiCall = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // Set your API base URL
 

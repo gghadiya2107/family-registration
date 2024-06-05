@@ -6,6 +6,7 @@ import {
     GET_PROFESSION_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData } from "@/utils/encryptDecryot";
+import { ApiGetNoAuth } from "../apiData";
 // Action Creators
 export const getProfessionSuccess = (data) => ({
 	type: GET_PROFESSION_SUCCESS,
@@ -23,11 +24,16 @@ export const getProfession = () => {
 	return async (dispatch) => {
 
 		try {
-			const response = await apiCall.get(
-				`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("profession")}`
-			);
-			let responseData = decryptData(response?.data?.data)
-			dispatch(getProfessionSuccess(responseData));
+			let params = {
+				status : "true",
+				masterName : "profession",
+			}
+			const response = await ApiGetNoAuth(`/master-data?`, params);
+			// const response = await apiCall.get(
+			// 	`/master-data?status=${encryptData(`true`)}&masterName=${encryptData("profession")}`
+			// );
+			// let responseData = decryptData(response?.data?.data)
+			dispatch(getProfessionSuccess(response));
 		} catch (error) {
 			dispatch(getProfessionFaliure(error));
 		}
