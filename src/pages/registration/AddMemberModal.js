@@ -44,7 +44,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDetails}) => {
+const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDetails,getFamilyByIdData}) => {
   console.log('familyDetails', familyDetails)
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
@@ -68,9 +68,9 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     refrence: "",
     education: "",
     work: "",
-    category: familyDetails?.class || "",
+    category: getFamilyByIdData?.socialCategory || "",
     subCategory: "",
-    rationCard: familyDetails?.rationCard || "",
+    rationCard: getFamilyByIdData?.rationCardNo || "",
     religion: "",
     adharCard: "",
     dastavage: "",
@@ -80,8 +80,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    setFormData({...formData,rationCard: familyDetails?.rationCard,category: familyDetails?.class  })
-  }, [familyDetails])
+    setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategory })
+  }, [getFamilyByIdData])
   
 
 
@@ -157,6 +157,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
 "qualificationId": formData?.education || 0,
 "professionId": formData?.work || 0,
 "socialCategoryId": formData?.category || 0,
+// "socialCategoryId": "1",
 "socialSubCategory": formData?.subCategory || "",
 "rationCardNo":formData?.rationCard || "",
 "religionId": formData?.religion || 0,

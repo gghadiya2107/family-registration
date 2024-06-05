@@ -446,12 +446,12 @@ if(getFamilyByIdData){
 
   const validateFormMember = (memberDetailsExtra) => {
     const errors = {};
-    if (!memberDetailsExtra.EnglishName?.trim()) {
-      errors.EnglishName = t("validateHeadName");
+    if (!memberDetailsExtra.memberName?.trim()) {
+      errors.memberName = t("validateHeadName");
     }
 
-    if (!memberDetailsExtra.dob?.trim()) {
-      errors.dob = t("validateDOB");
+    if (!memberDetailsExtra.date_of_birth?.trim()) {
+      errors.date_of_birth = t("validateDOB");
     }
     if (!memberDetailsExtra.gender?.trim() ||  memberDetailsExtra.gender == "0") {
       errors.gender = t("validateGender")
@@ -459,8 +459,8 @@ if(getFamilyByIdData){
     // if (!memberDetailsExtra.registrationBase?.trim()) {
     //   errors.registrationBase = t("validateBaseOfRegistration");
     // }
-    if (!memberDetailsExtra.refrence?.trim()) {
-      errors.refrence = t("validateRefrenceNumber");
+    if (!memberDetailsExtra.reference_no?.trim()) {
+      errors.reference_no = t("validateRefrenceNumber");
     }
     // if (!memberDetailsExtra.education?.trim()) {
     //   errors.education = t("validateEducation");
@@ -468,22 +468,22 @@ if(getFamilyByIdData){
     // if (!memberDetailsExtra.work) {
     //   errors.work = t("validateWork");
     // }
-    if (!memberDetailsExtra.category ||  memberDetailsExtra.category == "0") {
-      errors.category = t("validateCategory");
+    if (!memberDetailsExtra.socialCategory ||  memberDetailsExtra.socialCategory == "0") {
+      errors.socialCategory = t("validateCategory");
     }
     // if (!memberDetailsExtra.subCategory) {
     //   errors.subCategory = t("validateSubCategory");
     // }
-    if (!memberDetailsExtra.rationCard) {
-      errors.rationCard = t("validateRationCard");
+    if (!memberDetailsExtra.rationCardNo) {
+      errors.rationCardNo = t("validateRationCard");
     }
     if (!memberDetailsExtra.religion ||  memberDetailsExtra.religion == "0") {
       errors.religion = t("validateReligion");
     }
-    if (!memberDetailsExtra.adharCard) {
-      errors.adharCard = t("validateAadhar");
-    } else if (memberDetailsExtra.adharCard?.trim()?.length < 12) {
-      errors.adharCard = t("validateAadharLength");
+    if (!memberDetailsExtra.aadhaarNo) {
+      errors.aadhaarNo = t("validateAadhar");
+    } else if (memberDetailsExtra.aadhaarNo?.trim()?.length < 12) {
+      errors.aadhaarNo = t("validateAadharLength");
     }
     // if (!memberDetailsExtra.dastavage) {
     //   errors.dastavage = t("validateDocument");
@@ -584,18 +584,18 @@ if(getFamilyByIdData){
     return errors;
   };
 
-  console.log('headDetailsExtra', headDetailsExtra)
+  console.log('memberDetailsExtra', memberDetailsExtra)
   return (
     <>
-      <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} familyDetails={familyDetails}/>
+      <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} familyDetails={familyDetails} getFamilyByIdData={getFamilyByIdData}/>
       <div className={style.heading} style={{ marginBottom: "5px" }}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
         <table className={style.table}>
           <thead className={style.thead}>
             <tr className={style.tr}>
+              <th className={style.th}>District</th>
               <th className={style.th}>Municipality</th>
               <th className={style.th}>Ward</th>
-              <th className={style.th}>BPL Number</th>
               <th className={style.th}>Rashan Card Number</th>
               <th className={style.th}>Mobile Number</th>
               <th className={style.th}></th>
@@ -603,9 +603,9 @@ if(getFamilyByIdData){
           </thead>
           <tbody>
             <tr className={style.tr}>
+              <td className={style.td}>{getFamilyByIdData?.district}</td>
               <td className={style.td}>{getFamilyByIdData?.municipalName}</td>
               <td className={style.td}>{getFamilyByIdData?.wardName}</td>
-              <td className={style.td}>{getFamilyByIdData?.bplNumber}</td>
               <td className={style.td}>{getFamilyByIdData?.rationCardNo}</td>
               <td className={style.td}>{getFamilyByIdData?.mobileNumber}</td>
               <td className={style.td}>
@@ -629,19 +629,22 @@ if(getFamilyByIdData){
 
                 <Grid container spacing={5}>
                   <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Municipality:</b> {getFamilyByIdData?.municipalName}</p>
+                    <p className={style.expandMargin}><b>District:</b> {getFamilyByIdData?.district}</p>
                     <p className={style.expandMargin}><b>Financial Condition:</b> {getFamilyByIdData?.economic}</p>
                     <p className={style.expandMargin}><b>Category:</b> {getFamilyByIdData?.socialCategory}</p>
 
                     {/* <p className={style.expandMargin}><b>Sub Category:</b> {familyDetails?.subclass}</p> */}
                   </Grid>
                   <Grid item xs={4}>
-                    <p className={style.expandMargin}><b>Ward:</b> {getFamilyByIdData?.wardName}</p>
-                    <p className={style.expandMargin}><b>BPL Number:</b> {getFamilyByIdData?.bplNumber}</p>
+                  <p className={style.expandMargin}><b>Municipality:</b> {getFamilyByIdData?.municipalName}</p>
+                  <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
+
                     <p className={style.expandMargin}><b>Ration card number:</b> {getFamilyByIdData?.rationCardNo}</p>
 
                   </Grid>
                   <Grid item xs={4}>
+                  <p className={style.expandMargin}><b>Ward:</b> {getFamilyByIdData?.wardName}</p>
+
                     <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
                     <p className={style.expandMargin}><b>Mobile Number:</b> {getFamilyByIdData?.mobileNumber}</p>
 
@@ -1091,8 +1094,8 @@ disabled
                               // icon={<IoIosDocument size={20} />}
                               placeholder=""
                               type="text"
-                              name="EnglishName"
-                              value={memberDetailsExtra?.EnglishName}
+                              name="memberName"
+                              value={memberDetailsExtra?.memberName}
                               onChange={handleChangeMemberDetails}
                               onKeyDown={(e) => {
                                 if (!isAlphabateKey(e.key)) {
@@ -1101,7 +1104,7 @@ disabled
                               }}
                               requried
                             />
-                            {memberError?.EnglishName && <p className="error">{memberError?.EnglishName}</p>}
+                            {memberError?.memberName && <p className="error">{memberError?.memberName}</p>}
                           </Grid>
                           <Grid item xs={4}>
                             <DatePicker
@@ -1109,11 +1112,11 @@ disabled
 
                               type="date"
                               requried
-                              name="dob"
-                              value={memberDetailsExtra?.dob}
+                              name="date_of_birth"
+                              value={memberDetailsExtra?.date_of_birth}
                               onChange={handleChangeMemberDetails}
                             />
-                            {memberError?.dob && <p className="error">{memberError?.dob}</p>}
+                            {memberError?.date_of_birth && <p className="error">{memberError?.date_of_birth}</p>}
                           </Grid>
                           <Grid item xs={4}>
                             <SelectDropdown
@@ -1151,8 +1154,8 @@ disabled
                               // icon={<IoIosDocument size={20} />}
                               placeholder=""
                               type="text"
-                              name="refrence"
-                              value={memberDetailsExtra?.refrence}
+                              name="reference_no"
+                              value={memberDetailsExtra?.reference_no}
                               onChange={handleChangeMemberDetails}
                               requried
                               onKeyDown={(e) => {
@@ -1161,7 +1164,7 @@ disabled
                                 }
                               }}
                             />
-                            {memberError?.refrence && <p className="error">{memberError?.refrence}</p>}
+                            {memberError?.reference_no && <p className="error">{memberError?.reference_no}</p>}
                           </Grid>
                           <Grid item xs={4}>
                             <SelectDropdown
@@ -1180,14 +1183,14 @@ disabled
                             <SelectDropdown
 
                               title={t('category')}
-                              name="category"
+                              name="socialCategory"
                               options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 disabled
-                              value={memberDetailsExtra?.category}
+                              value={memberDetailsExtra?.socialCategory}
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                            {memberError?.category && <p className="error">{memberError?.category}</p>}
+                            {memberError?.socialCategory && <p className="error">{memberError?.socialCategory}</p>}
 
                           </Grid>
                           <Grid item xs={4}>
@@ -1196,8 +1199,8 @@ disabled
                               title={t('subCategory')}
                               placeholder=""
                               type="text"
-                              name="subCategory"
-                              value={memberDetailsExtra?.subCategory}
+                              name="socialSubCategory"
+                              value={memberDetailsExtra?.socialSubCategory}
                               onChange={handleChangeMemberDetails}
                             // requried
                             onKeyDown={(e) => {
@@ -1214,8 +1217,8 @@ disabled
                               title={t('rathinCardNumber')}
                               placeholder=""
                               type="text"
-                              name="rationCard"
-                              value={memberDetailsExtra?.rationCard}
+                              name="rationCardNo"
+                              value={memberDetailsExtra?.rationCardNo}
                               onChange={handleChangeMemberDetails}
                               requried
                               onKeyDown={(e) => {
@@ -1224,7 +1227,7 @@ disabled
                                 }
                               }}
                             />
-                            {memberError?.rationCard && <p className="error">{memberError?.rationCard}</p>}
+                            {memberError?.rationCardNo && <p className="error">{memberError?.rationCardNo}</p>}
                           </Grid>
                           <Grid item xs={4}>
                             <InputFieldWithIcon
@@ -1233,12 +1236,12 @@ disabled
                               placeholder=""
                               type="number"
                               onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                              name="adharCard"
-                              value={memberDetailsExtra?.adharCard}
+                              name="aadhaarNo"
+                              value={memberDetailsExtra?.aadhaarNo}
                               onChange={(e) => e.target.value?.length > 12 ? null : handleChangeMemberDetails(e)}
                               requried
                             />
-                            {memberError?.adharCard && <p className="error">{memberError?.adharCard}</p>}
+                            {memberError?.aadhaarNo && <p className="error">{memberError?.aadhaarNo}</p>}
 
                           </Grid>
                         </Grid>

@@ -24,15 +24,15 @@ export const getRationDetails = (value) => {
 	return async (dispatch) => {
 
 		try {
-			let params = {
-				rationCardNo : value,
-			}
-			const response = await ApiGetNoAuth(`/master-data?`, params);
-			// const response = await apiCall.get(
-			// 	`/ration/fetch-details?rationCardNo=${encryptData(value)}`
-			// );
-			// let responseData = decryptData(response?.data?.data)
-			dispatch(getRationDetailsSuccess(response));
+			// let params = {
+			// 	rationCardNo : value,
+			// }
+			// const response = await ApiGetNoAuth(`/master-data?`, params);
+			const response = await apiCall.get(
+				`/ration/fetch-details?rationCardNo=${encryptData(value)}`
+			);
+			let responseData = decryptData(response?.data?.data)
+			dispatch(getRationDetailsSuccess(responseData));
 		} catch (error) {
 			dispatch(getRationDetailsFaliure(error?.response?.data?.message));
 		}

@@ -22,7 +22,7 @@ const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClos
     setMemberList(newData)
   }
 
-  console.log('formData', formData)
+  console.log('data', data)
   return (
     <>
        <BootstrapDialog
@@ -64,9 +64,9 @@ const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClos
         {EditModalType == "member" &&<div>
 
         <p >Are you sure you want to edit the details of</p>
-        <p style={{marginBottom : "10px"}}> <b>{data?.EnglishName}</b></p>
+        <p style={{marginBottom : "10px"}}> <b>{data?.memberName}</b></p>
         <p><>with Aadhaar Number</> </p>
-        <b>{data?.adharCard}</b>
+        <b>{data?.aadhaarNo}</b>
         </div>}
       </DialogContent>
       <DialogActions>
