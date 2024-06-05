@@ -160,11 +160,11 @@ setSaveHof(true)
 
   useEffect(() => {
     
-if(familyDetails){
+if(getFamilyByIdData){
 
-  setFormData({...formData, rationCard: getFamilyByIdData?.rationCardNo,category: familyDetails?.class})
+  setFormData({...formData, rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategory})
 }
-  }, [familyDetails])
+  }, [getFamilyByIdData])
   
   const [errors, setErrors] = useState({});
   const [familyError, setFamilyError] = useState({})
@@ -496,12 +496,12 @@ if(familyDetails){
   };
   const validateFormHead = (headDetailsExtra) => {
     const errors = {};
-    if (!headDetailsExtra.EnglishName?.trim()) {
-      errors.EnglishName = t("validateHeadName");
+    if (!headDetailsExtra.memberName?.trim()) {
+      errors.memberName = t("validateHeadName");
     }
 
-    if (!headDetailsExtra.dob?.trim()) {
-      errors.dob = t("validateDOB");
+    if (!headDetailsExtra.date_of_birth?.trim()) {
+      errors.date_of_birth = t("validateDOB");
     }
     if (!headDetailsExtra.gender?.trim() ||  headDetailsExtra.gender == "0") {
       errors.gender = t("validateGender")
@@ -509,8 +509,8 @@ if(familyDetails){
     // if (!headDetailsExtra.registrationBase?.trim()) {
     //   errors.registrationBase = t("validateBaseOfRegistration");
     // }
-    if (!headDetailsExtra.refrence?.trim()) {
-      errors.refrence = t("validateRefrenceNumber");
+    if (!headDetailsExtra.reference_no?.trim()) {
+      errors.reference_no = t("validateRefrenceNumber");
     }
     // if (!headDetailsExtra.education?.trim()) {
     //   errors.education = t("validateEducation");
@@ -518,22 +518,22 @@ if(familyDetails){
     // if (!headDetailsExtra.work) {
     //   errors.work = t("validateWork");
     // }
-    if (!headDetailsExtra.category ||  headDetailsExtra.category == "0") {
-      errors.category = t("validateCategory");
+    if (!headDetailsExtra.socialCategory ||  headDetailsExtra.socialCategory == "0") {
+      errors.socialCategory = t("validateCategory");
     }
     // if (!headDetailsExtra.subCategory) {
     //   errors.subCategory = t("validateSubCategory");
     // }
-    if (!headDetailsExtra.rationCard) {
-      errors.rationCard = t("validateRationCard");
+    if (!headDetailsExtra.rationCardNo) {
+      errors.rationCardNo = t("validateRationCard");
     }
     if (!headDetailsExtra.religion ||  headDetailsExtra.religion == "0") {
       errors.religion = t("validateReligion");
     }
-    if (!headDetailsExtra.adharCard) {
-      errors.adharCard = t("validateAadhar");
-    } else if (headDetailsExtra.adharCard?.trim()?.length < 12) {
-      errors.adharCard = t("validateAadharLength");
+    if (!headDetailsExtra.aadhaarNo) {
+      errors.aadhaarNo = t("validateAadhar");
+    } else if (headDetailsExtra.aadhaarNo?.trim()?.length < 12) {
+      errors.aadhaarNo = t("validateAadharLength");
     }
     // if (!headDetailsExtra.dastavage) {
     //   errors.dastavage = t("validateDocument");
@@ -584,7 +584,7 @@ if(familyDetails){
     return errors;
   };
 
-  console.log('familyDetailsExtra', familyDetailsExtra)
+  console.log('headDetailsExtra', headDetailsExtra)
   return (
     <>
       <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} familyDetails={familyDetails}/>
@@ -884,8 +884,8 @@ if(familyDetails){
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="text"
-                          name="EnglishName"
-                          value={headDetailsExtra?.EnglishName}
+                          name="memberName"
+                          value={headDetailsExtra?.memberName}
                           onChange={handleChangeHeadDetails}
                           onKeyDown={(e) => {
                             if (!isAlphabateKey(e.key)) {
@@ -894,7 +894,7 @@ if(familyDetails){
                           }}
                           requried
                         />
-                        {headError?.EnglishName && <p className="error">{headError?.EnglishName}</p>}
+                        {headError?.memberName && <p className="error">{headError?.memberName}</p>}
                       </Grid>
                       <Grid item xs={4}>
                         <DatePicker
@@ -902,11 +902,11 @@ if(familyDetails){
 
                           type="date"
                           requried
-                          name="dob"
-                          value={headDetailsExtra?.dob}
+                          name="date_of_birth"
+                          value={headDetailsExtra?.date_of_birth}
                           onChange={handleChangeHeadDetails}
                         />
-                        {headError?.dob && <p className="error">{headError?.dob}</p>}
+                        {headError?.date_of_birth && <p className="error">{headError?.date_of_birth}</p>}
                       </Grid>
                       <Grid item xs={4}>
                         <SelectDropdown
@@ -928,8 +928,8 @@ if(familyDetails){
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="text"
-                          name="refrence"
-                          value={headDetailsExtra?.refrence}
+                          name="reference_no"
+                          value={headDetailsExtra?.reference_no}
                           onChange={handleChangeHeadDetails}
                           requried
                           onKeyDown={(e) => {
@@ -938,7 +938,7 @@ if(familyDetails){
                             }
                           }}
                         />
-                        {headError?.refrence && <p className="error">{headError?.refrence}</p>}
+                        {headError?.reference_no && <p className="error">{headError?.reference_no}</p>}
                       </Grid>
                       <Grid item xs={4}>
                         <SelectDropdown
@@ -953,20 +953,7 @@ if(familyDetails){
                         />
                         {headError?.religion && <p className="error">{headError?.religion}</p>}
                       </Grid>
-                      <Grid item xs={4}>
-                        <SelectDropdown
-
-                          title={t('category')}
-                          name="category"
-                          options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
-disabled
-                          value={headDetailsExtra?.category}
-                          onChange={handleChangeHeadDetails}
-                          requried
-                        />
-                        {headError?.category && <p className="error">{headError?.category}</p>}
-
-                      </Grid>
+                      
                       <Grid item xs={4}>
                         <InputFieldWithIcon
                           title={t('subCategory')}
@@ -974,8 +961,8 @@ disabled
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="text"
-                          name="subCategory"
-                          value={headDetailsExtra?.subCategory}
+                          name="socialSubCategory"
+                          value={headDetailsExtra?.socialSubCategory}
                           onChange={handleChangeHeadDetails}
                         // requried
                         onKeyDown={(e) => {
@@ -993,8 +980,8 @@ disabled
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="text"
-                          name="rationCard"
-                          value={headDetailsExtra?.rationCard}
+                          name="rationCardNo"
+                          value={headDetailsExtra?.rationCardNo}
                           onChange={handleChangeHeadDetails}
                           onKeyDown={(e) => {
                             if (!isAlphanumericKey(e.key)) {
@@ -1003,7 +990,7 @@ disabled
                           }}
                           requried
                         />
-                        {headError?.rationCard && <p className="error">{headError?.rationCard}</p>}
+                        {headError?.rationCardNo && <p className="error">{headError?.rationCardNo}</p>}
                       </Grid>
                       <Grid item xs={4}>
                         <InputFieldWithIcon
@@ -1013,12 +1000,12 @@ disabled
                           placeholder=""
                           type="number"
                           onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                          name="adharCard"
-                          value={headDetailsExtra?.adharCard}
+                          name="aadhaarNo"
+                          value={headDetailsExtra?.aadhaarNo}
                           onChange={(e) => e.target.value?.length > 12 ? null : handleChangeHeadDetails(e)}
                           requried
                         />
-                        {headError?.adharCard && <p className="error">{headError?.adharCard}</p>}
+                        {headError?.aadhaarNo && <p className="error">{headError?.aadhaarNo}</p>}
 
                       </Grid>
                     </Grid>
@@ -1532,7 +1519,7 @@ disabled
         <SubmitButton label="Add member" onClick={addMember} style={{ marginLeft: "20px" }}/>
         <SubmitButton label="Proceed" onClick={onSave} style={{ marginLeft: "20px" }} /> */}
           </div></>}
-      <EditFamilyConfirmation nameTitle={nameTitle} memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} getFamilyByIdData={getFamilyByIdData}/>
+      <EditFamilyConfirmation nameTitle={nameTitle} memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} getFamilyByIdData={getFamilyByIdData} formData={formData}/>
     </>
   )
 }

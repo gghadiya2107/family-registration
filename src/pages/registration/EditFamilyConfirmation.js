@@ -12,7 +12,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
   }));
 
-const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClose, open, data, EditModalType,setIsEditMode, setisEditModeHead,getFamilyByIdData}) => {
+const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClose, open, data, EditModalType,setIsEditMode, setisEditModeHead,getFamilyByIdData,formData}) => {
   const changeMemberList = () => {
     // setisEditModeMember(true);
      handleClose()
@@ -21,6 +21,8 @@ const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClos
     let newData = data1?.map(v => data?.memberName == v?.memberName ? {...v, isEditModeMember:true } : {...v, isEditModeMember:false } )
     setMemberList(newData)
   }
+
+  console.log('formData', formData)
   return (
     <>
        <BootstrapDialog
@@ -55,9 +57,9 @@ const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClos
         {EditModalType == "head" &&<div>
 
         <p >Are you sure you want to edit the Family residing in:</p>
-        <p style={{margin : "10px 0"}}><b>Municipality:</b> <>{nameTitle?.municipal}</></p>
-        <p><b>Ward:</b> <>{nameTitle?.ward}</></p>
-        <p style={{marginTop : "10px"}}><b>With the Head of Family as:</b> <>{data?.EnglishName}</></p>
+        <p style={{margin : "10px 0"}}><b>Municipality:</b> <>{getFamilyByIdData?.municipalName}</></p>
+        <p><b>Ward:</b> <>{getFamilyByIdData?.wardName}</></p>
+        <p style={{marginTop : "10px"}}><b>With the Head of Family as:</b> <>{formData?.memberName}</></p>
         </div>}
         {EditModalType == "member" &&<div>
 
