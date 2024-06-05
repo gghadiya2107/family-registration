@@ -33,6 +33,7 @@ import { getFamilyById } from '@/network/actions/getFamilyById'
 import { getRelation } from '@/network/actions/getRelation'
 import { addfamilymember } from '@/network/actions/addfamilymember'
 import { getfamilymember } from '@/network/actions/getfamilymember'
+import { updateFamily } from '@/network/actions/updateFamily'
 
 
 
@@ -57,7 +58,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
-
+console.log('addFamilyData', addFamilyData)
 console.log('getfamilymemberList', getfamilymemberList)
 console.log('getFamilyByIdData', getFamilyByIdData)
   const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
@@ -125,7 +126,7 @@ setSaveHof(true)
       setFormData(getfamilymemberList?.find(v => v?.isHead == "true"))
     }else{setSaveHof(false)
       setMemberList([])
-      setFormData({rationCard: getFamilyByIdData?.rationCardNo,category: familyDetails?.class})
+      setFormData({rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId})
     }
     // return () => { setFormData({})
     // setMemberList([])}
@@ -162,7 +163,7 @@ setSaveHof(true)
     
 if(getFamilyByIdData){
 
-  setFormData({...formData, rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategory})
+  setFormData({...formData, rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId})
 }
   }, [getFamilyByIdData])
   
@@ -291,7 +292,7 @@ if(getFamilyByIdData){
     setSaveHof(true)
     dispatch(getfamilymember(addFamilyData?.id))
   }
-
+console.log('headDetailsExtra', headDetailsExtra)
   const handleSaveHOF = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
@@ -413,13 +414,29 @@ if(getFamilyByIdData){
   //   let newData = data?.map((k, index) => index == v ? memberDetailsExtra : k)
   //   setMemberList(newData)
   // }
-
+const extraUpdate = () => {
+  setFamilyDetails(familyDetailsExtra); setIsEditMode(false)
+  setFamilyError({})
+}
   const saveFamilyAfterEdit = () => {
     const validationErrors = validateFormFamily(familyDetailsExtra);
     console.log('familyDetailsExtra', familyDetailsExtra)
     if (Object.keys(validationErrors).length === 0) {
-      setFamilyDetails(familyDetailsExtra); setIsEditMode(false)
-      setFamilyError({})
+      let body = {
+          "districtCode":familyDetailsExtra?.districtCode,
+          "houseAddress":familyDetailsExtra?.houseAddress,
+          "rationCardNo":familyDetailsExtra?.rationCardNo,
+          "socialSubCategory":familyDetailsExtra?.socialSubCategory,
+          "wardId":familyDetailsExtra?.wardId,
+          "socialCategoryId":familyDetailsExtra?.socialCategoryId,
+          "municipalityId":familyDetailsExtra?.municipalityId,
+          "bplNumber":familyDetailsExtra?.bplNumber,
+          "mobileNumber":familyDetailsExtra?.mobileNumber,
+          "economicId":familyDetailsExtra?.economicId
+          
+      }
+      dispatch(updateFamily(familyDetailsExtra?.family_id, body, extraUpdate))
+     
     } else {
       setFamilyError(validationErrors);
     }
@@ -453,8 +470,8 @@ if(getFamilyByIdData){
     if (!memberDetailsExtra.date_of_birth?.trim()) {
       errors.date_of_birth = t("validateDOB");
     }
-    if (!memberDetailsExtra.gender?.trim() ||  memberDetailsExtra.gender == "0") {
-      errors.gender = t("validateGender")
+    if (!memberDetailsExtra.genderId?.trim() ||  memberDetailsExtra.genderId == "0") {
+      errors.genderId = t("validateGender")
     }
     // if (!memberDetailsExtra.registrationBase?.trim()) {
     //   errors.registrationBase = t("validateBaseOfRegistration");
@@ -468,8 +485,8 @@ if(getFamilyByIdData){
     // if (!memberDetailsExtra.work) {
     //   errors.work = t("validateWork");
     // }
-    if (!memberDetailsExtra.socialCategory ||  memberDetailsExtra.socialCategory == "0") {
-      errors.socialCategory = t("validateCategory");
+    if (!memberDetailsExtra.socialCategoryId ||  memberDetailsExtra.socialCategoryId == "0") {
+      errors.socialCategoryId = t("validateCategory");
     }
     // if (!memberDetailsExtra.subCategory) {
     //   errors.subCategory = t("validateSubCategory");
@@ -477,8 +494,8 @@ if(getFamilyByIdData){
     if (!memberDetailsExtra.rationCardNo) {
       errors.rationCardNo = t("validateRationCard");
     }
-    if (!memberDetailsExtra.religion ||  memberDetailsExtra.religion == "0") {
-      errors.religion = t("validateReligion");
+    if (!memberDetailsExtra.religionId ||  memberDetailsExtra.religionId == "0") {
+      errors.religionId = t("validateReligion");
     }
     if (!memberDetailsExtra.aadhaarNo) {
       errors.aadhaarNo = t("validateAadhar");
@@ -503,8 +520,8 @@ if(getFamilyByIdData){
     if (!headDetailsExtra.date_of_birth?.trim()) {
       errors.date_of_birth = t("validateDOB");
     }
-    if (!headDetailsExtra.gender?.trim() ||  headDetailsExtra.gender == "0") {
-      errors.gender = t("validateGender")
+    if (!headDetailsExtra.genderId?.trim() ||  headDetailsExtra.genderId == "0") {
+      errors.genderId = t("validateGender")
     }
     // if (!headDetailsExtra.registrationBase?.trim()) {
     //   errors.registrationBase = t("validateBaseOfRegistration");
@@ -527,8 +544,8 @@ if(getFamilyByIdData){
     if (!headDetailsExtra.rationCardNo) {
       errors.rationCardNo = t("validateRationCard");
     }
-    if (!headDetailsExtra.religion ||  headDetailsExtra.religion == "0") {
-      errors.religion = t("validateReligion");
+    if (!headDetailsExtra.religionId ||  headDetailsExtra.religionId == "0") {
+      errors.religionId = t("validateReligion");
     }
     if (!headDetailsExtra.aadhaarNo) {
       errors.aadhaarNo = t("validateAadhar");
@@ -548,26 +565,26 @@ if(getFamilyByIdData){
   const validateFormFamily = (familyDetailsExtra) => {
     const errors = {};
     console.log('!familyDetailsExtra.municipal?.trim()', !familyDetailsExtra.municipal?.trim(),familyDetailsExtra.municipal?.trim(),familyDetailsExtra)
-    if (!familyDetailsExtra.municipalName?.trim()) {
-      errors.municipalName = t('validateMunucipal');
+    if (!familyDetailsExtra.municipalityId?.trim()) {
+      errors.municipalityId = t('validateMunucipal');
     }
-    if (!familyDetailsExtra.district?.trim()) {
-      errors.district = t('validateDistrict');
+    if (!familyDetailsExtra.districtCode?.trim()) {
+      errors.districtCode = t('validateDistrict');
     }
-    if (!familyDetailsExtra.wardName?.trim()) {
-      errors.wardName = t("validateward");
+    if (!familyDetailsExtra.wardId?.trim()) {
+      errors.wardId = t("validateward");
     }
     if (!familyDetailsExtra.houseAddress?.trim()) {
       errors.houseAddress = t("ValidateHouseNumber");
     }
-    if (!familyDetailsExtra.economic?.trim() ||  familyDetailsExtra.economic == "0") {
-      errors.economic = t("validateCondition");
+    if (!familyDetailsExtra.economicId?.trim() ||  familyDetailsExtra.economicId == "0") {
+      errors.economicId = t("validateCondition");
     }
-    if (familyDetailsExtra.economic == "2" &&!familyDetailsExtra.bplNumber?.trim()) {
+    if (familyDetailsExtra.economicId == "2" &&!familyDetailsExtra.bplNumber?.trim()) {
       errors.bplNumber = t("validateBPL");
     }
-    if (!familyDetailsExtra.socialCategory?.trim() ||  familyDetailsExtra.socialCategory == "0") {
-      errors.socialCategory = t("validateCategory");
+    if (!familyDetailsExtra.socialCategoryId?.trim() ||  familyDetailsExtra.socialCategoryId == "0") {
+      errors.socialCategoryId = t("validateCategory");
     }
     // if (!familyDetailsExtra.subclass?.trim()) {
     //   errors.subclass = t("validateSubCategory");
@@ -658,40 +675,40 @@ if(getFamilyByIdData){
                   <Grid item xs={4}>
                     <SelectDropdown
                       title={t('district')}
-                      name="district"
+                      name="districtCode"
                       options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
-                      value={familyDetailsExtra?.district}
+                      value={familyDetailsExtra?.districtCode}
                       onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
                       requried
                     />
-                    {familyError?.district && <p className="error">{familyError?.district}</p>}
+                    {familyError?.districtCode && <p className="error">{familyError?.districtCode}</p>}
 
                   </Grid>
                   <Grid item xs={4} >
                     <SelectDropdown
 
                       title={t('selectVillage')}
-                      name="municipalName"
+                      name="municipalityId"
                       options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
 
-                      value={familyDetailsExtra?.municipalName}
+                      value={familyDetailsExtra?.municipalityId}
                       onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value })) }}
                       requried
                     />
-                    {familyError?.municipalName && <p className="error">{familyError?.municipalName}</p>}
+                    {familyError?.municipalityId && <p className="error">{familyError?.municipalityId}</p>}
                   </Grid>
                   <Grid item xs={4}>
                     <SelectDropdown
                       title={t('selectWard')}
 
-                      name="wardName"
+                      name="wardId"
                       options={wardList?.map(v => ({ value: v?.id, label: v?.name }))}
 
-                      value={familyDetailsExtra?.wardName}
+                      value={familyDetailsExtra?.wardId}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.wardName && <p className="error">{familyError?.wardName}</p>}
+                    {familyError?.wardId && <p className="error">{familyError?.wardId}</p>}
                   </Grid>
                   <Grid item xs={4} >
                     <InputFieldWithIcon
@@ -716,17 +733,17 @@ if(getFamilyByIdData){
                     <SelectDropdown
                       title={t('financialCondition')}
 
-                      name="economic"
+                      name="economicId"
                       options={economicStatusList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-                      value={familyDetailsExtra?.economic}
+                      value={familyDetailsExtra?.economicId}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.economic && <p className="error">{familyError?.economic}</p>}
+                    {familyError?.economicId && <p className="error">{familyError?.economicId}</p>}
                   </Grid>
 
-                 {familyDetailsExtra?.economic == "2" && <Grid item xs={4} >
+                 {familyDetailsExtra?.economicId == "2" && <Grid item xs={4} >
                     <InputFieldWithIcon
                       title={t('bplCount')}
 
@@ -785,13 +802,13 @@ if(getFamilyByIdData){
                     <SelectDropdown
                       title={t('category')}
                       // disabled
-                      name="socialCategory"
+                      name="socialCategoryId"
                       options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
-                      value={familyDetailsExtra?.socialCategory}
+                      value={familyDetailsExtra?.socialCategoryId}
                       onChange={handleChangeFamilyDetails}
                       requried
                     />
-                    {familyError?.socialCategory && <p className="error">{familyError?.socialCategory}</p>}
+                    {familyError?.socialCategoryId && <p className="error">{familyError?.socialCategoryId}</p>}
                   </Grid>
                   <Grid item xs={4} >
                     <InputFieldWithIcon
@@ -915,14 +932,14 @@ if(getFamilyByIdData){
                         <SelectDropdown
                           title={t('gender')}
 
-                          name="gender"
+                          name="genderId"
                           options={genderlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-                          value={headDetailsExtra?.gender}
+                          value={headDetailsExtra?.genderId}
                           onChange={handleChangeHeadDetails}
                           requried
                         />
-                        {headError?.gender && <p className="error">{headError?.gender}</p>}
+                        {headError?.genderId && <p className="error">{headError?.genderId}</p>}
                       </Grid>
                       <Grid item xs={4}>
                         <InputFieldWithIcon
@@ -947,14 +964,14 @@ if(getFamilyByIdData){
                         <SelectDropdown
                           title={t('religion')}
 
-                          name="religion"
+                          name="religionId"
                           options={religionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-                          value={headDetailsExtra?.religion}
+                          value={headDetailsExtra?.religionId}
                           onChange={handleChangeHeadDetails}
                           requried
                         />
-                        {headError?.religion && <p className="error">{headError?.religion}</p>}
+                        {headError?.religionId && <p className="error">{headError?.religionId}</p>}
                       </Grid>
                       
                       <Grid item xs={4}>
@@ -1122,14 +1139,14 @@ disabled
                             <SelectDropdown
                               title={t('gender')}
 
-                              name="gender"
+                              name="genderId"
                               options={genderlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-                              value={memberDetailsExtra?.gender}
+                              value={memberDetailsExtra?.genderId}
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                            {memberError?.gender && <p className="error">{memberError?.gender}</p>}
+                            {memberError?.genderId && <p className="error">{memberError?.genderId}</p>}
                           </Grid>
                           {/* <Grid item xs={4}>
                             <SelectDropdown
@@ -1170,27 +1187,27 @@ disabled
                             <SelectDropdown
                               title={t('religion')}
 
-                              name="religion"
+                              name="religionId"
                               options={religionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-                              value={memberDetailsExtra?.religion}
+                              value={memberDetailsExtra?.religionId}
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                            {memberError?.religion && <p className="error">{memberError?.religion}</p>}
+                            {memberError?.religionId && <p className="error">{memberError?.religionId}</p>}
                           </Grid>
                           <Grid item xs={4}>
                             <SelectDropdown
 
                               title={t('category')}
-                              name="socialCategory"
+                              name="socialCategoryId"
                               options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 disabled
-                              value={memberDetailsExtra?.socialCategory}
+                              value={memberDetailsExtra?.socialCategoryId}
                               onChange={handleChangeMemberDetails}
                               requried
                             />
-                            {memberError?.socialCategory && <p className="error">{memberError?.socialCategory}</p>}
+                            {memberError?.socialCategoryId && <p className="error">{memberError?.socialCategoryId}</p>}
 
                           </Grid>
                           <Grid item xs={4}>

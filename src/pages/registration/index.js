@@ -7,6 +7,7 @@ import AddParivar from './AddParivar'
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import { getImagePath } from '@/utils/CustomImagePath';
+import AddMember from './AddMember';
 
 const Registration = () => {
    const [state, setState] = useState("1")
@@ -46,6 +47,7 @@ const Registration = () => {
 
 
      {tab == "1" && <AddParivar setState={setState} state={state} />}
+     {tab == "2" && <AddMember setState={setState} state={state} />}
      
     </MainLayout>
   )

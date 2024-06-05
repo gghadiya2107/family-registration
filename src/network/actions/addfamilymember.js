@@ -39,7 +39,7 @@ export const addfamilymember = (body,extra) => {
 			dispatch(addfamilymemberSuccess(response));
 		} catch (error) {   
             console.log('error member', error)
-            toast.error(error?.response?.data?.message)
+            toast.error(error?.message)
 			dispatch(addfamilymemberFaliure(error));
 		}
 	};

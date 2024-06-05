@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMunicipalities } from '@/network/actions/getMunicipalities'
 import { getWard } from '@/network/actions/getWard'
 import { getDistrict } from '@/network/actions/getDistrict'
+import { getFamilyList } from '@/network/actions/getFamilyList'
+import ViewFamilyModal from './ViewFamilyModal'
 
 const FamilyList = () => {
   const { t } = useTranslation("translation");
@@ -17,21 +19,40 @@ const FamilyList = () => {
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
+  const getFamilyListData = useSelector((state) => state.getFamilyList?.data)
+  console.log('getFamilyListData', getFamilyListData)
   const [formData, setFormData] = useState({
     district: "",
     municipal: "",
     ward: ""
   })
+  const [open, setOpen] = React.useState(false);
+  const [viewData, setViewData] = useState({})
+console.log('open', open)
+  const handleClickOpen = (v) => {
+    setOpen(true);
+    setViewData(v)
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setViewData({})
+  };
 
   useEffect(() => {
     dispatch(getDistrict())
+    // dispatch(getFamilyList(formData))
   }, [])
+  useEffect(() => {
+    dispatch(getFamilyList(formData))
+  }, [formData])
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
   return (
+      <>
+      <ViewFamilyModal open={open} handleClose={handleClose} viewData={viewData} />
     <MainLayout>
       <Grid container spacing={3} >
         <Grid item xs={12} sm={4} md={4}>
@@ -76,40 +97,29 @@ const FamilyList = () => {
               <th className={style.th}>RATION NO.	</th>
               <th className={style.th}>TOTAL MEMBERS	</th>
               <th className={style.th}>ECONOMIC STATUS	</th>
-              <th className={style.th}>SOCIAL CATEGORY	</th>
-              <th className={style.th}>RELIGION</th>
-              <th className={style.th}>RESIDENT</th>
+              {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
+              <th className={style.th}>DISTRICT</th>
+              <th className={style.th}>MUNICIPAL</th>
               <th className={style.th}>ACTION</th>
             </tr>
           </thead>
-          <tbody>
-            <tr className={style.tr}>
-              <td className={style.td}>Kameshwar Singh	</td>
-              <td className={style.td}>HP2014111109510	</td>
-              <td className={style.td}>4</td>
-              <td className={style.td}>B.P.L	</td>
-              <td className={style.td}>General</td>
-              <td className={style.td}>Hindu</td>
-              <td className={style.td}>Urban</td>
-              <td className={style.td}><div className={style.btns}>
-                <ViewBtn title={"View"} onClick={() => { }} />
-                <VerifyBtn title={"Verify"} onClick={() => { }} />
+          <tbody>{getFamilyListData?.content?.map(v => (
+             <tr className={style.tr}>
+             <td className={style.td}>{v?.headMemberName}	</td>
+             <td className={style.td}>{v?.rationCardNo}	</td>
+             <td className={style.td}>{v?.totalMembers}</td>
+             <td className={style.td}>{v?.economic}	</td>
+             {/* <td className={style.td}>{v?.socialCategory}</td> */}
+             <td className={style.td}>{v?.district}</td>
+             <td className={style.td}>{v?.municipalName}</td>
+             <td className={style.td}><div className={style.btns}>
+               <ViewBtn title={"View"} onClick={() => handleClickOpen(v)} />
+               {/* <VerifyBtn title={"Verify"} onClick={() => { }} /> */}
 
-              </div></td>                    </tr>
-            <tr className={style.tr}>
-              <td className={style.td}>Kameshwar Singh	</td>
-              <td className={style.td}>HP2014111109510	</td>
-              <td className={style.td}>4</td>
-              <td className={style.td}>B.P.L	</td>
-              <td className={style.td}>General</td>
-              <td className={style.td}>Hindu</td>
-              <td className={style.td}>Urban</td>
-              <td className={style.td}><div className={style.btns}>
-                <ViewBtn title={"View"} onClick={() => { }} />
-                <VerifyBtn title={"Verify"} onClick={() => { }} />
-
-              </div></td>
-            </tr>
+             </div></td>                    </tr>
+          ))}
+           
+            
 
 
           </tbody>
@@ -118,6 +128,7 @@ const FamilyList = () => {
 
       </div>
     </MainLayout>
+    </>
   )
 }
 

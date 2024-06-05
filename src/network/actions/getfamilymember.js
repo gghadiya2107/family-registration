@@ -25,11 +25,11 @@ export const getfamilymemberFaliure = (error) => ({
 export const getfamilymember = (family_id) => {
     console.log('family_id', family_id)
 	return async (dispatch) => {
-
 		try {
 			let params = {
-				family_id : JSON.stringify(family_id),
+				family_id : typeof family_id == "number" ?  JSON.stringify(family_id) : family_id,
 			}
+			console.log('family_id', family_id)
 			const response = await ApiGetNoAuth(`/urbanregister/getfamilymember?`, params);
 // 			const response = await apiCall.get(
 // 				`/urbanregister/getfamilymember?family_id=${encryptDataGet(JSON.stringify(family_id))}`
@@ -37,11 +37,11 @@ export const getfamilymember = (family_id) => {
 // 			let responseData = decryptData(response?.data?.data)
 //             console.log('response getfamilymember', responseData)
 // console.log('family_id', responseData)
+console.log(' error response', response)
 			dispatch(getfamilymemberSuccess(response));
 		} catch (error) {
             console.log('error', error)
-            toast.error(error?.response?.data?.message)
-            console.log('error', error?.response?.data?.message)
+            // toast.error(error?.message)
 			dispatch(getfamilymemberFaliure(error));
 		}
 	};

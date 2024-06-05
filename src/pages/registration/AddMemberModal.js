@@ -80,7 +80,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategory })
+    setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId })
   }, [getFamilyByIdData])
   
 

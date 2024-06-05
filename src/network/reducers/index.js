@@ -19,6 +19,8 @@ import getFamilyById from "./getFamilyById";
 import getRelation from "./getRelation";
 import addfamilymember from "./addfamilymember";
 import getfamilymember from "./getfamilymember";
+import getFamilyList from "./getFamilyList";
+import updateFamily from "./updateFamily";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -38,7 +40,9 @@ const rootReducer = combineReducers({
 	getFamilyById,
 	getRelation,
 	addfamilymember,
-	getfamilymember
+	getfamilymember,
+	getFamilyList,
+	updateFamily
 });
 
 export default rootReducer;

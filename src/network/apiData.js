@@ -31,9 +31,13 @@ export const ApiPostNoAuth = (url, body) => {
       )
       .then((responseJson) => {
         const data = decryptData(responseJson?.data?.data);
+        console.log('data api', data)
         resolve( data);
       })
+
       .catch((error) => {
+        console.log('data api', error)
+
         if (
           error &&
           error.hasOwnProperty('response') &&
@@ -58,9 +62,11 @@ export const ApiGetNoAuth = (url, params={}) => {
       .get(BaseURL + apiUrl, defaultHeaders)
       .then(async (responseJson) => {
         const data = decryptData(responseJson?.data?.data);
+        console.log('data api', data)
         resolve( data);
       })
       .catch((error) => {
+        console.log('data api', error)
         if (
             error &&
             error.hasOwnProperty('response') &&
