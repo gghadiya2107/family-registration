@@ -2,19 +2,22 @@
 import MainLayout from '@/layout/MainLayout'
 import React, { useState } from 'react'
 import style from "./registration.module.css"
-import { Grid } from '@mui/material'
+import { FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material'
 import AddParivar from './AddParivar'
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import { getImagePath } from '@/utils/CustomImagePath';
 import AddMember from './AddMember';
+import AddParivarRation from './AddParivarRation';
 
 const Registration = () => {
    const [state, setState] = useState("1")
+   const [stateForNewFlow, setstateForNewFlow] = useState("1")
 
    const { t } = useTranslation("translation");
 
     const [tab, setTab] = useState("1")
+    const [withOrWithoutRation, setWithOrWithoutRation] = useState("1")
   return (
     <MainLayout>
       {state =="1" && <Grid container spacing={5} >
@@ -45,8 +48,26 @@ const Registration = () => {
                     <Grid item md={1.5}></Grid>
                     </Grid>}
 
+                {state =="1" && stateForNewFlow =="1" &&   <Grid container spacing={5} mt={1} mb={1}>
+                    <Grid item md={12} style={{paddingTop : 10}}>
+                    <FormControl>
+  <RadioGroup
+    aria-labelledby="demo-radio-buttons-group-label"
+    defaultValue={withOrWithoutRation}
+    onChange={(e) => setWithOrWithoutRation(e.target.value)}
+    name="radio-1-group"
+row 
+ >
+    <FormControlLabel value="1" control={<Radio />} label="Add Parivar (With Himachal Pradesh Ration Card)" />
+    <FormControlLabel value="2" control={<Radio />} label="Add Parivar (With Other State Ration Card)" />
+  </RadioGroup>
+</FormControl>
+                    </Grid>
+                    </Grid>}
 
-     {tab == "1" && <AddParivar setState={setState} state={state} />}
+
+     {tab == "1" && withOrWithoutRation == "1" && <AddParivarRation setState={setstateForNewFlow} state={stateForNewFlow}/>}
+     {tab == "1" && withOrWithoutRation == "2" && <AddParivar setState={setState} state={state} />}
      {tab == "2" && <AddMember setState={setState} state={state} />}
      
     </MainLayout>

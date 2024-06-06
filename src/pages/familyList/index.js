@@ -1,6 +1,6 @@
 import SelectDropdown from '@/components/SelectDropdown'
 import MainLayout from '@/layout/MainLayout'
-import { Grid } from '@mui/material'
+import { Grid, Pagination, Stack } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'next-i18next'
 import style from './familyList.module.css'
@@ -28,6 +28,8 @@ const FamilyList = () => {
   })
   const [open, setOpen] = React.useState(false);
   const [viewData, setViewData] = useState({})
+  const [page, setPage] = useState(0);
+
 console.log('open', open)
   const handleClickOpen = (v) => {
     setOpen(true);
@@ -43,12 +45,19 @@ console.log('open', open)
     // dispatch(getFamilyList(formData))
   }, [])
   useEffect(() => {
+  if(getFamilyListData)  
+    setPage(getFamilyListData?.number)
+  }, [getFamilyListData])
+  useEffect(() => {
     dispatch(getFamilyList(formData))
-  }, [formData])
+  }, [formData,page])
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
+  }
+  const handlePageChange = (event, value) => {
+    setPage(value)
   }
   return (
       <>
@@ -127,6 +136,11 @@ console.log('open', open)
 
 
       </div>
+
+      <Stack spacing={2} style={{float : "right", marginTop : 10}}>
+      <Pagination  color="primary" onChange={handlePageChange} count={getFamilyListData?.totalPages} page={page}/>
+     
+    </Stack>
     </MainLayout>
     </>
   )

@@ -52,7 +52,9 @@
     "validateAadharLength" : "कृपया 12 अंकों का आधार कार्ड नंबर दर्ज करें",
     "validateComment" : "टिपण्णी आवश्यक है",
     "district" : "ज़िला",
-    "validateDistrict" : "ज़िला आवश्यक है"
+    "validateDistrict" : "ज़िला आवश्यक है",
+    "saveAndAddDetails" : "Save and Add Details"
+
 
 
 

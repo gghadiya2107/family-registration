@@ -1,55 +1,56 @@
+import FileUpload from '@/components/FileUpload';
+import InputFieldWithIcon from '@/components/InputFieldWithIcon';
+import SelectDropdown from '@/components/SelectDropdown';
+import SubmitButton from '@/components/SubmitBtn';
+import { getMunicipalities } from '@/network/actions/getMunicipalities';
+import { getWard } from '@/network/actions/getWard';
+import { Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import style from "./registration.module.css"
-import { Grid } from '@mui/material'
-import SelectDropdown from '@/components/SelectDropdown'
-import InputFieldWithIcon from '@/components/InputFieldWithIcon'
-import SubmitButton from '@/components/SubmitBtn'
-import FileUpload from '@/components/FileUpload'
-import DatePicker from '@/components/DatePicker'
-import TextArea from '@/components/TextArea'
-import { useTranslation } from 'next-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import { getDistrict } from '@/network/actions/getDistrict'
-import { getMunicipalities } from '@/network/actions/getMunicipalities'
-import { getWard } from '@/network/actions/getWard'
-import { getEconomicStatus } from '@/network/actions/economicStatus'
-import { getCategory } from '@/network/actions/getCategory'
-import { debounce } from 'lodash';
-import { getRationDetails } from '@/network/actions/getRationDetails'
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
-import { addFamily } from '@/network/actions/addFamily'
-import toast, { Toaster } from 'react-hot-toast'
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import style from './registration.module.css'
+import { getDistrict } from '@/network/actions/getDistrict';
+import { getEconomicStatus } from '@/network/actions/economicStatus';
+import { getCategory } from '@/network/actions/getCategory';
+import { addFamily } from '@/network/actions/addFamily';
+import { isAlphabateKey } from '@/utils/regex';
 
-
-const NewFamily = ({ setState, formData, setFormData }) => {
-  const { t } = useTranslation("translation");
-  const dispatch = useDispatch()
-  const [errors, setErrors] = useState({});
-  const [rationCardData, setRationCardData] = useState([])
-  const districtList = useSelector((state) => state.getDistrict?.data)
+const AddFamilyDetails = ({selectedFamilyMember, state, setState}) => {
+    console.log('selectedFamilyMember', selectedFamilyMember)
+    const { t } = useTranslation("translation");
+    const dispatch = useDispatch()
+    const [formData, setFormData] = useState({})
+    const [errors, setErrors] = useState({});
+    const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
   const categorylist = useSelector((state) => state.getCategory?.data)
-  const rationDetails = useSelector((state) => state.getRationDetails?.data || [])
- 
+console.log('districtList', districtList)
+  useEffect(() => {
+    dispatch(getDistrict())
+    dispatch(getEconomicStatus())
+    dispatch(getCategory())
+  }, [])
 
-useEffect(() => {
-  dispatch(getDistrict())
-  dispatch(getEconomicStatus())
-  dispatch(getCategory())
-}, [])
-useEffect(() => {
-  let data = [...rationDetails]
-  let newData = data?.map(v => ({...v, isChecked : false}))
-  setRationCardData(newData)
-}, [rationDetails])
+  useEffect(() => {
+    setFormData({
+        rationCard: selectedFamilyMember?.[0]?.rationCardNumber || "",
+        // district: selectedFamilyMember?.[0]?.districtId || "",
+        district:  "",
+        municipal: "",
+        ward: "",
+        makan: selectedFamilyMember?.[0]?.address || "",
+        condition: "",
+        class : "",
+        subclass: "",
+        mobile : selectedFamilyMember?.[0]?.mobileNumber || "",
+        dastavage: ""
+    })
 
-const debouncedSearch = debounce(async (value) => {
- dispatch(getRationDetails(value?.toUpperCase()))
+    // dispatch(getMunicipalities({districtCode: selectedFamilyMember?.[0]?.districtId }))
+  }, [selectedFamilyMember])
   
-}, 1000); 
-
 
   const handleChange = (e) => {
     const { value, name } = e.target
@@ -71,8 +72,6 @@ const debouncedSearch = debounce(async (value) => {
     }
   }
 
-  console.log('rationCardData', rationCardData)
-
   const onSave = () => {
     // const validationErrors = {};
 
@@ -92,13 +91,11 @@ const debouncedSearch = debounce(async (value) => {
         economicId : formData?.condition || 0
     }
     console.log('body', body)
-    
-      
     const extra = () => {
-      setState("2")
-  }
-    
-    dispatch(addFamily(body,extra))
+        setState("3")
+    }
+      
+      dispatch(addFamily(body,extra))
 
      
     } else {
@@ -150,12 +147,10 @@ const debouncedSearch = debounce(async (value) => {
 
     return errors;
   };
-  return (
-    <div style={{ marginTop: "20px" }}>
 
-      {/* <div className={style.heading}>{t('newFamily')}</div> */}
-      <div className={style.heading}>New Family</div>
-      <Grid container spacing={3} >
+  return (
+    <>
+        <Grid container spacing={3} mt={1}>
         <Grid item xs={12} sm={4} md={3}>
           <SelectDropdown
             title={t('district')}
@@ -205,11 +200,11 @@ const debouncedSearch = debounce(async (value) => {
             name="makan"
             value={formData?.makan}
             onChange={handleChange}
-            onKeyDown={(e) => {
-              if (!isAlphanumericKey(e.key)) {
-                e.preventDefault();
-              }
-            }}
+            // onKeyDown={(e) => {
+            //   if (!isAlphanumericKey(e.key)) {
+            //     e.preventDefault();
+            //   }
+            // }}
             requried
           />
           {errors?.makan && <p className="error">{errors?.makan}</p>}
@@ -272,7 +267,7 @@ const debouncedSearch = debounce(async (value) => {
           {/* {errors?.subclass && <p className="error">{errors?.subclass}</p>} */}
 
         </Grid>
-        <Grid item xs={12} sm={4} md={3}>
+        {/* <Grid item xs={12} sm={4} md={3}>
           <InputFieldWithIcon
             title={t('rathinCardNumber')}
             // icon={<IoIosDocument size={20} />}
@@ -290,7 +285,7 @@ const debouncedSearch = debounce(async (value) => {
           />
           {errors?.rationCard && <p className="error">{errors?.rationCard}</p>}
 
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} sm={4} md={3}>
           <InputFieldWithIcon
             title={t('mobileNumber')}
@@ -320,82 +315,11 @@ const debouncedSearch = debounce(async (value) => {
 
         </Grid>
       </Grid>
-
-      {/* {rationCardData?.length > 0 && <Grid container spacing={3} mt={2}>
-        <Grid item xs={12} sm={12} md={6}>
-        <div className={style.tablewrapper} style={{ margin: "0" }}>
-        <table className={style.table}>
-          <thead className={style.thead}>
-            <tr className={style.tr}>
-              <th className={style.th}>
-                
-              </th>
-              <th className={style.th}>Name</th>
-              <th className={style.th}>Financial Condition</th>
-              <th className={style.th}>Aadhaar Number</th>
-            </tr>
-          </thead>
-          <tbody>
-           {rationCardData?.map(v => <>
-            <tr className={style.tr}>
-              <td className={style.td}>
-              <input type="checkbox" className={style.checkbox} value={v?.isChecked}
-              onChange={(e) => setRationCardData(rationCardData?.map(p => p?.memberName== v?.memberName ? {...p, isChecked : e.target.checked} : p))}
-              />
-              </td>
-              <td className={style.td}>{v?.memberName}</td>
-              <td className={style.td}>{v?.cardType || "-"}</td>
-              <td className={style.td}>{v?.aadhaarNumber || "-"}</td>
-            
-            </tr>
-           </>)}
-          
-          </tbody>
-        </table>
-
-
-      </div>
-        </Grid>
-        <Grid item xs={12} sm={12} md={6}>
-        <div className={style.tablewrapper} style={{ margin: "0" }}>
-        <table className={style.table}>
-          <thead className={style.thead}>
-            <tr className={style.tr}>
-              <th className={style.th}>Name</th>
-              <th className={style.th}>Financial Condition</th>
-              <th className={style.th}>Aadhaar Number</th>
-              <th className={style.th}>HOF</th>
-            </tr>
-          </thead>
-          <tbody>
-           {rationCardData?.filter(k => k?.isChecked)?.map(v => <>
-            <tr className={style.tr}>
-              <td className={style.td}>{v?.memberName}</td>
-              <td className={style.td}>{v?.cardType}</td>
-              <td className={style.td}>{v?.aadhaarNumber}</td>
-              <td className={style.td}>
-                <input type="radio" 
-                checked={v?.isHead}
-                name='head' className={style.checkbox}
-                 onChange={(e) => setRationCardData(rationCardData?.map(p => p?.memberName== v?.memberName ? {...p, isHead : e.target.checked} : p))}
-/>
-              </td>
-            
-            </tr>
-           </>)}
-          
-          </tbody>
-        </table>
-
-
-      </div>
-        </Grid>
-        </Grid> } */}
       <div className={style.save}>
         <SubmitButton label={t('saveAndAddHof')} onClick={onSave} />
       </div>
-    </div>
+    </>
   )
 }
 
-export default NewFamily
+export default AddFamilyDetails

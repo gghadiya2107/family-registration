@@ -52,7 +52,8 @@
     "validateAadharLength" : "Please enter 12 digit aadhar card number",
     "validateComment" : "Description is required",
     "district" : "Select District",
-    "validateDistrict" : "District is requried"
+    "validateDistrict" : "District is requried",
+    "saveAndAddDetails" : "Save and Add Details"
 
 
 

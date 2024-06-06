@@ -22,7 +22,7 @@ export const addFamilyFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const addFamily = (body,setState) => {
+export const addFamily = (body,extra) => {
 	return async (dispatch) => {
 
 		try {
@@ -32,7 +32,8 @@ export const addFamily = (body,setState) => {
 			// );
 			console.log('response adddFamily', response)
 			// let responseData = decryptData(response?.data?.data)
-			setState("2")
+			
+			extra()
             toast.success( response?.message)
 			dispatch(addFamilySuccess(response));
 		} catch (error) {   
