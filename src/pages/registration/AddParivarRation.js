@@ -46,7 +46,6 @@ const AddParivarRation = ({ setState, state }) => {
         } else if (!isHead) {
             toast.error("Please select head of family")
         } else {
-            alert("done")
             setState("2")
             setSelectedFamilyMember(rationCardData?.filter(v => v?.isChecked))
         }

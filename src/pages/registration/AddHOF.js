@@ -268,8 +268,8 @@ if(getFamilyByIdData){
   }
 
   const addMember = () => {
-    const validationErrors = {};
-    // const validationErrors = validateForm(formData);
+    // const validationErrors = {};
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       handleClickOpen()
@@ -613,7 +613,7 @@ const extraUpdate = () => {
               <th className={style.th}>District</th>
               <th className={style.th}>Municipality</th>
               <th className={style.th}>Ward</th>
-              <th className={style.th}>Rashan Card Number</th>
+              <th className={style.th}>Ration Card Number</th>
               <th className={style.th}>Mobile Number</th>
               <th className={style.th}></th>
             </tr>
@@ -842,7 +842,7 @@ const extraUpdate = () => {
               <thead className={style.thead}>
                 <tr className={style.tr}>
                   <th className={style.th}>Head of Family Name</th>
-                  <th className={style.th}>Rashan Card Number</th>
+                  <th className={style.th}>Ration Card Number</th>
                   <th className={style.th}>Religion</th>
                   <th className={style.th}>Social Category</th>
                   <th className={style.th}></th>
