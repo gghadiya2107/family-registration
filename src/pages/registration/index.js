@@ -20,7 +20,7 @@ const Registration = () => {
     const [withOrWithoutRation, setWithOrWithoutRation] = useState("1")
   return (
     <MainLayout>
-      {state =="1" && <Grid container spacing={5} >
+      {(state =="1" && stateForNewFlow == "1") && <Grid container spacing={5} >
                     <Grid item md={1.5}></Grid>
                     <Grid item xs={12} md={4.5}>
                     <div className={style.card} onClick={() => setTab("1")}>

@@ -44,8 +44,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDetails,getFamilyByIdData}) => {
-  console.log('familyDetails', familyDetails)
+const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamilyByIdData}) => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
@@ -206,9 +205,9 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
     if (!formData.category || formData?.category == "0") {
       errors.category = t("validateCategory");
     }
-    if (!formData.subCategory) {
-      errors.subCategory = t("validateSubCategory");
-    }
+    // if (!formData.subCategory) {
+    //   errors.subCategory = t("validateSubCategory");
+    // }
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
@@ -269,7 +268,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
 
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title={t('headOfFamilyName')}
+                title={t('memberName')}
                 subTitle="(in English)"
               // icon={<IoIosDocument size={20} />}
               placeholder=""
@@ -290,7 +289,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
             <InputFieldWithIcon
-                title={t('headOfFamilyName')}
+                title={t('memberName')}
                 disabled
                 subTitle="(in Hindi)"
               // icon={<IoIosDocument size={20} />}
@@ -440,14 +439,14 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, familyDet
               name="subCategory"
               value={formData?.subCategory}
               onChange={handleChange}
-              requried
+              // requried
               onKeyDown={(e) => {
                 if (!isAlphabateKey(e.key)) {
                   e.preventDefault();
                 }
               }}
             />
-            {errors?.subCategory && <p className="error">{errors?.subCategory}</p>}
+            {/* {errors?.subCategory && <p className="error">{errors?.subCategory}</p>} */}
 
           </Grid>
           <Grid item xs={12} sm={4} md={3}>

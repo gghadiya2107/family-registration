@@ -53,9 +53,9 @@ const AddParivarRation = ({ setState, state }) => {
     }
 
     return (
-        <div style={{ marginTop: "20px" }}>
-            <div className={style.heading}>New Family</div>
-            <Grid container spacing={3} >
+        <div style={{ marginTop:(state == "1" || state == "2") ? "0px" : "20px" }}>
+            {(state == "1" || state == "2") && <div className={style.heading}>New Family</div>}
+           {(state == "1" || state == "2") && <Grid container spacing={3} >
                 <Grid item xs={12} sm={4} md={4}>
                     <InputFieldWithIcon
                         title={t('rathinCardNumber')}
@@ -75,7 +75,7 @@ const AddParivarRation = ({ setState, state }) => {
                     />
                     {/* {errors?.rationCard && <p className="error">{errors?.rationCard}</p>} */}
                 </Grid>
-            </Grid>
+            </Grid>}
             {state == "1" ? rationCardData?.length > 0 ? <Grid container spacing={3} mt={2}>
                 <Grid item xs={12} sm={12} md={6}>
                     <div className={style.tablewrapper} style={{ margin: "0" }}>

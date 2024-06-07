@@ -30,6 +30,8 @@ import DatePicker from '@/components/DatePicker';
 import SubmitButton from '@/components/SubmitBtn';
 import { addfamilymember } from '@/network/actions/addfamilymember';
 import translateToHindi from '@/utils/translate';
+import AddMemberModal from './AddMemberModal';
+import DeleteBtn from '@/components/MoreBtn/DeleteBtn';
 
 
 const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
@@ -66,6 +68,8 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
   const [open, setOpen] = useState(false)
   const [headDetailsMore, setHeadDetailsMore] = useState(false)
   const [memberList, setMemberList] = useState([])
+  const [openModal, setOpenModal] = React.useState(false);
+
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
 
 
@@ -90,9 +94,9 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
   })
 
 
-  console.log('selectedFamilyMember', selectedFamilyMember)
+  console.log('selectedFamilyMember', selectedFamilyMember,getFamilyByIdData,getfamilymemberList)
   useEffect(() => {
-    if (selectedFamilyMember) {
+    if (selectedFamilyMember && getFamilyByIdData && getfamilymemberList?.length == 0) {
 
       let head = selectedFamilyMember?.find(v => v?.isHead) || {}
       console.log('head', head)
@@ -118,21 +122,46 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
       }
       setFormData(headData)
 
+      let member = selectedFamilyMember?.filter(v => !v?.isHead) || []
+      console.log('member', member)
+      let memberData = member?.map(v => ({
+        EnglishName: v?.memberName || "",
+        hindiName: "",
+        relative: "",
+        relation : "",
+        dob: "",
+        gender: "",
+        registrationBase: "",
+        refrence: "",
+        education: "",
+        work: "",
+        category: getFamilyByIdData?.socialCategoryId || "",
+        subCategory: "",
+        rationCard: v?.rationCardNumber || "",
+        religion: "",
+        adharCard: v?.aadhaarNumber || "",
+        dastavage: "",
+        description: "",
+        isEditModeMember : false,
+      }))
+      setMemberList(memberData)
+
     }
-  }, [selectedFamilyMember])
+  }, [selectedFamilyMember,getFamilyByIdData],getfamilymemberList)
   console.log('formData', formData)
+  console.log("memberList", memberList)
   useEffect(() => {
     if (getfamilymemberList?.length > 0) {
       setSaveHof(true)
-      setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
       setFormData(getfamilymemberList?.find(v => v?.isHead == "true"))
+      let moreMember = getfamilymemberList?.filter(v => v?.isHead != "true")
+      if(moreMember?.length > 0) setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
     } else {
       setSaveHof(false)
-      setMemberList([])
-      setFormData({ rationCard: getFamilyByIdData?.rationCardNo, category: getFamilyByIdData?.socialCategoryId })
+      // setMemberList([])
+      // setFormData({ rationCard: getFamilyByIdData?.rationCardNo, category: getFamilyByIdData?.socialCategoryId })
     }
-    // return () => { setFormData({})
-    // setMemberList([])}
+ 
 
   }, [getfamilymemberList])
 
@@ -179,6 +208,32 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
     dispatch(getProfession())
     dispatch(getReligion())
   }, [])
+  const openMemberDetails = (i) => {
+    let data = [...memberList]
+    let newData = data?.map((v, index) => index == i ? { ...v, memberDetailsMore: !v?.memberDetailsMore } : v)
+    setMemberList(newData)
+  }
+
+  const changeisEditModeMember = (v) => {
+    let data = [...memberList]
+    let newData = data?.map((k, index) => index == v ? { ...memberDetailsExtra, isEditModeMember: false } : k)
+    setMemberList(newData)
+    setMemberError({})
+
+  }
+  const changeisEditModeMemberClose = (v) => {
+    let data = [...memberList]
+    let newData = data?.map((k, index) => index == v ? { ...k, isEditModeMember: false } : k)
+    setMemberList(newData)
+    setMemberError({})
+  }
+  const changeisEditModeMemberDelete = (v) => {
+    let data = [...memberList]
+    let newData = data?.filter((k, index) => index != v)
+    setMemberList(newData)
+    setMemberError({})
+
+  }
 
   const handleChange = (e) => {
     const { value, name } = e.target
@@ -460,8 +515,9 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
   }
 
   const addMember = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
+    console.log('validationErrors', validationErrors)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       handleClickOpen()
@@ -469,7 +525,13 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
       setErrors(validationErrors);
     }
   }
+  const handleClickOpen = () => {
+    setOpenModal(true);
+  };
 
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
   const handleSaveHOF = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
@@ -561,7 +623,9 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
 
   return (
     <>
-      <div className={style.heading} style={{ marginBottom: "5px" }}>Family Details</div>
+          <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList}  getFamilyByIdData={getFamilyByIdData}/>
+
+      <div className={style.heading} style={{ marginBottom: "5px", marginTop : "-20px" }}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
         <table className={style.table}>
           <thead className={style.thead}>

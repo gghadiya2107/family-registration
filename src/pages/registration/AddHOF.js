@@ -604,7 +604,7 @@ const extraUpdate = () => {
   console.log('memberDetailsExtra', memberDetailsExtra)
   return (
     <>
-      <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} familyDetails={familyDetails} getFamilyByIdData={getFamilyByIdData}/>
+      <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList} getFamilyByIdData={getFamilyByIdData}/>
       <div className={style.heading} style={{ marginBottom: "5px" }}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
         <table className={style.table}>
