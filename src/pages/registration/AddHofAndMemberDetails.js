@@ -32,6 +32,7 @@ import { addfamilymember } from '@/network/actions/addfamilymember';
 import translateToHindi from '@/utils/translate';
 import AddMemberModal from './AddMemberModal';
 import DeleteBtn from '@/components/MoreBtn/DeleteBtn';
+import { updateFamilyMember } from '@/network/actions/updateFamilyMember';
 
 
 const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState ,setSelectedFamilyMember}) => {
@@ -396,11 +397,38 @@ const [oldMemberList, setOldMemberList] = useState([])
     return errors;
   };
 
+  const extraAferHeadUpdate = () => {
+    setFormData(headDetailsExtra); setisEditModeHead(false)
+      setHeadError({})
+      dispatch(getfamilymember(addFamilyData?.id))
+  dispatch(getFamilyById(addFamilyData?.id))
+  }
   const saveHeadAfterEdit = () => {
     const validationErrors = validateFormHead(headDetailsExtra);
+    console.log('headDetailsExtra', headDetailsExtra)
     if (Object.keys(validationErrors).length === 0) {
-      setFormData(headDetailsExtra); setisEditModeHead(false)
-      setHeadError({})
+      let body = {
+          "memberName":headDetailsExtra?.memberName,
+          "memberNameHin":headDetailsExtra?.memberNameH,
+          "relativeName":headDetailsExtra?.relativeName,
+          "relationId":headDetailsExtra?.relationId,
+          "dateOfBirth":headDetailsExtra?.date_of_birth,
+          "genderId":headDetailsExtra?.genderId,
+          "memberStatusId":headDetailsExtra?.memberStatusId,
+          "referenceNo":headDetailsExtra?.reference_no,
+          "qualificationId":headDetailsExtra?.qualificationId,
+          "professionId":headDetailsExtra?.professionId,
+          "socialCategoryId":headDetailsExtra?.socialCategoryId,
+          "socialSubCategory":headDetailsExtra?.socialSubCategory,
+          "rationCardNo":headDetailsExtra?.rationCardNo,
+          "religionId":headDetailsExtra?.religionId,
+          "aadhaarNo":headDetailsExtra?.aadhaarNo,
+          "isHead":headDetailsExtra?.isHead,
+          "remarks":headDetailsExtra?.remarks || "",
+          "familyId":headDetailsExtra?.familyId
+          
+      }
+      dispatch(updateFamilyMember(headDetailsExtra?.familyMemberId, body,extraAferHeadUpdate))
     } else {
       setHeadError(validationErrors);
     }
@@ -636,7 +664,7 @@ const [oldMemberList, setOldMemberList] = useState([])
     <>
           <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList}  getFamilyByIdData={getFamilyByIdData} memberFillDetails={memberFillDetails} />
 
-      <div className={style.heading} style={{ marginBottom: "5px", marginTop : "-20px" }}>Family Details</div>
+      <div className={style.heading} style={{ marginBottom: "5px"}}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
         <table className={style.table}>
           <thead className={style.thead}>

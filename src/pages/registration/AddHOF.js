@@ -34,6 +34,7 @@ import { getRelation } from '@/network/actions/getRelation'
 import { addfamilymember } from '@/network/actions/addfamilymember'
 import { getfamilymember } from '@/network/actions/getfamilymember'
 import { updateFamily } from '@/network/actions/updateFamily'
+import { updateFamilyMember } from '@/network/actions/updateFamilyMember'
 
 
 
@@ -448,11 +449,38 @@ const extraUpdate = () => {
       setFamilyError(validationErrors);
     }
   }
+  const extraAferHeadUpdate = () => {
+    setFormData(headDetailsExtra); setisEditModeHead(false)
+      setHeadError({})
+      dispatch(getfamilymember(addFamilyData?.id))
+  dispatch(getFamilyById(addFamilyData?.id))
+  }
   const saveHeadAfterEdit = () => {
     const validationErrors = validateFormHead(headDetailsExtra);
+    console.log('headDetailsExtra', headDetailsExtra)
     if (Object.keys(validationErrors).length === 0) {
-      setFormData(headDetailsExtra); setisEditModeHead(false)
-      setHeadError({})
+      let body = {
+          "memberName":headDetailsExtra?.memberName,
+          "memberNameHin":headDetailsExtra?.memberNameH,
+          "relativeName":headDetailsExtra?.relativeName,
+          "relationId":headDetailsExtra?.relationId,
+          "dateOfBirth":headDetailsExtra?.date_of_birth,
+          "genderId":headDetailsExtra?.genderId,
+          "memberStatusId":headDetailsExtra?.memberStatusId,
+          "referenceNo":headDetailsExtra?.reference_no,
+          "qualificationId":headDetailsExtra?.qualificationId,
+          "professionId":headDetailsExtra?.professionId,
+          "socialCategoryId":headDetailsExtra?.socialCategoryId,
+          "socialSubCategory":headDetailsExtra?.socialSubCategory,
+          "rationCardNo":headDetailsExtra?.rationCardNo,
+          "religionId":headDetailsExtra?.religionId,
+          "aadhaarNo":headDetailsExtra?.aadhaarNo,
+          "isHead":headDetailsExtra?.isHead,
+          "remarks":headDetailsExtra?.remarks || "",
+          "familyId":headDetailsExtra?.familyId
+          
+      }
+      dispatch(updateFamilyMember(headDetailsExtra?.familyMemberId, body,extraAferHeadUpdate))
     } else {
       setHeadError(validationErrors);
     }
