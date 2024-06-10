@@ -25,7 +25,7 @@ export const updateFamilyFaliure = (error) => ({
 
 // Async Action to Fetch Data
 export const updateFamily = (family_id, body, extraUpdate) => {
-    console.log('family_id', family_id)
+    console.log('family_id', family_id , body)
 	return async (dispatch) => {
 
 		try {
@@ -37,6 +37,8 @@ export const updateFamily = (family_id, body, extraUpdate) => {
 
 // 			let responseData = decryptData(response?.data?.data)
 // console.log('family_id', responseData)
+console.log('family_id', response)
+
 extraUpdate()
 			dispatch(updateFamilySuccess(response));
 		} catch (error) {

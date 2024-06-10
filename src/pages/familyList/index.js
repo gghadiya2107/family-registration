@@ -24,13 +24,13 @@ const FamilyList = () => {
   const [formData, setFormData] = useState({
     district: "",
     municipal: "",
-    ward: ""
+    ward: "",
   })
   const [open, setOpen] = React.useState(false);
   const [viewData, setViewData] = useState({})
   const [page, setPage] = useState(0);
 
-console.log('open', open)
+  console.log('open', open)
   const handleClickOpen = (v) => {
     setOpen(true);
     setViewData(v)
@@ -42,15 +42,14 @@ console.log('open', open)
 
   useEffect(() => {
     dispatch(getDistrict())
-    // dispatch(getFamilyList(formData))
   }, [])
   useEffect(() => {
-  if(getFamilyListData)  
-    setPage(getFamilyListData?.number)
+    if (getFamilyListData)
+      setPage(getFamilyListData?.number)
   }, [getFamilyListData])
   useEffect(() => {
     dispatch(getFamilyList(formData))
-  }, [formData,page])
+  }, [formData])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -58,90 +57,92 @@ console.log('open', open)
   }
   const handlePageChange = (event, value) => {
     setPage(value)
+    dispatch(getFamilyList({...formData, page: value-1}))
+
   }
   return (
-      <>
+    <>
       <ViewFamilyModal open={open} handleClose={handleClose} viewData={viewData} />
-    <MainLayout>
-      <Grid container spacing={3} >
-        <Grid item xs={12} sm={4} md={4}>
-          <SelectDropdown
-            title={t('district')}
-            name="district"
-            options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
-            value={formData?.district}
-            onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
-          />
+      <MainLayout>
+        <Grid container spacing={3} >
+          <Grid item xs={12} sm={4} md={4}>
+            <SelectDropdown
+              title={t('district')}
+              name="district"
+              options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+              value={formData?.district}
+              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+            />
 
 
+          </Grid>
+          <Grid item xs={12} sm={4} md={4}>
+            <SelectDropdown
+              title={t('selectVillage')}
+              name="municipal"
+              options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
+              disabled={formData?.district != "" ? false : true}
+              value={formData?.municipal}
+              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
+            />
+
+          </Grid>
+          <Grid item xs={12} sm={4} md={4}>
+            <SelectDropdown
+              title={t('selectWard')}
+              name="ward"
+              options={wardList?.map(v => ({ value: v?.id, label: v?.name }))}
+              value={formData?.ward}
+              disabled={formData?.district != "" && formData?.municipal != "" ? false : true}
+              onChange={handleChange}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={4} md={4}>
-          <SelectDropdown
-            title={t('selectVillage')}
-            name="municipal"
-            options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
-            disabled={formData?.district != "" ?false : true}
-            value={formData?.municipal}
-            onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
-          />
 
-        </Grid>
-        <Grid item xs={12} sm={4} md={4}>
-          <SelectDropdown
-            title={t('selectWard')}
-            name="ward"
-            options={wardList?.map(v => ({ value: v?.id, label: v?.name }))}
-            value={formData?.ward}
-            disabled={formData?.district != "" && formData?.municipal != "" ? false : true}
-            onChange={handleChange}
-          />
-        </Grid>
-      </Grid>
+        <div className={style.tablewrapper} >
+          <table className={style.table}>
+            <thead className={style.thead}>
+              <tr className={style.tr}>
+                <th className={style.th}>HEAD OF FAMILY	</th>
+                <th className={style.th}>RATION NO.	</th>
+                <th className={style.th}>TOTAL MEMBERS	</th>
+                <th className={style.th}>ECONOMIC STATUS	</th>
+                {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
+                <th className={style.th}>DISTRICT</th>
+                <th className={style.th}>MUNICIPAL</th>
+                <th className={style.th}>ACTION</th>
+              </tr>
+            </thead>
+            <tbody>{getFamilyListData?.content?.map(v => (
+              <tr className={style.tr}>
+                <td className={style.td}>{v?.headMemberName}	</td>
+                <td className={style.td}>{v?.rationCardNo}	</td>
+                <td className={style.td}>{v?.totalMembers}</td>
+                <td className={style.td}>{v?.economic}	</td>
+                {/* <td className={style.td}>{v?.socialCategory}</td> */}
+                <td className={style.td}>{v?.district}</td>
+                <td className={style.td}>{v?.municipalName}</td>
+                <td className={style.td}><div className={style.btns}>
+                  <ViewBtn title={"View"} onClick={() => handleClickOpen(v)} />
+                  {/* <VerifyBtn title={"Verify"} onClick={() => { }} /> */}
 
-      <div className={style.tablewrapper} >
-        <table className={style.table}>
-          <thead className={style.thead}>
-            <tr className={style.tr}>
-              <th className={style.th}>HEAD OF FAMILY	</th>
-              <th className={style.th}>RATION NO.	</th>
-              <th className={style.th}>TOTAL MEMBERS	</th>
-              <th className={style.th}>ECONOMIC STATUS	</th>
-              {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
-              <th className={style.th}>DISTRICT</th>
-              <th className={style.th}>MUNICIPAL</th>
-              <th className={style.th}>ACTION</th>
-            </tr>
-          </thead>
-          <tbody>{getFamilyListData?.content?.map(v => (
-             <tr className={style.tr}>
-             <td className={style.td}>{v?.headMemberName}	</td>
-             <td className={style.td}>{v?.rationCardNo}	</td>
-             <td className={style.td}>{v?.totalMembers}</td>
-             <td className={style.td}>{v?.economic}	</td>
-             {/* <td className={style.td}>{v?.socialCategory}</td> */}
-             <td className={style.td}>{v?.district}</td>
-             <td className={style.td}>{v?.municipalName}</td>
-             <td className={style.td}><div className={style.btns}>
-               <ViewBtn title={"View"} onClick={() => handleClickOpen(v)} />
-               {/* <VerifyBtn title={"Verify"} onClick={() => { }} /> */}
-
-             </div></td>                    </tr>
-          ))}
-           
-            
+                </div></td>                    </tr>
+            ))}
 
 
-          </tbody>
-        </table>
 
 
-      </div>
+            </tbody>
+          </table>
 
-      <Stack spacing={2} style={{float : "right", marginTop : 10}}>
-      <Pagination  color="primary" onChange={handlePageChange} count={getFamilyListData?.totalPages} page={page}/>
-     
-    </Stack>
-    </MainLayout>
+
+        </div>
+
+        {/* <Stack spacing={2} style={{ float: "right", marginTop: 10 }}>
+          <Pagination color="primary" onChange={handlePageChange} count={getFamilyListData?.totalPages} page={page} />
+
+        </Stack> */}
+      </MainLayout>
     </>
   )
 }

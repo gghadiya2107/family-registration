@@ -151,7 +151,7 @@ const debouncedSearch = debounce(async (value) => {
     return errors;
   };
   return (
-    <div style={{ marginTop: "20px" }}>
+    <div >
 
       {/* <div className={style.heading}>{t('newFamily')}</div> */}
       <div className={style.heading}>New Family</div>

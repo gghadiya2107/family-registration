@@ -44,7 +44,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamilyByIdData}) => {
+const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamilyByIdData, memberFillDetails={}}) => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
@@ -78,9 +78,61 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
   })
   const [errors, setErrors] = useState({});
 
+
+
+
   useEffect(() => {
-    setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId })
+    console.log('memberFillDetails', memberFillDetails,getFamilyByIdData)
+    if(Object.keys(memberFillDetails)?.length > 0  && getFamilyByIdData){
+      let data ={
+        EnglishName: memberFillDetails?.memberName ||  "",
+        hindiName: "",
+        relative: "",
+        relation : "",
+        dob: "",
+        gender: "",
+        registrationBase: "",
+        refrence: "",
+        education: "",
+        work: "",
+        category: getFamilyByIdData?.socialCategoryId || "",
+        subCategory: "",
+        rationCard: memberFillDetails?.rationCardNo || "",
+        religion: "",
+        adharCard: memberFillDetails?.aadhaarNo ||  "",
+        dastavage: "",
+        description: "",
+        isEditModeMember : false,
+      }
+      setFormData(data)
+    }
+     else{
+      // alert("cal")
+      // setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId })
+
+    }
+    
+  }, [getFamilyByIdData,memberFillDetails ])
+
+  useEffect(() => {
+    if(Object.keys(memberFillDetails)?.length == 0 ){
+      setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId })
+
+    }
+   
   }, [getFamilyByIdData])
+  
+
+  useEffect(() => {
+    if( memberFillDetails?.memberName){
+
+      setTimeout(() => {
+        
+        if ( memberFillDetails?.memberName && formData?.hindiName == "" ) changeLang(memberFillDetails?.memberName)
+      }, 1000);
+    }
+  }, [memberFillDetails]) 
+  
   
 
 
@@ -135,8 +187,28 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
     adharCard: "",
     dastavage: "",
     description: ""})
-    setMemberList([...memberList,{...formData, id : generateUserId()}])
+    // setMemberList([...memberList,{...formData, id : generateUserId()}])
     handleClose()
+  }
+
+ const  onCancle = () => {
+    setErrors({})
+    setFormData({...formData,  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
+    hindiName: "",
+    relative: "",
+    dob: "",
+    gender: "",
+    registrationBase: "",
+    refrence: "",
+    education: "",
+    work: "",
+    subCategory: "",
+    religion: "",
+    adharCard: "",
+    dastavage: "",
+    description: ""})
+    handleClose()
+
   }
 
   const onSave = () => {
@@ -231,15 +303,16 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
 
   const changeLang = async(name) => {
     if(name){
+      
 
       const text  = await translateToHindi(name);
       if(text){
-        
-        setFormData({ ...formData, hindiName: text })
+        setFormData((prev) => ({...prev,hindiName: text }))
         // return text
       }
     }
   }
+
   return (
     <BootstrapDialog
       onClose={handleClose}
@@ -523,6 +596,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
         </Grid>
       </DialogContent>
       <DialogActions>
+        <SubmitButton onClick={onCancle} label="Cancel" />
         <SubmitButton onClick={onSave} label="Save" />
 
       </DialogActions>

@@ -132,6 +132,7 @@ setSaveHof(true)
     // setMemberList([])}
    
   }, [getfamilymemberList])
+  console.log('getfamilymemberList', getfamilymemberList)
 
   console.log('formData', formData)
   
@@ -172,6 +173,7 @@ if(getFamilyByIdData){
   const [headError, setHeadError] = useState({})
   const [memberError, setMemberError] = useState({})
  
+  console.log('getFamilyByIdData', getFamilyByIdData)
   const changeLang = async(name) => {
     if(name){
 
@@ -268,8 +270,9 @@ if(getFamilyByIdData){
   }
 
   const addMember = () => {
-    // const validationErrors = {};
-    const validationErrors = validateForm(formData);
+    const validationErrors = {};
+    // const validationErrors = validateForm(formData);
+    console.log('validationErrors', validationErrors)
     if (Object.keys(validationErrors).length === 0) {
       setErrors({})
       handleClickOpen()
@@ -417,6 +420,10 @@ console.log('headDetailsExtra', headDetailsExtra)
 const extraUpdate = () => {
   setFamilyDetails(familyDetailsExtra); setIsEditMode(false)
   setFamilyError({})
+  dispatch(getfamilymember(addFamilyData?.id))
+  dispatch(getFamilyById(addFamilyData?.id))
+
+
 }
   const saveFamilyAfterEdit = () => {
     const validationErrors = validateFormFamily(familyDetailsExtra);

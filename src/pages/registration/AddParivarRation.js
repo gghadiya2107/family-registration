@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import AddFamilyDetails from './AddFamilyDetails';
 import AddHofAndMemberDetails from './AddHofAndMemberDetails';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
+import BeneficiaryModal from './BeneficiaryModal';
 
 const AddParivarRation = ({ setState, state }) => {
     const { t } = useTranslation("translation");
@@ -22,6 +23,14 @@ const AddParivarRation = ({ setState, state }) => {
     const [selectedFamilyMember, setSelectedFamilyMember] = useState([])
 
     const [formData, setFormData] = useState({ rationCard: "" })
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
     const debouncedSearch = debounce(async (value) => {
         dispatch(getRationDetails(value?.toUpperCase()))
 
@@ -55,7 +64,8 @@ const AddParivarRation = ({ setState, state }) => {
     return (
         <div style={{ marginTop:(state == "1" || state == "2") ? "0px" : "20px" }}>
             {(state == "1" || state == "2") && <div className={style.heading}>New Family</div>}
-           {(state == "1" || state == "2") && <Grid container spacing={3} >
+         <Grid container spacing={3} >
+         {(state == "1" || state == "2") &&
                 <Grid item xs={12} sm={4} md={4}>
                     <InputFieldWithIcon
                         title={t('rathinCardNumber')}
@@ -73,9 +83,14 @@ const AddParivarRation = ({ setState, state }) => {
                         }}
                         requried
                     />
-                    {/* {errors?.rationCard && <p className="error">{errors?.rationCard}</p>} */}
+
                 </Grid>
-            </Grid>}
+           }
+          {state == "2" &&  <Grid item xs={12} sm={4} md={4} mt={3}>
+                <SubmitButton label={"View All Beneficiary"} onClick={handleClickOpen} />
+
+                </Grid>}
+            </Grid>
             {state == "1" ? rationCardData?.length > 0 ? <Grid container spacing={3} mt={2}>
                 <Grid item xs={12} sm={12} md={6}>
                     <div className={style.tablewrapper} style={{ margin: "0" }}>
@@ -151,8 +166,9 @@ const AddParivarRation = ({ setState, state }) => {
             </Grid> : (formData?.rationCard?.length > 4 && rationCardData?.length == 0) ?
                 <Typography mt={5} textAlign={"center"}>Family not found on this ration card number.</Typography>
                 : "" : state == "2" ? <AddFamilyDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} />
-                : state == "3" ? <AddHofAndMemberDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} /> : ""
+                : state == "3" ? <AddHofAndMemberDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} setSelectedFamilyMember={setSelectedFamilyMember}/> : ""
             }
+        <BeneficiaryModal selectedFamilyMember={selectedFamilyMember} handleClose={handleClose} open={open}/>
         </div>
     )
 }

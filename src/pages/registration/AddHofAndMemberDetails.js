@@ -34,7 +34,7 @@ import AddMemberModal from './AddMemberModal';
 import DeleteBtn from '@/components/MoreBtn/DeleteBtn';
 
 
-const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
+const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState ,setSelectedFamilyMember}) => {
   const { t } = useTranslation("translation");
   const router = useRouter()
   const dispatch = useDispatch()
@@ -69,7 +69,8 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
   const [headDetailsMore, setHeadDetailsMore] = useState(false)
   const [memberList, setMemberList] = useState([])
   const [openModal, setOpenModal] = React.useState(false);
-
+  const [memberFillDetails, setMemberFillDetails] = useState({})
+const [oldMemberList, setOldMemberList] = useState([])
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
 
 
@@ -123,9 +124,9 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
       setFormData(headData)
 
       let member = selectedFamilyMember?.filter(v => !v?.isHead) || []
-      console.log('member', member)
+      console.log('member 1', member)
       let memberData = member?.map(v => ({
-        EnglishName: v?.memberName || "",
+        memberName: v?.memberName || "",
         hindiName: "",
         relative: "",
         relation : "",
@@ -137,25 +138,33 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
         work: "",
         category: getFamilyByIdData?.socialCategoryId || "",
         subCategory: "",
-        rationCard: v?.rationCardNumber || "",
+        rationCardNo: v?.rationCardNumber || "",
         religion: "",
-        adharCard: v?.aadhaarNumber || "",
+        aadhaarNo: v?.aadhaarNumber || "",
         dastavage: "",
         description: "",
         isEditModeMember : false,
       }))
       setMemberList(memberData)
+      setOldMemberList(memberData)
 
     }
   }, [selectedFamilyMember,getFamilyByIdData],getfamilymemberList)
   console.log('formData', formData)
   console.log("memberList", memberList)
+  console.log("memberFillDetails", memberFillDetails)
+  console.log("getfamilymemberList", getfamilymemberList)
+
   useEffect(() => {
     if (getfamilymemberList?.length > 0) {
       setSaveHof(true)
       setFormData(getfamilymemberList?.find(v => v?.isHead == "true"))
       let moreMember = getfamilymemberList?.filter(v => v?.isHead != "true")
-      if(moreMember?.length > 0) setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
+      let ddd = [...oldMemberList]
+      let nnn = ddd?.filter(v => v?.memberName != memberFillDetails?.memberName )
+      setOldMemberList(nnn)
+      if(moreMember?.length > 0) setMemberList([...moreMember , ...nnn])
+
     } else {
       setSaveHof(false)
       // setMemberList([])
@@ -621,9 +630,11 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
     return errors;
   };
 
+
+  console.log('memberList', memberList)
   return (
     <>
-          <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList}  getFamilyByIdData={getFamilyByIdData}/>
+          <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setMemberList} memberList={memberList}  getFamilyByIdData={getFamilyByIdData} memberFillDetails={memberFillDetails} />
 
       <div className={style.heading} style={{ marginBottom: "5px", marginTop : "-20px" }}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
@@ -1067,7 +1078,7 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
-                      <td className={style.td}>{v?.date_of_birth}</td>
+                      <td className={style.td}>{v?.date_of_birth || "-"}</td>
                       <td className={style.td}>{v?.aadhaarNo}</td>
                       <td className={style.td}>Document not Attached</td>
                       <td className={style.td}>
@@ -1083,7 +1094,8 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
                               {v?.memberDetailsMore ? <CloseBtn title="Close" onClick={() => { openMemberDetails(index) }} /> :
                                 <MoreBtn title="More" onClick={() => { openMemberDetails(index) }} />}
 
-                              <EditBtn title="Edit" disabled={v?.memberDetailsMore} onClick={() => { setMemberDetailsExtra(v); setConfirmationData(v); setEditModalType("member"); handleOpen() }} />
+                              {v?.date_of_birth ? <EditBtn title="Edit" disabled={v?.memberDetailsMore} onClick={() => { setMemberDetailsExtra(v); setConfirmationData(v); setEditModalType("member"); handleOpen() }} /> :
+                              <EditBtn title="Fill Details"   onClick={() => {setMemberFillDetails(v); addMember()}} />}
                             </>}
                         </div>
                       </td>
@@ -1094,21 +1106,22 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState }) => {
                         <Grid container spacing={5}>
                           <Grid item xs={4}>
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.memberName}</p>
-                            <p className={style.expandMargin}><b>Date of Birth:</b> {v?.date_of_birth}</p>
-                            <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
+                            {v?.date_of_birth &&<p className={style.expandMargin}><b>Date of Birth:</b> {v?.date_of_birth}</p>}
+                            {v?.gender &&<p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>}
                             {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
 
                           </Grid>
                           <Grid item xs={4}>
-                            <p className={style.expandMargin}><b>Refrance Number:</b> {v?.reference_no}</p>
-                            <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
-                            <p className={style.expandMargin}><b>Category:</b> {v?.socialCategory}</p>
+                          <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.aadhaarNo}</p>
+
+                            {v?.religion &&<p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>}
+                            {v?.socialCategory &&<p className={style.expandMargin}><b>Category:</b> {v?.socialCategory}</p>}
 
                           </Grid>
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
-                            <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.aadhaarNo}</p>
+                            {v?.reference_no &&<p className={style.expandMargin}><b>Refrance Number:</b> {v?.reference_no}</p>}
 
                           </Grid>
                         </Grid>
