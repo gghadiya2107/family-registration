@@ -434,12 +434,37 @@ const [oldMemberList, setOldMemberList] = useState([])
     }
   }
 
+  const extraAferMemberUpdate = (index) => {
+    changeisEditModeMember(index)
+    setMemberError({})
+  }
   const saveMemberAfterEdit = (index) => {
     const validationErrors = validateFormMember(memberDetailsExtra);
+    console.log('memberDetailsExtra', memberDetailsExtra)
     if (Object.keys(validationErrors).length === 0) {
-      // setFormData(headDetailsExtra); setisEditModeHead(false)
-      changeisEditModeMember(index)
-      setMemberError({})
+      let body = {
+        "memberName":memberDetailsExtra?.memberName,
+        "memberNameHin":memberDetailsExtra?.memberNameH,
+        "relativeName":memberDetailsExtra?.relativeName,
+        "relationId":memberDetailsExtra?.relationId,
+        "dateOfBirth":memberDetailsExtra?.date_of_birth,
+        "genderId":memberDetailsExtra?.genderId,
+        "memberStatusId":memberDetailsExtra?.memberStatusId,
+        "referenceNo":memberDetailsExtra?.reference_no,
+        "qualificationId":memberDetailsExtra?.qualificationId,
+        "professionId":memberDetailsExtra?.professionId,
+        "socialCategoryId":memberDetailsExtra?.socialCategoryId,
+        "socialSubCategory":memberDetailsExtra?.socialSubCategory,
+        "rationCardNo":memberDetailsExtra?.rationCardNo,
+        "religionId":memberDetailsExtra?.religionId,
+        "aadhaarNo":memberDetailsExtra?.aadhaarNo,
+        "isHead":memberDetailsExtra?.isHead,
+        "remarks":memberDetailsExtra?.remarks || "",
+        "familyId":memberDetailsExtra?.familyId
+        
+    }
+      dispatch(updateFamilyMember(memberDetailsExtra?.familyMemberId, body,extraAferMemberUpdate, index))
+
     } else {
       setMemberError(validationErrors);
     }

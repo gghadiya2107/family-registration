@@ -26,7 +26,7 @@ export const updateFamilyMemberFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const updateFamilyMember = (familyMemberId, body, extraAferHeadUpdate) => {
+export const updateFamilyMember = (familyMemberId, body, extraAferHeadUpdate, index = 0) => {
     console.log('familyMemberId', familyMemberId , body)
 	return async (dispatch) => {
 
@@ -36,7 +36,7 @@ export const updateFamilyMember = (familyMemberId, body, extraAferHeadUpdate) =>
 
 console.log('familyMemberId', response)
 
-extraAferHeadUpdate()
+extraAferHeadUpdate(index)
 			dispatch(updateFamilyMemberSuccess(response));
 		} catch (error) {
             console.log('error', error)
