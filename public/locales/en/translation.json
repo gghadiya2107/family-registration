@@ -54,7 +54,8 @@
     "validateComment" : "Description is required",
     "district" : "Select District",
     "validateDistrict" : "District is requried",
-    "saveAndAddDetails" : "Save and Add Details"
+    "saveAndAddDetails" : "Save and Add Details",
+    "proceedToAddFamily" : "Proceed To Add Family"
 
 
 

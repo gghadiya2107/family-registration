@@ -54,7 +54,9 @@
     "validateComment" : "टिपण्णी आवश्यक है",
     "district" : "ज़िला",
     "validateDistrict" : "ज़िला आवश्यक है",
-    "saveAndAddDetails" : "Save and Add Details"
+    "saveAndAddDetails" : "Save and Add Details",
+    "proceedToAddFamily" : "परिवार जोड़ने के लिए आगे बढ़ें"
+
 
 
 
