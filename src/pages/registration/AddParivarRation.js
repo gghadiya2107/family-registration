@@ -13,6 +13,7 @@ import AddFamilyDetails from './AddFamilyDetails';
 import AddHofAndMemberDetails from './AddHofAndMemberDetails';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import BeneficiaryModal from './BeneficiaryModal';
+import StepperView from './stepperView';
 
 const AddParivarRation = ({ setState, state }) => {
     const { t } = useTranslation("translation");
@@ -63,7 +64,7 @@ const AddParivarRation = ({ setState, state }) => {
 
     return (
         <div style={{ marginTop:(state == "1" || state == "2") ? "0px" : "20px" }}>
-            {(state == "1" || state == "2") && <div className={style.heading}>New Family</div>}
+            {/* {(state == "1" || state == "2") && <div className={style.heading}>New Family</div>} */}
          <Grid container spacing={3} >
          {(state == "1" || state == "2") &&
                 <Grid item xs={12} sm={4} md={4}>
@@ -91,6 +92,7 @@ const AddParivarRation = ({ setState, state }) => {
 
                 </Grid>}
             </Grid>
+            {state == "2" && <StepperView  selectedFamilyMember={selectedFamilyMember}/>}
             {state == "1" ? rationCardData?.length > 0 ? <Grid container spacing={3} mt={2}>
                 <Grid item xs={12} sm={12} md={6}>
                     <div className={style.tablewrapper} style={{ margin: "0" }}>
@@ -161,13 +163,14 @@ const AddParivarRation = ({ setState, state }) => {
                     </div>
                 </Grid>
                 <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
-                    <SubmitButton label={t('saveAndAddDetails')} onClick={() => saveAndAddDetails()} />
+                    <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} />
                 </div>
             </Grid> : (formData?.rationCard?.length > 4 && rationCardData?.length == 0) ?
                 <Typography mt={5} textAlign={"center"}>Family not found on this ration card number.</Typography>
-                : "" : state == "2" ? <AddFamilyDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} />
-                : state == "3" ? <AddHofAndMemberDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} setSelectedFamilyMember={setSelectedFamilyMember}/> : ""
-            }
+                 : state == "2" ? <StepperView /> : "" : ""}
+                 {/* <AddFamilyDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} /> */}
+                 {/* : state == "3" ? <AddHofAndMemberDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} setSelectedFamilyMember={setSelectedFamilyMember}/> : "" */}
+            
         <BeneficiaryModal selectedFamilyMember={selectedFamilyMember} handleClose={handleClose} open={open}/>
         </div>
     )

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { getImagePath } from '@/utils/CustomImagePath';
 import AddMember from './AddMember';
 import AddParivarRation from './AddParivarRation';
+import StepperView from './stepperView';
 
 const Registration = () => {
    const [state, setState] = useState("1")
@@ -67,7 +68,8 @@ row
 
 
      {tab == "1" && withOrWithoutRation == "1" && <AddParivarRation setState={setstateForNewFlow} state={stateForNewFlow}/>}
-     {tab == "1" && withOrWithoutRation == "2" && <AddParivar setState={setState} state={state} />}
+     {tab == "1" && withOrWithoutRation == "2" && <StepperView  />}
+     {/* {tab == "1" && withOrWithoutRation == "2" && <AddParivar setState={setState} state={state} />} */}
      {tab == "2" && <AddMember setState={setState} state={state} />}
      
     </MainLayout>
