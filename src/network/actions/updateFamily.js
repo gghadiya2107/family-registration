@@ -37,6 +37,7 @@ export const updateFamily = (family_id, body, extraUpdate) => {
 
 // 			let responseData = decryptData(response?.data?.data)
 // console.log('family_id', responseData)
+toast.success(response?.message)
 console.log('family_id', response)
 
 extraUpdate()

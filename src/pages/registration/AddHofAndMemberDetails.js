@@ -160,11 +160,11 @@ const [oldMemberList, setOldMemberList] = useState([])
     if (getfamilymemberList?.length > 0) {
       setSaveHof(true)
       setFormData(getfamilymemberList?.find(v => v?.isHead == "true"))
-      let moreMember = getfamilymemberList?.filter(v => v?.isHead != "true")
-      let ddd = [...oldMemberList]
-      let nnn = ddd?.filter(v => v?.memberName != memberFillDetails?.memberName )
-      setOldMemberList(nnn)
-      if(moreMember?.length > 0) setMemberList([...moreMember , ...nnn])
+        let moreMember = getfamilymemberList?.filter(v => v?.isHead != "true")
+        let ddd = [...oldMemberList]
+        let nnn = ddd?.filter(v => v?.memberName != memberFillDetails?.memberName )
+        setOldMemberList(nnn)
+        if(moreMember?.length > 0) setMemberList([...moreMember , ...nnn])
 
     } else {
       setSaveHof(false)

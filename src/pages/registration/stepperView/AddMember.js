@@ -68,14 +68,14 @@ const [oldMemberList, setOldMemberList] = useState([])
   })
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
+  // useEffect(() => {
    
-  }, [getFamilyByIdData,selectedFamilyMember])
+  // }, [getFamilyByIdData,selectedFamilyMember])
   
 
   useEffect(() => {
     console.log('selectedFamilyMember', selectedFamilyMember)
-  if(getfamilymemberList?.length > 0 && getFamilyByIdData){
+  if(getfamilymemberList?.length == 0 && getFamilyByIdData && selectedFamilyMember){
     let member = selectedFamilyMember?.filter(v => !v?.isHead) || []
     console.log('member 1', member)
     let memberData = member?.map(v => ({
@@ -98,26 +98,27 @@ const [oldMemberList, setOldMemberList] = useState([])
       description: "",
       isEditModeMember : false,
     }))
-    let member1 = getfamilymemberList?.filter(v => v.isHead == "false")
-    setmemberList([...member1, ...memberData])
+    // let member1 = getfamilymemberList?.filter(v => v.isHead == "false")
+    setOldMemberList(memberData)
+    setmemberList(memberData)
     console.log('memberData', memberData)
-    setOldMemberList([...memberData])
   }
    
-  }, [])
-  console.log('memberlist', memberList)
+  }, [selectedFamilyMember,getFamilyByIdData],getfamilymemberList)
+  console.log('memberlist', memberList, oldMemberList)
   
   useEffect(() => {
-    if (getfamilymemberList?.length > 0) {
+   setTimeout(() => {
+    if (getfamilymemberList?.length > 0 ) {
+      // debugger
       let moreMember = getfamilymemberList?.filter(v => v?.isHead != "true")
       let ddd = [...oldMemberList]
       let nnn = ddd?.filter(v => v?.memberName != memberFillDetails?.memberName )
-      console.log('ddd', ddd, nnn,moreMember,memberFillDetails)
+      console.log('ddd', ddd,nnn, memberFillDetails,moreMember)
       setOldMemberList(nnn)
-      // if(moreMember?.length > 0)
-         setmemberList([...moreMember , ...nnn])
-
+      if(moreMember?.length > 0) setmemberList([...moreMember , ...nnn])
     }
+   }, 1000);
  
 
   }, [getfamilymemberList])
@@ -156,6 +157,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 
   }, [])
   useEffect(() => {
+    console.log('addFamilyData', addFamilyData)
     dispatch(getfamilymember(addFamilyData?.id))
 
 

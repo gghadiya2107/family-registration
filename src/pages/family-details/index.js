@@ -127,7 +127,7 @@ const FamilyDetails = () => {
 
 
     useEffect(() => {
-        console.log('route', route)
+        console.log('route', id)
         dispatch(getFamilyById(+id))
 
         dispatch(getfamilymember(id))
@@ -522,6 +522,8 @@ const FamilyDetails = () => {
 
                   {isEditMode ? <>
                     <SaveBtn title="Save" onClick={() => { saveFamilyAfterEdit() }} />
+                    <DeleteBtn title="Delete"  />
+
                     <CloseBtn title="Close" onClick={() => { setFamilyError({}); setIsEditMode(false) }} /></>
                     :
                     <>{familyDetailsMore ? <CloseBtn title="Close" onClick={() => { setFamilyDetailsMore(!familyDetailsMore) }} /> :
@@ -740,6 +742,8 @@ disabled
                     <div className="action">
                       {isEditModeHead ? <>
                         <SaveBtn title="Save" onClick={() => { saveHeadAfterEdit() }} />
+                        <DeleteBtn title="Delete"  />
+
                         <CloseBtn title="Close" onClick={() => { setHeadError({}); setisEditModeHead(false) }} /></>
                         :
                         <>

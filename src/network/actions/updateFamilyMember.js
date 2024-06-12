@@ -33,6 +33,7 @@ export const updateFamilyMember = (familyMemberId, body, extraAferHeadUpdate, in
 		try {
 			
 			const response = await ApiPostNoAuth(`/urbanregister/updateFamilyMember?family_member_id=${encryptDataGet(familyMemberId)}`, body);
+			toast.success(response?.message)
 
 console.log('familyMemberId', response)
 
