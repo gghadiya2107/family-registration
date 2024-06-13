@@ -55,7 +55,8 @@
     "district" : "Select District",
     "validateDistrict" : "District is requried",
     "saveAndAddDetails" : "Save and Add Details",
-    "proceedToAddFamily" : "Proceed To Add Family"
+    "proceedToAddFamily" : "Proceed To Add Family",
+    "selectHOF" : "Select Head of Family"
 
 
 
