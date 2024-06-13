@@ -49,7 +49,7 @@ const Registration = () => {
                     <Grid item md={1.5}></Grid>
                     </Grid>}
 
-                {state =="1" && stateForNewFlow =="1" &&   <Grid container spacing={5} mt={1} mb={1}>
+                {tab =="1" && state =="1" && stateForNewFlow =="1" &&   <Grid container spacing={5} mt={1} mb={1}>
                     <Grid item md={12} style={{paddingTop : 10}}>
                     <FormControl>
   <RadioGroup

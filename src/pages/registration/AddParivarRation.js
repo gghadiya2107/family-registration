@@ -25,6 +25,7 @@ const AddParivarRation = ({ setState, state }) => {
 
     const [formData, setFormData] = useState({ rationCard: "" })
     const [open, setOpen] = React.useState(false);
+    console.log('formData', rationDetails)
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -39,7 +40,8 @@ const AddParivarRation = ({ setState, state }) => {
     const handleChange = (e) => {
         const { value, name } = e.target
         setFormData({ ...formData, [name]: value })
-        if (value?.length > 4) debouncedSearch(value)
+        // if (value?.length > 4)
+         debouncedSearch(value)
     }
     useEffect(() => {
         let data = [...rationDetails]
@@ -93,7 +95,7 @@ const AddParivarRation = ({ setState, state }) => {
                 </Grid>}
             </Grid>
             {state == "2" && <StepperView  selectedFamilyMember={selectedFamilyMember}/>}
-            {state == "1" ? rationCardData?.length > 0 ? <Grid container spacing={3} mt={2}>
+            {state == "1" ? (rationCardData?.length > 0 && formData?.rationCard) ? <Grid container spacing={3} mt={2}>
                 <Grid item xs={12} sm={12} md={6}>
                     <div className={style.tablewrapper} style={{ margin: "0" }}>
                         <table className={style.table}>

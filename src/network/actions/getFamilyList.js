@@ -32,12 +32,12 @@ console.log('body', body)
             if(body?.ward){
                 params.ward_id = body?.ward
             }
-            if(body?.page){
-                params.page = body?.page
-            }
+            // if(body?.page){
+            //     params.page = JSON.stringify(body?.page)
+            // }
 				console.log('params', params)
 			
-			const response = await ApiGetNoAuth(`/urbanregister/getFamilyList${Object.keys(params).length > 0 ? "?" : ""}`, params);
+			const response = await ApiGetNoAuth(`/urbanregister/getFamilyList?page=${body?.page || 0}${Object.keys(params).length > 0 ? "" : ""}`, params);
 			// const response = await apiCall.get(
 			// 	`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.municipalId)}&masterName=${encryptData("ward")}`
 			// );

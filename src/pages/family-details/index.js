@@ -33,6 +33,8 @@ import AddMemberModal from '../registration/AddMemberModal'
 import DatePicker from '@/components/DatePicker'
 import { updateFamilyMember } from '@/network/actions/updateFamilyMember'
 import DeleteBtn from '@/components/MoreBtn/DeleteBtn'
+import DeleteConfirmation from '@/components/Dialogs/delete'
+import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember'
 
 const FamilyDetails = () => {
     const dispatch = useDispatch()
@@ -56,6 +58,7 @@ const FamilyDetails = () => {
     const profesionList = useSelector((state) => state.getProfession?.data)
     const religionList = useSelector((state) => state.getReligion?.data)
     const addFamilyData = useSelector((state) => state.addFamily?.data || [])
+    const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false)
 
     const [familyDetailsExtra, setFamilyDetailsExtra] = useState()
     const [headDetailsExtra, setheadDetailsExtra] = useState()
@@ -77,6 +80,7 @@ const FamilyDetails = () => {
     const [familyError, setFamilyError] = useState({})
     const [headError, setHeadError] = useState({})
     const [memberError, setMemberError] = useState({})
+    const [deleteId, setDeleteId] = useState(null)
     console.log('memberList', memberList)
     // console.log('formData', formData)
     useEffect(() => {
@@ -151,6 +155,14 @@ const FamilyDetails = () => {
        }
     
     }, [getfamilymemberList])
+
+    const handleClickOpenDetele = () => {
+      setOpenDeleteConfirmation(true);
+    };
+    const handleCloseDelete = () => {
+      setOpenDeleteConfirmation(false);
+    };
+  
 
     const validateFormFamily = (familyDetailsExtra) => {
         const errors = {};
@@ -488,14 +500,29 @@ const FamilyDetails = () => {
             setMemberError({})
           }
           const changeisEditModeMemberDelete = (v) => {
-            let data = [...memberList]
-            let newData = data?.filter((k, index) => index != v)
-            setMemberList(newData)
-            setMemberError({})
+            console.log('v', v)
+            handleClickOpenDetele()
+            setDeleteId(v?.familyMemberId)
+            // let data = [...memberList]
+            // let newData = data?.filter((k, index) => index != v)
+            // setMemberList(newData)
+            // setMemberError({})
         
+          }
+
+          const deleteMember = () => {
+            const extraAferDelete = () => {
+              handleCloseDelete()
+              dispatch(getfamilymember(addFamilyData?.id))
+              dispatch(getFamilyById(addFamilyData?.id))
+
+            }
+            dispatch(deleteFamilyMember(deleteId,extraAferDelete))
+
           }
   return (
     <MainLayout>
+      <DeleteConfirmation text={"Are you sure you want to delete this member?"} onSubmit={() => deleteMember()} onCancle={handleCloseDelete} open={openDeleteConfirmation} />
       <div className={style.heading} style={{ marginBottom: "5px" }}>Family Details</div>
       <div className={style.tablewrapper} style={{ margin: "0" }}>
         <table className={style.table}>
@@ -522,7 +549,7 @@ const FamilyDetails = () => {
 
                   {isEditMode ? <>
                     <SaveBtn title="Save" onClick={() => { saveFamilyAfterEdit() }} />
-                    <DeleteBtn title="Delete"  />
+                    {/* <DeleteBtn title="Delete"  /> */}
 
                     <CloseBtn title="Close" onClick={() => { setFamilyError({}); setIsEditMode(false) }} /></>
                     :
@@ -742,7 +769,7 @@ disabled
                     <div className="action">
                       {isEditModeHead ? <>
                         <SaveBtn title="Save" onClick={() => { saveHeadAfterEdit() }} />
-                        <DeleteBtn title="Delete"  />
+                        {/* <DeleteBtn title="Delete"  /> */}
 
                         <CloseBtn title="Close" onClick={() => { setHeadError({}); setisEditModeHead(false) }} /></>
                         :
@@ -947,7 +974,7 @@ disabled
 
                           {v?.isEditModeMember ? <>
                             <SaveBtn title="Save" onClick={() => { saveMemberAfterEdit(index) }} />
-                            <DeleteBtn title="Delete" onClick={() => { changeisEditModeMemberDelete(index) }} />
+                            <DeleteBtn title="Delete" onClick={() => { changeisEditModeMemberDelete(v) }} />
                             <CloseBtn title="Close" onClick={() => { setMemberError({}); changeisEditModeMemberClose(index) }} /></>
                             :
                             <>
@@ -1159,6 +1186,7 @@ disabled
             </div></>}
           <div className={style.save} style={{ float: "none", textAlign: "center" }}>
             <SubmitButton label="Add Member" onClick={addMember} />
+            <SubmitButton label="Add New Family" onClick={() => route.push("/registration")} style={{marginLeft : "10px"}} />
             {/* <SubmitButton label="Save Family" onClick={() => alert("done")} style={{ marginLeft: "20px" }} /> */}
           </div>
       <EditFamilyConfirmation nameTitle={nameTitle} memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} getFamilyByIdData={getFamilyByIdData} formData={formData}/>
