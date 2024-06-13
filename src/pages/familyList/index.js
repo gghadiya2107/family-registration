@@ -20,15 +20,15 @@ const FamilyList = () => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyList?.data)
-  console.log('getFamilyListData', getFamilyListData)
   const [formData, setFormData] = useState({
     district: "",
     municipal: "",
     ward: "",
-  })
-  const [open, setOpen] = React.useState(false);
-  const [viewData, setViewData] = useState({})
-  const [page, setPage] = useState(0);
+    })
+    const [open, setOpen] = React.useState(false);
+    const [viewData, setViewData] = useState({})
+    const [page, setPage] = useState(1);
+    console.log('getFamilyListData', getFamilyListData, page)
 
   console.log('open', open)
   const handleClickOpen = (v) => {
@@ -44,8 +44,8 @@ const FamilyList = () => {
     dispatch(getDistrict())
   }, [])
   useEffect(() => {
-    if (getFamilyListData)
-      setPage(getFamilyListData?.number)
+    // if (getFamilyListData)
+      // setPage(getFamilyListData?.number)
   }, [getFamilyListData])
   useEffect(() => {
     dispatch(getFamilyList(formData))
@@ -57,6 +57,7 @@ const FamilyList = () => {
   }
   const handlePageChange = (event, value) => {
     setPage(value)
+    console.log('value', value)
     dispatch(getFamilyList({...formData, page: value-1}))
 
   }
@@ -138,10 +139,10 @@ const FamilyList = () => {
 
         </div>
 
-        {/* <Stack spacing={2} style={{ float: "right", marginTop: 10 }}>
+        <Stack spacing={2} style={{ float: "right", marginTop: 10 }}>
           <Pagination color="primary" onChange={handlePageChange} count={getFamilyListData?.totalPages} page={page} />
 
-        </Stack> */}
+        </Stack>
       </MainLayout>
     </>
   )
