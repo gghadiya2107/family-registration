@@ -170,7 +170,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
   }
 
     const extra = () => {
-      dispatch(getfamilymember(addFamilyData?.id))
+      console.log('addFamilyData', addFamilyData)
+      dispatch(getfamilymember(addFamilyData?.id || getFamilyByIdData?.family_id))
     // setSaveHof(true)
     setErrors({})
     setFormData({...formData,  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
@@ -235,7 +236,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
 "aadhaarNo":formData?.adharCard || "",
 "isHead":false,
 "remarks":formData?.description || "",
-"familyId":addFamilyData?.id
+"familyId":addFamilyData?.id || getFamilyByIdData?.family_id
 
       }
       dispatch(addfamilymember(body,extra))
