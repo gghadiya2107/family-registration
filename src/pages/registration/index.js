@@ -59,8 +59,8 @@ const Registration = () => {
     name="radio-1-group"
 row 
  >
-    <FormControlLabel value="1" control={<Radio />} label="Add Parivar (With Himachal Pradesh Ration Card)" />
-    <FormControlLabel value="2" control={<Radio />} label="Add Parivar (With Other State Ration Card)" />
+    <FormControlLabel value="1" control={<Radio />} label="Add Parivar (Using Ration Card)" />
+    <FormControlLabel value="2" control={<Radio />} label="Add Parivar (Without Ration Card)" />
   </RadioGroup>
 </FormControl>
                     </Grid>

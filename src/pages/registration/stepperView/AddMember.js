@@ -361,7 +361,7 @@ const [oldMemberList, setOldMemberList] = useState([])
             }
           <div className={style.save} style={{ float: "none", textAlign: "center" }}>
             <SubmitButton label="Add Member" onClick={() => setIsOpenForm(true)} />
-            <SubmitButton label="Save Family" onClick={() => route.push(`/family-details?id=${addFamilyData?.id}`)} style={{ marginLeft: "20px" }} />
+            <SubmitButton label="View Family" onClick={() =>{!memberList?.every(v => v?.date_of_birth) ? alert("Please fill all members details.") : route.push(`/family-details?id=${addFamilyData?.id}`)}} style={{ marginLeft: "20px" }} />
           </div>
    { isOpenForm && <><Grid container spacing={3}  mt={0}>
 
