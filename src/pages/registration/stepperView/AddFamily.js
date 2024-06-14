@@ -16,6 +16,7 @@ import FileUpload from '@/components/FileUpload';
 import SubmitButton from '@/components/SubmitBtn';
 import { getMunicipalities } from '@/network/actions/getMunicipalities';
 import { getWard } from '@/network/actions/getWard';
+import Image from 'next/image';
 
 const AddFamily = ({setActiveStepper,selectedFamilyMember}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
@@ -52,6 +53,8 @@ console.log('districtList', districtList)
 
     // dispatch(getMunicipalities({districtCode: selectedFamilyMember?.[0]?.districtId }))
   }, [selectedFamilyMember])
+
+  console.log('formData', formData)
   
 
   const handleChange = (e) => {
@@ -61,6 +64,7 @@ console.log('districtList', districtList)
 
       if (selectedFile && selectedFile.size <= 1024 * 1024) {
         setFormData({ ...formData, [name]: e.target.files[0] })
+        // console.log('URL.createObjectURL(e.target.files[0])', URL.createObjectURL(e.target.files[0]))
         setErrors({ ...errors, dastavage: "" })
       } else {
         setFormData({ ...formData, [name]: null })
@@ -316,6 +320,11 @@ console.log('districtList', districtList)
           onChange={handleChange}
           accept="image/*,.pdf"
         />
+       {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
+        style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
+           <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
+} */}
+
         {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
       </Grid>
