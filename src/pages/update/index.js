@@ -18,6 +18,7 @@ import DeleteConfirmation from '@/components/Dialogs/delete';
 import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember';
 import ViewMemberData from '@/components/Dialogs/viewMemberData';
 import { useRouter } from 'next/router';
+import { getFamilyHeadList } from '@/network/actions/getFamilyHeadList';
 
 
 
@@ -28,7 +29,7 @@ const Update = () => {
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
-  const getFamilyListData = useSelector((state) => state.getFamilyList?.data || [])
+  const getFamilyListData = useSelector((state) => state.getFamilyHeadList?.data || [])
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
 console.log('getFamilyListData', getFamilyListData)
 const [openDelete, setOpenDelete] = useState(false)
@@ -47,7 +48,7 @@ const [openEdit, setOpenEdit] = useState(false)
     dispatch(getDistrict())
   }, [])
   useEffect(() => {
-    dispatch(getFamilyList(formData))
+    dispatch(getFamilyHeadList(formData))
   }, [formData]) 
 
   const handleChange = (e) => {
@@ -125,7 +126,7 @@ const [openEdit, setOpenEdit] = useState(false)
             <SelectDropdown
               title={t('selectHOF')}
               name="hof"
-              options={getFamilyListData?.content?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))}
+              options={getFamilyListData?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))}
               value={selectedFamilyHead}
               disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
 requried
