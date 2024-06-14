@@ -56,11 +56,15 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
   const qualificationList = useSelector((state) => state.getQualification?.data)
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  console.log('getfamilymemberList', getfamilymemberList)
+
   const [formData, setFormData] = useState({
     EnglishName: "",
     hindiName: "",
     relative: "",
     relation : "",
+    relativeName: "",
     dob: "",
     gender: "",
     registrationBase: "",
@@ -88,6 +92,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
         EnglishName: memberFillDetails?.memberName ||  "",
         hindiName: "",
         relative: "",
+        relativeName: "",
         relation : "",
         dob: "",
         gender: "",
@@ -177,6 +182,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
     setFormData({...formData,  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,
     hindiName: "",
     relative: "",
+    relativeName: "",
     dob: "",
     gender: "",
     registrationBase: "",
@@ -220,7 +226,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
       let body = {
         "memberName":formData?.EnglishName || "",
 "memberNameHin": formData?.hindiName ||  "",
-"relativeName": formData?.relative || "",
+"relativeName": formData?.relative == "other" ? formData?.relativeName : formData?.relative,
 "relationId":formData?.relation || 0,
 "dateOfBirth":formData?.dob || "",
 "genderId": formData?.gender || 0,
@@ -255,6 +261,9 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
       errors.hindiName = t("validateHeadName");
     }
     if (!formData.relative?.trim()) {
+      errors.relative = t("validateRelativeName");
+    }
+    if (formData.relative == "other" && !formData.relativeName?.trim()) {
       errors.relative = t("validateRelativeName");
     }
     if (!formData.dob?.trim()) {
@@ -377,11 +386,12 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
             {errors?.hindiName && <p className="error">{errors?.hindiName}</p>}
 
           </Grid>
-          <Grid item xs={12} sm={4} md={3} >
+          <Grid item xs={12} sm={8} md={6} >
             <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
-           <div style={{display : "flex"}}>
+           <Grid container spacing={0}>
+           <Grid item xs={12} sm={3} >
            <SelectDropdown
-                style={{paddingTop : 6, paddingBottom : 6}}
+                style={{paddingTop : 5.5, paddingBottom : 5.5}}
                 name="relation"
                 options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
@@ -389,13 +399,25 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
                 onChange={handleChange}
                 // requried
               />
-              <InputFieldWithIcon
-                // title={t('nameOfRelative')}
-                // icon={<IoIosDocument size={20} />}
+           </Grid>
+           <Grid item xs={12} sm={3} >
+           <SelectDropdown
+                style={{paddingTop : 5.5, paddingBottom : 5.5}}
+                name="relative"
+                options={[...getfamilymemberList?.map(v => ({ value: v?.memberName, label: v?.memberName })), {value:"other", label : "other"}]}
+
+                value={formData?.relative}
+                onChange={handleChange}
+                // requried
+              />
+           </Grid>
+           {formData?.relative == "other" &&<Grid item xs={12} sm={6} >
+           <InputFieldWithIcon
+                style={{width : "100%"}}
                 placeholder=""
                 type="text"
-                name="relative"
-                value={formData?.relative}
+                name="relativeName"
+                value={formData?.relativeName}
                 onChange={handleChange}
                 onKeyDown={(e) => {
                   if (!isAlphabateKey(e.key)) {
@@ -404,7 +426,11 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
                 }}
                 // requried
               />
-           </div>
+           </Grid>}
+          
+         
+             
+           </Grid>
               {errors?.relative && <p className="error">{errors?.relative}</p>}
 
             </Grid>

@@ -50,6 +50,7 @@ const [oldMemberList, setOldMemberList] = useState([])
     EnglishName: "",
     hindiName: "",
     relative: "",
+    relativeName: "",
     relation : "",
     dob: "",
     gender: "",
@@ -83,6 +84,7 @@ const [oldMemberList, setOldMemberList] = useState([])
       hindiName: "",
       relative: "",
       relation : "",
+      relativeName: "",
       dob: "",
       gender: "",
       registrationBase: "",
@@ -193,6 +195,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   hindiName: "",
   relative: "",
   dob: "",
+  relativeName: "",
   gender: "",
   registrationBase: "",
   refrence: "",
@@ -214,7 +217,7 @@ const [oldMemberList, setOldMemberList] = useState([])
       let body = {
         "memberName":formData?.EnglishName || "",
 "memberNameHin": formData?.hindiName ||  "",
-"relativeName": formData?.relative || "",
+"relativeName": formData?.relative == "other" ? formData?.relativeName : formData?.relative,
 "relationId":formData?.relation || 0,
 "dateOfBirth":formData?.dob || "",
 "genderId": formData?.gender || 0,
@@ -250,6 +253,9 @@ const [oldMemberList, setOldMemberList] = useState([])
       errors.hindiName = t("validateHeadName");
     }
     if (!formData.relative?.trim()) {
+      errors.relative = t("validateRelativeName");
+    }
+    if (formData.relative == "other" && !formData.relativeName?.trim()) {
       errors.relative = t("validateRelativeName");
     }
     if (!formData.dob?.trim()) {
@@ -402,37 +408,54 @@ const [oldMemberList, setOldMemberList] = useState([])
   {errors?.hindiName && <p className="error">{errors?.hindiName}</p>}
 
 </Grid>
-<Grid item xs={12} sm={4} md={3} >
-  <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
- <div style={{display : "flex"}}>
- <SelectDropdown
-      style={{paddingTop : 6, paddingBottom : 6}}
-      name="relation"
-      options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+<Grid item xs={12} sm={8} md={6} >
+            <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
+           <Grid container spacing={0}>
+           <Grid item xs={12} sm={3} >
+           <SelectDropdown
+                style={{paddingTop : 5.5, paddingBottom : 5.5}}
+                name="relation"
+                options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
 
-      value={formData?.relation}
-      onChange={handleChange}
-      // requried
-    />
-    <InputFieldWithIcon
-      // title={t('nameOfRelative')}
-      // icon={<IoIosDocument size={20} />}
-      placeholder=""
-      type="text"
-      name="relative"
-      value={formData?.relative}
-      onChange={handleChange}
-      onKeyDown={(e) => {
-        if (!isAlphabateKey(e.key)) {
-          e.preventDefault();
-        }
-      }}
-      // requried
-    />
- </div>
-    {errors?.relative && <p className="error">{errors?.relative}</p>}
+                value={formData?.relation}
+                onChange={handleChange}
+                // requried
+              />
+           </Grid>
+           <Grid item xs={12} sm={3} >
+           <SelectDropdown
+                style={{paddingTop : 5.5, paddingBottom : 5.5}}
+                name="relative"
+                options={[...getfamilymemberList?.map(v => ({ value: v?.memberName, label: v?.memberName })), {value:"other", label : "other"}]}
 
-  </Grid>
+                value={formData?.relative}
+                onChange={handleChange}
+                // requried
+              />
+           </Grid>
+           {formData?.relative == "other" &&<Grid item xs={12} sm={6} >
+           <InputFieldWithIcon
+                style={{width : "100%"}}
+                placeholder=""
+                type="text"
+                name="relativeName"
+                value={formData?.relativeName}
+                onChange={handleChange}
+                onKeyDown={(e) => {
+                  if (!isAlphabateKey(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
+                // requried
+              />
+           </Grid>}
+          
+         
+             
+           </Grid>
+              {errors?.relative && <p className="error">{errors?.relative}</p>}
+
+            </Grid>
 <Grid item xs={12} sm={4} md={3}>
   <DatePicker
       title={t('dateOfBirth')}
