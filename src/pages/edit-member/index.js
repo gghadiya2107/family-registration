@@ -4,18 +4,21 @@ import { Box, Divider, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import style from "./editMember.module.css"
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
 import { isAlphabateKey } from '@/utils/regex';
 import TextArea from '@/components/TextArea';
 import FileUpload from '@/components/FileUpload';
 import SubmitButton from '@/components/SubmitBtn';
+import { getEditType } from '@/network/actions/getEditType';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
   const router = useRouter();
   const dispatch = useDispatch()
+  const getEditTypeList = useSelector((state) => state.getEditType?.data)
+console.log('getEditTypeList', getEditTypeList)
   const [userData, setUserData] = useState({})
 
   useEffect(() => {
@@ -25,6 +28,12 @@ const EditMember = () => {
       router.replace(router.pathname)
     }
   }, [router])
+
+  useEffect(() => {
+    dispatch(getEditType())
+    
+  }, [])
+  
 
 
 
@@ -37,8 +46,8 @@ const EditMember = () => {
             <SelectDropdown
               title={"Select type of editing"}
               name="district"
-              options={[]}
-              //   options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+              // options={[]}
+                options={getEditTypeList?.map(v => ({ value: v?.id, label: v?.editType })) || []}
               //   value={formData?.district}
               //   onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
               requried
