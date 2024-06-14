@@ -58,6 +58,9 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                             <KeyValueDetails title="Name" value={data?.memberName} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
+                            <KeyValueDetails title="Relative Name" value={data?.relativeName} />
+                        </Grid>
+                        <Grid item xs={12} sm={4} md={3} >
                             <KeyValueDetails title="Birth Date" value={data?.date_of_birth} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
@@ -77,6 +80,20 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
                             <KeyValueDetails title="Category" value={data?.socialCategory} />
+                        </Grid>
+                        <Grid item xs={12} sm={4} md={3} >
+                            <KeyValueDetails title="Remarks" value={data?.remarks} />
+                        </Grid>
+                      {data?.socialSubCategory && <Grid item xs={12} sm={4} md={3} >
+                            <KeyValueDetails title="Sub Category" value={data?.socialSubCategory} />
+                        </Grid>}
+                      
+                      {data?.religion && <Grid item xs={12} sm={4} md={3} >
+                            <KeyValueDetails title="Religion" value={data?.religion} />
+                        </Grid>}
+                      
+                        <Grid item xs={12} sm={4} md={3} >
+                            <KeyValueDetails title="Referance No." value={data?.reference_no} />
                         </Grid>
                         
                     </Grid>
