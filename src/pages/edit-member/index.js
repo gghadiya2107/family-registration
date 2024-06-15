@@ -14,6 +14,7 @@ import SubmitButton from '@/components/SubmitBtn';
 import { getEditType } from '@/network/actions/getEditType';
 import translateToHindi, { translateToHindi2 } from '@/utils/translate';
 import { getDocumentList } from '@/network/actions/getDocumentList';
+import formatDate from '@/utils/formatDate';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -224,7 +225,7 @@ if(userData?.relation) fetchData();
             {selectedEditType == 3 &&<tbody>
               <tr className={style.tr}>
                 <td className={style.td}>Date of Birth	</td>
-                <td className={style.td}>{userData?.date_of_birth || ""}	</td>
+                <td className={style.td}>{formatDate(userData?.date_of_birth) || ""}	</td>
                 <td className={style.td}><InputFieldWithIcon
 
 

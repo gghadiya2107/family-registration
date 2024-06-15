@@ -13,6 +13,7 @@ import CancelBtn from '@/components/CancelBtn';
 import { Box, Grid } from '@mui/material';
 import KeyValueDetails from '@/components/KeyValueDetails';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
+import formatDate from '@/utils/formatDate';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -61,7 +62,7 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                             <KeyValueDetails title="Relative Name" value={data?.relativeName} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Birth Date" value={data?.date_of_birth} />
+                            <KeyValueDetails title="Birth Date" value={formatDate(data?.date_of_birth)} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
                             <KeyValueDetails title="Aadhar No." value={FormatAadharNumber(data?.aadhaarNo || "")} />

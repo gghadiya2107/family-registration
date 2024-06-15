@@ -19,6 +19,7 @@ import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember';
 import ViewMemberData from '@/components/Dialogs/viewMemberData';
 import { useRouter } from 'next/router';
 import { getFamilyHeadList } from '@/network/actions/getFamilyHeadList';
+import formatDate from '@/utils/formatDate';
 
 
 
@@ -154,7 +155,7 @@ requried
              <tr className={style.tr}>
                <td className={style.td}>{v?.memberName}	</td>
                <td className={style.td}>{v?.gender}	</td>
-               <td className={style.td}>{v?.date_of_birth}</td>
+               <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                <td className={style.td}>{v?.socialCategory}	</td>
                {/* <td className={style.td}>{v?.socialCategory}</td> */}
                <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>

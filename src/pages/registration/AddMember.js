@@ -13,6 +13,7 @@ import style from "./registration.module.css"
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { getFamilyById } from '@/network/actions/getFamilyById';
 import AddMemberModal from './AddMemberModal';
+import formatDate from '@/utils/formatDate';
 
 const AddMember = () => {
   const { t } = useTranslation("translation");
@@ -134,7 +135,7 @@ requried
              <tr className={style.tr}>
                <td className={style.td}>{v?.memberName}	</td>
                <td className={style.td}>{v?.gender}	</td>
-               <td className={style.td}>{v?.date_of_birth}</td>
+               <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                <td className={style.td}>{v?.socialCategory}	</td>
                {/* <td className={style.td}>{v?.socialCategory}</td> */}
                <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>

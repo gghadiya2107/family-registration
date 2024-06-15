@@ -35,6 +35,7 @@ import { addfamilymember } from '@/network/actions/addfamilymember'
 import { getfamilymember } from '@/network/actions/getfamilymember'
 import { updateFamily } from '@/network/actions/updateFamily'
 import { updateFamilyMember } from '@/network/actions/updateFamilyMember'
+import formatDate from '@/utils/formatDate'
 
 
 
@@ -935,7 +936,7 @@ const extraUpdate = () => {
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.memberName}</p>
-                        <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.date_of_birth}</p>
+                        <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(formData?.date_of_birth)}</p>
                         <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
@@ -1112,7 +1113,7 @@ disabled
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
-                      <td className={style.td}>{v?.date_of_birth}</td>
+                      <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                       <td className={style.td}>{v?.aadhaarNo}</td>
                       <td className={style.td}>Document not Attached</td>
                       <td className={style.td}>
@@ -1139,7 +1140,7 @@ disabled
                         <Grid container spacing={5}>
                           <Grid item xs={4}>
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.memberName}</p>
-                            <p className={style.expandMargin}><b>Date of Birth:</b> {v?.date_of_birth}</p>
+                            <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(v?.date_of_birth)}</p>
                             <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
                             {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
 

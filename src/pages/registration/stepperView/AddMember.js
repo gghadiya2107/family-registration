@@ -23,6 +23,7 @@ import translateToHindi from '@/utils/translate';
 import { useRouter } from 'next/router';
 import EditBtn from '@/components/EditBtn';
 import AddMemberModal from '../AddMemberModal';
+import formatDate from '@/utils/formatDate';
 
 const AddMember = ({selectedFamilyMember}) => {
   const { t } = useTranslation("translation");
@@ -340,7 +341,7 @@ const [oldMemberList, setOldMemberList] = useState([])
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
-                      <td className={style.td}>{v?.date_of_birth || "-"}</td>
+                      <td className={style.td}>{formatDate(v?.date_of_birth) || "-"}</td>
                       <td className={style.td}>{v?.aadhaarNo}</td>
                       <td className={style.td}>{v?.socialCategory}</td>
                       <td className={style.td}>{v?.qualification}</td>

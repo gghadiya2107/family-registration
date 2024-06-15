@@ -33,6 +33,7 @@ import translateToHindi from '@/utils/translate';
 import AddMemberModal from './AddMemberModal';
 import DeleteBtn from '@/components/MoreBtn/DeleteBtn';
 import { updateFamilyMember } from '@/network/actions/updateFamilyMember';
+import formatDate from '@/utils/formatDate';
 
 
 const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState ,setSelectedFamilyMember}) => {
@@ -954,7 +955,7 @@ const [oldMemberList, setOldMemberList] = useState([])
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.memberName}</p>
-                        <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.date_of_birth}</p>
+                        <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(formData?.date_of_birth)}</p>
                         <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
@@ -1131,7 +1132,7 @@ const [oldMemberList, setOldMemberList] = useState([])
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
-                      <td className={style.td}>{v?.date_of_birth || "-"}</td>
+                      <td className={style.td}>{formatDate(v?.date_of_birth) || "-"}</td>
                       <td className={style.td}>{v?.aadhaarNo}</td>
                       <td className={style.td}>Document not Attached</td>
                       <td className={style.td}>
@@ -1159,7 +1160,7 @@ const [oldMemberList, setOldMemberList] = useState([])
                         <Grid container spacing={5}>
                           <Grid item xs={4}>
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.memberName}</p>
-                            {v?.date_of_birth &&<p className={style.expandMargin}><b>Date of Birth:</b> {v?.date_of_birth}</p>}
+                            {v?.date_of_birth &&<p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(v?.date_of_birth)}</p>}
                             {v?.gender &&<p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>}
                             {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
 

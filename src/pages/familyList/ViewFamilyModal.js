@@ -15,6 +15,7 @@ import MoreBtn from '@/components/MoreBtn';
 import CloseBtn from '@/components/MoreBtn/CloseBtn';
 import { Grid } from '@mui/material';
 import SubmitButton from '@/components/SubmitBtn';
+import formatDate from '@/utils/formatDate';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -107,7 +108,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Head Of Family:</b> {headData?.memberName}</p>
-                        <p className={style.expandMargin}><b>Date of Birth:</b> {headData?.date_of_birth}</p>
+                        <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(headData?.date_of_birth)}</p>
                         <p className={style.expandMargin}><b>Gender:</b> {headData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
@@ -146,7 +147,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
-                      <td className={style.td}>{v?.date_of_birth}</td>
+                      <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                       <td className={style.td}>{v?.aadhaarNo}</td>
                       <td className={style.td}>Document not Attached</td>
                       <td className={style.td}>
@@ -164,7 +165,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                         <Grid container spacing={5}>
                           <Grid item xs={4}>
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.memberName}</p>
-                            <p className={style.expandMargin}><b>Date of Birth:</b> {v?.date_of_birth}</p>
+                            <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(v?.date_of_birth)}</p>
                             <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
                             {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
 
