@@ -1,7 +1,17 @@
 import { decryptData, encryptDataGet, encryptDataPost } from '@/utils/encryptDecryot';
+import JsonToFormData from '@/utils/jsonToFormData';
 
 const axios = require('axios').default;
 export const BaseURL = process.env.NEXT_PUBLIC_API_BASE_URL ;
+
+function checkForKey(obj, substring) {
+  for (let key in obj) {
+    if (key.includes(substring)) {
+      return true; // Found a key that includes the substring
+    }
+  }
+  return false; // No key includes the substring
+}
 
 let defaultHeaders = {
     headers: {
@@ -20,7 +30,22 @@ function objectToQueryString(obj) {
   }
 
 export const ApiPostNoAuth = (url, body) => {
-  const encryptedBody =encryptDataPost(JSON.stringify(body))
+  let includesLE = checkForKey(body, 'documentFiles');
+  console.log("includesLE",includesLE)
+  let encryptedBody
+  if(includesLE){
+    // let jsonData = {
+    //   documentFiles : body?.documentFiles,
+    //   memberUpdate : encryptDataPost(JSON.stringify(body?.memberUpdate))
+    // }
+    let formData = new FormData();
+formData.append("documentFiles",body?.documentFiles )
+formData.append("memberUpdate",encryptDataPost(JSON.stringify(body?.memberUpdate)) )
+    encryptedBody = formData
+  }else{
+
+     encryptedBody =encryptDataPost(JSON.stringify(body))
+  }
   
   return new Promise((resolve, reject) => {
     axios
