@@ -15,6 +15,13 @@ import { getEditType } from '@/network/actions/getEditType';
 import translateToHindi, { translateToHindi2 } from '@/utils/translate';
 import { getDocumentList } from '@/network/actions/getDocumentList';
 import formatDate from '@/utils/formatDate';
+import DatePicker from '@/components/DatePicker';
+import { getRelation } from '@/network/actions/getRelation';
+import { getCategory } from '@/network/actions/getCategory';
+import { getReligion } from '@/network/actions/getReligion';
+import { getGender } from '@/network/actions/getGender';
+import { getQualification } from '@/network/actions/getQualification';
+import { getProfession } from '@/network/actions/getProfession';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -22,6 +29,14 @@ const EditMember = () => {
   const dispatch = useDispatch()
   const getEditTypeList = useSelector((state) => state.getEditType?.data)
   const documentList = useSelector((state) => state.getDocumentList?.data)
+  const relationlist = useSelector((state) => state.getRelation?.data)
+  const categorylist = useSelector((state) => state.getCategory?.data)
+  const religionList = useSelector((state) => state.getReligion?.data)
+  const genderlist = useSelector((state) => state.getGender?.data)
+  const qualificationList = useSelector((state) => state.getQualification?.data)
+  const profesionList = useSelector((state) => state.getProfession?.data)
+
+
 console.log('documentList', documentList)
   const [userData, setUserData] = useState({})
   const [selectedEditType, setSelectedEditType] = useState("")
@@ -41,6 +56,12 @@ console.log('userData', userData,selectedEditType)
 
   useEffect(() => {
     dispatch(getEditType())
+    dispatch(getRelation())
+    dispatch(getCategory())
+    dispatch(getReligion())
+    dispatch(getGender())
+    dispatch(getQualification())
+    dispatch(getProfession())
     
   }, [])
 
@@ -176,36 +197,82 @@ if(userData?.relation) fetchData();
               <tr className={style.tr}>
                 <td className={style.td}>Relative's Name (English)	</td>
                 <td className={style.td}>{userData?.relation + " " +  userData?.relativeName || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
-
-
-                  title={""}
-                  subTitle=""
-                  placeholder=""
-                  type="text"
-                  name="memberName"
-                  style={{width : "80%"}}
-                  // value={memberDetailsExtra?.memberName}
-                  // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                /></td>
+                <td className={style.td} style={{display : "flex"}}>
+                  
+                  <SelectDropdown
+                // title={t('district')}
+                name="district"
+                style={{paddingTop : "5.5px" , paddingBottom : "5.5px"}}
+                options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+                // value={formData?.district}
+                // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                // requried
+              />
+                  <SelectDropdown
+                // title={t('district')}
+                name="district"
+                style={{paddingTop : "5.5px" , paddingBottom : "5.5px"}}
+  
+                options={[]}
+                // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+                // value={formData?.district}
+                // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                // requried
+              />
+                    <InputFieldWithIcon
+  
+  style={{width : "100%"}}
+  
+                    title={""}
+                    subTitle=""
+                    placeholder=""
+                    type="text"
+                    name="memberName"
+                    // value={memberDetailsExtra?.memberName}
+                    // onChange={handleChangeMemberDetails}
+                    onKeyDown={(e) => {
+                      if (!isAlphabateKey(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  /></td>
               </tr>
               <tr className={style.tr}>
                 <td className={style.td}>Relative's Name (Hindi)	</td>
                 <td className={style.td}>{ translatedText && translatedText || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
+                <td className={style.td} style={{display : "flex"}}>
+                  
+                <SelectDropdown
+              // title={t('district')}
+              name="district"
+              style={{paddingTop : "5.5px" , paddingBottom : "5.5px"}}
+              options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+              // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+              // value={formData?.district}
+              // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+              // requried
+            />
+                <SelectDropdown
+              // title={t('district')}
+              name="district"
+              style={{paddingTop : "5.5px" , paddingBottom : "5.5px"}}
 
+              options={[]}
+              // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+              // value={formData?.district}
+              // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+              // requried
+            />
+                  <InputFieldWithIcon
+
+style={{width : "100%"}}
 
                   title={""}
                   subTitle=""
                   placeholder=""
                   type="text"
                   name="memberName"
-                  style={{width : "80%"}}
                   disabled
                   // value={memberDetailsExtra?.memberName}
                   // onChange={handleChangeMemberDetails}
@@ -226,46 +293,31 @@ if(userData?.relation) fetchData();
               <tr className={style.tr}>
                 <td className={style.td}>Date of Birth	</td>
                 <td className={style.td}>{formatDate(userData?.date_of_birth) || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
-
-
-                  title={""}
-                  subTitle=""
-                  placeholder=""
-                  type="text"
-                  name="memberName"
-                  style={{width : "80%"}}
-                  // value={memberDetailsExtra?.memberName}
-                  // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                /></td>
+                <td className={style.td}>  <DatePicker
+                              // title={t('dateOfBirth')}
+                              // style={{width : "80%"}}
+                              type="date"
+                              // requried
+                              name="date_of_birth"
+                              // value={memberDetailsExtra?.date_of_birth}
+                              // onChange={handleChangeMemberDetails}
+                            /></td>
               </tr>
             </tbody>}
             {selectedEditType == 4 &&<tbody>
               <tr className={style.tr}>
                 <td className={style.td}>Category	</td>
                 <td className={style.td}>{userData?.socialCategory || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
-
-
-                  title={""}
-                  subTitle=""
-                  placeholder=""
-                  type="text"
-                  name="memberName"
-                  style={{width : "80%"}}
-                  // value={memberDetailsExtra?.memberName}
-                  // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                /></td>
+                <td className={style.td}> <SelectDropdown
+                // title={t('district')}
+                name="district"
+                style={{width : "80%"}}
+                options={categorylist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+                // value={formData?.district}
+                // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                // requried
+              /></td>
               </tr>
               <tr className={style.tr}>
                 <td className={style.td}>Sub Category</td>
@@ -305,16 +357,16 @@ if(userData?.relation) fetchData();
                   title={""}
                   subTitle=""
                   placeholder=""
-                  type="text"
+                  type="number"
                   name="memberName"
                   style={{width : "80%"}}
                   // value={memberDetailsExtra?.memberName}
                   // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
+                  // onKeyDown={(e) => {
+                  //   if (!is(e.key)) {
+                  //     e.preventDefault();
+                  //   }
+                  // }}
                 /></td>
               </tr>
             </tbody>}
@@ -322,23 +374,16 @@ if(userData?.relation) fetchData();
               <tr className={style.tr}>
                 <td className={style.td}>Religion</td>
                 <td className={style.td}>{userData?.religion || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
-
-
-                  title={""}
-                  subTitle=""
-                  placeholder=""
-                  type="text"
-                  name="memberName"
-                  style={{width : "80%"}}
-                  // value={memberDetailsExtra?.memberName}
-                  // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                /></td>
+                <td className={style.td}> <SelectDropdown
+                // title={t('district')}
+                name="district"
+                style={{width : "80%"}}
+                options={religionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+                // value={formData?.district}
+                // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                // requried
+              /></td>
               </tr>
             </tbody>}
             {selectedEditType == 7 &&<tbody>
@@ -391,65 +436,43 @@ if(userData?.relation) fetchData();
               <tr className={style.tr}>
                 <td className={style.td}>Gender</td>
                 <td className={style.td}>{userData?.gender || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
-
-
-                  title={""}
-                  subTitle=""
-                  placeholder=""
-                  type="text"
-                  name="memberName"
-                  style={{width : "80%"}}
-                  // value={memberDetailsExtra?.memberName}
-                  // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                /></td>
+                <td className={style.td}><SelectDropdown
+                // title={t('district')}
+                name="district"
+                style={{width : "80%"}}
+                options={genderlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+                // value={formData?.district}
+                // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                // requried
+              /></td>
               </tr>
               <tr className={style.tr}>
                 <td className={style.td}>Educational Status</td>
                 <td className={style.td}>{userData?.qualification || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
-
-
-                  title={""}
-                  subTitle=""
-                  placeholder=""
-                  type="text"
-                  name="memberName"
-                  style={{width : "80%"}}
-                  // value={memberDetailsExtra?.memberName}
-                  // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                /></td>
+                <td className={style.td}><SelectDropdown
+                // title={t('district')}
+                name="district"
+                style={{width : "80%"}}
+                options={qualificationList?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                // value={formData?.district}
+                // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                // requried
+              /></td>
               </tr>
               <tr className={style.tr}>
                 <td className={style.td}>Means of Leaving</td>
                 <td className={style.td}>{userData?.profession || ""}	</td>
-                <td className={style.td}><InputFieldWithIcon
-
-
-                  title={""}
-                  subTitle=""
-                  placeholder=""
-                  type="text"
-                  name="memberName"
-                  style={{width : "80%"}}
-                  // value={memberDetailsExtra?.memberName}
-                  // onChange={handleChangeMemberDetails}
-                  onKeyDown={(e) => {
-                    if (!isAlphabateKey(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                /></td>
+                <td className={style.td}><SelectDropdown
+                // title={t('district')}
+                name="district"
+                style={{width : "80%"}}
+                options={profesionList?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                // options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
+                // value={formData?.district}
+                // onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                // requried
+              /></td>
               </tr>
               <tr className={style.tr}>
                 <td className={style.td}>Ration Card Number</td>
