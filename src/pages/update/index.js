@@ -83,6 +83,7 @@ const [openEdit, setOpenEdit] = useState(false)
     }
     dispatch(deleteFamilyMember(deleteId,extraAferDelete))
   }
+  console.log("getfamilymemberList",getfamilymemberList)
 
   return (
     <MainLayout>
