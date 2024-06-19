@@ -27,6 +27,13 @@ const AddParivarRation = ({ setState, state }) => {
     const [open, setOpen] = React.useState(false);
     console.log('formData', rationDetails)
 
+    useEffect(() => {
+      if(formData?.rationCard && rationDetails){
+        setRationCardData([])
+      }
+    }, [formData?.rationCard])
+    
+
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -41,7 +48,7 @@ const AddParivarRation = ({ setState, state }) => {
         const { value, name } = e.target
         setFormData({ ...formData, [name]: value })
         // if (value?.length > 4)
-         debouncedSearch(value)
+        //  debouncedSearch(value)
     }
     useEffect(() => {
         let data = [...rationDetails]
@@ -68,7 +75,7 @@ const AddParivarRation = ({ setState, state }) => {
         <div style={{ marginTop:(state == "1" || state == "2") ? "0px" : "20px" }}>
             {/* {(state == "1" || state == "2") && <div className={style.heading}>New Family</div>} */}
          <Grid container spacing={3} >
-         {(state == "1" || state == "2") &&
+         {(state == "1" || state == "2") &&<>
                 <Grid item xs={12} sm={4} md={4}>
                     <InputFieldWithIcon
                         title={t('rathinCardNumber')}
@@ -88,6 +95,12 @@ const AddParivarRation = ({ setState, state }) => {
                     />
 
                 </Grid>
+                <Grid item xs={12} sm={4} md={4} mt={3.2}>
+                <SubmitButton label="Search" onClick={() => dispatch(getRationDetails(formData?.rationCard?.toUpperCase()))}/>
+
+                </Grid>
+                
+                </>
            }
           {state == "2" &&  <Grid item xs={12} sm={4} md={4} mt={3}>
                 <SubmitButton label={"View All Beneficiary"} onClick={handleClickOpen} />
@@ -167,7 +180,7 @@ const AddParivarRation = ({ setState, state }) => {
                 <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
                     <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} />
                 </div>
-            </Grid> : (formData?.rationCard?.length > 4 && rationCardData?.length == 0) ?
+            </Grid> : (rationCardData?.length == 0 && formData?.rationCard) ?
                 <Typography mt={5} textAlign={"center"}>Family not found on this ration card number.</Typography>
                  : state == "2" ? <StepperView /> : "" : ""}
                  {/* <AddFamilyDetails selectedFamilyMember={selectedFamilyMember} state={state} setState={setState} /> */}
