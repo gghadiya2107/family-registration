@@ -105,6 +105,7 @@ const EditMember = () => {
 
   useEffect(() => {
     if (userData && selectedEditType) {
+      // dispatch(updateMemberHistory())
       setCurrentValue(null)
       if (selectedEditType == 1) {
         setOldValue({ englishName: userData?.memberName, hindiName: userData?.memberNameH })
@@ -171,13 +172,13 @@ const EditMember = () => {
     dispatch(editMember(body, extra))
   }
 
-  const changeLang = async (name, key="") => {
+  const changeLang = async (name, key = "") => {
     if (name) {
 
       const text = await translateToHindi(name);
-      if(text && key){
+      if (text && key) {
         setCurrentValue({ ...currentValue, [key]: text })
-      }else if (text) {
+      } else if (text) {
 
         setCurrentValue({ ...currentValue, hindiName: text })
         // return text
@@ -297,34 +298,36 @@ const EditMember = () => {
                 <tr className={style.tr}>
                   <td className={style.td}>Relative's Name (English)	</td>
                   <td className={style.td}>{userData?.relation + " " + userData?.relativeName || ""}	</td>
-                  <td className={style.td} style={{ display: "flex" }}>
+                  <td className={style.td} style={{ display: "flex", marginRight: "45px" }}>
 
                     <SelectDropdown
                       name="EnglishRelation"
                       value={currentValue?.EnglishRelation}
                       onChange={handleChange}
+                      topStyle={{ width: '100%' }}
                       style={{ paddingTop: "5.5px", paddingBottom: "5.5px" }}
                       options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
-                      onBlur={(e) => { changeLang(relationlist?.find(v => v?.id == e.target.value)?.nameE, "HindiRelation")}}
+                      onBlur={(e) => { changeLang(relationlist?.find(v => v?.id == e.target.value)?.nameE, "HindiRelation") }}
 
                     />
                     <SelectDropdown
                       name="EnglishRelativeName"
+                      topStyle={{ width: '100%' }}
                       value={currentValue?.EnglishRelativeName}
                       onChange={handleChange}
                       style={{ paddingTop: "5.5px", paddingBottom: "5.5px" }}
-                      onBlur={(e) => { changeLang(e.target.value, "HindiRelativeName")}}
+                      onBlur={(e) => { changeLang(e.target.value, "HindiRelativeName") }}
 
                       options={[{ value: "other", label: "Other" }, ...getfamilymemberList?.map(v => ({ value: v?.memberName, label: v?.memberName }))]}
 
                     />
                     {currentValue?.EnglishRelativeName == "other" && <InputFieldWithIcon
                       style={{ width: "100%" }}
-
+                      topStyle={{ width: '100%' }}
                       type="text"
                       name="EnglishRelativeNameOther"
                       value={currentValue?.EnglishRelativeNameOther}
-                      onBlur={(e) => { changeLang(e.target.value, "HindiRelativeNameOther")}}
+                      onBlur={(e) => { changeLang(e.target.value, "HindiRelativeNameOther") }}
 
                       onChange={handleChange}
                       onKeyDown={(e) => {
@@ -338,7 +341,7 @@ const EditMember = () => {
                 <tr className={style.tr}>
                   <td className={style.td}>Relative's Name (Hindi)	</td>
                   <td className={style.td}>{translatedText && translatedText || ""}	</td>
-                  <td className={style.td} style={{ display: "flex" }}>
+                  <td className={style.td} style={{ display: "flex", marginRight: "45px" }}>
 
                     <InputFieldWithIcon
 
@@ -346,6 +349,7 @@ const EditMember = () => {
                       name="HindiRelation"
                       value={currentValue?.HindiRelation || ""}
                       disabled
+                      topStyle={{ width: '100%' }}
 
                       onKeyDown={(e) => {
                         if (!isAlphabateKey(e.key)) {
@@ -359,7 +363,7 @@ const EditMember = () => {
                       name="HindiRelativeName"
                       value={currentValue?.HindiRelativeName || ""}
                       disabled
-
+                      topStyle={{ width: '100%' }}
                       onKeyDown={(e) => {
                         if (!isAlphabateKey(e.key)) {
                           e.preventDefault();
@@ -372,7 +376,7 @@ const EditMember = () => {
                       name="HindiRelativeNameOther"
                       value={currentValue?.HindiRelativeNameOther || ""}
                       disabled
-
+                      topStyle={{ width: '100%' }}
                       onKeyDown={(e) => {
                         if (!isAlphabateKey(e.key)) {
                           e.preventDefault();

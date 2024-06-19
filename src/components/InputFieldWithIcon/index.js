@@ -4,9 +4,9 @@ import React from "react";
 
 import style from "./InputField.module.css";
 
-const InputFieldWithIcon = ({ title,subTitle, icon, placeholder, requried, ...rest }) => {
+const InputFieldWithIcon = ({ title,subTitle, icon, placeholder, requried,topStyle={}, ...rest }) => {
   return (
-    <div>
+    <div style={topStyle}>
       <p className={style.title}>{title}<span className={style.subtitle}> {subTitle}</span>{requried && <span className="requried"> *</span>}</p>
       <div className={style.inputField}>
         {/* <div className={style.icon}>{icon && icon}</div> */}
