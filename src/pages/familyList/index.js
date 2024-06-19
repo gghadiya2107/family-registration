@@ -1,6 +1,6 @@
 import SelectDropdown from '@/components/SelectDropdown'
 import MainLayout from '@/layout/MainLayout'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { Box, Grid, Pagination, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'next-i18next'
 import style from './familyList.module.css'
@@ -139,10 +139,15 @@ const FamilyList = () => {
 
         </div>
 
-        <Stack spacing={2} style={{ float: "right", marginTop: 10 }}>
+        <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+        <Typography></Typography>
+
+        <Stack spacing={2} >
           <Pagination color="primary" onChange={handlePageChange} count={getFamilyListData?.totalPages} page={page} />
 
         </Stack>
+        <Typography>Total Family: {getFamilyListData?.totalElements}</Typography>
+        </Box>
       </MainLayout>
     </>
   )
