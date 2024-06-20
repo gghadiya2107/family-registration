@@ -1401,13 +1401,14 @@ const [oldMemberList, setOldMemberList] = useState([])
               {errors?.hindiName && <p className="error">{errors?.hindiName}</p>}
 
             </Grid>
-            <Grid item xs={12} sm={4} md={3} >
+            <Grid item xs={12} sm={4} md={6} >
               <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
               <div style={{ display: "flex" }}>
                 <SelectDropdown
                   style={{ paddingTop: 6, paddingBottom: 6 }}
                   name="relation"
                   options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                  topStyle={{width : "100%"}}
 
                   value={formData?.relation}
                   onChange={handleChange}
@@ -1416,6 +1417,8 @@ const [oldMemberList, setOldMemberList] = useState([])
                 <InputFieldWithIcon
                   // title={t('nameOfRelative')}
                   // icon={<IoIosDocument size={20} />}
+                  topStyle={{width : "100%"}}
+
                   placeholder=""
                   type="text"
                   name="relative"

@@ -60,17 +60,17 @@ console.log('districtList', districtList)
 
   const handleChange = (e) => {
     const { value, name } = e.target
-    if (name == "dastavage") {
+    if (name == "dastavage" || name == "dastavage2") {
       const selectedFile = e.target.files[0];
 
       if (selectedFile && selectedFile.size <= 1024 * 1024) {
         setFormData({ ...formData, [name]: e.target.files[0] })
         // console.log('URL.createObjectURL(e.target.files[0])', URL.createObjectURL(e.target.files[0]))
-        setErrors({ ...errors, dastavage: "" })
+        setErrors({ ...errors, [name]: "" })
       } else {
         setFormData({ ...formData, [name]: null })
 
-        setErrors({ ...errors, dastavage: t('validateFileSize') })
+        setErrors({ ...errors, [name]: t('validateFileSize') })
       }
 
     } else {
@@ -152,6 +152,9 @@ console.log('districtList', districtList)
     }    
     if (!formData.dastavage) {
       errors.dastavage = t("validateDocument");
+    }
+    if (formData?.subclass && !formData.dastavage2) {
+      errors.dastavage2 = t("validateDocument");
     }
 
     return errors;
@@ -331,78 +334,26 @@ console.log('districtList', districtList)
         {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
       </Grid>
+      {formData?.subclass && <Grid item xs={12} sm={4} md={3}>
+        <FileUpload
+          title={t('document')}
+          subTitle="(Declaration & Report)"
+          requried
+          name="dastavage2"
+          onChange={handleChange}
+          accept="image/*,.pdf"
+        />
+       {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
+        style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
+           <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
+} */}
+
+        {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
+
+      </Grid>}
     </Grid>
 
-    {/* {rationCardData?.length > 0 && <Grid container spacing={3} mt={2}>
-      <Grid item xs={12} sm={12} md={6}>
-      <div className={style.tablewrapper} style={{ margin: "0" }}>
-      <table className={style.table}>
-        <thead className={style.thead}>
-          <tr className={style.tr}>
-            <th className={style.th}>
-              
-            </th>
-            <th className={style.th}>Name</th>
-            <th className={style.th}>Financial Condition</th>
-            <th className={style.th}>Aadhaar Number</th>
-          </tr>
-        </thead>
-        <tbody>
-         {rationCardData?.map(v => <>
-          <tr className={style.tr}>
-            <td className={style.td}>
-            <input type="checkbox" className={style.checkbox} value={v?.isChecked}
-            onChange={(e) => setRationCardData(rationCardData?.map(p => p?.memberName== v?.memberName ? {...p, isChecked : e.target.checked} : p))}
-            />
-            </td>
-            <td className={style.td}>{v?.memberName}</td>
-            <td className={style.td}>{v?.cardType || "-"}</td>
-            <td className={style.td}>{v?.aadhaarNumber || "-"}</td>
-          
-          </tr>
-         </>)}
-        
-        </tbody>
-      </table>
-
-
-    </div>
-      </Grid>
-      <Grid item xs={12} sm={12} md={6}>
-      <div className={style.tablewrapper} style={{ margin: "0" }}>
-      <table className={style.table}>
-        <thead className={style.thead}>
-          <tr className={style.tr}>
-            <th className={style.th}>Name</th>
-            <th className={style.th}>Financial Condition</th>
-            <th className={style.th}>Aadhaar Number</th>
-            <th className={style.th}>HOF</th>
-          </tr>
-        </thead>
-        <tbody>
-         {rationCardData?.filter(k => k?.isChecked)?.map(v => <>
-          <tr className={style.tr}>
-            <td className={style.td}>{v?.memberName}</td>
-            <td className={style.td}>{v?.cardType}</td>
-            <td className={style.td}>{v?.aadhaarNumber}</td>
-            <td className={style.td}>
-              <input type="radio" 
-              checked={v?.isHead}
-              name='head' className={style.checkbox}
-               onChange={(e) => setRationCardData(rationCardData?.map(p => p?.memberName== v?.memberName ? {...p, isHead : e.target.checked} : p))}
-/>
-            </td>
-          
-          </tr>
-         </>)}
-        
-        </tbody>
-      </table>
-
-
-    </div>
-      </Grid>
-      </Grid> } */}
+ 
     <div className={style.save}>
       <SubmitButton label={t('saveAndAddHof')} onClick={onSave} />
     </div>

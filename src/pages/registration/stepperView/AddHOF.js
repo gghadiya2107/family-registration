@@ -138,17 +138,17 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     const { value, name } = e.target
 
 
-    if (name == "dastavage") {
+    if (name == "dastavage" || name == "dastavage2") {
 
       const selectedFile = e.target.files[0];
 
       if (selectedFile && selectedFile.size <= 1024 * 1024) {
         setFormData({ ...formData, [name]: e.target.files[0] })
-        setErrors({ ...errors, dastavage: "" })
+        setErrors({ ...errors, [name]: "" })
       } else {
         setFormData({ ...formData, [name]: null })
 
-        setErrors({ ...errors, dastavage: t('validateFileSize') })
+        setErrors({ ...errors, [name]: t('validateFileSize') })
         // setError('File size must be less than 1MB');
       }
     } else {
@@ -244,6 +244,9 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     if (!formData.dastavage) {
       errors.dastavage = t("validateDocument");
     }
+    if (formData?.subCategory &&!formData.dastavage2) {
+      errors.dastavage2 = t("validateDocument");
+    }
     if (!formData.description) {
       errors.description = t("validateComment");
     }
@@ -293,13 +296,14 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   {errors?.hindiName && <p className="error">{errors?.hindiName}</p>}
 
 </Grid>
-<Grid item xs={12} sm={4} md={3} >
+<Grid item xs={12} sm={4} md={6} >
   <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
   <div style={{ display: "flex" }}>
     <SelectDropdown
       style={{ paddingTop: 6, paddingBottom: 6 }}
       name="relation"
       options={relationlist?.map(v => ({ value: v?.id, label: v?.nameE }))}
+      topStyle={{width : "100%"}}
 
       value={formData?.relation}
       onChange={handleChange}
@@ -308,6 +312,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     <InputFieldWithIcon
       // title={t('nameOfRelative')}
       // icon={<IoIosDocument size={20} />}
+      topStyle={{width : "100%"}}
       placeholder=""
       type="text"
       name="relative"
@@ -494,6 +499,20 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
 </Grid>
+{formData?.subCategory &&<Grid item xs={12} sm={4} md={3}>
+  <FileUpload
+    title={t('document')}
+    subTitle="(Bonafide Himachal)"
+    requried
+    name="dastavage2"
+    // value={formData?.rationCard}
+    onChange={handleChange}
+    accept="image/*,.pdf"
+
+  />
+  {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
+
+</Grid>}
 <Grid item xs={24} sm={8} md={6}>
   <TextArea
     title={t('comment')}

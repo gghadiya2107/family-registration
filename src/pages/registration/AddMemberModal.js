@@ -155,17 +155,17 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
 
   const handleChange = (e) => {
     const { value, name } = e.target
-    if (name == "dastavage") {
+    if (name == "dastavage" || name == "dastavage2") {
 
       const selectedFile = e.target.files[0];
 
           if (selectedFile && selectedFile.size <= 1024 * 1024) {
             setFormData({ ...formData, [name]: e.target.files[0] })
-            setErrors({...errors,dastavage :"" })
+            setErrors({...errors,[name] :"" })
           } else {
             setFormData({ ...formData, [name]: null })
 
-            setErrors({...errors,dastavage :"File size must be less than 1MB" })
+            setErrors({...errors,[name] :"File size must be less than 1MB" })
             // setError('File size must be less than 1MB');
           }
     } else {
@@ -239,7 +239,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
 "socialSubCategory": formData?.subCategory || "",
 "rationCardNo":formData?.rationCard || "",
 "religionId": formData?.religion || 0,
-"aadhaarNo":formData?.adharCard || "",
+"aadhaarNo":formData?.adharCard?.replaceAll(" ", "") || "",
 "isHead":false,
 "remarks":formData?.description || "",
 "familyId":addFamilyData?.id || getFamilyByIdData?.family_id
@@ -303,6 +303,9 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
     }
     if (!formData.dastavage) {
       errors.dastavage = t("validateDocument");
+    }
+    if (formData?.subCategory && !formData.dastavage2) {
+      errors.dastavage2 = t("validateDocument");
     }
     if (!formData.description) {
       errors.description = t("validateComment");
@@ -389,7 +392,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
           <Grid item xs={12} sm={8} md={6} >
             <p className={style.title}>{t('nameOfRelative')}<span className="requried"> *</span></p>
            <Grid container spacing={0}>
-           <Grid item xs={12} sm={3} >
+           <Grid item xs={12} sm={4} >
            <SelectDropdown
                 style={{paddingTop : 5.5, paddingBottom : 5.5}}
                 name="relation"
@@ -400,7 +403,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
                 // requried
               />
            </Grid>
-           <Grid item xs={12} sm={3} >
+           <Grid item xs={12} sm={4} >
            <SelectDropdown
                 style={{paddingTop : 5.5, paddingBottom : 5.5}}
                 name="relative"
@@ -411,7 +414,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
                 // requried
               />
            </Grid>
-           {formData?.relative == "other" &&<Grid item xs={12} sm={6} >
+           {formData?.relative == "other" &&<Grid item xs={12} sm={4} >
            <InputFieldWithIcon
                 style={{width : "100%"}}
                 placeholder=""
@@ -605,6 +608,20 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
             {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
           </Grid>
+          {formData?.subCategory &&<Grid item xs={12} sm={4} md={3}>
+            <FileUpload
+                title={t('document')}
+                subTitle="(Bonafide Himachal)"
+              requried
+              name="dastavage2"
+              // value={formData?.rationCard}
+              onChange={handleChange}
+              accept="image/*,.pdf"
+
+            />
+            {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
+
+          </Grid>}
           <Grid item xs={24} sm={8} md={6}>
             <TextArea
                 title={t('comment')}
