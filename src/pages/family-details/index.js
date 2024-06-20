@@ -370,7 +370,7 @@ const FamilyDetails = () => {
             }
             if (!memberDetailsExtra.aadhaarNo) {
               errors.aadhaarNo = t("validateAadhar");
-            } else if (memberDetailsExtra.aadhaarNo?.trim()?.length < 12) {
+            } else if (memberDetailsExtra.aadhaarNo?.trim()?.length < 14) {
               errors.aadhaarNo = t("validateAadharLength");
             }
             // if (!memberDetailsExtra.dastavage) {
@@ -420,7 +420,7 @@ const FamilyDetails = () => {
             }
             if (!headDetailsExtra.aadhaarNo) {
               errors.aadhaarNo = t("validateAadhar");
-            } else if (headDetailsExtra.aadhaarNo?.trim()?.length < 12) {
+            } else if (headDetailsExtra.aadhaarNo?.trim()?.length < 14) {
               errors.aadhaarNo = t("validateAadharLength");
             }
             // if (!headDetailsExtra.dastavage) {
@@ -936,11 +936,11 @@ disabled
                           disabled
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
-                          type="number"
+                          type="text"
                           onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                           name="aadhaarNo"
-                          value={headDetailsExtra?.aadhaarNo}
-                          onChange={(e) => e.target.value?.length > 12 ? null : handleChangeHeadDetails(e)}
+                          value={headDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
+                          onChange={(e) => e.target.value?.length > 14 ? null : handleChangeHeadDetails(e)}
                           requried
                         />
                         {headError?.aadhaarNo && <p className="error">{headError?.aadhaarNo}</p>}
@@ -1170,11 +1170,11 @@ disabled
 disabled
                               title={t('aadharCardNumber')}
                               placeholder=""
-                              type="number"
+                              type="text"
                               onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                               name="aadhaarNo"
-                              value={memberDetailsExtra?.aadhaarNo}
-                              onChange={(e) => e.target.value?.length > 12 ? null : handleChangeMemberDetails(e)}
+                              value={memberDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
+                              onChange={(e) => e.target.value?.length > 14 ? null : handleChangeMemberDetails(e)}
                               requried
                             />
                             {memberError?.aadhaarNo && <p className="error">{memberError?.aadhaarNo}</p>}

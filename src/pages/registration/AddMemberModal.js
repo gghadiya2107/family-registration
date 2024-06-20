@@ -298,7 +298,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
     }
     if (!formData.adharCard) {
       errors.adharCard = t("validateAadhar");
-    } else if (formData.adharCard?.trim()?.length < 12) {
+    } else if (formData.adharCard?.trim()?.length < 14) {
       errors.adharCard = t("validateAadharLength");
     }
     if (!formData.dastavage) {
@@ -581,11 +581,11 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
                 title={t('aadharCardNumber')}
                 // icon={<IoIosDocument size={20} />}
               placeholder=""
-              type="number"
+              type="text"
               onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
               name="adharCard"
-              value={formData?.adharCard}
-              onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
+              value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
+              onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
               requried
             />
             {errors?.adharCard && <p className="error">{errors?.adharCard}</p>}

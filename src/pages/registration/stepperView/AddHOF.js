@@ -16,7 +16,7 @@ import { getQualification } from '@/network/actions/getQualification';
 import { getRelation } from '@/network/actions/getRelation';
 import { getReligion } from '@/network/actions/getReligion';
 import { getfamilymember } from '@/network/actions/getfamilymember';
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex';
 import translateToHindi from '@/utils/translate';
 import { Divider, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -178,7 +178,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
         "socialSubCategory": formData?.subCategory || "",
         "rationCardNo": formData?.rationCard || "",
         "religionId": formData?.religion || 0,
-        "aadhaarNo": formData?.adharCard || "",
+        "aadhaarNo": formData?.adharCard?.replaceAll(" ", "") || "",
         "isHead": true,
         "remarks": formData?.description || "",
         "familyId": addFamilyData?.id
@@ -238,7 +238,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     }
     if (!formData.adharCard) {
       errors.adharCard = t("validateAadhar");
-    } else if (formData.adharCard?.trim()?.length < 12) {
+    } else if (formData.adharCard?.trim()?.length < 14) {
       errors.adharCard = t("validateAadharLength");
     }
     if (!formData.dastavage) {
@@ -470,11 +470,11 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     title={t('aadharCardNumber')}
     // icon={<IoIosDocument size={20} />}
     placeholder=""
-    type="number"
+    type="text"
     onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
     name="adharCard"
-    value={formData?.adharCard}
-    onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
+    value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
+    onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
     requried
   />
   {errors?.adharCard && <p className="error">{errors?.adharCard}</p>}

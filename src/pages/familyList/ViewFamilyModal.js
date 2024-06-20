@@ -337,11 +337,11 @@ disabled
 
                               title={t('aadharCardNumber')}
                               placeholder=""
-                              type="number"
+                              type="text"
                               onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                               name="aadhaarNo"
-                              value={memberDetailsExtra?.aadhaarNo}
-                              onChange={(e) => e.target.value?.length > 12 ? null : handleChangeMemberDetails(e)}
+                              value={memberDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
+                              onChange={(e) => e.target.value?.length > 14 ? null : handleChangeMemberDetails(e)}
                               requried
                             />
                             {memberError?.aadhaarNo && <p className="error">{memberError?.aadhaarNo}</p>}
