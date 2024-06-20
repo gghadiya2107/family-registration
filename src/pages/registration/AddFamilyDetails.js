@@ -14,6 +14,7 @@ import { getEconomicStatus } from '@/network/actions/economicStatus';
 import { getCategory } from '@/network/actions/getCategory';
 import { addFamily } from '@/network/actions/addFamily';
 import { isAlphabateKey } from '@/utils/regex';
+import { isValidMobileNumber } from '@/utils/formatAadharNumber';
 
 const AddFamilyDetails = ({selectedFamilyMember, state, setState}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
@@ -85,7 +86,7 @@ console.log('districtList', districtList)
         districtCode: formData?.district || 0,
         socialCategoryId: formData?.class || 0,
         municipalityId: formData?.municipal || 0,
-        mobileNumber: formData?.mobile || "",
+        mobileNumber: formData?.mobile?.replace("-","") || "",
         bplNumber: formData?.bpl || "",
         active:true,
         economicId : formData?.condition || 0
@@ -137,9 +138,12 @@ console.log('districtList', districtList)
     if (!formData.mobile?.trim()) {
       errors.mobile = t("validateMobile");
     }
-    if (formData.mobile?.trim()?.length < 10) {
+   else if (formData.mobile?.trim()?.length < 11) {
       errors.mobile = t("validateMobileLength");
     }
+    else if (!isValidMobileNumber(formData.mobile?.replace("-", "")?.trim())) {
+      errors.mobile = t("validateMobileStart");
+    }  
 
     if (!formData.dastavage) {
       errors.dastavage = t("validateDocument");
@@ -291,10 +295,10 @@ console.log('districtList', districtList)
             title={t('mobileNumber')}
             // icon={<IoIosDocument size={20} />}
             placeholder=""
-            type="number"
+            type="text"
             name="mobile"
-            value={formData?.mobile}
-            onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
+            value={formData?.mobile?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
+            onChange={(e) => e.target.value?.length > 11 ? null : handleChange(e)}
             onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
             requried
           />

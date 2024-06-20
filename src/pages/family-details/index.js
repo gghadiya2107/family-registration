@@ -36,6 +36,7 @@ import DeleteBtn from '@/components/MoreBtn/DeleteBtn'
 import DeleteConfirmation from '@/components/Dialogs/delete'
 import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember'
 import formatDate from '@/utils/formatDate'
+import { isValidMobileNumber } from '@/utils/formatAadharNumber'
 
 const FamilyDetails = () => {
     const dispatch = useDispatch()
@@ -198,9 +199,12 @@ const FamilyDetails = () => {
         if (!familyDetailsExtra.mobileNumber?.trim()) {
           errors.mobileNumber = t("validateMobile");
         }
-        if (familyDetailsExtra.mobileNumber?.trim()?.length < 10) {
+       else if (familyDetailsExtra.mobileNumber?.trim()?.length < 11) {
           errors.mobileNumber = t("validateMobileLength");
         }
+        else if (!isValidMobileNumber(formData.mobileNumber?.replace("-", "")?.trim())) {
+          errors.mobile = t("validateMobileStart");
+        }  
         return errors;
       };
     
@@ -225,7 +229,7 @@ const FamilyDetails = () => {
                 "socialCategoryId":familyDetailsExtra?.socialCategoryId,
                 "municipalityId":familyDetailsExtra?.municipalityId,
                 "bplNumber":familyDetailsExtra?.bplNumber,
-                "mobileNumber":familyDetailsExtra?.mobileNumber,
+                "mobileNumber":familyDetailsExtra?.mobileNumber?.replace("-",""),
                 "economicId":familyDetailsExtra?.economicId
                 
             }
@@ -729,11 +733,11 @@ disabled
 
                       title={t('mobileNumber')}
                       placeholder=""
-                      type="number"
+                      type="text"
                       onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
                       name="mobileNumber"
-                      value={familyDetailsExtra?.mobileNumber}
-                      onChange={(e) => e.target.value?.length > 10 ? null : handleChangeFamilyDetails(e)}
+                      value={familyDetailsExtra?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
+                      onChange={(e) => e.target.value?.length > 11 ? null : handleChangeFamilyDetails(e)}
                       requried
                     />
                     {familyError?.mobileNumber && <p className="error">{familyError?.mobileNumber}</p>}
