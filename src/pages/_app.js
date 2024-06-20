@@ -5,14 +5,17 @@ import { Provider } from "react-redux";
 import { appWithTranslation } from 'next-i18next';
 import '../../i18n'
 import { Toaster } from "react-hot-toast";
+import { LoadingProvider } from "@/utils/LoadingContext";
 
 
 function MyApp({ Component, pageProps }) {
-  return <Provider store={store}>
-            <Toaster position="bottom-center" />
+  return ( <LoadingProvider>
+    <Provider store={store}>
+      <Toaster position="bottom-center" />
 
-  <Component {...pageProps} />
-</Provider>;
+      <Component {...pageProps} />
+    </Provider>
+  </LoadingProvider>);
 }
 
 export default appWithTranslation(MyApp);

@@ -20,9 +20,10 @@ export const getRationDetailsFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getRationDetails = (value) => {
-	return async (dispatch) => {
+export const getRationDetails = (value,startLoading,stopLoading) => {
 
+	return async (dispatch) => {
+		startLoading()
 		try {
 			// let params = {
 			// 	rationCardNo : value,
@@ -33,8 +34,10 @@ export const getRationDetails = (value) => {
 			);
 			let responseData = decryptData(response?.data?.data)
 			dispatch(getRationDetailsSuccess(responseData));
+			stopLoading()
 		} catch (error) {
 			dispatch(getRationDetailsFaliure(error?.response?.data?.message));
+			stopLoading()
 		}
 	};
 };

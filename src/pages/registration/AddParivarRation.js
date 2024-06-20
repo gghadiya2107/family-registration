@@ -5,7 +5,7 @@ import { isAlphanumericKey } from '@/utils/regex';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRationDetails } from '@/network/actions/getRationDetails';
 import { debounce } from 'lodash';
-import { Grid, Typography } from '@mui/material';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import SubmitButton from '@/components/SubmitBtn';
 import toast from 'react-hot-toast';
@@ -14,9 +14,12 @@ import AddHofAndMemberDetails from './AddHofAndMemberDetails';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import BeneficiaryModal from './BeneficiaryModal';
 import StepperView from './stepperView';
+import { useLoading } from '@/utils/LoadingContext';
 
 const AddParivarRation = ({ setState, state }) => {
     const { t } = useTranslation("translation");
+    const { loading, startLoading, stopLoading } = useLoading();
+
 
     const dispatch = useDispatch()
     const rationDetails = useSelector((state) => state.getRationDetails?.data || [])
@@ -96,7 +99,7 @@ const AddParivarRation = ({ setState, state }) => {
 
                 </Grid>
                 <Grid item xs={12} sm={4} md={4} mt={3.2}>
-                <SubmitButton label="Search" onClick={() => dispatch(getRationDetails(formData?.rationCard?.toUpperCase()))}/>
+                <SubmitButton label="Search" onClick={() => dispatch(getRationDetails(formData?.rationCard?.toUpperCase(), startLoading, stopLoading))}/>
 
                 </Grid>
                 

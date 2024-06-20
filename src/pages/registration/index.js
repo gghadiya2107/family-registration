@@ -2,7 +2,7 @@
 import MainLayout from '@/layout/MainLayout'
 import React, { useState } from 'react'
 import style from "./registration.module.css"
-import { FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material'
+import { Box, CircularProgress, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material'
 import AddParivar from './AddParivar'
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
@@ -10,15 +10,19 @@ import { getImagePath } from '@/utils/CustomImagePath';
 import AddMember from './AddMember';
 import AddParivarRation from './AddParivarRation';
 import StepperView from './stepperView';
+import { useLoading } from '@/utils/LoadingContext';
 
 const Registration = () => {
    const [state, setState] = useState("1")
    const [stateForNewFlow, setstateForNewFlow] = useState("1")
+   const {loading} = useLoading()
 
    const { t } = useTranslation("translation");
 
     const [tab, setTab] = useState("1")
     const [withOrWithoutRation, setWithOrWithoutRation] = useState("1")
+    // if(loading) return <Box display={"flex"} justifyContent={"center"}><CircularProgress /></Box>
+
   return (
     <MainLayout>
       {(state =="1" && stateForNewFlow == "1") && <Grid container spacing={5} >
