@@ -441,7 +441,7 @@ const EditMember = () => {
               </tbody>}
               {selectedEditType == 5 && <tbody>
                 <tr className={style.tr}>
-                  <td className={style.td}>Aadhar Number</td>
+                  <td className={style.td}>Aadhaar Number</td>
                   <td className={style.td}>{userData?.aadhaarNo || ""}	</td>
                   <td className={style.td}><InputFieldWithIcon
 

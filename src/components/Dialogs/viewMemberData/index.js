@@ -65,7 +65,7 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                             <KeyValueDetails title="Birth Date" value={formatDate(data?.date_of_birth)} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Aadhar No." value={FormatAadharNumber(data?.aadhaarNo || "")} />
+                            <KeyValueDetails title="Aadhaar No." value={FormatAadharNumber(data?.aadhaarNo || "")} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
                             <KeyValueDetails title="Gender" value={data?.gender} />

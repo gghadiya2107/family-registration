@@ -13,7 +13,7 @@ let featureData = [
     {
         image: "/ekyc.png",
         title: "Family Member eKYC",
-        desc : "Varification of member using Aadhar eKYC."
+        desc : "Varification of member using Aadhaar eKYC."
     },
     {
         image: "/copy.png",

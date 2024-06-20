@@ -962,14 +962,14 @@ const [oldMemberList, setOldMemberList] = useState([])
                         <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Refrance Number:</b> {formData?.reference_no}</p>
+                        <p className={style.expandMargin}><b>Reference Number:</b> {formData?.reference_no}</p>
                         <p className={style.expandMargin}><b>Religion:</b> {formData?.religion}</p>
                         <p className={style.expandMargin}><b>Category:</b> {formData?.socialCategory}</p>
 
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCardNo}</p>
-                        <p className={style.expandMargin}><b>Aadhar Card Number:</b> {formData?.aadhaarNo}</p>
+                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {formData?.aadhaarNo}</p>
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
                       </Grid>
@@ -1126,7 +1126,7 @@ const [oldMemberList, setOldMemberList] = useState([])
                   <tr className={style.tr}>
                     <th className={style.th}>Name</th>
                     <th className={style.th}>Date of Birth</th>
-                    <th className={style.th}>Aadhar Number</th>
+                    <th className={style.th}>Aadhaar Number</th>
                     <th className={style.th}>eKYC Varification Status</th>
                     <th className={style.th}></th>
                   </tr>
@@ -1169,7 +1169,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 
                           </Grid>
                           <Grid item xs={4}>
-                          <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.aadhaarNo}</p>
+                          <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {v?.aadhaarNo}</p>
 
                             {v?.religion &&<p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>}
                             {v?.socialCategory &&<p className={style.expandMargin}><b>Category:</b> {v?.socialCategory}</p>}
@@ -1178,7 +1178,7 @@ const [oldMemberList, setOldMemberList] = useState([])
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
-                            {v?.reference_no &&<p className={style.expandMargin}><b>Refrance Number:</b> {v?.reference_no}</p>}
+                            {v?.reference_no &&<p className={style.expandMargin}><b>Reference Number:</b> {v?.reference_no}</p>}
 
                           </Grid>
                         </Grid>

@@ -127,7 +127,7 @@ requried
                <th className={style.th}>BIRTH DATE	</th>
                <th className={style.th}>CATEGORY	</th>
                {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
-               <th className={style.th}>AADHAR NUMBER</th>
+               <th className={style.th}>AADHAAR NUMBER</th>
                <th className={style.th}>PROFESSION</th>
              </tr>
            </thead>

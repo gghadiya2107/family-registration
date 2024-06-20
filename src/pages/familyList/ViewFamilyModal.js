@@ -112,14 +112,14 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                         <p className={style.expandMargin}><b>Gender:</b> {headData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Refrance Number:</b> {headData?.reference_no}</p>
+                        <p className={style.expandMargin}><b>Reference Number:</b> {headData?.reference_no}</p>
                         <p className={style.expandMargin}><b>Religion:</b> {headData?.religion}</p>
                         <p className={style.expandMargin}><b>Category:</b> {headData?.socialCategory}</p>
 
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Ration card number:</b> {headData?.rationCardNo}</p>
-                        <p className={style.expandMargin}><b>Aadhar Card Number:</b> {headData?.aadhaarNo}</p>
+                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {headData?.aadhaarNo}</p>
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
                       </Grid>
@@ -138,7 +138,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                   <tr className={style.tr}>
                     <th className={style.th}>Name</th>
                     <th className={style.th}>Date of Birth</th>
-                    <th className={style.th}>Aadhar Number</th>
+                    <th className={style.th}>Aadhaar Number</th>
                     <th className={style.th}>eKYC Varification Status</th>
                     <th className={style.th}></th>
                   </tr>
@@ -171,7 +171,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
 
                           </Grid>
                           <Grid item xs={4}>
-                            <p className={style.expandMargin}><b>Refrance Number:</b> {v?.reference_no}</p>
+                            <p className={style.expandMargin}><b>Reference Number:</b> {v?.reference_no}</p>
                             <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
                             <p className={style.expandMargin}><b>Category:</b> { v?.socialCategory}</p>
 
@@ -179,7 +179,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
-                            <p className={style.expandMargin}><b>Aadhar Card Number:</b> {v?.aadhaarNo}</p>
+                            <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {v?.aadhaarNo}</p>
 
                           </Grid>
                         </Grid>
