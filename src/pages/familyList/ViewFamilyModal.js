@@ -16,6 +16,7 @@ import CloseBtn from '@/components/MoreBtn/CloseBtn';
 import { Grid } from '@mui/material';
 import SubmitButton from '@/components/SubmitBtn';
 import formatDate from '@/utils/formatDate';
+import FormatAadharNumber from '@/utils/formatAadharNumber';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -119,7 +120,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Ration card number:</b> {headData?.rationCardNo}</p>
-                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {headData?.aadhaarNo}</p>
+                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(headData?.aadhaarNo)}</p>
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
                       </Grid>
@@ -148,7 +149,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
                       <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
-                      <td className={style.td}>{v?.aadhaarNo}</td>
+                      <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>
                       <td className={style.td}>Document not Attached</td>
                       <td className={style.td}>
 
@@ -179,7 +180,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
-                            <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {v?.aadhaarNo}</p>
+                            <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
 
                           </Grid>
                         </Grid>

@@ -14,7 +14,7 @@ import SubmitButton from '@/components/SubmitBtn';
 import { getEditType } from '@/network/actions/getEditType';
 import translateToHindi, { translateToHindi2 } from '@/utils/translate';
 import { getDocumentList } from '@/network/actions/getDocumentList';
-import formatDate from '@/utils/formatDate';
+import formatDate, { formatDateTime } from '@/utils/formatDate';
 import DatePicker from '@/components/DatePicker';
 import { getRelation } from '@/network/actions/getRelation';
 import { getCategory } from '@/network/actions/getCategory';
@@ -26,6 +26,8 @@ import { editMember } from '@/network/actions/editMember';
 import { getMemberStatus } from '@/network/actions/getMemberStatus';
 import { getfamilymember } from '@/network/actions/getfamilymember';
 import { getUpdateHistory } from '@/network/actions/getUpdateHistory';
+import { BaseURL } from '@/network/apiData';
+import FormatAadharNumber from '@/utils/formatAadharNumber';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -155,7 +157,7 @@ const EditMember = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCurrentValue({ ...currentValue, [name]: value })
+    setCurrentValue({ ...currentValue, [name]: name == "aadhaarNo" ? value?.replaceAll(" ", "") : value })
   }
 
   const handleSubmit = () => {
@@ -164,11 +166,13 @@ const EditMember = () => {
       memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify(currentValue), "documentId": selectedDocumentType, remarks: remarks }
     }
     const extra = () => {
+      dispatch(getUpdateHistory({familymember_id: userData?.familyMemberId ,editType_id: selectedEditType?.toString()}))
       setSelectedDocumentType("")
       setUpoadedDocument(null)
       setRemarks(null)
       setOldValue(null)
       setCurrentValue("")
+
     }
     console.log("body", body)
     dispatch(editMember(body, extra))
@@ -185,6 +189,84 @@ const EditMember = () => {
         setCurrentValue({ ...currentValue, hindiName: text })
         // return text
       }
+    }
+  }
+
+  const getOldValue=(data) => {
+    console.log('oldValue111', data)
+    let value = JSON.parse(data)
+    if(selectedEditType == 1){
+      return value?.englishName || "-"
+    }
+    if(selectedEditType == 2){
+      return  relationlist?.find(v => v?.id == value?.EnglishRelation)?.nameE + (value?.EnglishRelativeName == "other" ? value?.EnglishRelativeNameOther : value?.EnglishRelativeName ) || "-"
+    }
+    if(selectedEditType == 3){
+      return formatDate(value?.birthDate) || "-"
+    }
+    if(selectedEditType == 4){
+      return <div>
+        <p>Category: {categorylist?.find(v => v?.id == value?.category)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Subcategory: {value?.subCategory|| "-"}</p>
+      </div>
+    }
+    if(selectedEditType == 5){
+      return FormatAadharNumber(value?.aadhaarNo) || "-"
+    }
+    if(selectedEditType == 6){
+      return religionList?.find(v => v?.id == value?.religion)?.nameE || "-"
+    }
+    if(selectedEditType == 7){
+      return  "-"
+    }
+    if(selectedEditType == 8){
+      return memberStatusList?.find(v => v?.id == value?.memberStatus)?.nameE || "-"
+    }
+    if(selectedEditType == 9){
+      return <div>
+        <p>Gender: {genderlist?.find(v => v?.id == value?.gender)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Education: {qualificationList?.find(v => v?.id == value?.qualification)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Means of Leaving: {profesionList?.find(v => v?.id == value?.profession)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Ration Card Number: {value?.rationCardNo || "-"}</p>
+      </div>
+    }
+  }
+  const getCurrentValue=(data) => {
+    let value = JSON.parse(data)
+    if(selectedEditType == 1){
+      return value?.englishName || "-"
+    }
+    if(selectedEditType == 2){
+      return  relationlist?.find(v => v?.id == value?.EnglishRelation)?.nameE +(value?.EnglishRelativeName == "other" ? value?.EnglishRelativeNameOther : value?.EnglishRelativeName ) || "-"
+    }
+    if(selectedEditType == 3){
+      return formatDate(value?.birthDate) || "-"
+    }
+    if(selectedEditType == 4){
+      return <div>
+        <p>Category: {categorylist?.find(v => v?.id == value?.category)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Subcategory: {value?.subCategory|| "-"}</p>
+      </div>
+    }
+    if(selectedEditType == 5){
+      return FormatAadharNumber(value?.aadhaarNo) || "-"
+    }
+    if(selectedEditType == 6){
+      return religionList?.find(v => v?.id == value?.religion)?.nameE || "-"
+    }
+    if(selectedEditType == 7){
+      return formatDate(value?.deadDate) || "-"
+    }
+    if(selectedEditType == 8){
+      return memberStatusList?.find(v => v?.id == value?.memberStatus)?.nameE || "-"
+    }
+    if(selectedEditType == 9){
+      return <div>
+        <p>Gender: {genderlist?.find(v => v?.id == value?.gender)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Education: {qualificationList?.find(v => v?.id == value?.qualification)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Means of Leaving: {profesionList?.find(v => v?.id == value?.profession)?.nameE || "-"}</p>
+        <p style={{marginTop: "5px"}}>Ration Card Number: {value?.rationCardNo || "-"}</p>
+      </div>
     }
   }
 
@@ -211,7 +293,7 @@ const EditMember = () => {
           </Grid> */}
         </Grid>
         {selectedEditType && <><Divider style={{ margin: "30px 0" }} />
-          <div className={style.heading} style={{ marginBottom: "5px" }}>Editing History</div>
+          {getUpdateHistoryList?.length > 0 &&<><div className={style.heading} style={{ marginBottom: "5px" }}>Editing History</div>
           <div className={style.tablewrapper} >
             <table className={style.table}>
               <thead className={style.thead}>
@@ -225,17 +307,18 @@ const EditMember = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className={style.tr}>
-                  <td className={style.td}>{"v?.headMemberName"}	</td>
-                  <td className={style.td}>{"v?.rationCardNo"}	</td>
-                  <td className={style.td}>{"v?.totalMembers"}</td>
-                  <td className={style.td}>{"v?.economic"}	</td>
-                  <td className={style.td}>{"v?.district"}</td>
-                  <td className={style.td}>{"v?.municipalName"}</td>
-                </tr>
+              {getUpdateHistoryList?.map(v =>  <tr className={style.tr}>
+                  <td className={style.td}>{getEditTypeList?.find(k => k?.id == v?.editTypeId)?.editType }	</td>
+                  <td className={style.td}>{getOldValue(v?.oldValue)}	</td>
+                  <td className={style.td}>{getCurrentValue(v?.currentValue)}</td>
+                  <td className={style.td}>{formatDateTime(v?.createdOn)}	</td>
+                  <td className={style.td}>{v?.clientIp}</td>
+                  <td className={style.td}><p style={{color : "blue", cursor: "pointer"}} onClick={() => window.open(v?.filePath)}>{documentList?.find(k => k?.id == v?.documentId)?.documentName }</p></td>
+                  {/* <td className={style.td}>{BaseURL+v?.filePath}</td> */}
+                </tr>) }
               </tbody>
             </table>
-          </div>
+          </div></>}
 
           <div className={style.heading} style={{ marginBottom: "5px", marginTop: "30px" }}>Changes</div>
 
@@ -448,18 +531,18 @@ const EditMember = () => {
               {selectedEditType == 5 && <tbody>
                 <tr className={style.tr}>
                   <td className={style.td}>Aadhaar Number</td>
-                  <td className={style.td}>{userData?.aadhaarNo || ""}	</td>
+                  <td className={style.td}>{FormatAadharNumber(userData?.aadhaarNo) || ""}	</td>
                   <td className={style.td}><InputFieldWithIcon
 
 
                     title={""}
                     subTitle=""
                     placeholder=""
-                    type="number"
+                    type="text"
                     name="aadhaarNo"
-                    value={currentValue?.aadhaarNo || ""}
+                    value={currentValue?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ') || ""}
                     style={{ width: "80%" }}
-                    onChange={(e) => e.target.value?.length > 12 ? null : handleChange(e)}
+                    onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
 
                   /></td>
                 </tr>

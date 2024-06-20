@@ -104,7 +104,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
         subCategory: "",
         rationCard: memberFillDetails?.rationCardNo || "",
         religion: "",
-        adharCard: memberFillDetails?.aadhaarNo ||  "",
+        adharCard: memberFillDetails?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ') ||  "",
         dastavage: "",
         description: "",
         isEditModeMember : false,

@@ -105,7 +105,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
         subCategory: "",
         rationCard: head?.rationCardNumber || "",
         religion: "",
-        adharCard: head?.aadhaarNumber || "",
+        adharCard: head?.aadhaarNumber?.replace(/(\d{4})(?=\d)/g, '$1 ') || "",
         dastavage: "",
         description: ""
       }

@@ -36,7 +36,7 @@ import DeleteBtn from '@/components/MoreBtn/DeleteBtn'
 import DeleteConfirmation from '@/components/Dialogs/delete'
 import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember'
 import formatDate from '@/utils/formatDate'
-import { isValidMobileNumber } from '@/utils/formatAadharNumber'
+import FormatAadharNumber, { isValidMobileNumber } from '@/utils/formatAadharNumber'
 
 const FamilyDetails = () => {
     const dispatch = useDispatch()
@@ -199,12 +199,12 @@ const FamilyDetails = () => {
         if (!familyDetailsExtra.mobileNumber?.trim()) {
           errors.mobileNumber = t("validateMobile");
         }
-       else if (familyDetailsExtra.mobileNumber?.trim()?.length < 11) {
+       else if (familyDetailsExtra.mobileNumber?.trim()?.replace("-", "")?.length < 10) {
           errors.mobileNumber = t("validateMobileLength");
         }
-        else if (!isValidMobileNumber(formData.mobileNumber?.replace("-", "")?.trim())) {
-          errors.mobile = t("validateMobileStart");
-        }  
+        // else if (!isValidMobileNumber(formData.mobileNumber?.replace("-", "")?.trim())) {
+        //   errors.mobile = t("validateMobileStart");
+        // }  
         return errors;
       };
     
@@ -218,7 +218,7 @@ const FamilyDetails = () => {
       }
         const saveFamilyAfterEdit = () => {
           const validationErrors = validateFormFamily(familyDetailsExtra);
-          console.log('familyDetailsExtra', familyDetailsExtra)
+          console.log('validationErrors', validationErrors)
           if (Object.keys(validationErrors).length === 0) {
             let body = {
                 "districtCode":familyDetailsExtra?.districtCode,
@@ -285,7 +285,7 @@ const FamilyDetails = () => {
                   "socialSubCategory":headDetailsExtra?.socialSubCategory,
                   "rationCardNo":headDetailsExtra?.rationCardNo,
                   "religionId":headDetailsExtra?.religionId,
-                  "aadhaarNo":headDetailsExtra?.aadhaarNo,
+                  "aadhaarNo":headDetailsExtra?.aadhaarNo?.replaceAll(" ", ""),
                   "isHead":headDetailsExtra?.isHead,
                   "remarks":headDetailsExtra?.remarks || "",
                   "familyId":headDetailsExtra?.familyId
@@ -319,7 +319,7 @@ const FamilyDetails = () => {
                 "socialSubCategory":memberDetailsExtra?.socialSubCategory,
                 "rationCardNo":memberDetailsExtra?.rationCardNo,
                 "religionId":memberDetailsExtra?.religionId,
-                "aadhaarNo":memberDetailsExtra?.aadhaarNo,
+                "aadhaarNo":memberDetailsExtra?.aadhaarNo?.replaceAll(" ", ""),
                 "isHead":memberDetailsExtra?.isHead,
                 "remarks":memberDetailsExtra?.remarks || "",
                 "familyId":memberDetailsExtra?.familyId
@@ -368,11 +368,11 @@ const FamilyDetails = () => {
             if (!memberDetailsExtra.religionId ||  memberDetailsExtra.religionId == "0") {
               errors.religionId = t("validateReligion");
             }
-            if (!memberDetailsExtra.aadhaarNo) {
-              errors.aadhaarNo = t("validateAadhar");
-            } else if (memberDetailsExtra.aadhaarNo?.trim()?.length < 14) {
-              errors.aadhaarNo = t("validateAadharLength");
-            }
+            // if (!memberDetailsExtra.aadhaarNo) {
+            //   errors.aadhaarNo = t("validateAadhar");
+            // } else if (memberDetailsExtra.aadhaarNo?.trim()?.length < 14) {
+            //   errors.aadhaarNo = t("validateAadharLength");
+            // }
             // if (!memberDetailsExtra.dastavage) {
             //   errors.dastavage = t("validateDocument");
             // }
@@ -418,11 +418,11 @@ const FamilyDetails = () => {
             if (!headDetailsExtra.religionId ||  headDetailsExtra.religionId == "0") {
               errors.religionId = t("validateReligion");
             }
-            if (!headDetailsExtra.aadhaarNo) {
-              errors.aadhaarNo = t("validateAadhar");
-            } else if (headDetailsExtra.aadhaarNo?.trim()?.length < 14) {
-              errors.aadhaarNo = t("validateAadharLength");
-            }
+            // if (!headDetailsExtra.aadhaarNo) {
+            //   errors.aadhaarNo = t("validateAadhar");
+            // } else if (headDetailsExtra.aadhaarNo?.trim()?.length < 14) {
+            //   errors.aadhaarNo = t("validateAadharLength");
+            // }
             // if (!headDetailsExtra.dastavage) {
             //   errors.dastavage = t("validateDocument");
             // }
@@ -525,6 +525,8 @@ const FamilyDetails = () => {
             dispatch(deleteFamilyMember(deleteId,extraAferDelete))
 
           }
+
+          console.log("headDetailsExtra",headDetailsExtra)
   return (
     <MainLayout>
       <DeleteConfirmation text={"Are you sure you want to delete this member?"} onSubmit={() => deleteMember()} onCancle={handleCloseDelete} open={openDeleteConfirmation} />
@@ -547,7 +549,7 @@ const FamilyDetails = () => {
               <td className={style.td}>{getFamilyByIdData?.municipalName}</td>
               <td className={style.td}>{getFamilyByIdData?.wardName}</td>
               <td className={style.td}>{getFamilyByIdData?.rationCardNo}</td>
-              <td className={style.td}>{getFamilyByIdData?.mobileNumber}</td>
+              <td className={style.td}>{getFamilyByIdData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}</td>
               <td className={style.td}>
 
                 <div className="action">
@@ -587,7 +589,7 @@ const FamilyDetails = () => {
                   <p className={style.expandMargin}><b>Ward:</b> {getFamilyByIdData?.wardName}</p>
 
                     <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
-                    <p className={style.expandMargin}><b>Mobile Number:</b> {getFamilyByIdData?.mobileNumber}</p>
+                    <p className={style.expandMargin}><b>Mobile Number:</b> {getFamilyByIdData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}</p>
 
                   </Grid>
                 </Grid>
@@ -792,7 +794,7 @@ disabled
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.memberName}</p>
-                        <p className={style.expandMargin}><b>Date of Birth:</b> {formData?.date_of_birth}</p>
+                        <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(formData?.date_of_birth)}</p>
                         <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
@@ -803,7 +805,7 @@ disabled
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCardNo}</p>
-                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {formData?.aadhaarNo}</p>
+                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(formData?.aadhaarNo)}</p>
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
                       </Grid>
@@ -971,7 +973,7 @@ disabled
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
                       <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
-                      <td className={style.td}>{v?.aadhaarNo}</td>
+                      <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>
                       <td className={style.td}>Document not Attached</td>
                       <td className={style.td}>
 
@@ -1011,7 +1013,7 @@ disabled
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
-                            <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {v?.aadhaarNo}</p>
+                            <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
 
                           </Grid>
                         </Grid>
