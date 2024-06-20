@@ -12,6 +12,7 @@
     "rathinCardNumber" : "Ration card number",
     "mobileNumber" : "Mobile Number",
     "document": "Document",
+    "manifesto": "Manifesto",
     "addParivar" : "New Parivar",
     "addMember": "Add Member in Parivar",
     "saveAndAddHof" : "Save and Add HOF",

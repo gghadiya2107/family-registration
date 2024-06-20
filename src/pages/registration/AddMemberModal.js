@@ -610,8 +610,8 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
           </Grid>
           {formData?.subCategory &&<Grid item xs={12} sm={4} md={3}>
             <FileUpload
-                title={t('document')}
-                subTitle="(Bonafide Himachal)"
+                title={t('manifesto')}
+                // subTitle="(Bonafide Himachal)"
               requried
               name="dastavage2"
               // value={formData?.rationCard}

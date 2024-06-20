@@ -25,6 +25,7 @@ import { getProfession } from '@/network/actions/getProfession';
 import { editMember } from '@/network/actions/editMember';
 import { getMemberStatus } from '@/network/actions/getMemberStatus';
 import { getfamilymember } from '@/network/actions/getfamilymember';
+import { getUpdateHistory } from '@/network/actions/getUpdateHistory';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -40,9 +41,10 @@ const EditMember = () => {
   const profesionList = useSelector((state) => state.getProfession?.data)
   const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  const getUpdateHistoryList = useSelector((state) => state.getUpdateHistory?.data)
 
 
-  console.log('getfamilymemberList', getfamilymemberList)
+  console.log('getUpdateHistoryList', getUpdateHistoryList)
   const [userData, setUserData] = useState({})
   const [selectedEditType, setSelectedEditType] = useState(null)
   const [selectedDocumentType, setSelectedDocumentType] = useState(null)
@@ -50,7 +52,6 @@ const EditMember = () => {
   const [remarks, setRemarks] = useState("")
   const [translatedText, setTranslatedText] = useState('');
   const [oldValue, setOldValue] = useState({})
-  const [EnglishRelativeNameOther, setEnglishRelativeNameOther] = useState("")
 
   const [currentValue, setCurrentValue] = useState({})
 
@@ -63,6 +64,7 @@ const EditMember = () => {
     setSelectedDocumentType(null)
     setUpoadedDocument(null)
     setRemarks(null)
+    dispatch(getUpdateHistory({familymember_id: userData?.familyMemberId ,editType_id: selectedEditType?.toString()}))
   }, [selectedEditType])
 
   useEffect(() => {
@@ -193,7 +195,7 @@ const EditMember = () => {
         <Grid container spacing={3} >
           <Grid item xs={12} sm={4} md={4}>
             <SelectDropdown
-              title={"Select type of editing"}
+              title={`Select type of editing (${userData?.memberName}${userData?.himMemberId ? "- "+userData?.himMemberId : " - 7"})`}
               name="district"
               options={getEditTypeList?.map(v => ({ value: v?.id, label: v?.editType })) || []}
               value={selectedEditType}
@@ -203,6 +205,10 @@ const EditMember = () => {
 
 
           </Grid>
+          {/* <Grid item xs={12} sm={8} md={8} mt={3} style={{float : "right"}}>
+              <Typography>Edit Member: {userData?.memberName} {userData?.himMemberId &&  `(${userData?.himMemberId})`}</Typography>
+
+          </Grid> */}
         </Grid>
         {selectedEditType && <><Divider style={{ margin: "30px 0" }} />
           <div className={style.heading} style={{ marginBottom: "5px" }}>Editing History</div>

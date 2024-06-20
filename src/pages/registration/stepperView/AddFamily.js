@@ -336,8 +336,8 @@ console.log('districtList', districtList)
       </Grid>
       {formData?.subclass && <Grid item xs={12} sm={4} md={3}>
         <FileUpload
-          title={t('document')}
-          subTitle="(Declaration & Report)"
+          title={t('manifesto')}
+          // subTitle="(Declaration & Report)"
           requried
           name="dastavage2"
           onChange={handleChange}

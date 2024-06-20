@@ -501,7 +501,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
 </Grid>
 {formData?.subCategory &&<Grid item xs={12} sm={4} md={3}>
   <FileUpload
-    title={t('document')}
+    title={t('manifesto')}
     subTitle="(Bonafide Himachal)"
     requried
     name="dastavage2"

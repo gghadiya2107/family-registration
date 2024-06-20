@@ -27,6 +27,7 @@ import getFamilyHeadList from "./getFamilyHeadList";
 import getEditType from "./getEditType";
 import getDocumentList from "./getDocumentList";
 import editMember from "./editMember";
+import getUpdateHistory from "./getUpdateHistory";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -54,7 +55,8 @@ const rootReducer = combineReducers({
 	getFamilyHeadList,
 	getEditType,
 	getDocumentList,
-	editMember
+	editMember,
+	getUpdateHistory
 });
 
 export default rootReducer;
