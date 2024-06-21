@@ -358,7 +358,7 @@ disabled
 
             </div></>}
 
-            {!headData && <h3>Family Member Not Found!</h3>}
+            {getfamilymemberList?.length == 0 && <h3>Family Member Not Found!</h3>}
 
            <DialogActions>
            <SubmitButton onClick={handleClose} label="Close" />
