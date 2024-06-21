@@ -14,6 +14,7 @@ import { Box, Grid } from '@mui/material';
 import KeyValueDetails from '@/components/KeyValueDetails';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import formatDate from '@/utils/formatDate';
+import { useTranslation } from 'react-i18next';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -25,6 +26,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
+    const { t } = useTranslation("translation");
+
     console.log('data', data)
 
     return (
@@ -56,45 +59,45 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
 
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Name" value={data?.memberName} />
+                            <KeyValueDetails title={t('name')} value={data?.memberName} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Relative Name" value={data?.relativeName} />
+                            <KeyValueDetails title={t('ralativeName')} value={data?.relativeName} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Birth Date" value={formatDate(data?.date_of_birth)} />
+                            <KeyValueDetails title={t('birthDate')} value={formatDate(data?.date_of_birth)} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Aadhaar No." value={FormatAadharNumber(data?.aadhaarNo || "")} />
+                            <KeyValueDetails title={t('aadhaarNo')} value={FormatAadharNumber(data?.aadhaarNo || "")} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Gender" value={data?.gender} />
+                            <KeyValueDetails title={t('gender')} value={data?.gender} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Profession" value={data?.profession} />
+                            <KeyValueDetails title={t('profession')} value={data?.profession} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Qualification" value={data?.qualification} />
+                            <KeyValueDetails title={t('qualification')} value={data?.qualification} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Ration Card No." value={data?.rationCardNo} />
+                            <KeyValueDetails title={t('rationCardNo')} value={data?.rationCardNo} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Category" value={data?.socialCategory} />
+                            <KeyValueDetails title={t('category')} value={data?.socialCategory} />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Remarks" value={data?.remarks} />
+                            <KeyValueDetails title={t('remark')} value={data?.remarks} />
                         </Grid>
                       {data?.socialSubCategory && <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Sub Category" value={data?.socialSubCategory} />
+                            <KeyValueDetails title={t('subCategory')} value={data?.socialSubCategory} />
                         </Grid>}
                       
                       {data?.religion && <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Religion" value={data?.religion} />
+                            <KeyValueDetails title={t('religion')} value={data?.religion} />
                         </Grid>}
                       
                         <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title="Referance No." value={data?.reference_no} />
+                            <KeyValueDetails title={t('referanceNo')} value={data?.reference_no} />
                         </Grid>
                         
                     </Grid>

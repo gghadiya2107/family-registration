@@ -181,7 +181,8 @@ const AddParivarRation = ({ setState, state }) => {
                     </div>
                 </Grid>
                 <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
-                    <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} />
+                    <SubmitButton label="Proceed To Add Family" onClick={() => saveAndAddDetails()} />
+                    {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
                 </div>
             </Grid> : (rationCardData?.length == 0 && formData?.rationCard) ?
                 <Typography mt={5} textAlign={"center"}>Family not found on this ration card number.</Typography>

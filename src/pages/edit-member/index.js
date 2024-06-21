@@ -122,8 +122,10 @@ const EditMember = () => {
           HindiRelation: translatedText
         })
         setCurrentValue({
-          EnglishRelation: userData?.relationId, EnglishRelativeName: userData?.relativeName,
-          HindiRelation: translatedText
+          EnglishRelation: userData?.relationId, 
+          // EnglishRelativeName: userData?.relativeName,
+          // HindiRelativeName : changeLang(userData?.relativeName,"HindiRelativeName"),
+          HindiRelation: changeLang(relationlist?.find(k => k?.id == userData?.relationId)?.nameE,"HindiRelation")
         })
 
       }
@@ -303,6 +305,7 @@ const EditMember = () => {
     }
   }
 
+  console.log("translatedText",translatedText)
 
   return (
     <MainLayout>
@@ -310,7 +313,7 @@ const EditMember = () => {
         <Grid container spacing={3} >
           <Grid item xs={12} sm={4} md={4}>
             <SelectDropdown
-              title={`Select type of editing (${userData?.memberName}${userData?.himMemberId ? "- "+userData?.himMemberId : " - 7"})`}
+              title={`${t('typeEdit')} (${userData?.memberName}${userData?.himMemberId ? "- "+userData?.himMemberId  : ""})`}
               name="district"
               options={getEditTypeList?.map(v => ({ value: v?.id, label: v?.editType })) || []}
               value={selectedEditType}
@@ -700,7 +703,7 @@ const EditMember = () => {
 
           <Grid container spacing={3}>
             <Grid item xs={2}>
-              <Typography fontSize={14} fontWeight={"bold"}>Remark (if any)</Typography>
+              <Typography fontSize={14} fontWeight={"bold"}>{t('remarks')}</Typography>
             </Grid>
             <Grid item xs={10}>
               <TextArea
@@ -712,7 +715,7 @@ const EditMember = () => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Typography fontSize={14} fontWeight={"bold"}>Upload Documents</Typography>
+              <Typography fontSize={14} fontWeight={"bold"}>{t('uploadDocuments')}</Typography>
             </Grid>
             <Grid item xs={4}>
               <SelectDropdown

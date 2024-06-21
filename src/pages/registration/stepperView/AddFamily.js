@@ -48,7 +48,7 @@ console.log('districtList', districtList)
         condition: "",
         class : "",
         subclass: "",
-        mobile : selectedFamilyMember?.[0]?.mobileNumber || "",
+        mobile : selectedFamilyMember?.[0]?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')|| "",
         dastavage: ""
     })
 
@@ -144,7 +144,7 @@ console.log('districtList', districtList)
     if (!formData.mobile?.trim()) {
       errors.mobile = t("validateMobile");
     }
-   else if (formData.mobile?.trim()?.length < 11) {
+   else if (formData.mobile?.length < 11) {
       errors.mobile = t("validateMobileLength");
     }
     else if (!isValidMobileNumber(formData.mobile?.replace("-", "")?.trim())) {

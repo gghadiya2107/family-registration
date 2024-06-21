@@ -61,7 +61,20 @@
     "validateDistrict" : "District is requried",
     "saveAndAddDetails" : "Save and Add Details",
     "proceedToAddFamily" : "Proceed To Add Family",
-    "selectHOF" : "Select Head of Family"
+    "selectHOF" : "Select Head of Family",
+    "typeEdit" : "Select type of editing",
+    "remarks" : "Remark (if any)",
+    "uploadDocuments" : "Upload Documents",
+    "name" : "Name",
+    "ralativeName" : "Relative Name",
+    "birthDate" : "Birth Date",
+    "aadhaarNo" : "Aadhaar No.",
+    "profession" : "Profession",
+    "qualification" : "Qualification",
+    "rationCardNo" : "Ration Card No.",
+    "referanceNo" : "Referance No.",
+    "remark" : "Remarks"
+    
 
 
 

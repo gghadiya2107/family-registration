@@ -60,7 +60,20 @@
     "validateDistrict" : "ज़िला आवश्यक है",
     "saveAndAddDetails" : "Save and Add Details",
     "proceedToAddFamily" : "परिवार जोड़ने के लिए आगे बढ़ें",
-    "selectHOF" : "परिवार का मुखिया"
+    "selectHOF" : "परिवार का मुखिया",
+    "typeEdit" : "संपादन का प्रकार चुनें",
+    "remarks" : "टिप्पणी (यदि कोई हो)",
+    "uploadDocuments" : "दस्तावेज़ अपलोड करें",
+    "name" : "नाम",
+    "ralativeName" : "रिश्तेदार नाम",
+    "birthDate" : "जन्म तिथि",
+    "aadhaarNo" : "आधार नंबर",
+    "profession" : "पेशा",
+    "qualification" : "शिक्षा योग्यता",
+    "rationCardNo" : "राशन कार्ड नंबर",
+    "referanceNo" : "संदर्भ नंबर",
+    "remark" : "टिप्पणी"
+
 
 
 
