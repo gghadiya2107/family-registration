@@ -54,6 +54,7 @@ const EditMember = () => {
   const [remarks, setRemarks] = useState("")
   const [translatedText, setTranslatedText] = useState('');
   const [oldValue, setOldValue] = useState({})
+  const [errors, setErrors] = useState({});
 
   const [currentValue, setCurrentValue] = useState({})
 
@@ -113,9 +114,14 @@ const EditMember = () => {
       setCurrentValue(null)
       if (selectedEditType == 1) {
         setOldValue({ englishName: userData?.memberName, hindiName: userData?.memberNameH })
+        setCurrentValue({ englishName: userData?.memberName, hindiName: userData?.memberNameH })
       }
       if (selectedEditType == 2) {
         setOldValue({
+          EnglishRelation: userData?.relationId, EnglishRelativeName: userData?.relativeName,
+          HindiRelation: translatedText
+        })
+        setCurrentValue({
           EnglishRelation: userData?.relationId, EnglishRelativeName: userData?.relativeName,
           HindiRelation: translatedText
         })
@@ -123,31 +129,38 @@ const EditMember = () => {
       }
       if (selectedEditType == 3) {
         setOldValue({ birthDate: userData?.date_of_birth })
+        setCurrentValue({ birthDate: userData?.date_of_birth })
 
       }
       if (selectedEditType == 4) {
         setOldValue({ category: userData?.socialCategoryId, subCategory: userData?.socialSubCategory || "NA" })
+        setCurrentValue({ category: userData?.socialCategoryId, subCategory: userData?.socialSubCategory || "NA" })
 
       }
       if (selectedEditType == 5) {
         setOldValue({ aadhaarNo: userData?.aadhaarNo })
+        setCurrentValue({ aadhaarNo: userData?.aadhaarNo })
       }
       if (selectedEditType == 6) {
         setOldValue({ religion: userData?.religionId })
+        setCurrentValue({ religion: userData?.religionId })
       }
       if (selectedEditType == 7) {
         setOldValue({ memberStatus: userData?.memberStatusId })
+        // setCurrentValue({ memberStatus: userData?.memberStatusId })
 
 
       }
       if (selectedEditType == 8) {
         setOldValue({ memberStatus: userData?.memberStatusId })
+        setCurrentValue({ memberStatus: userData?.memberStatusId })
 
 
       }
 
       if (selectedEditType == 9) {
         setOldValue({ gender: userData?.genderId, qualification: userData?.qualificationId, profession: userData?.professionId, rationCardNo: userData?.rationCardNo })
+        setCurrentValue({ gender: userData?.genderId, qualification: userData?.qualificationId, profession: userData?.professionId, rationCardNo: userData?.rationCardNo })
       }
     }
 
@@ -159,8 +172,24 @@ const EditMember = () => {
     const { name, value } = e.target;
     setCurrentValue({ ...currentValue, [name]: name == "aadhaarNo" ? value?.replaceAll(" ", "") : value })
   }
+  const validateForm = () => {
+    const errors = {};
+    if (!selectedDocumentType ) {
+      errors.selectedDocumentType = t('validateDocType');
+    }
+    if (!upoadedDocument ) {
+      errors.upoadedDocument = t('validateUploadedDoc');
+    }
+    // if (Object.keys(currentValue)?.length == 0 ) {
+    //   errors.upoadedDocument = t('validateUploadedDoc');
+    // }
+
+    return errors;
+  };
 
   const handleSubmit = () => {
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length === 0) {
     let body = {
       documentFiles: upoadedDocument,
       memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify(currentValue), "documentId": selectedDocumentType, remarks: remarks }
@@ -176,6 +205,10 @@ const EditMember = () => {
     }
     console.log("body", body)
     dispatch(editMember(body, extra))
+  }else{
+    console.log('validationErrors', validationErrors)
+      setErrors(validationErrors);
+  }
   }
 
   const changeLang = async (name, key = "") => {
@@ -686,9 +719,11 @@ const EditMember = () => {
                 name="document"
                 options={[{ value: "", label: "Select..." }, ...documentList?.map(v => ({ value: v?.id, label: v?.documentName }))]}
 
-                value={selectedDocumentType || null}
+                value={selectedDocumentType || ""}
                 onChange={(e) => setSelectedDocumentType(+e.target.value)}
               />
+                      {errors?.selectedDocumentType && <p className="error">{errors?.selectedDocumentType}</p>}
+
             </Grid>
             {selectedDocumentType && <Grid item xs={4}>
               <FileUpload
@@ -697,6 +732,8 @@ const EditMember = () => {
                 accept="image/*,.pdf"
 
               />
+                                    {errors?.upoadedDocument && <p className="error">{errors?.upoadedDocument}</p>}
+
             </Grid>}
           </Grid>
 

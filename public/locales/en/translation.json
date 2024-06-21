@@ -54,6 +54,9 @@
     "validateAadhar" :  "Aadhaar card is required",
     "validateAadharLength" : "Please enter 12 digit aadhaar card number",
     "validateComment" : "Description is required",
+    "validateUploadedDoc" : "Document is required",
+    "validateDocType" : "Please select document",
+
     "district" : "Select District",
     "validateDistrict" : "District is requried",
     "saveAndAddDetails" : "Save and Add Details",

@@ -54,6 +54,8 @@
     "validateAadhar" :  "आधार कार्ड नंबर आवश्यक है",
     "validateAadharLength" : "कृपया 12 अंकों का आधार कार्ड नंबर दर्ज करें",
     "validateComment" : "टिपण्णी आवश्यक है",
+    "validateUploadedDoc" : "दस्तावेज़ आवश्यक है",
+    "validateDocType" : "कृपया दस्तावेज़ चुनें",
     "district" : "ज़िला",
     "validateDistrict" : "ज़िला आवश्यक है",
     "saveAndAddDetails" : "Save and Add Details",

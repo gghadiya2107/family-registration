@@ -66,7 +66,8 @@ const Sidebar = () => {
     const logout = () => {
 
         removeCookie("userData");
-        router.push("/")
+        // router.push("/")
+        window.location.pathname = "/urbanregister"
 
     }
 
