@@ -34,10 +34,6 @@ export const ApiPostNoAuth = (url, body) => {
   console.log("includesLE",includesLE)
   let encryptedBody
   if(includesLE){
-    // let jsonData = {
-    //   documentFiles : body?.documentFiles,
-    //   memberUpdate : encryptDataPost(JSON.stringify(body?.memberUpdate))
-    // }
     let formData = new FormData();
 formData.append("documentFiles",body?.documentFiles )
 formData.append("memberUpdate",encryptDataPost(JSON.stringify(body?.memberUpdate)) )
