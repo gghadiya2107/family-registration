@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
 import { FaRegListAlt } from "react-icons/fa";
 import { MdOutlineFamilyRestroom } from "react-icons/md";
+import { MdOutlineTransferWithinAStation } from "react-icons/md";
 
 
 
@@ -63,6 +64,11 @@ const menu = [
         title: "Separate Family",
         url: "/separateFamily",
         icon: <MdOutlineFamilyRestroom size={20} />
+    },
+    {
+        title: "Transfer Member",
+        url: "/transferMember",
+        icon: <MdOutlineTransferWithinAStation size={20} />
     },
 ]
 

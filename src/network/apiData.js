@@ -31,13 +31,19 @@ function objectToQueryString(obj) {
 
 export const ApiPostNoAuth = (url, body) => {
   let includesLE = checkForKey(body, 'documentFiles');
-  console.log("includesLE",includesLE)
+  let includesLE2 = checkForKey(body, 'consentDocName');
   let encryptedBody
   if(includesLE){
     let formData = new FormData();
 formData.append("documentFiles",body?.documentFiles )
 formData.append("memberUpdate",encryptDataPost(JSON.stringify(body?.memberUpdate)) )
     encryptedBody = formData
+  }else if(includesLE2){
+    let formData = new FormData();
+    formData.append("consentDocName",body?.consentDocName )
+    formData.append("AddFamily",encryptDataPost(JSON.stringify(body?.AddFamily)) )
+    formData.append("SeparateMembers",encryptDataPost(JSON.stringify(body?.SeparateMembers)) )
+        encryptedBody = formData
   }else{
 
      encryptedBody =encryptDataPost(JSON.stringify(body))

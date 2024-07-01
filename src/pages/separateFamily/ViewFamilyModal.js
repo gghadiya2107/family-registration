@@ -29,6 +29,7 @@ import { getEconomicStatus } from '@/network/actions/economicStatus';
 import { getCategory } from '@/network/actions/getCategory';
 import { useTranslation } from 'react-i18next';
 import { separateMember } from '@/network/actions/separateMember';
+import { getFamilyList } from '@/network/actions/getFamilyList';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -134,9 +135,10 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
     } else if (!isHead) {
       toast.error("Please select head of family")
     } else {
-      alert("done")
       const extra = () => {
         handleClose()
+        dispatch(getFamilyList(formData))
+
       }
       let body = {
         AddFamily : {
@@ -154,7 +156,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
           "economicId":newData?.economicId
           },
           consentDocName : newData?.dastavage,
-          SeparateMembers : {"members":rationCardData?.filter(v => v?.isChecked)?.map(k => +k?.familyMemberId)}
+          SeparateMembers : {"members":rationCardData?.filter(v => v?.isChecked)?.map(k => +k?.familyMemberId), isHead : rationCardData?.find(v => v?.isHead)?.familyMemberId}
           
       }
       console.log("body123",body)
@@ -189,7 +191,9 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
         <DialogContent dividers>
           <Grid container spacing={3} mt={0}>
             {/* left side */}
-            {originalData && <Grid item xs={12} sm={6} md={6}  >
+            {originalData && <Grid item xs={12} sm={6} md={5.8}  >
+            <p style={{textAlign : "center" , fontWeight : "bold"}}>Current Data</p>
+
               <Grid container spacing={3} mt={0} >
                 <Grid item xs={12} sm={6} md={6}>
                   <SelectDropdown
@@ -378,9 +382,10 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                 </Grid>}
               </Grid>
             </Grid>}
-
+            <Grid item xs={12} sm={6} md={0.01}  style={{borderRight : "1px solid gray"}}></Grid>
             {/* right side */}
-            {newData && <Grid item xs={12} sm={6} md={6}  >
+            {newData && <Grid item xs={12} sm={6} md={5.8}  >
+              <p style={{textAlign : "center" , fontWeight : "bold"}}>New Data</p>
               <Grid container spacing={3} mt={0} >
                 <Grid item xs={12} sm={6} md={6}>
                   <SelectDropdown
