@@ -55,8 +55,8 @@ const HeaderThree = () => {
           Citizen Login
           </Typography>
           <Typography component="div" className={style.threeRightLogin} 
-          // onClick={() => window.open("https://sso.hp.gov.in/official/site/login?onboardingapp=urbanregister", "_blank", "noopener,noreferrer")} 
-          onClick={() => router.push("/registration")}
+          onClick={() => window.open("https://sso.hp.gov.in/official/site/login?onboardingapp=urbanregister", "_blank", "noopener,noreferrer")} 
+          // onClick={() => router.push("/registration")}
           >
           Officer Login
           </Typography></> 

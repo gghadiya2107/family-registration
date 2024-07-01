@@ -18,6 +18,8 @@ import { MdGTranslate } from "react-icons/md";
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n';
 import { FaRegListAlt } from "react-icons/fa";
+import { MdOutlineFamilyRestroom } from "react-icons/md";
+
 
 
 
@@ -56,6 +58,11 @@ const menu = [
         title: "List of Family",
         url: "/familyList",
         icon: <FaRegListAlt size={20} />
+    },
+    {
+        title: "Separate Family",
+        url: "/separateFamily",
+        icon: <MdOutlineFamilyRestroom size={20} />
     },
 ]
 
