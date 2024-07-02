@@ -242,7 +242,9 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
 "aadhaarNo":formData?.adharCard?.replaceAll(" ", "") || "",
 "isHead":false,
 "remarks":formData?.description || "",
-"familyId":addFamilyData?.id || getFamilyByIdData?.family_id
+"familyId":addFamilyData?.id || getFamilyByIdData?.family_id,
+dastavage : formData?.dastavage || "",
+dastavage2 : formData?.dastavage2 || "",
 
       }
       dispatch(addfamilymember(body,extra))

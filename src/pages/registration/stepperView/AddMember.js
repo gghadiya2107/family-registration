@@ -235,7 +235,9 @@ const [oldMemberList, setOldMemberList] = useState([])
 "aadhaarNo":formData?.adharCard?.replaceAll(" ", "") || "",
 "isHead":false,
 "remarks":formData?.description || "",
-"familyId":addFamilyData?.id
+"familyId":addFamilyData?.id,
+ dastavage: formData?.dastavage || "",
+        dastavage2 :  formData?.dastavage2 || ""
 
       }
       

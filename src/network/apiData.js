@@ -2,7 +2,7 @@ import { decryptData, encryptDataGet, encryptDataPost } from '@/utils/encryptDec
 import JsonToFormData from '@/utils/jsonToFormData';
 
 const axios = require('axios').default;
-export const BaseURL = process.env.NEXT_PUBLIC_API_BASE_URL ;
+export const BaseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 function checkForKey(obj, substring) {
   for (let key in obj) {
@@ -14,49 +14,49 @@ function checkForKey(obj, substring) {
 }
 
 let defaultHeaders = {
-    headers: {
-		"Content-Type": "text/plain", 
-	},
+  headers: {
+    "Content-Type": "text/plain",
+  },
 }
 
 function objectToQueryString(obj) {
-    const queryParams = [];
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        queryParams.push(`${key}=${encryptDataGet(obj[key])}`);
-      }
+  const queryParams = [];
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      queryParams.push(`${key}=${encryptDataGet(obj[key])}`);
     }
-    return queryParams.join('&');
   }
+  return queryParams.join('&');
+}
 
 export const ApiPostNoAuth = (url, body) => {
   let includesLE = checkForKey(body, 'documentFiles');
   let includesLE2 = checkForKey(body, 'consentDocName');
   let includesLE3 = checkForKey(body, 'TransferMembers');
   let encryptedBody
-  if(includesLE){
+  if (includesLE) {
     let formData = new FormData();
-formData.append("documentFiles",body?.documentFiles )
-formData.append("memberUpdate",encryptDataPost(JSON.stringify(body?.memberUpdate)) )
+    formData.append("documentFiles", body?.documentFiles)
+    formData.append("memberUpdate", encryptDataPost(JSON.stringify(body?.memberUpdate)))
     encryptedBody = formData
-  }else if(includesLE2){
+  } else if (includesLE2) {
     let formData = new FormData();
-    formData.append("consentDocName",body?.consentDocName )
-    formData.append("AddFamily",encryptDataPost(JSON.stringify(body?.AddFamily)) )
-   if(body?.SeparateMembers) formData.append("SeparateMembers",encryptDataPost(JSON.stringify(body?.SeparateMembers)) )
-   if(body?.TransferMembers) formData.append("TransferMembers",encryptDataPost(JSON.stringify(body?.TransferMembers)) )
-        encryptedBody = formData
-  }else if(includesLE3){
+    formData.append("consentDocName", body?.consentDocName)
+    formData.append("AddFamily", encryptDataPost(JSON.stringify(body?.AddFamily)))
+    if (body?.SeparateMembers) formData.append("SeparateMembers", encryptDataPost(JSON.stringify(body?.SeparateMembers)))
+    if (body?.TransferMembers) formData.append("TransferMembers", encryptDataPost(JSON.stringify(body?.TransferMembers)))
+    encryptedBody = formData
+  } else if (includesLE3) {
     let formData = new FormData();
-    formData.append("TransferMembers",encryptDataPost(JSON.stringify(body?.TransferMembers)) )
-        encryptedBody = formData
+    formData.append("TransferMembers", encryptDataPost(JSON.stringify(body?.TransferMembers)))
+    encryptedBody = formData
   }
-  else{
+  else {
 
-     encryptedBody =encryptDataPost(JSON.stringify(body))
+    encryptedBody = encryptDataPost(JSON.stringify(body))
   }
   console.log('encryptedBody', encryptedBody)
-  
+
   return new Promise((resolve, reject) => {
     axios
       .post(
@@ -67,7 +67,7 @@ formData.append("memberUpdate",encryptDataPost(JSON.stringify(body?.memberUpdate
       .then((responseJson) => {
         const data = decryptData(responseJson?.data?.data);
         console.log('data api', data)
-        resolve( data);
+        resolve(data);
       })
 
       .catch((error) => {
@@ -90,30 +90,65 @@ formData.append("memberUpdate",encryptDataPost(JSON.stringify(body?.memberUpdate
   });
 };
 
-export const ApiGetNoAuth = (url, params={}) => {
-    let apiUrl = url + objectToQueryString(params)
+
+export const ApiPostFormData = (url, body) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        BaseURL + url,
+        body,
+        defaultHeaders
+      )
+      .then((responseJson) => {
+        const data = decryptData(responseJson?.data?.data);
+        console.log('data api', data)
+        resolve(data);
+      })
+
+      .catch((error) => {
+        console.log('data api', error)
+
+        if (
+          error &&
+          error.hasOwnProperty('response') &&
+          error.response &&
+          error.response.hasOwnProperty('data') &&
+          error.response.data &&
+          error.response.data.hasOwnProperty('message') &&
+          error.response.data.error
+        ) {
+          reject(error.response.data);
+        } else {
+          reject(error);
+        }
+      });
+  });
+};
+
+export const ApiGetNoAuth = (url, params = {}) => {
+  let apiUrl = url + objectToQueryString(params)
   return new Promise((resolve, reject) => {
     axios
       .get(BaseURL + apiUrl, defaultHeaders)
       .then(async (responseJson) => {
         const data = decryptData(responseJson?.data?.data);
-        resolve( data);
+        resolve(data);
       })
       .catch((error) => {
         console.log('data api', error)
         if (
-            error &&
-            error.hasOwnProperty('response') &&
-            error.response &&
-            error.response.hasOwnProperty('data') &&
-            error.response.data &&
-            error.response.data.hasOwnProperty('message') &&
-            error.response.data.error
-          ) {
-            reject(error.response.data);
-          } else {
-            reject(error);
-          }
+          error &&
+          error.hasOwnProperty('response') &&
+          error.response &&
+          error.response.hasOwnProperty('data') &&
+          error.response.data &&
+          error.response.data.hasOwnProperty('message') &&
+          error.response.data.error
+        ) {
+          reject(error.response.data);
+        } else {
+          reject(error);
+        }
       });
   });
 };
@@ -172,7 +207,7 @@ export const ApiPost = (type, userData) => {
     ext = 'store_owner';
   } else {
     ext = 'admin';
-  }  
+  }
   return new Promise((resolve, reject) => {
     axios
       .post(BaseURL + ext + type, encryptedBody, getHttpOptions())
@@ -198,19 +233,19 @@ export const ApiPost = (type, userData) => {
         }
       });
 
-      //   if (
-      //     error &&
-      //     error.hasOwnProperty('response') &&
-      //     error.response &&
-      //     error.response.hasOwnProperty('data') &&
-      //     error.response.data &&
-      //     error.response.data.hasOwnProperty('error') &&
-      //     error.response.data.error
-      //   ) {
-      //     reject(error.response.data);
-      //   } else {
-      //     reject(error.response.data);
-      //   }
-      // });
+    //   if (
+    //     error &&
+    //     error.hasOwnProperty('response') &&
+    //     error.response &&
+    //     error.response.hasOwnProperty('data') &&
+    //     error.response.data &&
+    //     error.response.data.hasOwnProperty('error') &&
+    //     error.response.data.error
+    //   ) {
+    //     reject(error.response.data);
+    //   } else {
+    //     reject(error.response.data);
+    //   }
+    // });
   });
 };

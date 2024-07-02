@@ -181,9 +181,12 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
         "aadhaarNo": formData?.adharCard?.replaceAll(" ", "") || "",
         "isHead": true,
         "remarks": formData?.description || "",
-        "familyId": addFamilyData?.id
+        "familyId": addFamilyData?.id,
+         dastavage: formData?.dastavage || "",
+        dastavage2 :  formData?.dastavage2 || ""
 
       }
+      console.log('body addmember', body)
       const extra = () => {
         setActiveStepper(2)
         dispatch(getfamilymember(addFamilyData?.id))

@@ -621,7 +621,10 @@ const [oldMemberList, setOldMemberList] = useState([])
         "aadhaarNo": formData?.adharCard || "",
         "isHead": true,
         "remarks": formData?.description || "",
-        "familyId": addFamilyData?.id
+        "familyId": addFamilyData?.id,
+        
+dastavage : formData?.dastavage,
+dastavage2 : formData?.dastavage2,
 
       }
       dispatch(addfamilymember(body, extra))

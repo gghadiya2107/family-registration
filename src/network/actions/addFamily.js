@@ -8,7 +8,7 @@ import {
     ADD_FAMILY_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData, encryptDataPost } from "@/utils/encryptDecryot";
-import { ApiPostNoAuth } from "../apiData";
+import { ApiPostFormData, ApiPostNoAuth } from "../apiData";
 // Action Creators
 export const addFamilySuccess = (data) => ({
 	type: ADD_FAMILY_SUCCESS,
@@ -24,14 +24,17 @@ export const addFamilyFaliure = (error) => ({
 // Async Action to Fetch Data
 export const addFamily = (body,extra) => {
 	return async (dispatch) => {
+		const formData = new FormData()
+		formData.append('consentDocName', body?.dastavage)
+		formData.append('CategoryDocument', body?.dastavage2)
+		delete body.dastavage
+		delete body.dastavage2
+		formData.append('Family', encryptDataPost(JSON.stringify(body)))
 
 		try {
-			const response = await ApiPostNoAuth('/urbanregister/addfamily', body)
-			// const response = await apiCall.post(
-			// 	`/urbanregister/addfamily`, encryptDataPost(JSON.stringify(body))
-			// );
+			const response = await ApiPostFormData('/urbanregister/addfamily', formData)
+			
 			console.log('response adddFamily', response)
-			// let responseData = decryptData(response?.data?.data)
 			
 			extra()
             toast.success( response?.message)

@@ -95,7 +95,9 @@ console.log('districtList', districtList)
         mobileNumber: formData?.mobile?.replace("-", "") || "",
         bplNumber: formData?.bpl || "",
         active:true,
-        economicId : formData?.condition || 0
+        economicId : formData?.condition || 0,
+        dastavage: formData?.dastavage || "",
+        dastavage2 :  formData?.dastavage2 || ""
     }
     console.log('body', body)
     const extra = () => {

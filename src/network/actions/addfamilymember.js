@@ -9,7 +9,7 @@ import {
     ADD_FAMILY_MEMBER_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData, encryptDataPost } from "@/utils/encryptDecryot";
-import { ApiPostNoAuth } from "../apiData";
+import { ApiPostFormData, ApiPostNoAuth } from "../apiData";
 // Action Creators
 export const addfamilymemberSuccess = (data) => ({
 	type: ADD_FAMILY_MEMBER_SUCCESS,
@@ -27,7 +27,13 @@ export const addfamilymember = (body,extra) => {
 	return async (dispatch) => {
 
 		try {
-			const response = await ApiPostNoAuth('/urbanregister/addfamilymember', body)
+			const formData = new FormData()
+		formData.append('memberDocument', body?.dastavage)
+		formData.append('CategoryDocument', body?.dastavage2)
+		delete body.dastavage
+		delete body.dastavage2
+		formData.append('Member', encryptDataPost(JSON.stringify(body)))
+			const response = await ApiPostFormData('/urbanregister/addfamilymember', formData)
 
 			// const response = await apiCall.post(
 			// 	`/urbanregister/addfamilymember`, encryptDataPost(JSON.stringify(body))
