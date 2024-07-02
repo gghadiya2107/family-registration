@@ -13,7 +13,7 @@ import { getfamilymember } from '@/network/actions/getfamilymember';
 import style from "../registration/registration.module.css"
 import MoreBtn from '@/components/MoreBtn';
 import CloseBtn from '@/components/MoreBtn/CloseBtn';
-import { FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material';
+import { Box, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material';
 import SubmitButton from '@/components/SubmitBtn';
 import formatDate from '@/utils/formatDate';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
@@ -32,6 +32,7 @@ import { separateMember } from '@/network/actions/separateMember';
 import { getFamilyList } from '@/network/actions/getFamilyList';
 import KeyValueDetails from '@/components/KeyValueDetails';
 import { TransferMember } from '@/network/actions/TransferMember';
+import TextArea from '@/components/TextArea';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -62,6 +63,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   const [originalData, setOriginalData] = React.useState({})
   const [newData, setNewData] = React.useState({})
   const [withOrWithoutRation, setWithOrWithoutRation] = React.useState("urban")
+  const [remarks, setRemarks] = React.useState("")
+
 
 console.log('rationCardData', rationCardData)
 
@@ -158,6 +161,8 @@ console.log('rationCardData', rationCardData)
         //   "economicId":newData?.economicId
         //   },
         //   consentDocName : newData?.dastavage,
+        remarks : remarks,
+
           TransferMembers : {"members":rationCardData?.filter(v => v?.isChecked)?.map(k => +k?.familyMemberId),
              isHead : rationCardData?.find(v => v?.isHead)?.familyMemberId,
              transferTo : withOrWithoutRation
@@ -303,6 +308,18 @@ row
 
               </div>
             </Grid>
+            <Box ml={3} mt={3} width={"100%"}>
+           <TextArea
+    title={t('comment')}
+    placeholder="Text area"
+    style={{width : "100%"}}
+    requried
+    name="description"
+    value={remarks}
+    onChange={(e) => setRemarks(e.target.value)}
+
+  />
+           </Box>
             <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
               <SubmitButton onClick={handleClose} label="Cancel" />
 

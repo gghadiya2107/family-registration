@@ -28,6 +28,7 @@ export const verifyToken = (body,router) => {
 				`/validate-token`,
 				body
 			);
+			console.log("response.data",response.data)
 			router.push("/registration")
 			dispatch(tokenVerifySuccess(response.data));
 			setCookiesValues("userData", response?.data)

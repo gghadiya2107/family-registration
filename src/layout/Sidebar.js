@@ -131,7 +131,7 @@ const Sidebar = () => {
                     <div className={style.menu}>
                         <div><FaUserCircle size={20} style={{ marginTop: "5px" }} /></div>
                         {/* <div className={style.menuTitle}>Gaurang Ghadiya</div> */}
-                        <div className={style.menuTitle}>{userData?.user_id}</div>
+                        <div className={style.menuTitle}>{userData?.user_id || userData?.username}</div>
                     </div>
                     <div className={style.menu} onClick={changeLanguae}>
                         <div><MdGTranslate size={20} style={{ marginTop: "5px" }} /></div>
