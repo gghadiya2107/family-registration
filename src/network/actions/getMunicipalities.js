@@ -29,6 +29,7 @@ export const getMunicipalities = (body) => {
 				masterName : "municipal",
 				parentId: body?.districtCode
 			}
+			console.log('params', params, body)
 			const response = await ApiGetNoAuth(`/master-data?`, params);
 			// const response = await apiCall.get(
 			// 	`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.districtCode)}&masterName=${encryptData("municipal")}`

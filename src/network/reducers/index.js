@@ -29,6 +29,9 @@ import getDocumentList from "./getDocumentList";
 import editMember from "./editMember";
 import getUpdateHistory from "./getUpdateHistory";
 import separateMember from "./separateMember";
+import TransferMember from "./TransferMember";
+import memberTransferList from "./memberTransferList";
+import AddTransferMember from "./AddTransferMember";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -58,7 +61,10 @@ const rootReducer = combineReducers({
 	getDocumentList,
 	editMember,
 	getUpdateHistory,
-	separateMember
+	separateMember,
+	TransferMember,
+	memberTransferList,
+	AddTransferMember
 });
 
 export default rootReducer;
