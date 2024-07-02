@@ -32,6 +32,7 @@ function objectToQueryString(obj) {
 export const ApiPostNoAuth = (url, body) => {
   let includesLE = checkForKey(body, 'documentFiles');
   let includesLE2 = checkForKey(body, 'consentDocName');
+  let includesLE3 = checkForKey(body, 'TransferMembers');
   let encryptedBody
   if(includesLE){
     let formData = new FormData();
@@ -42,12 +43,19 @@ formData.append("memberUpdate",encryptDataPost(JSON.stringify(body?.memberUpdate
     let formData = new FormData();
     formData.append("consentDocName",body?.consentDocName )
     formData.append("AddFamily",encryptDataPost(JSON.stringify(body?.AddFamily)) )
-    formData.append("SeparateMembers",encryptDataPost(JSON.stringify(body?.SeparateMembers)) )
+   if(body?.SeparateMembers) formData.append("SeparateMembers",encryptDataPost(JSON.stringify(body?.SeparateMembers)) )
+   if(body?.TransferMembers) formData.append("TransferMembers",encryptDataPost(JSON.stringify(body?.TransferMembers)) )
         encryptedBody = formData
-  }else{
+  }else if(includesLE3){
+    let formData = new FormData();
+    formData.append("TransferMembers",encryptDataPost(JSON.stringify(body?.TransferMembers)) )
+        encryptedBody = formData
+  }
+  else{
 
      encryptedBody =encryptDataPost(JSON.stringify(body))
   }
+  console.log('encryptedBody', encryptedBody)
   
   return new Promise((resolve, reject) => {
     axios
@@ -89,7 +97,6 @@ export const ApiGetNoAuth = (url, params={}) => {
       .get(BaseURL + apiUrl, defaultHeaders)
       .then(async (responseJson) => {
         const data = decryptData(responseJson?.data?.data);
-        console.log('data api', data)
         resolve( data);
       })
       .catch((error) => {

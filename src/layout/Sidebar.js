@@ -70,6 +70,11 @@ const menu = [
         url: "/transferMember",
         icon: <MdOutlineTransferWithinAStation size={20} />
     },
+    {
+        title: "Transfer List",
+        url: "/transferList",
+        icon: <IoDocumentsOutline size={20} />
+    },
 ]
 
 const Sidebar = () => {
@@ -125,8 +130,8 @@ const Sidebar = () => {
                     </div>
                     <div className={style.menu}>
                         <div><FaUserCircle size={20} style={{ marginTop: "5px" }} /></div>
-                        <div className={style.menuTitle}>Gaurang Ghadiya</div>
-                        {/* <div className={style.menuTitle}>{userData?.user_id}</div> */}
+                        {/* <div className={style.menuTitle}>Gaurang Ghadiya</div> */}
+                        <div className={style.menuTitle}>{userData?.user_id}</div>
                     </div>
                     <div className={style.menu} onClick={changeLanguae}>
                         <div><MdGTranslate size={20} style={{ marginTop: "5px" }} /></div>
