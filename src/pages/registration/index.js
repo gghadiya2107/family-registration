@@ -11,6 +11,7 @@ import AddMember from './AddMember';
 import AddParivarRation from './AddParivarRation';
 import StepperView from './stepperView';
 import { useLoading } from '@/utils/LoadingContext';
+import withAuth from '@/utils/withAuth';
 
 const Registration = () => {
    const [state, setState] = useState("1")
@@ -80,4 +81,4 @@ row
   )
 }
 
-export default Registration
+export default withAuth(Registration)

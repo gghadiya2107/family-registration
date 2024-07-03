@@ -86,6 +86,8 @@ const Sidebar = () => {
         removeCookie("userData");
         // router.push("/")
         window.location.pathname = "/urbanregister"
+        removeCookie("userData");
+
 
     }
 
