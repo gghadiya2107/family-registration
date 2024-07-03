@@ -3,6 +3,7 @@ import Sidebar from './Sidebar'
 import style from "./layout.module.css"
 import { useRouter } from 'next/router'
 import { Box, CircularProgress } from '@mui/material'
+import Loader from '@/utils/Loader'
 
 
 const MainLayout = ({children}) => {
@@ -38,7 +39,7 @@ useEffect(() => {
       
       {/* Main content */}
       <div className={style.mainContent}>
-      {loading ? <Box display={"flex"} justifyContent={"center"} alignItems={"center"} height={"85vh"}><CircularProgress /></Box> : children}
+      {loading ? <Loader /> : children}
 
       {/* {children} */}
       </div>

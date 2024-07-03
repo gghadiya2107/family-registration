@@ -15,6 +15,7 @@ import FormatAadharNumber from '@/utils/formatAadharNumber';
 import BeneficiaryModal from './BeneficiaryModal';
 import StepperView from './stepperView';
 import { useLoading } from '@/utils/LoadingContext';
+import Loader from '@/utils/Loader';
 
 const AddParivarRation = ({ setState, state }) => {
     const { t } = useTranslation("translation");
@@ -72,6 +73,9 @@ const AddParivarRation = ({ setState, state }) => {
             setSelectedFamilyMember(rationCardData?.filter(v => v?.isChecked))
         }
 
+    }
+    if (loading) {
+        return <Loader />;
     }
 
     return (
