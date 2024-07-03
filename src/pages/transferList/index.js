@@ -1,16 +1,10 @@
-import SelectDropdown from '@/components/SelectDropdown'
 import MainLayout from '@/layout/MainLayout'
-import { Box, Grid, Pagination, Stack, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'next-i18next'
 import style from './TransferList.module.css'
-import ViewBtn from '@/components/MoreBtn/ViewBtn'
-import VerifyBtn from '@/components/MoreBtn/VerifyBtn'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMunicipalities } from '@/network/actions/getMunicipalities'
-import { getWard } from '@/network/actions/getWard'
 import { getDistrict } from '@/network/actions/getDistrict'
-import { getFamilyList } from '@/network/actions/getFamilyList'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
 import SubmitButton from '@/components/SubmitBtn'
 import { memberTransferList } from '@/network/actions/memberTransferList'
@@ -36,10 +30,10 @@ const TransferList = () => {
     himparivar_no : ""
     })
     const [open, setOpen] = React.useState(false);
-    const [viewData, setViewData] = useState({})
     const [page, setPage] = useState(1);
     const [tableData, setTableData] = useState([])
     useEffect(() => {
+      if(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no)
         setTableData(memberTransferListData)
     }, [memberTransferListData])
     
@@ -57,6 +51,10 @@ const TransferList = () => {
 
   useEffect(() => {
     dispatch(getDistrict())
+
+    return(() => {
+      setTableData([])
+    })
   }, [])
   useEffect(() => {
     // if (getFamilyListData)

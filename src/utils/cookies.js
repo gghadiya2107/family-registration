@@ -6,7 +6,7 @@ export function setCookiesValues(keyName, data) {
 
 	try {
 		setCookie(null, keyName, JSON.stringify(data), {
-			maxAge: 1800,
+			maxAge: 86400,
 			path: "/",
 		});
 

@@ -651,7 +651,7 @@ requried
     title={t('comment')}
     placeholder="Text area"
     style={{width : "100%"}}
-    requried
+    
     name="description"
     value={remarks}
     onChange={(e) => setRemarks(e.target.value)}

@@ -80,6 +80,7 @@ const menu = [
 const Sidebar = () => {
     const router = useRouter()
     const userData = getCookieValues("userData") || null
+    console.log("userData",userData)
     const currentPath = router.asPath;
     const logout = () => {
 

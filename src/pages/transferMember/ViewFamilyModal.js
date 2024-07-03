@@ -63,10 +63,11 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   const [originalData, setOriginalData] = React.useState({})
   const [newData, setNewData] = React.useState({})
   const [withOrWithoutRation, setWithOrWithoutRation] = React.useState("urban")
+  const [selectRadio, setselectRadio] = React.useState("5")
   const [remarks, setRemarks] = React.useState("")
 
 
-console.log('rationCardData', rationCardData)
+  console.log('rationCardData', rationCardData)
 
 
 
@@ -76,12 +77,12 @@ console.log('rationCardData', rationCardData)
     setNewData(viewData)
   }, [viewData])
   React.useEffect(() => {
-    if(newData?.districtCode){
+    if (newData?.districtCode) {
       dispatch(getMunicipalities({ districtCode: viewData?.districtCode }))
     }
   }, [newData?.districtCode])
   React.useEffect(() => {
-    if(newData?.municipalityId){
+    if (newData?.municipalityId) {
       dispatch(getWard({ municipalId: viewData?.municipalityId }))
     }
   }, [newData?.municipalityId])
@@ -139,7 +140,7 @@ console.log('rationCardData', rationCardData)
     let isHead = rationCardData.some(v => v.isHead)
     if (!isChecked) {
       toast.error("Please select family member")
-    }  else {
+    } else {
       const extra = () => {
         handleClose()
         dispatch(getFamilyList(formData))
@@ -161,16 +162,18 @@ console.log('rationCardData', rationCardData)
         //   "economicId":newData?.economicId
         //   },
         //   consentDocName : newData?.dastavage,
-        remarks : remarks,
+        remarks: remarks,
+        transferTo:selectRadio =="3" ? "marriage" : withOrWithoutRation,
+        transferId : selectRadio,
+        TransferMembers: {
+          "members": rationCardData?.filter(v => v?.isChecked)?.map(k => +k?.familyMemberId),
+          isHead: rationCardData?.find(v => v?.isHead)?.familyMemberId,
+         
+        }
 
-          TransferMembers : {"members":rationCardData?.filter(v => v?.isChecked)?.map(k => +k?.familyMemberId),
-             isHead : rationCardData?.find(v => v?.isHead)?.familyMemberId,
-             transferTo : withOrWithoutRation
-            }
-          
       }
-      console.log("body123",body)
-      
+      console.log("body123", body)
+
       dispatch(TransferMember(body, extra))
       // setSelectedFamilyMember(rationCardData?.filter(v => v?.isChecked)?.familyMemberId)
     }
@@ -199,46 +202,66 @@ console.log('rationCardData', rationCardData)
           {/* <CloseIcon /> */}
         </IconButton>
         <DialogContent dividers>
-        <Grid container spacing={3}>
-        <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title={"District"} value={viewData?.district} />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title={"Municipal"} value={viewData?.municipalName} />
-                        </Grid>
-                      
-                        <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title={"Ward"} value={viewData?.wardName} />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title={"Economic Status"} value={viewData?.economic} />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title={"Mobile Number"} value={viewData?.mobileNumber} />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title={"RationCard Number"} value={viewData?.rationCardNo} />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} >
-                            <KeyValueDetails title={"Category"} value={viewData?.socialCategory} />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3} >
-                        <FormControl>
-                            <FormLabel style={{ color : "black"}}>Transfer To</FormLabel>
-  <RadioGroup
-    aria-labelledby="demo-radio-buttons-group-label"
-    defaultValue={withOrWithoutRation}
-    onChange={(e) => setWithOrWithoutRation(e.target.value)}
-    name="radio-1-group"
-row 
- >
-    <FormControlLabel value="urban" control={<Radio />} label="Urban" />
-    <FormControlLabel value="rural" control={<Radio />} label="Rural" />
-  </RadioGroup>
-</FormControl>                        </Grid>
-                     
-                        
-                    </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={4} md={3} >
+              <KeyValueDetails title={"District"} value={viewData?.district} />
+            </Grid>
+            <Grid item xs={12} sm={4} md={3} >
+              <KeyValueDetails title={"Municipal"} value={viewData?.municipalName} />
+            </Grid>
+
+            <Grid item xs={12} sm={4} md={3} >
+              <KeyValueDetails title={"Ward"} value={viewData?.wardName} />
+            </Grid>
+            {/* <Grid item xs={12} sm={4} md={3} >
+              <KeyValueDetails title={"Economic Status"} value={viewData?.economic} />
+            </Grid> */}
+            <Grid item xs={12} sm={4} md={3} >
+              <KeyValueDetails title={"Mobile Number"} value={viewData?.mobileNumber} />
+            </Grid>
+            <Grid item xs={12} sm={4} md={3} >
+              <KeyValueDetails title={"RationCard Number"} value={viewData?.rationCardNo} />
+            </Grid>
+            <Grid item xs={12} sm={4} md={3} >
+              <KeyValueDetails title={"Category"} value={viewData?.socialCategory} />
+            </Grid>
+            <Grid item xs={12} sm={4} md={3} >
+              <FormControl>
+
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue={selectRadio}
+                  onChange={(e) => setselectRadio(e.target.value)}
+                  name="radio-1-group"
+                  row
+                >
+                  <FormControlLabel value="5" control={<Radio />} label="Transfer" />
+                  <FormControlLabel value="3" control={<Radio />} label="Marriage" />
+                </RadioGroup>
+              </FormControl>
+              {/* <FormLabel style={{ color : "black"}}>Transfer To</FormLabel> */}
+
+            </Grid>
+            {selectRadio == "5" && <Grid item xs={12} sm={4} md={3} >
+              {/* <FormLabel style={{ color: "black" }}>Transfer To</FormLabel> */}
+
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue={withOrWithoutRation}
+                  onChange={(e) => setWithOrWithoutRation(e.target.value)}
+                  name="radio-1-group"
+                  row
+                >
+                  <FormControlLabel value="urban" control={<Radio />} label="Urban" />
+                  <FormControlLabel value="rural" control={<Radio />} label="Rural" />
+                </RadioGroup>
+              </FormControl>
+
+            </Grid>}
+
+
+          </Grid>
           <Grid container spacing={3} mt={2}>
             <Grid item xs={12} sm={12} md={6}>
               <div className={style.tablewrapper} style={{ margin: "0" }}>
@@ -309,17 +332,16 @@ row
               </div>
             </Grid>
             <Box ml={3} mt={3} width={"100%"}>
-           <TextArea
-    title={t('comment')}
-    placeholder="Text area"
-    style={{width : "100%"}}
-    requried
-    name="description"
-    value={remarks}
-    onChange={(e) => setRemarks(e.target.value)}
+              <TextArea
+                title={t('comment')}
+                placeholder="Text area"
+                style={{ width: "100%" }}
+                name="description"
+                value={remarks}
+                onChange={(e) => setRemarks(e.target.value)}
 
-  />
-           </Box>
+              />
+            </Box>
             <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
               <SubmitButton onClick={handleClose} label="Cancel" />
 
