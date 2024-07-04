@@ -32,6 +32,8 @@ import separateMember from "./separateMember";
 import TransferMember from "./TransferMember";
 import memberTransferList from "./memberTransferList";
 import AddTransferMember from "./AddTransferMember";
+import getparivarnakal from "./getparivarnakal";
+import getFamilyUpdationList from "./getFamilyUpdationList";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -64,7 +66,9 @@ const rootReducer = combineReducers({
 	separateMember,
 	TransferMember,
 	memberTransferList,
-	AddTransferMember
+	AddTransferMember,
+	getparivarnakal,
+	getFamilyUpdationList
 });
 
 export default rootReducer;

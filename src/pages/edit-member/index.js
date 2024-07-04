@@ -190,11 +190,12 @@ const EditMember = () => {
   };
 
   const handleSubmit = () => {
+    console.log('userData', userData)
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
     let body = {
       documentFiles: upoadedDocument,
-      memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify(currentValue), "documentId": selectedDocumentType, remarks: remarks }
+      memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify(currentValue), "documentId": selectedDocumentType, remarks: remarks, familyId : userData?.familyId }
     }
     const extra = () => {
       dispatch(getUpdateHistory({familymember_id: userData?.familyMemberId ,editType_id: selectedEditType?.toString()}))
@@ -687,11 +688,11 @@ const EditMember = () => {
                     style={{ width: "80%" }}
                     // value={memberDetailsExtra?.memberName}
                     // onChange={handleChangeMemberDetails}
-                    onKeyDown={(e) => {
-                      if (!isAlphabateKey(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
+                    // onKeyDown={(e) => {
+                    //   if (!isAlphabateKey(e.key)) {
+                    //     e.preventDefault();
+                    //   }
+                    // }}
                   /></td>
                 </tr>
 
