@@ -127,11 +127,13 @@ export const ApiPostFormData = (url, body) => {
 
 export const ApiGetNoAuth = (url, params = {}) => {
   let apiUrl = url + objectToQueryString(params)
+  console.log("apiUrl",apiUrl,params)
   return new Promise((resolve, reject) => {
     axios
       .get(BaseURL + apiUrl, defaultHeaders)
       .then(async (responseJson) => {
         const data = decryptData(responseJson?.data?.data);
+        console.log('data1', data)
         resolve(data);
       })
       .catch((error) => {

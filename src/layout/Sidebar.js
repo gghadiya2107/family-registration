@@ -75,6 +75,11 @@ const menu = [
         url: "/transferList",
         icon: <IoDocumentsOutline size={20} />
     },
+    {
+        title: "Parivar Nakal",
+        url: "/parivarNakal",
+        icon: <IoDocumentsOutline size={20} />
+    },
 ]
 
 const Sidebar = () => {
