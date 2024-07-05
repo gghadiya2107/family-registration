@@ -3,7 +3,7 @@ import { getFamilyUpdationList } from '@/network/actions/getFamilyUpdationList'
 import removeQueryParam from '@/utils/removeQueryParam'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import style from "./edithistory.module.css"
 import formatDate, { formatDateTime } from '@/utils/formatDate'
@@ -17,6 +17,7 @@ import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getMemberStatus } from '@/network/actions/getMemberStatus'
 import FormatAadharNumber from '@/utils/formatAadharNumber'
+import RevertModal from './RevertModal'
 
 const EditingHistory = () => {
     const router = useRouter()
@@ -31,6 +32,15 @@ const EditingHistory = () => {
     const qualificationList = useSelector((state) => state.getQualification?.data)
     const profesionList = useSelector((state) => state.getProfession?.data)
     const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
+    const [open, setOpen] = useState(false)
+    const [revertData, setRevertData] = useState({})
+
+    const openModal = () => {
+      setOpen(true)
+    }
+    const closeModal = () => {
+      setOpen(false)
+    }
 
     console.log('getFamilyUpdationListData', getFamilyUpdationListData)
 
@@ -155,12 +165,13 @@ const EditingHistory = () => {
                   <td className={style.td}>{getOldValue(v)}	</td>
                   <td className={style.td}>{getCurrentValue(v)}</td>
                   <td className={style.td}>{formatDateTime(v?.createdOn)}	</td>
-                  <td className={style.td}><p style={{color : "blue", cursor: "pointer"}} onClick={() => window.open(v?.filePath)}>{documentList?.find(k => k?.id == v?.documentId)?.documentName }</p></td>
-                  <td className={style.td}><SubmitButton label={"Revert"}/></td>
+                  <td className={style.td}><p style={{color : "blue", cursor: "pointer"}} onClick={() => window.open(v?.filePath)}>{v?.documentName }</p></td>
+                  <td className={style.td}><SubmitButton label={"Revert"} onClick={() => {openModal(); setRevertData(v)}}/></td>
                 </tr>) }
               </tbody>
             </table>
           </div>
+          <RevertModal open={open} onCancle={closeModal} revertData={revertData}/>
     </MainLayout>
   )
 }
