@@ -185,7 +185,7 @@ requried
   
     </Box>
     <DeleteConfirmation text="Are you sure you want to delete this member?" onSubmit={handleSubmitDelete} onCancle={handleCloseDelete} open={openDelete}/>
-    <ViewMemberData onSubmit={handleSubmitEdit} onCancle={handleCloseEdit} open={openEdit} data={editUserData}/>
+    <ViewMemberData onSubmit={handleSubmitEdit} onCancle={handleCloseEdit} open={openEdit} data={{...editUserData, ...formData}}/>
       
     </MainLayout>
   )

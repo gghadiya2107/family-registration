@@ -196,7 +196,9 @@ console.log('input', input)
 
 </Box>
 </Box>
-</div><Typography textAlign={"center"} mt={3}><SubmitButton label={"Download Nakal"} style={{marginRight : "10px"}} onClick={downloadNakal}/><SubmitButton label={"Check Editing History"} onClick={() => router.push(`/parivarNakal/editing-history?familyId=${getparivarnakalList?.familyId}`)}/></Typography></> :  <Typography textAlign={"center"} mt={5}>No Data Found!</Typography>}
+</div><Typography textAlign={"center"} mt={3}><SubmitButton label={"Download Nakal"} style={{marginRight : "10px"}} onClick={downloadNakal}/>
+{/* <SubmitButton label={"Check Editing History"} onClick={() => router.push(`/parivarNakal/editing-history?familyId=${getparivarnakalList?.familyId}`)}/> */}
+  </Typography></> :  <Typography textAlign={"center"} mt={5}>No Data Found!</Typography>}
     </MainLayout>
   )
 }

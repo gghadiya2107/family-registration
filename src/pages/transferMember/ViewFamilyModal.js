@@ -147,21 +147,6 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
 
       }
       let body = {
-        // AddFamily : {
-        //   "districtCode":newData?.districtCode,
-        //   "houseAddress":newData?.houseAddress,
-        //   "rationCardNo":newData?.rationCardNo,
-        //   "socialSubCategory":newData?.socialSubCategory,
-        //   "wardId":newData?.wardId,
-        //   "socialCategoryId":newData?.socialCategoryId,
-        //   "municipalityId":newData?.municipalityId,
-        //   "bplNumber":newData?.bplNumber,
-        //   "mobileNumber":newData?.mobileNumber,
-        //   "active":"true",
-        //   "verifiedBy":"1",
-        //   "economicId":newData?.economicId
-        //   },
-        //   consentDocName : newData?.dastavage,
         remarks: remarks,
         transferTo:selectRadio =="3" ? "marriage" : withOrWithoutRation,
         transferId : selectRadio,

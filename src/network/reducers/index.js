@@ -34,6 +34,9 @@ import memberTransferList from "./memberTransferList";
 import AddTransferMember from "./AddTransferMember";
 import getparivarnakal from "./getparivarnakal";
 import getFamilyUpdationList from "./getFamilyUpdationList";
+import getBlock from "./getBlock";
+import getPanchayat from "./getPanchayat";
+import getTransferType from "./getTransferType";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -68,7 +71,10 @@ const rootReducer = combineReducers({
 	memberTransferList,
 	AddTransferMember,
 	getparivarnakal,
-	getFamilyUpdationList
+	getFamilyUpdationList,
+	getBlock,
+	getPanchayat,
+	getTransferType
 });
 
 export default rootReducer;
