@@ -28,6 +28,13 @@ import { getfamilymember } from '@/network/actions/getfamilymember';
 import { getUpdateHistory } from '@/network/actions/getUpdateHistory';
 import { BaseURL } from '@/network/apiData';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
+import { getDistrict } from '@/network/actions/getDistrict';
+import { getMunicipalities } from '@/network/actions/getMunicipalities';
+import { getWard } from '@/network/actions/getWard';
+import { getBlock } from '@/network/actions/getBlock';
+import { getPanchayat } from '@/network/actions/getPanchayat';
+import { getTransferType } from '@/network/actions/getTransferType';
+import { TransferMember } from '@/network/actions/TransferMember';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -35,6 +42,7 @@ const EditMember = () => {
   const dispatch = useDispatch()
   const getEditTypeList = useSelector((state) => state.getEditType?.data)
   const documentList = useSelector((state) => state.getDocumentList?.data)
+  const getDistrictList = useSelector((state) => state.getDistrict?.data)
   const relationlist = useSelector((state) => state.getRelation?.data)
   const categorylist = useSelector((state) => state.getCategory?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
@@ -44,6 +52,12 @@ const EditMember = () => {
   const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
   const getUpdateHistoryList = useSelector((state) => state.getUpdateHistory?.data)
+  const municipalList = useSelector((state) => state.getMunicipalities?.data)
+  const wardList = useSelector((state) => state.getWard?.data)
+  const getBlockList = useSelector((state) => state.getBlock?.data)
+  const getPanchayatList = useSelector((state) => state.getPanchayat?.data)
+  const getTransferTypeList = useSelector((state) => state.getTransferType?.data)
+  console.log('getBlockList', getBlockList,getPanchayatList,getTransferTypeList)
 
 
   console.log('getUpdateHistoryList', getUpdateHistoryList)
@@ -56,6 +70,7 @@ const EditMember = () => {
   const [oldValue, setOldValue] = useState({})
   const [errors, setErrors] = useState({});
 
+
   const [currentValue, setCurrentValue] = useState({})
 
 
@@ -67,7 +82,7 @@ const EditMember = () => {
     setSelectedDocumentType(null)
     setUpoadedDocument(null)
     setRemarks(null)
-    dispatch(getUpdateHistory({familymember_id: userData?.familyMemberId ,editType_id: selectedEditType?.toString()}))
+    dispatch(getUpdateHistory({ familymember_id: userData?.familyMemberId, editType_id: selectedEditType?.toString() }))
   }, [selectedEditType])
 
   useEffect(() => {
@@ -88,6 +103,8 @@ const EditMember = () => {
     dispatch(getQualification())
     dispatch(getProfession())
     dispatch(getMemberStatus())
+    dispatch(getDistrict())
+    dispatch(getTransferType())
 
 
 
@@ -107,7 +124,7 @@ const EditMember = () => {
     dispatch(getfamilymember(userData?.familyId))
   }, [userData]);
 
-
+console.log('userData', userData)
   useEffect(() => {
     if (userData && selectedEditType) {
       // dispatch(updateMemberHistory())
@@ -122,10 +139,10 @@ const EditMember = () => {
           HindiRelation: translatedText
         })
         setCurrentValue({
-          EnglishRelation: userData?.relationId, 
+          EnglishRelation: userData?.relationId,
           // EnglishRelativeName: userData?.relativeName,
           // HindiRelativeName : changeLang(userData?.relativeName,"HindiRelativeName"),
-          HindiRelation: changeLang(relationlist?.find(k => k?.id == userData?.relationId)?.nameE,"HindiRelation")
+          HindiRelation: changeLang(relationlist?.find(k => k?.id == userData?.relationId)?.nameE, "HindiRelation")
         })
 
       }
@@ -154,8 +171,9 @@ const EditMember = () => {
 
       }
       if (selectedEditType == 8) {
-        setOldValue({ memberStatus: userData?.memberStatusId })
-        setCurrentValue({ memberStatus: userData?.memberStatusId })
+        setOldValue({ memberStatus: userData?.memberStatusId, district : userData?.district, municipal : userData?.municipalName, ward : userData?.wardName })
+        // setCurrentValue({ memberStatus: "5" })
+        console.log('1234', { memberStatus: userData?.memberStatusId, district : userData?.district, municipal : userData?.municipalName, ward : userData?.wardName })
 
 
       }
@@ -169,17 +187,41 @@ const EditMember = () => {
   }, [userData, selectedEditType])
 
   console.log("oldValue", oldValue)
+  function getSelectedText(id) {
+    // Get the select element
+    var selectElement = document.getElementById(id);
+    
+    // Get the selected option
+    var selectedOption = selectElement.options[selectElement.selectedIndex];
+    
+    // Get the text content of the selected option
+    var selectedText = selectedOption.textContent;
+    
+    // Display the selected text (for demonstration purposes)
+    // alert("Selected text: " + selectedText);
+    return selectedText
+  }
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCurrentValue({ ...currentValue, [name]: name == "aadhaarNo" ? value?.replaceAll(" ", "") : value })
+    console.log(e)
+    if(name == "district" || name == "municipal" || name == "ward" || name == "block" || name == "panchayat"){
+
+      setCurrentValue({ ...currentValue, [name]:  value , [name+"Name"] : getSelectedText(name)})
+    }else{
+
+      setCurrentValue({ ...currentValue, [name]: name == "aadhaarNo" ? value?.replaceAll(" ", "") : value })
+    }
   }
+
+  console.log('currentValue', currentValue)
   const validateForm = () => {
     const errors = {};
-    if (!selectedDocumentType ) {
+    if (!selectedDocumentType) {
       errors.selectedDocumentType = t('validateDocType');
     }
-    if (!upoadedDocument ) {
+    if (!upoadedDocument) {
       errors.upoadedDocument = t('validateUploadedDoc');
     }
     // if (Object.keys(currentValue)?.length == 0 ) {
@@ -189,29 +231,42 @@ const EditMember = () => {
     return errors;
   };
 
-  const handleSubmit = () => {
-    console.log('userData', userData)
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length === 0) {
-    let body = {
-      documentFiles: upoadedDocument,
-      memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify(currentValue), "documentId": selectedDocumentType, remarks: remarks, familyId : userData?.familyId }
+  function processObject(obj) {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (obj[key].includes("_")) {
+                obj[key] = obj[key].split("_")[0];
+            }
+        }
     }
-    const extra = () => {
-      dispatch(getUpdateHistory({familymember_id: userData?.familyMemberId ,editType_id: selectedEditType?.toString()}))
-      setSelectedDocumentType("")
-      setUpoadedDocument(null)
-      setRemarks(null)
-      setOldValue(null)
-      setCurrentValue("")
+}
 
-    }
-    console.log("body", body)
-    dispatch(editMember(body, extra))
-  }else{
-    console.log('validationErrors', validationErrors)
-      setErrors(validationErrors);
-  }
+  const handleSubmit = () => {
+    console.log('userData1', processObject(currentValue),currentValue)
+    // processObject(currentValue)
+    console.log('1234', oldValue)
+      const validationErrors = validateForm();
+      if (Object.keys(validationErrors).length === 0) {
+        let body = {
+          documentFiles: upoadedDocument,
+          memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify({...currentValue, memberStatus  : currentValue?.transferType == "1" ?"3" : "5"}), "documentId": selectedDocumentType, remarks: remarks, familyId: userData?.familyId }
+        }
+        const extra = () => {
+          dispatch(getUpdateHistory({ familymember_id: userData?.familyMemberId, editType_id: selectedEditType?.toString() }))
+          setSelectedDocumentType("")
+          setUpoadedDocument(null)
+          setRemarks(null)
+          setOldValue(null)
+          setCurrentValue("")
+  
+        }
+        console.log("body", body)
+        dispatch(editMember(body, extra))
+      } else {
+        console.log('validationErrors', validationErrors)
+        setErrors(validationErrors);
+      }
+    
   }
 
   const changeLang = async (name, key = "") => {
@@ -228,85 +283,97 @@ const EditMember = () => {
     }
   }
 
-  const getOldValue=(data) => {
+  const getOldValue = (data) => {
     console.log('oldValue111', data)
     let value = JSON.parse(data)
-    if(selectedEditType == 1){
+    if (selectedEditType == 1) {
       return value?.englishName || "-"
     }
-    if(selectedEditType == 2){
-      return  relationlist?.find(v => v?.id == value?.EnglishRelation)?.nameE + (value?.EnglishRelativeName == "other" ? value?.EnglishRelativeNameOther : value?.EnglishRelativeName ) || "-"
+    if (selectedEditType == 2) {
+      return relationlist?.find(v => v?.id == value?.EnglishRelation)?.nameE + (value?.EnglishRelativeName == "other" ? value?.EnglishRelativeNameOther : value?.EnglishRelativeName) || "-"
     }
-    if(selectedEditType == 3){
+    if (selectedEditType == 3) {
       return formatDate(value?.birthDate) || "-"
     }
-    if(selectedEditType == 4){
+    if (selectedEditType == 4) {
       return <div>
         <p>Category: {categorylist?.find(v => v?.id == value?.category)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Subcategory: {value?.subCategory|| "-"}</p>
+        <p style={{ marginTop: "5px" }}>Subcategory: {value?.subCategory || "-"}</p>
       </div>
     }
-    if(selectedEditType == 5){
+    if (selectedEditType == 5) {
       return FormatAadharNumber(value?.aadhaarNo) || "-"
     }
-    if(selectedEditType == 6){
+    if (selectedEditType == 6) {
       return religionList?.find(v => v?.id == value?.religion)?.nameE || "-"
     }
-    if(selectedEditType == 7){
-      return  "-"
+    if (selectedEditType == 7) {
+      return "-"
     }
-    if(selectedEditType == 8){
-      return memberStatusList?.find(v => v?.id == value?.memberStatus)?.nameE || "-"
-    }
-    if(selectedEditType == 9){
+    if (selectedEditType == 8) {
+      return <div>
+      <p>District: {value?.district}</p>
+      {value?.municipal &&<p style={{ marginTop: "5px" }}>Municipal: {value?.municipal}</p>}
+      {value?.ward && <p style={{ marginTop: "5px" }}>Ward: {value?.ward}</p>}
+      {value?.block &&<p style={{ marginTop: "5px" }}>Block: {value?.block}</p>}
+      {value?.panchayat &&<p style={{ marginTop: "5px" }}>Panchayat: {value?.panchayat}</p>}
+    </div>    }
+    if (selectedEditType == 9) {
       return <div>
         <p>Gender: {genderlist?.find(v => v?.id == value?.gender)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Education: {qualificationList?.find(v => v?.id == value?.qualification)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Means of Leaving: {profesionList?.find(v => v?.id == value?.profession)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Ration Card Number: {value?.rationCardNo || "-"}</p>
+        <p style={{ marginTop: "5px" }}>Education: {qualificationList?.find(v => v?.id == value?.qualification)?.nameE || "-"}</p>
+        <p style={{ marginTop: "5px" }}>Means of Leaving: {profesionList?.find(v => v?.id == value?.profession)?.nameE || "-"}</p>
+        <p style={{ marginTop: "5px" }}>Ration Card Number: {value?.rationCardNo || "-"}</p>
       </div>
     }
   }
-  const getCurrentValue=(data) => {
+  const getCurrentValue = (data) => {
     let value = JSON.parse(data)
-    if(selectedEditType == 1){
+    console.log('value', value)
+    if (selectedEditType == 1) {
       return value?.englishName || "-"
     }
-    if(selectedEditType == 2){
-      return  relationlist?.find(v => v?.id == value?.EnglishRelation)?.nameE +(value?.EnglishRelativeName == "other" ? value?.EnglishRelativeNameOther : value?.EnglishRelativeName ) || "-"
+    if (selectedEditType == 2) {
+      return relationlist?.find(v => v?.id == value?.EnglishRelation)?.nameE + (value?.EnglishRelativeName == "other" ? value?.EnglishRelativeNameOther : value?.EnglishRelativeName) || "-"
     }
-    if(selectedEditType == 3){
+    if (selectedEditType == 3) {
       return formatDate(value?.birthDate) || "-"
     }
-    if(selectedEditType == 4){
+    if (selectedEditType == 4) {
       return <div>
         <p>Category: {categorylist?.find(v => v?.id == value?.category)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Subcategory: {value?.subCategory|| "-"}</p>
+        <p style={{ marginTop: "5px" }}>Subcategory: {value?.subCategory || "-"}</p>
       </div>
     }
-    if(selectedEditType == 5){
+    if (selectedEditType == 5) {
       return FormatAadharNumber(value?.aadhaarNo) || "-"
     }
-    if(selectedEditType == 6){
+    if (selectedEditType == 6) {
       return religionList?.find(v => v?.id == value?.religion)?.nameE || "-"
     }
-    if(selectedEditType == 7){
+    if (selectedEditType == 7) {
       return formatDate(value?.deadDate) || "-"
     }
-    if(selectedEditType == 8){
-      return memberStatusList?.find(v => v?.id == value?.memberStatus)?.nameE || "-"
+    if (selectedEditType == 8) {
+      return <div>
+      <p>District: {value?.districtName}</p>
+      {value?.municipal &&<p style={{ marginTop: "5px" }}>Municipal: {value?.municipalName}</p>}
+      {value?.ward && <p style={{ marginTop: "5px" }}>Ward: {value?.wardName}</p>}
+      {value?.block &&<p style={{ marginTop: "5px" }}>Block: {value?.blockName}</p>}
+      {value?.panchayat &&<p style={{ marginTop: "5px" }}>Panchayat: {value?.panchayatName}</p>}
+    </div>
     }
-    if(selectedEditType == 9){
+    if (selectedEditType == 9) {
       return <div>
         <p>Gender: {genderlist?.find(v => v?.id == value?.gender)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Education: {qualificationList?.find(v => v?.id == value?.qualification)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Means of Leaving: {profesionList?.find(v => v?.id == value?.profession)?.nameE || "-"}</p>
-        <p style={{marginTop: "5px"}}>Ration Card Number: {value?.rationCardNo || "-"}</p>
+        <p style={{ marginTop: "5px" }}>Education: {qualificationList?.find(v => v?.id == value?.qualification)?.nameE || "-"}</p>
+        <p style={{ marginTop: "5px" }}>Means of Leaving: {profesionList?.find(v => v?.id == value?.profession)?.nameE || "-"}</p>
+        <p style={{ marginTop: "5px" }}>Ration Card Number: {value?.rationCardNo || "-"}</p>
       </div>
     }
   }
 
-  console.log("translatedText",translatedText)
+  console.log("translatedText", translatedText)
 
   return (
     <MainLayout>
@@ -314,7 +381,7 @@ const EditMember = () => {
         <Grid container spacing={3} >
           <Grid item xs={12} sm={4} md={4}>
             <SelectDropdown
-              title={`${t('typeEdit')} (${userData?.memberName}${userData?.himMemberId ? "- "+userData?.himMemberId  : ""})`}
+              title={`${t('typeEdit')} (${userData?.memberName}${userData?.himMemberId ? "- " + userData?.himMemberId : ""})`}
               name="district"
               options={getEditTypeList?.map(v => ({ value: v?.id, label: v?.editType })) || []}
               value={selectedEditType}
@@ -330,32 +397,32 @@ const EditMember = () => {
           </Grid> */}
         </Grid>
         {selectedEditType && <><Divider style={{ margin: "30px 0" }} />
-          {getUpdateHistoryList?.length > 0 &&<><div className={style.heading} style={{ marginBottom: "5px" }}>Editing History</div>
-          <div className={style.tablewrapper} >
-            <table className={style.table}>
-              <thead className={style.thead}>
-                <tr className={style.tr}>
-                  <th className={style.th}>Change In	</th>
-                  <th className={style.th}>Details Before Editing	</th>
-                  <th className={style.th}>Details After Editing</th>
-                  <th className={style.th}>Date & Time	</th>
-                  <th className={style.th}>IP</th>
-                  <th className={style.th}>Supporting Documents</th>
-                </tr>
-              </thead>
-              <tbody>
-              {getUpdateHistoryList?.map(v =>  <tr className={style.tr}>
-                  <td className={style.td}>{getEditTypeList?.find(k => k?.id == v?.editTypeId)?.editType }	</td>
-                  <td className={style.td}>{getOldValue(v?.oldValue)}	</td>
-                  <td className={style.td}>{getCurrentValue(v?.currentValue)}</td>
-                  <td className={style.td}>{formatDateTime(v?.createdOn)}	</td>
-                  <td className={style.td}>{v?.clientIp}</td>
-                  <td className={style.td}><p style={{color : "blue", cursor: "pointer"}} onClick={() => window.open(v?.filePath)}>{documentList?.find(k => k?.id == v?.documentId)?.documentName }</p></td>
-                  {/* <td className={style.td}>{BaseURL+v?.filePath}</td> */}
-                </tr>) }
-              </tbody>
-            </table>
-          </div></>}
+          {getUpdateHistoryList?.length > 0 && <><div className={style.heading} style={{ marginBottom: "5px" }}>Editing History</div>
+            <div className={style.tablewrapper} >
+              <table className={style.table}>
+                <thead className={style.thead}>
+                  <tr className={style.tr}>
+                    <th className={style.th}>Change In	</th>
+                    <th className={style.th}>Details Before Editing	</th>
+                    <th className={style.th}>Details After Editing</th>
+                    <th className={style.th}>Date & Time	</th>
+                    <th className={style.th}>IP</th>
+                    <th className={style.th}>Supporting Documents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getUpdateHistoryList?.map(v => <tr className={style.tr}>
+                    <td className={style.td}>{getEditTypeList?.find(k => k?.id == v?.editTypeId)?.editType}	</td>
+                    <td className={style.td}>{getOldValue(v?.oldValue)}	</td>
+                    <td className={style.td}>{getCurrentValue(v?.currentValue)}</td>
+                    <td className={style.td}>{formatDateTime(v?.createdOn)}	</td>
+                    <td className={style.td}>{v?.clientIp}</td>
+                    <td className={style.td}><p style={{ color: "blue", cursor: "pointer" }} onClick={() => window.open(v?.filePath)}>{documentList?.find(k => k?.id == v?.documentId)?.documentName}</p></td>
+                    {/* <td className={style.td}>{BaseURL+v?.filePath}</td> */}
+                  </tr>)}
+                </tbody>
+              </table>
+            </div></>}
 
           <div className={style.heading} style={{ marginBottom: "5px", marginTop: "30px" }}>Changes</div>
 
@@ -618,15 +685,103 @@ const EditMember = () => {
                 <tr className={style.tr}>
                   <td className={style.td}>Status</td>
                   <td className={style.td}>{userData?.memberStatus || ""}	</td>
-                  <td className={style.td}><SelectDropdown
-                    // title={t('district')}
-                    name="memberStatus"
-                    value={currentValue?.memberStatus || ""}
-                    onChange={handleChange}
-                    style={{ width: "80%" }}
-                    options={memberStatusList?.map(v => ({ value: v?.id, label: v?.nameE }))}
+                  <td className={style.td}>
+                    <Grid container spacing={3}>
+                      <Grid item sm={4}> <SelectDropdown
+                        title={"Transfer Type"}
+                        name="transferType"
+                        value={currentValue?.transferType || ""}
+                        onChange={handleChange}
+                        style={{ width: "80%" }}
+                        options={getTransferTypeList?.map(v => ({ value: v?.id, label: v?.transferType }))}
 
-                  /></td>
+                      /></Grid>
+                      <Grid item sm={4}>  <SelectDropdown
+                        title={"Transfer To"}
+                        name="transferTo"
+                        value={currentValue?.transferTo || ""}
+                        onChange={handleChange}
+                        style={{ width: "80%" }}
+                        options={[{ value: "", label: "Select..." },
+                        { value: "urban", label: "Urban" },
+                        { value: "rural", label: "Rural" },
+                        { value: "other", label: "Other State" }
+                        ]}
+
+                      /></Grid>
+                      <Grid item sm={4}>
+                        <DatePicker
+                          title={"Transfer Date"}
+                          // style={{width : "80%"}}
+                          type="date"
+                          // requried
+
+                          name="date"
+                          value={currentValue?.date || ""}
+                          onChange={handleChange}
+                        />
+
+                      </Grid>
+                   {(currentValue?.transferTo == "urban" || currentValue?.transferTo == "rural" )&&   <Grid item sm={4}>  <SelectDropdown
+                        title={t('district')}
+                        name="district"
+                        id="district"
+                        value={currentValue?.district || ""}
+                        onChange={(e) => {handleChange(e); currentValue?.transferTo == "urban" ? dispatch(getMunicipalities({districtCode: e.target.value})) : 
+                        dispatch(getBlock({districtCode: e.target.value}))
+                      }}
+
+                        style={{ width: "80%" }}
+                        options={getDistrictList?.map(v => ({value : v?.lgdCode, label : v?.nameE}))}
+
+                      /></Grid>}
+                     { currentValue?.transferTo == "rural" ?
+                      <><Grid item sm={4}>  <SelectDropdown
+                        title={"Block"}
+                        name="block"
+                        id="block"
+                        value={currentValue?.block || ""}
+                        // onChange={handleChange}
+                        onChange={(e) => {handleChange(e); dispatch(getPanchayat({municipalId: e.target.value}))}}
+
+                        style={{ width: "80%" }}
+                        options={getBlockList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
+
+                      /></Grid>
+                      <Grid item sm={4}>  <SelectDropdown
+                        title={"Panchayat"}
+                        name="panchayat"
+                        id="panchayat"
+                        value={currentValue?.panchayat || ""}
+                        onChange={handleChange}
+                        style={{ width: "80%" }}
+                        options={getPanchayatList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
+
+                      /></Grid></> : currentValue?.transferTo == "urban" ?
+                      <><Grid item sm={4}>  <SelectDropdown
+                        title={"Municipality"}
+                        name="municipal"
+                        id="municipal"
+                        value={currentValue?.municipal || ""}
+                        onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
+
+                        style={{ width: "80%" }}
+                        options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
+
+                      /></Grid>
+                      <Grid item sm={4}>  <SelectDropdown
+                        title={"Ward"}
+                        name="ward"
+                        id="ward"
+                        value={currentValue?.ward || ""}
+                        onChange={handleChange}
+                        style={{ width: "80%" }}
+                        options={wardList?.map(v => ({value : v?.id, label : v?.name}))}
+
+                      /></Grid> </> : ""}
+                    </Grid>
+
+                  </td>
                 </tr>
               </tbody>}
               {selectedEditType == 9 && <tbody>
@@ -686,13 +841,13 @@ const EditMember = () => {
                     value={currentValue?.rationCardNo || ""}
                     onChange={handleChange}
                     style={{ width: "80%" }}
-                    // value={memberDetailsExtra?.memberName}
-                    // onChange={handleChangeMemberDetails}
-                    // onKeyDown={(e) => {
-                    //   if (!isAlphabateKey(e.key)) {
-                    //     e.preventDefault();
-                    //   }
-                    // }}
+                  // value={memberDetailsExtra?.memberName}
+                  // onChange={handleChangeMemberDetails}
+                  // onKeyDown={(e) => {
+                  //   if (!isAlphabateKey(e.key)) {
+                  //     e.preventDefault();
+                  //   }
+                  // }}
                   /></td>
                 </tr>
 
@@ -726,7 +881,7 @@ const EditMember = () => {
                 value={selectedDocumentType || ""}
                 onChange={(e) => setSelectedDocumentType(+e.target.value)}
               />
-                      {errors?.selectedDocumentType && <p className="error">{errors?.selectedDocumentType}</p>}
+              {errors?.selectedDocumentType && <p className="error">{errors?.selectedDocumentType}</p>}
 
             </Grid>
             {selectedDocumentType && <Grid item xs={4}>
@@ -736,7 +891,7 @@ const EditMember = () => {
                 accept="image/*,.pdf"
 
               />
-                                    {errors?.upoadedDocument && <p className="error">{errors?.upoadedDocument}</p>}
+              {errors?.upoadedDocument && <p className="error">{errors?.upoadedDocument}</p>}
 
             </Grid>}
           </Grid>
