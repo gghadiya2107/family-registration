@@ -260,8 +260,8 @@ console.log('userData', userData)
           setSelectedDocumentType("")
           setUpoadedDocument(null)
           setRemarks(null)
-          setOldValue(null)
-          setCurrentValue("")
+          // setOldValue(null)
+          // setCurrentValue("")
   
         }
         console.log("body", body)
@@ -378,9 +378,7 @@ console.log('userData', userData)
   }
 
   console.log("translatedText", translatedText)
-  if (loading) {
-    return <Loader />;
-}
+
 
   return (
     <MainLayout>

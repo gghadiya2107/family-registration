@@ -115,11 +115,12 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                         <p className={style.expandMargin}><b>District:</b> {viewData?.district}</p>
                         <p className={style.expandMargin}><b>Ration Card No.:</b> {viewData?.rationCardNo}</p>
                         <p className={style.expandMargin}><b>House No.:</b> {viewData?.houseAddress}</p>
+                        <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={viewData?.consentDocName} target='_' style={{color : "blue"}}>View Document</a></p>
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Municipal:</b> {viewData?.municipalName}</p>
                         <p className={style.expandMargin}><b>Economic Status:</b> {viewData?.economic}</p>
-                        <p className={style.expandMargin}><b>totalMembers:</b> {viewData?.totalMembers}</p>
+                        <p className={style.expandMargin}><b>Total Members:</b> {viewData?.totalMembers}</p>
 
                       </Grid>
                       <Grid item xs={4}>
@@ -180,6 +181,8 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Ration card number:</b> {headData?.rationCardNo}</p>
                         <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(headData?.aadhaarNo)}</p>
+                        <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={headData?.filePath} target='_' style={{color : "blue"}}>View Document</a></p>
+
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
                       </Grid>
@@ -240,6 +243,8 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
                             <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
+                            <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={v?.filePath} target='_' style={{color : "blue"}}>View Document</a></p>
+
 
                           </Grid>
                         </Grid>

@@ -84,9 +84,7 @@ console.log('input', input)
 
   }
 
-  if (loading) {
-    return <Loader />;
-}
+
   return (
     <MainLayout>
               <Grid container spacing={3} >

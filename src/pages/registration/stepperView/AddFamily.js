@@ -166,9 +166,7 @@ console.log('districtList', districtList)
     return errors;
   };
 
-  if (loading) {
-    return <Loader />;
-}
+ 
 
   return (
     <div >

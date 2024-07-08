@@ -252,7 +252,7 @@ dastavage : formData?.dastavage || "",
 dastavage2 : formData?.dastavage2 || "",
 
       }
-      dispatch(addfamilymember(body,extra, startLoading, stopLoadings))
+      dispatch(addfamilymember(body,extra, startLoading, stopLoading))
     
     } else {
       setErrors(validationErrors);
@@ -332,9 +332,7 @@ dastavage2 : formData?.dastavage2 || "",
       }
     }
   }
-  if (loading) {
-    return <Loader />;
-}
+  
 
   return (
     <BootstrapDialog

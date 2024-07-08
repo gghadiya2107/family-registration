@@ -74,9 +74,7 @@ const AddParivarRation = ({ setState, state }) => {
         }
 
     }
-    if (loading) {
-        return <Loader />;
-    }
+ 
 
     return (
         <div style={{ marginTop:(state == "1" || state == "2") ? "0px" : "20px" }}>

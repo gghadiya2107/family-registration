@@ -61,9 +61,7 @@ const handleRevert = () => {
         toast.error("Please upload document.")
       }
     }
-    if (loading) {
-      return <Loader />;
-  }
+  
   return (
     <React.Fragment>
     

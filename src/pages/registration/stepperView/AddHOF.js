@@ -262,11 +262,7 @@ console.log('formData', formData)
     return errors;
   };
 
-  console.log('relationlist', relationlist)
 
-  if (loading) {
-    return <Loader />;
-}
 
   return (
     <>

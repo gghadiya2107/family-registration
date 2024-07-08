@@ -333,9 +333,7 @@ const [oldMemberList, setOldMemberList] = useState([])
     setOpenModal(false);
   };
 
-  if (loading) {
-    return <Loader />;
-}
+ 
   return (
     <>
     <Divider style={{marginTop : 20}}/>

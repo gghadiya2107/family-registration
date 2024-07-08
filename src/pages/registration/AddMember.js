@@ -26,6 +26,7 @@ const AddMember = () => {
   console.log('getFamilyByIdData', getFamilyByIdData)
 
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  console.log('getFamilyListData', getFamilyListData)
   const [openModal, setOpenModal] = React.useState(false);
 
   const [selectedFamilyHead, setSelectedFamilyHead] = useState(null)
@@ -108,7 +109,7 @@ const AddMember = () => {
             <SelectDropdown
               title={t('selectHOF')}
               name="hof"
-              options={getFamilyListData?.content?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))}
+              options={[{value: "", label: "Select..."},...getFamilyListData?.content?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))]}
               value={selectedFamilyHead}
               disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
 requried

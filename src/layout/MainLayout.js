@@ -5,11 +5,14 @@ import { useRouter } from 'next/router'
 import { Box, CircularProgress } from '@mui/material'
 import Loader from '@/utils/Loader'
 import { IoMenu } from "react-icons/io5";
+import { useLoading } from '@/utils/LoadingContext'
 
 const MainLayout = ({ children }) => {
   const router = useRouter()
+  const { loading } = useLoading();
+
   const [test, settest] = useState(false)
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -71,8 +74,8 @@ const MainLayout = ({ children }) => {
 
             </div>
           </header>}
-
-          {loading ? <Loader /> : children}
+{loading && <Loader />}
+          {loading1 ? <Loader /> : children}
 
           {/* {children} */}
         </div>
