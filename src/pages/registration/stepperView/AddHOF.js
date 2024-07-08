@@ -24,9 +24,13 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '../registration.module.css'
+import { useLoading } from '@/utils/LoadingContext';
+import Loader from '@/utils/Loader';
 
 const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const router = useRouter()
   const dispatch = useDispatch()
   const districtList = useSelector((state) => state.getDistrict?.data)
@@ -192,7 +196,7 @@ console.log('formData', formData)
         setActiveStepper(2)
         dispatch(getfamilymember(addFamilyData?.id))
       }
-      dispatch(addfamilymember(body, extra))
+      dispatch(addfamilymember(body, extra, startLoading, stopLoading))
       // setSaveHof(true)
     } else {
       setErrors(validationErrors);
@@ -259,6 +263,10 @@ console.log('formData', formData)
   };
 
   console.log('relationlist', relationlist)
+
+  if (loading) {
+    return <Loader />;
+}
 
   return (
     <>

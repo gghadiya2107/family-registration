@@ -27,6 +27,8 @@ import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
 import { addfamilymember } from '@/network/actions/addfamilymember'
 import { getfamilymember } from '@/network/actions/getfamilymember'
 import { getRelation } from '@/network/actions/getRelation'
+import { useLoading } from '@/utils/LoadingContext'
+import Loader from '@/utils/Loader'
 
 function generateUserId() {
   const timestamp = Date.now(); // Current timestamp in milliseconds
@@ -46,6 +48,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamilyByIdData, memberFillDetails={}}) => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const dispatch = useDispatch()
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
   const relationlist = useSelector((state) => state.getRelation?.data)
@@ -248,7 +252,7 @@ dastavage : formData?.dastavage || "",
 dastavage2 : formData?.dastavage2 || "",
 
       }
-      dispatch(addfamilymember(body,extra))
+      dispatch(addfamilymember(body,extra, startLoading, stopLoadings))
     
     } else {
       setErrors(validationErrors);
@@ -328,6 +332,9 @@ dastavage2 : formData?.dastavage2 || "",
       }
     }
   }
+  if (loading) {
+    return <Loader />;
+}
 
   return (
     <BootstrapDialog

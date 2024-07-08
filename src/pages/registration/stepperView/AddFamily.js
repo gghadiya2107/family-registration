@@ -18,9 +18,13 @@ import { getMunicipalities } from '@/network/actions/getMunicipalities';
 import { getWard } from '@/network/actions/getWard';
 import Image from 'next/image';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
+import { useLoading } from '@/utils/LoadingContext';
+import Loader from '@/utils/Loader';
 
 const AddFamily = ({setActiveStepper,selectedFamilyMember}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
+    const { loading, startLoading, stopLoading } = useLoading();
+
     const { t } = useTranslation("translation");
     const dispatch = useDispatch()
     const [formData, setFormData] = useState({})
@@ -104,7 +108,7 @@ console.log('districtList', districtList)
         setActiveStepper(1)
     }
       
-      dispatch(addFamily(body,extra))
+      dispatch(addFamily(body,extra, startLoading, stopLoading))
 
      
     } else {
@@ -161,6 +165,10 @@ console.log('districtList', districtList)
 
     return errors;
   };
+
+  if (loading) {
+    return <Loader />;
+}
 
   return (
     <div >

@@ -65,15 +65,15 @@ const menu = [
         url: "/separateFamily",
         icon: <MdOutlineFamilyRestroom size={20} />
     },
-    {
-        title: "Transfer Member",
-        url: "/transferMember",
-        icon: <MdOutlineTransferWithinAStation size={20} />
-    },
+    // {
+    //     title: "Transfer Member",
+    //     url: "/transferMember",
+    //     icon: <MdOutlineTransferWithinAStation size={20} />
+    // },
     {
         title: "Transfer List",
         url: "/transferList",
-        icon: <IoDocumentsOutline size={20} />
+        icon: <MdOutlineTransferWithinAStation size={20} />
     },
     {
         title: "Parivar Nakal",

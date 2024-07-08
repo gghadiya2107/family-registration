@@ -20,6 +20,8 @@ import { editMember } from '@/network/actions/editMember';
 import { getFamilyUpdationList } from '@/network/actions/getFamilyUpdationList';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
+import Loader from '@/utils/Loader';
+import { useLoading } from '@/utils/LoadingContext';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -32,6 +34,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function RevertModal({open, onCancle,revertData}) {
     const { t } = useTranslation("translation");
+    const { loading, startLoading, stopLoading } = useLoading();
+
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -52,11 +56,14 @@ const handleRevert = () => {
       }
       if(upoadedDocument){
 
-          dispatch(editMember(body, extra))
+          dispatch(editMember(body, extra,startLoading, stopLoading))
       }else{
         toast.error("Please upload document.")
       }
     }
+    if (loading) {
+      return <Loader />;
+  }
   return (
     <React.Fragment>
     

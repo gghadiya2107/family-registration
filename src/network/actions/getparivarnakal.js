@@ -25,9 +25,9 @@ export const getparivarnakalFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getparivarnakal = (body) => {
+export const getparivarnakal = (body,startLoading, stopLoading) => {
 	return async (dispatch) => {
-
+startLoading()
 		try {
 			
 			const response = await ApiGetNoAuth(`/urbanregister/getparivarnakal?`, removeEmpty(body));
@@ -37,7 +37,9 @@ export const getparivarnakal = (body) => {
 			// let responseData = decryptData(response?.data?.data)
 
 			dispatch(getparivarnakalSuccess(response));
+			stopLoading()
 		} catch (error) {
+			stopLoading()
             console.log("error",error)
 			dispatch(getparivarnakalFaliure(error));
 		}

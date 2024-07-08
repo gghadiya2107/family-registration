@@ -22,8 +22,9 @@ export const addFamilyFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const addFamily = (body,extra) => {
+export const addFamily = (body,extra,startLoading, stopLoading) => {
 	return async (dispatch) => {
+		startLoading()
 		const formData = new FormData()
 		formData.append('consentDocName', body?.dastavage)
 		formData.append('CategoryDocument', body?.dastavage2)
@@ -39,7 +40,9 @@ export const addFamily = (body,extra) => {
 			extra()
             toast.success( response?.message)
 			dispatch(addFamilySuccess(response));
+			stopLoading()
 		} catch (error) {   
+			stopLoading()
             console.log('error', error)
             toast.error(error?.message)
 			dispatch(addFamilyFaliure(error));

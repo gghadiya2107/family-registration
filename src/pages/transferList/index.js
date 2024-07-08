@@ -123,9 +123,7 @@ const TransferList = () => {
           </Grid> */}
           <Grid item xs={12} sm={3} md={3}>
           <InputFieldWithIcon
-                // title={t('rathinCardNumber')}
-                title={"Him Parivar Number"}
-                // icon={<IoIosDocument size={20} />}
+                title={t('himParivarNo')}           
               placeholder=""
               type="text"
               name="himparivar_no"

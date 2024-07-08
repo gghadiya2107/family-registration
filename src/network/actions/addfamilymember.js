@@ -23,9 +23,9 @@ export const addfamilymemberFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const addfamilymember = (body,extra) => {
+export const addfamilymember = (body,extra, startLoading, stopLoading) => {
 	return async (dispatch) => {
-
+startLoading()
 		try {
 			const formData = new FormData()
 		formData.append('memberDocument', body?.dastavage)
@@ -43,7 +43,9 @@ export const addfamilymember = (body,extra) => {
             toast.success( response?.message)
             extra()
 			dispatch(addfamilymemberSuccess(response));
+			stopLoading()
 		} catch (error) {   
+			stopLoading()
             console.log('error member', error)
             toast.error(error?.message)
 			dispatch(addfamilymemberFaliure(error));

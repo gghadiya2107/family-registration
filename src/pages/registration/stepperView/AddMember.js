@@ -25,9 +25,13 @@ import EditBtn from '@/components/EditBtn';
 import AddMemberModal from '../AddMemberModal';
 import formatDate from '@/utils/formatDate';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
+import { useLoading } from '@/utils/LoadingContext';
+import Loader from '@/utils/Loader';
 
 const AddMember = ({selectedFamilyMember}) => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const dispatch = useDispatch()
   const route = useRouter()
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
@@ -242,7 +246,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 
       }
       
-      dispatch(addfamilymember(body,extra))
+      dispatch(addfamilymember(body,extra,startLoading, stopLoading))
     
     } else {
       setErrors(validationErrors);
@@ -328,6 +332,10 @@ const [oldMemberList, setOldMemberList] = useState([])
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
+  if (loading) {
+    return <Loader />;
+}
   return (
     <>
     <Divider style={{marginTop : 20}}/>

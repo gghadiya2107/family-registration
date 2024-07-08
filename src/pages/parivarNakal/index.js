@@ -14,9 +14,13 @@ import jsPDF from 'jspdf';
 import formatDate from '@/utils/formatDate'
 import { useRouter } from 'next/router'
 import FormatAadharNumber from '@/utils/formatAadharNumber'
+import { useLoading } from '@/utils/LoadingContext'
+import Loader from '@/utils/Loader'
 
 const ParivarNakal = () => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const dispatch = useDispatch()
   const router = useRouter()
   const getparivarnakalList = useSelector((state) => state.getparivarnakal?.data?.[0])
@@ -44,13 +48,14 @@ const [data, setData] = useState({})
   const handleSearch = () => {
     if(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no){
 
-        dispatch(getparivarnakal(formData))
+        dispatch(getparivarnakal(formData, startLoading, stopLoading))
     }else{
         toast.error("Please enter at leaset one data")
     }
   }
 
   const downloadNakal = () => {
+startLoading()
     let input = document.getElementById("download")
 console.log('input', input)
     html2canvas(input)
@@ -74,16 +79,21 @@ console.log('input', input)
       }
 
       pdf.save('parivar-nakal.pdf');
+      stopLoading()
     });
 
   }
+
+  if (loading) {
+    return <Loader />;
+}
   return (
     <MainLayout>
               <Grid container spacing={3} >
               <Grid item xs={12} sm={3} md={3}>
           <InputFieldWithIcon
                 // title={t('rathinCardNumber')}
-                title={"Him Parivar Number"}
+                title={t('himParivarNo')}
                 // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="text"

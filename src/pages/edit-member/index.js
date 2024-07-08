@@ -35,9 +35,13 @@ import { getBlock } from '@/network/actions/getBlock';
 import { getPanchayat } from '@/network/actions/getPanchayat';
 import { getTransferType } from '@/network/actions/getTransferType';
 import { TransferMember } from '@/network/actions/TransferMember';
+import { useLoading } from '@/utils/LoadingContext';
+import Loader from '@/utils/Loader';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const router = useRouter();
   const dispatch = useDispatch()
   const getEditTypeList = useSelector((state) => state.getEditType?.data)
@@ -261,7 +265,7 @@ console.log('userData', userData)
   
         }
         console.log("body", body)
-        dispatch(editMember(body, extra))
+        dispatch(editMember(body, extra, startLoading, stopLoading))
       } else {
         console.log('validationErrors', validationErrors)
         setErrors(validationErrors);
@@ -374,6 +378,9 @@ console.log('userData', userData)
   }
 
   console.log("translatedText", translatedText)
+  if (loading) {
+    return <Loader />;
+}
 
   return (
     <MainLayout>

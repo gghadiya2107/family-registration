@@ -90,6 +90,7 @@ const AddParivarRation = ({ setState, state }) => {
                         placeholder=""
                         type="text"
                         name="rationCard"
+                        style={{textTransform : 'uppercase'}}
                         disabled={state != "1" ? true : false}
                         value={formData?.rationCard}
                         onChange={handleChange}
@@ -110,7 +111,7 @@ const AddParivarRation = ({ setState, state }) => {
                 </>
            }
           {state == "2" &&  <Grid item xs={12} sm={4} md={4} mt={3}>
-                <SubmitButton label={"View All Beneficiary"} onClick={handleClickOpen} />
+                <SubmitButton label={"View All Members"} onClick={handleClickOpen} />
 
                 </Grid>}
             </Grid>

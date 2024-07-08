@@ -22,15 +22,17 @@ export const editMemberFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const editMember = (body,extra) => {
+export const editMember = (body,extra, startLoading, stopLoading) => {
 	return async (dispatch) => {
-
+startLoading()
 		try {
 			const response = await ApiPostNoAuth('/urbanregister/editMember', body)
             toast.success( response?.message)
             extra()
 			dispatch(editMemberSuccess(response));
+			stopLoading()
 		} catch (error) {   
+			stopLoading()
             console.log('error member', error)
             toast.error(error?.message)
 			dispatch(editMemberFaliure(error));
