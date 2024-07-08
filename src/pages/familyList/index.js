@@ -107,10 +107,10 @@ const FamilyList = () => {
                 <th className={style.th}>HEAD OF FAMILY	</th>
                 <th className={style.th}>RATION NO.	</th>
                 <th className={style.th}>TOTAL MEMBERS	</th>
-                <th className={style.th}>ECONOMIC STATUS	</th>
                 {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
                 <th className={style.th}>DISTRICT</th>
                 <th className={style.th}>MUNICIPAL</th>
+                <th className={style.th}>WARD	</th>
                 <th className={style.th}>ACTION</th>
               </tr>
             </thead>
@@ -119,10 +119,10 @@ const FamilyList = () => {
                 <td className={style.td}>{v?.headMemberName}	</td>
                 <td className={style.td}>{v?.rationCardNo}	</td>
                 <td className={style.td}>{v?.totalMembers}</td>
-                <td className={style.td}>{v?.economic}	</td>
                 {/* <td className={style.td}>{v?.socialCategory}</td> */}
                 <td className={style.td}>{v?.district}</td>
                 <td className={style.td}>{v?.municipalName}</td>
+                <td className={style.td}>{v?.wardName}	</td>
                 <td className={style.td}><div className={style.btns}>
                   <ViewBtn title={"View"} onClick={() => handleClickOpen(v)} />
                   {/* <VerifyBtn title={"Verify"} onClick={() => { }} /> */}

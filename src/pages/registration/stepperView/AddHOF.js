@@ -53,7 +53,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     relative: "",
     dob: "",
     gender: "",
-    registrationBase: "",
+    registrationBase: "1",
     refrence: "",
     education: "",
     work: "",
@@ -97,7 +97,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
         relative: "",
         dob: "",
         gender: "",
-        registrationBase: "",
+        registrationBase: "1",
         refrence: "",
         education: "",
         work: "",
@@ -157,7 +157,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     }
   }
 
-
+console.log('formData', formData)
   const handleSaveHOF = () => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
@@ -170,7 +170,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
         "relationId": formData?.relation || 0,
         "dateOfBirth": formData?.dob || "",
         "genderId": formData?.gender || 0,
-        "memberStatusId": formData?.registrationBase || 0,
+        "memberStatusId":  "1",
         "referenceNo": formData?.refrence || "",
         "qualificationId": formData?.education || 0,
         "professionId": formData?.work || 0,
@@ -182,6 +182,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
         "isHead": true,
         "remarks": formData?.description || "",
         "familyId": addFamilyData?.id,
+        "himParivarId" : addFamilyData?.HimParivarId,
          dastavage: formData?.dastavage || "",
         dastavage2 :  formData?.dastavage2 || ""
 
@@ -215,9 +216,9 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     if (!formData.gender?.trim() || formData?.gender == "0") {
       errors.gender = t("validateGender")
     }
-    if (!formData.registrationBase?.trim() || formData?.registrationBase == "0") {
-      errors.registrationBase = t("validateBaseOfRegistration");
-    }
+    // if (!formData.registrationBase?.trim() || formData?.registrationBase == "0") {
+    //   errors.registrationBase = t("validateBaseOfRegistration");
+    // }
     if (!formData.refrence?.trim()) {
       errors.refrence = t("validateRefrenceNumber");
     }
@@ -256,6 +257,8 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
 
     return errors;
   };
+
+  console.log('relationlist', relationlist)
 
   return (
     <>
@@ -357,7 +360,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   {errors?.gender && <p className="error">{errors?.gender}</p>}
 
 </Grid>
-<Grid item xs={12} sm={4} md={3}>
+{/* <Grid item xs={12} sm={4} md={3}>
   <SelectDropdown
     title={t('baseOfRegistration')}
     name="registrationBase"
@@ -369,7 +372,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   />
   {errors?.registrationBase && <p className="error">{errors?.registrationBase}</p>}
 
-</Grid>
+</Grid> */}
 <Grid item xs={12} sm={4} md={3}>
   <InputFieldWithIcon
     title={t('refrenceNumber')}

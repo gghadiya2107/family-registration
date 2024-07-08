@@ -34,6 +34,7 @@ console.log('getfamilymemberList', getfamilymemberList)
 const [memberList, setMemberList] = React.useState([])
 const [headData, setHeadData] = React.useState({})
 const [isHeadMore, setIsHeadMore] = React.useState(false)
+const [isFamilyMore, setIsFamilyMore] = React.useState(false)
 
     React.useEffect(() => {
         if(viewData?.family_id){
@@ -41,6 +42,7 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
             dispatch(getfamilymember(viewData?.family_id))
         }
     }, [viewData])
+    console.log('viewData', viewData)
     React.useEffect(() => {
         if(getfamilymemberList){
 
@@ -77,7 +79,64 @@ const [isHeadMore, setIsHeadMore] = React.useState(false)
           {/* <CloseIcon /> */}
         </IconButton>
         <DialogContent dividers>
-        {headData && <><div className={style.heading} style={{ marginBottom: "5px", marginTop: "20px" }}>Family Details</div>
+        {viewData && <><div className={style.heading} style={{ marginBottom: "5px", marginTop: "20px" }}>Family Details</div>
+        <div className={style.tablewrapper} style={{ margin: "0" }}>
+            <table className={style.table}>
+              <thead className={style.thead}>
+                <tr className={style.tr}>
+                  <th className={style.th}>District</th>
+                  <th className={style.th}>Municipal</th>
+                  <th className={style.th}>Ward</th>
+                  <th className={style.th}>Ration Card No.</th>
+                  <th className={style.th}>Economic Status</th>
+                  <th className={style.th}></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className={style.tr}>
+                  <td className={style.td}>{viewData?.district}</td>
+                  <td className={style.td}>{viewData?.municipalName}</td>
+                  <td className={style.td}>{ viewData?.wardName}</td>
+                  <td className={style.td}>{viewData?.rationCardNo}</td>
+                  <td className={style.td}>{viewData?.economic}</td>
+                  <td className={style.td}>
+
+                    <div className="action">
+                        {isFamilyMore ? <CloseBtn title="Close" onClick={() => { setIsFamilyMore(false) }} />
+                        :<MoreBtn title="More" onClick={() => { setIsFamilyMore(true) }} /> }
+                    
+                    </div>
+                  </td>
+                </tr>
+                {isFamilyMore && <tr  >
+                  <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
+                    <Grid container spacing={5}>
+                      <Grid item xs={4}>
+                        <p className={style.expandMargin}><b>District:</b> {viewData?.district}</p>
+                        <p className={style.expandMargin}><b>Ration Card No.:</b> {viewData?.rationCardNo}</p>
+                        <p className={style.expandMargin}><b>House No.:</b> {viewData?.houseAddress}</p>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <p className={style.expandMargin}><b>Municipal:</b> {viewData?.municipalName}</p>
+                        <p className={style.expandMargin}><b>Economic Status:</b> {viewData?.economic}</p>
+                        <p className={style.expandMargin}><b>totalMembers:</b> {viewData?.totalMembers}</p>
+
+                      </Grid>
+                      <Grid item xs={4}>
+                        <p className={style.expandMargin}><b>Ward:</b> {viewData?.wardName}</p>
+                        <p className={style.expandMargin}><b>Category:</b> {viewData?.socialCategory}</p>
+                        {viewData?.socialSubCategory &&<p className={style.expandMargin}><b>Sub Category:</b> {viewData?.socialSubCategory}</p>}
+
+                      </Grid>
+                    </Grid>
+                  </td>
+                </tr>}
+              </tbody>
+            </table>
+
+
+          </div></>}
+        {headData && <><div className={style.heading} style={{ marginBottom: "5px", marginTop: "20px" }}>HOF Details</div>
         <div className={style.tablewrapper} style={{ margin: "0" }}>
             <table className={style.table}>
               <thead className={style.thead}>

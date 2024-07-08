@@ -56,7 +56,7 @@ const [oldMemberList, setOldMemberList] = useState([])
     relation : "",
     dob: "",
     gender: "",
-    registrationBase: "",
+    registrationBase: "1",
     refrence: "",
     education: "",
     work: "",
@@ -89,7 +89,7 @@ const [oldMemberList, setOldMemberList] = useState([])
       relativeName: "",
       dob: "",
       gender: "",
-      registrationBase: "",
+      registrationBase: "1",
       refrence: "",
       education: "",
       work: "",
@@ -236,6 +236,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 "isHead":false,
 "remarks":formData?.description || "",
 "familyId":addFamilyData?.id,
+"himParivarId" : addFamilyData?.HimParivarId,
  dastavage: formData?.dastavage || "",
         dastavage2 :  formData?.dastavage2 || ""
 
@@ -268,9 +269,9 @@ const [oldMemberList, setOldMemberList] = useState([])
     if (!formData.gender?.trim() || formData?.gender == "0") {
       errors.gender = t("validateGender")
     }
-    if (!formData.registrationBase?.trim() || formData?.registrationBase == "0") {
-      errors.registrationBase = t("validateBaseOfRegistration");
-    }
+    // if (!formData.registrationBase?.trim() || formData?.registrationBase == "0") {
+    //   errors.registrationBase = t("validateBaseOfRegistration");
+    // }
     if (!formData.refrence?.trim()) {
       errors.refrence = t("validateRefrenceNumber");
     }
@@ -488,7 +489,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   {errors?.gender && <p className="error">{errors?.gender}</p>}
 
 </Grid>
-<Grid item xs={12} sm={4} md={3}>
+{/* <Grid item xs={12} sm={4} md={3}>
   <SelectDropdown
       title={t('baseOfRegistration')}
       name="registrationBase"
@@ -500,7 +501,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   />
   {errors?.registrationBase && <p className="error">{errors?.registrationBase}</p>}
 
-</Grid>
+</Grid> */}
 <Grid item xs={12} sm={4} md={3}>
   <InputFieldWithIcon
       title={t('refrenceNumber')}
