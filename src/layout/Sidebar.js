@@ -45,21 +45,21 @@ const menu = [
         url: "/reports",
         icon: <IoDocumentsOutline size={20} />
     },
-    {
-        title: "Self eKYC",
-        url: "/ekyc",
-        icon: <BsPersonBoundingBox size={20} />
-    },
+    // {
+    //     title: "Self eKYC",
+    //     url: "/ekyc",
+    //     icon: <BsPersonBoundingBox size={20} />
+    // },
     {
         title: "Check Parivar Details",
-        url: "/details",
+        url: "/familyList",
         icon: <TbReportSearch size={20} />
     },
-    {
-        title: "List of Family",
-        url: "/familyList",
-        icon: <FaRegListAlt size={20} />
-    },
+    // {
+    //     title: "List of Family",
+    //     url: "/familyList",
+    //     icon: <FaRegListAlt size={20} />
+    // },
     {
         title: "Separate Family",
         url: "/separateFamily",
@@ -82,7 +82,7 @@ const menu = [
     },
 ]
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, toggleSidebar }) => {
     const router = useRouter()
     const userData = getCookieValues("userData") || null
     console.log("userData",userData)
@@ -106,7 +106,9 @@ const Sidebar = () => {
         }
     }
     return (
-        <div className={style.sidebar} >
+        <>
+        <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`} >
+            {/* <button onClick={toggleSidebar} style={{background : "red"}}>Toggle Sidebar</button> */}
             <div className={style.topMenu}>
                 <Image
                     src={getImagePath("/HPGovt.png")}
@@ -148,6 +150,8 @@ const Sidebar = () => {
                 </div>
             </div>
         </div>
+        
+        </>
     )
 }
 

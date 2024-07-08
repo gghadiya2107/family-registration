@@ -139,3 +139,47 @@ input[type=number]::-webkit-outer-spin-button {
   margin-right: 20px;
   justify-content: end;
 }
+
+/* styles/globals.css */
+
+.content {
+  flex: 1;
+  transition: margin-left 0.3s;
+  padding: 20px;
+  background-color: white;
+  position: relative;
+}
+
+.content-shift {
+  margin-left: 251px; /* Adjust as per your sidebar width */
+}
+
+.sidebar {
+  height: 100%;
+  /* overflow-y: auto; */
+  transition: transform 0.3s ease;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transform: translateX(-100%);
+  width: 251px;
+  background-color: #FBFCFE;
+  border-right: 1px solid #D7DBDC;
+  padding: 20px;
+}
+
+.sidebar-open {
+  transform: translateX(0);
+}
+
+
+/* @media (max-width: 768px) {
+  .sidebar {
+    width: 60%;
+  }
+
+  .content-shift {
+    margin-left: 60%;
+  }
+} */
