@@ -1,6 +1,6 @@
 import SelectDropdown from '@/components/SelectDropdown';
 import MainLayout from '@/layout/MainLayout'
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -37,6 +37,8 @@ import { getTransferType } from '@/network/actions/getTransferType';
 import { TransferMember } from '@/network/actions/TransferMember';
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
+import { getImagePath } from '@/utils/CustomImagePath';
+import toast from 'react-hot-toast';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -61,7 +63,7 @@ const EditMember = () => {
   const getBlockList = useSelector((state) => state.getBlock?.data)
   const getPanchayatList = useSelector((state) => state.getPanchayat?.data)
   const getTransferTypeList = useSelector((state) => state.getTransferType?.data)
-  console.log('getBlockList', getBlockList,getPanchayatList,getTransferTypeList)
+  console.log('getBlockList', getBlockList, getPanchayatList, getTransferTypeList)
 
 
   console.log('getUpdateHistoryList', getUpdateHistoryList)
@@ -73,6 +75,18 @@ const EditMember = () => {
   const [translatedText, setTranslatedText] = useState('');
   const [oldValue, setOldValue] = useState({})
   const [errors, setErrors] = useState({});
+  const [tnxID, setTnxID] = useState();
+  const [OtpSent, setOtpSent] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+	const [seconds, setSeconds] = useState(59);
+  const [aadhaarDetails, setAadhaarDetails] = useState({});
+  const [otp, setOTP] = useState("");
+  const [otpVerified, setOtpVerified] = useState(false)
+
+
+
+	const [disableOtp, setdisableOtp] = useState(false);
+
 
 
   const [currentValue, setCurrentValue] = useState({})
@@ -128,7 +142,7 @@ const EditMember = () => {
     dispatch(getfamilymember(userData?.familyId))
   }, [userData]);
 
-console.log('userData', userData)
+  console.log('userData', userData)
   useEffect(() => {
     if (userData && selectedEditType) {
       // dispatch(updateMemberHistory())
@@ -175,9 +189,9 @@ console.log('userData', userData)
 
       }
       if (selectedEditType == 8) {
-        setOldValue({ memberStatus: userData?.memberStatusId, district : userData?.district, municipal : userData?.municipalName, ward : userData?.wardName })
+        setOldValue({ memberStatus: userData?.memberStatusId, district: userData?.district, municipal: userData?.municipalName, ward: userData?.wardName })
         // setCurrentValue({ memberStatus: "5" })
-        console.log('1234', { memberStatus: userData?.memberStatusId, district : userData?.district, municipal : userData?.municipalName, ward : userData?.wardName })
+        console.log('1234', { memberStatus: userData?.memberStatusId, district: userData?.district, municipal: userData?.municipalName, ward: userData?.wardName })
 
 
       }
@@ -194,26 +208,26 @@ console.log('userData', userData)
   function getSelectedText(id) {
     // Get the select element
     var selectElement = document.getElementById(id);
-    
+
     // Get the selected option
     var selectedOption = selectElement.options[selectElement.selectedIndex];
-    
+
     // Get the text content of the selected option
     var selectedText = selectedOption.textContent;
-    
+
     // Display the selected text (for demonstration purposes)
     // alert("Selected text: " + selectedText);
     return selectedText
   }
-  
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(e)
-    if(name == "district" || name == "municipal" || name == "ward" || name == "block" || name == "panchayat"){
+    if (name == "district" || name == "municipal" || name == "ward" || name == "block" || name == "panchayat") {
 
-      setCurrentValue({ ...currentValue, [name]:  value , [name+"Name"] : getSelectedText(name)})
-    }else{
+      setCurrentValue({ ...currentValue, [name]: value, [name + "Name"]: getSelectedText(name) })
+    } else {
 
       setCurrentValue({ ...currentValue, [name]: name == "aadhaarNo" ? value?.replaceAll(" ", "") : value })
     }
@@ -237,40 +251,40 @@ console.log('userData', userData)
 
   function processObject(obj) {
     for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            if (obj[key].includes("_")) {
-                obj[key] = obj[key].split("_")[0];
-            }
+      if (obj.hasOwnProperty(key)) {
+        if (obj[key].includes("_")) {
+          obj[key] = obj[key].split("_")[0];
         }
+      }
     }
-}
+  }
 
   const handleSubmit = () => {
-    console.log('userData1', processObject(currentValue),currentValue)
+    console.log('userData1', processObject(currentValue), currentValue)
     // processObject(currentValue)
     console.log('1234', oldValue)
-      const validationErrors = validateForm();
-      if (Object.keys(validationErrors).length === 0) {
-        let body = {
-          documentFiles: upoadedDocument,
-          memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify({...currentValue, memberStatus  : currentValue?.transferType == "1" ?"3" : "5"}), "documentId": selectedDocumentType, remarks: remarks, familyId: userData?.familyId }
-        }
-        const extra = () => {
-          dispatch(getUpdateHistory({ familymember_id: userData?.familyMemberId, editType_id: selectedEditType?.toString() }))
-          setSelectedDocumentType("")
-          setUpoadedDocument(null)
-          setRemarks(null)
-          // setOldValue(null)
-          // setCurrentValue("")
-  
-        }
-        console.log("body", body)
-        dispatch(editMember(body, extra, startLoading, stopLoading))
-      } else {
-        console.log('validationErrors', validationErrors)
-        setErrors(validationErrors);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length === 0) {
+      let body = {
+        documentFiles: upoadedDocument,
+        memberUpdate: { "memberId": userData?.familyMemberId, "editTypeId": selectedEditType, "oldValue": JSON.stringify(oldValue), "currentValue": JSON.stringify({ ...currentValue, memberStatus: currentValue?.transferType == "1" ? "3" : "5" }), "documentId": selectedDocumentType, remarks: remarks, familyId: userData?.familyId }
       }
-    
+      const extra = () => {
+        dispatch(getUpdateHistory({ familymember_id: userData?.familyMemberId, editType_id: selectedEditType?.toString() }))
+        setSelectedDocumentType("")
+        setUpoadedDocument(null)
+        setRemarks(null)
+        // setOldValue(null)
+        // setCurrentValue("")
+
+      }
+      console.log("body", body)
+      dispatch(editMember(body, extra, startLoading, stopLoading))
+    } else {
+      console.log('validationErrors', validationErrors)
+      setErrors(validationErrors);
+    }
+
   }
 
   const changeLang = async (name, key = "") => {
@@ -316,12 +330,13 @@ console.log('userData', userData)
     }
     if (selectedEditType == 8) {
       return <div>
-      <p>District: {value?.district}</p>
-      {value?.municipal &&<p style={{ marginTop: "5px" }}>Municipal: {value?.municipal}</p>}
-      {value?.ward && <p style={{ marginTop: "5px" }}>Ward: {value?.ward}</p>}
-      {value?.block &&<p style={{ marginTop: "5px" }}>Block: {value?.block}</p>}
-      {value?.panchayat &&<p style={{ marginTop: "5px" }}>Panchayat: {value?.panchayat}</p>}
-    </div>    }
+        <p>District: {value?.district}</p>
+        {value?.municipal && <p style={{ marginTop: "5px" }}>Municipal: {value?.municipal}</p>}
+        {value?.ward && <p style={{ marginTop: "5px" }}>Ward: {value?.ward}</p>}
+        {value?.block && <p style={{ marginTop: "5px" }}>Block: {value?.block}</p>}
+        {value?.panchayat && <p style={{ marginTop: "5px" }}>Panchayat: {value?.panchayat}</p>}
+      </div>
+    }
     if (selectedEditType == 9) {
       return <div>
         <p>Gender: {genderlist?.find(v => v?.id == value?.gender)?.nameE || "-"}</p>
@@ -360,12 +375,12 @@ console.log('userData', userData)
     }
     if (selectedEditType == 8) {
       return <div>
-      <p>District: {value?.districtName}</p>
-      {value?.municipal &&<p style={{ marginTop: "5px" }}>Municipal: {value?.municipalName}</p>}
-      {value?.ward && <p style={{ marginTop: "5px" }}>Ward: {value?.wardName}</p>}
-      {value?.block &&<p style={{ marginTop: "5px" }}>Block: {value?.blockName}</p>}
-      {value?.panchayat &&<p style={{ marginTop: "5px" }}>Panchayat: {value?.panchayatName}</p>}
-    </div>
+        <p>District: {value?.districtName}</p>
+        {value?.municipal && <p style={{ marginTop: "5px" }}>Municipal: {value?.municipalName}</p>}
+        {value?.ward && <p style={{ marginTop: "5px" }}>Ward: {value?.wardName}</p>}
+        {value?.block && <p style={{ marginTop: "5px" }}>Block: {value?.blockName}</p>}
+        {value?.panchayat && <p style={{ marginTop: "5px" }}>Panchayat: {value?.panchayatName}</p>}
+      </div>
     }
     if (selectedEditType == 9) {
       return <div>
@@ -378,6 +393,174 @@ console.log('userData', userData)
   }
 
   console.log("translatedText", translatedText)
+
+
+  const sendAadhaarOTP = async () => {
+
+
+    if (currentValue?.aadhaarNo?.length > 11) {
+      startLoading()
+      const dataToSend = {
+        aadhaarNumber: currentValue?.aadhaarNo,
+      };
+
+      fetch(getImagePath("/api/aadhaar-otp"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify the content type as JSON
+        },
+        body: JSON.stringify(dataToSend), // Convert the data to JSON format
+      })
+        .then((response) => {
+          console.log('response xyz', response)
+          stopLoading()
+          setMinutes(0);
+          setSeconds(59);
+
+          setdisableOtp(true);
+
+          if (response.status === 500) {
+            toast.error("Unable to send OTP. Please try again.")
+
+
+
+            return;
+          }
+
+          if (!response.ok) {
+            // throw new Error("Failed to post data");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data) {
+            console.log('data xyz', data)
+            setTnxID(data);
+            setOtpSent(true);
+            setAadhaarDetails("");
+            // setAadhaarVerified(1);
+            stopLoading()
+          }
+        })
+        .catch((error) => {
+          console.log("error", error)
+          stopLoading()
+          if (error?.response?.data?.error) {
+            toast.error(error?.response?.data?.error)
+
+          } else if (error?.response?.data) {
+            toast.error(error?.response?.data)
+
+          } else {
+            toast.error(error?.message)
+
+          }
+        });
+    }
+  }
+
+
+  const verifyOTP = () => {
+		if (otp.length === 6) {
+      startLoading()
+
+			const dataToSend = {
+				aadhaarNumber: currentValue?.aadhaarNo,
+				otp: otp,
+				tnxID: tnxID,
+			};
+			fetch(getImagePath("/api/verify-otp"), {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json", // Specify the content type as JSON
+				},
+				body: JSON.stringify(dataToSend), // Convert the data to JSON format
+			})
+				.then((response) => {
+					if (!response.ok) {
+            toast.error("Unable to connect to UIDAI Please try again")
+					
+					}else{
+            toast.success("Successfully verified!")
+            setOtpVerified(true)
+          }
+					return response.json();
+				})
+				.then(async (data) => {
+					const { uidData, vault } = data || {};
+
+					// if (vault.$.aadhaarReferenceNumber) {
+					// 	setVaultId(vault.$.aadhaarReferenceNumber);
+					// }
+
+					setAadhaarDetails(data);
+
+					// getErrorColors(profileDetails, data);
+
+					try {
+
+						// const formattedDate = convertToDDMMYYYY(uidData.Poi.$.dob);
+
+						// if (formattedDate) {
+						// 	//setDob(uidData.Poi.$.dob);
+						// 	setAadhaarDob(formattedDate);
+
+						// 	setdobVerify(true);
+						// } else {
+						// 	setAadhaarDob("");
+
+						// 	setdobVerify(false);
+						// }
+					} catch (e) {}
+
+				
+				
+
+					stopLoading()
+
+					// setActiveStep(activeStep + 1)
+				})
+				.catch((error) => {
+					// Handle errors
+
+					stopLoading()
+
+					if (error?.response?.data?.error) {
+            toast.error(error.response.data.error)
+					} else if (error?.response?.data) {
+            toast.error(error.response.data)
+
+					} else {
+            toast.error(error.message)
+
+					}
+				});
+		} else {
+      toast.error("Please Enter Correct OTP")
+		}
+	};
+
+  useEffect(() => {
+		const interval = setInterval(() => {
+			if (seconds > 0) {
+				setSeconds(seconds - 1);
+			}
+
+			if (seconds === 0) {
+				if (minutes === 0) {
+					setdisableOtp(false);
+					clearInterval(interval);
+				} else {
+					setSeconds(59);
+					setMinutes(minutes - 1);
+				}
+			}
+		}, 1000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, [seconds]);
 
 
   return (
@@ -641,7 +824,9 @@ console.log('userData', userData)
                 <tr className={style.tr}>
                   <td className={style.td}>Aadhaar Number</td>
                   <td className={style.td}>{FormatAadharNumber(userData?.aadhaarNo) || ""}	</td>
-                  <td className={style.td}><InputFieldWithIcon
+                  <td className={style.td} >
+                    <div style={{ display: selectedEditType == 5 ? "flex" : "", alignItems: "center", justifyContent : "space-between", marginRight : "20px" }}>
+                    <InputFieldWithIcon
 
 
                     title={""}
@@ -653,7 +838,86 @@ console.log('userData', userData)
                     style={{ width: "80%" }}
                     onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
 
-                  /></td>
+                  />
+                    {selectedEditType == 5 && <><SubmitButton label={"Get OTP"} 				
+                    							disabled={disableOtp ? true : false}
+                                  style={{cursor :disableOtp ? "not-allowed" : "pointer" }}
+ onClick={() => {
+                      sendAadhaarOTP();
+                    }} /></>}
+                     {OtpSent && !aadhaarDetails && (
+									<Box sx={{ display: "flex", justifyContent: "center" }}>
+										<div className="countdown-text">
+											{seconds > 0 || minutes > 0 ? (
+												<Typography variant="body2">
+													Time Remaining:{" "}
+													{minutes < 10 ? `0${minutes}` : minutes}:
+													{seconds < 10 ? `0${seconds}` : seconds}
+												</Typography>
+											) : (
+												<Typography variant="body2" component="body2">
+													{" Didn't recieve code? "}
+												</Typography>
+											)}
+
+											<button
+												disabled={seconds > 0 || minutes > 0}
+												style={{
+													color:
+														seconds > 0 || minutes > 0 ? "#DFE3E8" : "#FF5630",
+                            marginLeft : "10px"
+												}}
+												onClick={() => sendAadhaarOTP()}
+											>
+												{" "}Resend OTP
+											</button>
+										</div>
+									</Box>
+								)}</div>
+                   {OtpSent && <Grid
+										item
+										mt={1}
+										container
+										rowSpacing={2}
+                    
+										columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+										sx={{}}
+									>
+										<Grid item xs={2}>
+											<p style={{marginTop : "10px", fontSize : "16px"}}>Enter OTP:</p>
+										</Grid>
+
+										<Grid item xs={4}>
+                    <InputFieldWithIcon
+type="number"
+value={otp}
+onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
+
+
+/>
+											
+										</Grid>
+
+										<Grid
+											item
+											xs={3}
+											sx={{
+												// padding: 3,
+												// justifyContent: "center",
+												// alignItems: "center",
+											}}
+										>
+											<SubmitButton
+												onClick={() => {
+													verifyOTP();
+												}}
+                        label={"Perform EKYC"}
+												style={{ width: 200, background: "green", color : "white", marginTop : "4px" }}
+											/>
+												
+										</Grid>
+									</Grid>}
+                    </td>
                 </tr>
               </tbody>}
               {selectedEditType == 6 && <tbody>
@@ -727,63 +991,64 @@ console.log('userData', userData)
                         />
 
                       </Grid>
-                   {(currentValue?.transferTo == "urban" || currentValue?.transferTo == "rural" )&&   <Grid item sm={4}>  <SelectDropdown
+                      {(currentValue?.transferTo == "urban" || currentValue?.transferTo == "rural") && <Grid item sm={4}>  <SelectDropdown
                         title={t('district')}
                         name="district"
                         id="district"
                         value={currentValue?.district || ""}
-                        onChange={(e) => {handleChange(e); currentValue?.transferTo == "urban" ? dispatch(getMunicipalities({districtCode: e.target.value})) : 
-                        dispatch(getBlock({districtCode: e.target.value}))
-                      }}
+                        onChange={(e) => {
+                          handleChange(e); currentValue?.transferTo == "urban" ? dispatch(getMunicipalities({ districtCode: e.target.value })) :
+                            dispatch(getBlock({ districtCode: e.target.value }))
+                        }}
 
                         style={{ width: "80%" }}
-                        options={getDistrictList?.map(v => ({value : v?.lgdCode, label : v?.nameE}))}
+                        options={getDistrictList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
 
                       /></Grid>}
-                     { currentValue?.transferTo == "rural" ?
-                      <><Grid item sm={4}>  <SelectDropdown
-                        title={"Block"}
-                        name="block"
-                        id="block"
-                        value={currentValue?.block || ""}
-                        // onChange={handleChange}
-                        onChange={(e) => {handleChange(e); dispatch(getPanchayat({municipalId: e.target.value}))}}
+                      {currentValue?.transferTo == "rural" ?
+                        <><Grid item sm={4}>  <SelectDropdown
+                          title={"Block"}
+                          name="block"
+                          id="block"
+                          value={currentValue?.block || ""}
+                          // onChange={handleChange}
+                          onChange={(e) => { handleChange(e); dispatch(getPanchayat({ municipalId: e.target.value })) }}
 
-                        style={{ width: "80%" }}
-                        options={getBlockList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
+                          style={{ width: "80%" }}
+                          options={getBlockList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
 
-                      /></Grid>
-                      <Grid item sm={4}>  <SelectDropdown
-                        title={"Panchayat"}
-                        name="panchayat"
-                        id="panchayat"
-                        value={currentValue?.panchayat || ""}
-                        onChange={handleChange}
-                        style={{ width: "80%" }}
-                        options={getPanchayatList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
+                        /></Grid>
+                          <Grid item sm={4}>  <SelectDropdown
+                            title={"Panchayat"}
+                            name="panchayat"
+                            id="panchayat"
+                            value={currentValue?.panchayat || ""}
+                            onChange={handleChange}
+                            style={{ width: "80%" }}
+                            options={getPanchayatList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
 
-                      /></Grid></> : currentValue?.transferTo == "urban" ?
-                      <><Grid item sm={4}>  <SelectDropdown
-                        title={"Municipality"}
-                        name="municipal"
-                        id="municipal"
-                        value={currentValue?.municipal || ""}
-                        onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
+                          /></Grid></> : currentValue?.transferTo == "urban" ?
+                          <><Grid item sm={4}>  <SelectDropdown
+                            title={"Municipality"}
+                            name="municipal"
+                            id="municipal"
+                            value={currentValue?.municipal || ""}
+                            onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
 
-                        style={{ width: "80%" }}
-                        options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
+                            style={{ width: "80%" }}
+                            options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
 
-                      /></Grid>
-                      <Grid item sm={4}>  <SelectDropdown
-                        title={"Ward"}
-                        name="ward"
-                        id="ward"
-                        value={currentValue?.ward || ""}
-                        onChange={handleChange}
-                        style={{ width: "80%" }}
-                        options={wardList?.map(v => ({value : v?.id, label : v?.name}))}
+                          /></Grid>
+                            <Grid item sm={4}>  <SelectDropdown
+                              title={"Ward"}
+                              name="ward"
+                              id="ward"
+                              value={currentValue?.ward || ""}
+                              onChange={handleChange}
+                              style={{ width: "80%" }}
+                              options={wardList?.map(v => ({ value: v?.id, label: v?.name }))}
 
-                      /></Grid> </> : ""}
+                            /></Grid> </> : ""}
                     </Grid>
 
                   </td>
@@ -902,7 +1167,8 @@ console.log('userData', userData)
           </Grid>
 
           <Box textAlign={"center"} mt={5}>
-            <SubmitButton label="Save Details" onClick={handleSubmit} />
+          {selectedEditType != 5 && <SubmitButton label="Save Details" onClick={handleSubmit} />}
+            {selectedEditType == 5 && otpVerified && <SubmitButton label="Save Details" onClick={handleSubmit} />}
           </Box></>}
 
       </Box>
