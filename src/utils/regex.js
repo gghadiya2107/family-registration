@@ -5,5 +5,5 @@ export const isAlphabateKey = (key) => {
     return /^[a-zA-Z ]+$/.test(key);
   };
 export const isNumericKeyWithSpace = (key) => {
-    return /^[0-9 ]+$/.test(key);
+    return /^[0-9 \b]+$/.test(key);
   };

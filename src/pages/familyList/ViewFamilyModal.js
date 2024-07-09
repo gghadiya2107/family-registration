@@ -17,6 +17,7 @@ import { Grid } from '@mui/material';
 import SubmitButton from '@/components/SubmitBtn';
 import formatDate from '@/utils/formatDate';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
+import { isNumericKeyWithSpace } from '@/utils/regex';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -143,7 +144,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
               <thead className={style.thead}>
                 <tr className={style.tr}>
                   <th className={style.th}>Head of Family Name</th>
-                  <th className={style.th}>Ration Card Number</th>
+                  <th className={style.th}>Ration Card No.</th>
                   <th className={style.th}>Religion</th>
                   <th className={style.th}>Social Category</th>
                   <th className={style.th}></th>
@@ -173,14 +174,14 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                         <p className={style.expandMargin}><b>Gender:</b> {headData?.gender}</p>
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Reference Number:</b> {headData?.reference_no}</p>
+                        <p className={style.expandMargin}><b>Reference No.:</b> {headData?.reference_no}</p>
                         <p className={style.expandMargin}><b>Religion:</b> {headData?.religion}</p>
                         <p className={style.expandMargin}><b>Category:</b> {headData?.socialCategory}</p>
 
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Ration card number:</b> {headData?.rationCardNo}</p>
-                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(headData?.aadhaarNo)}</p>
+                        <p className={style.expandMargin}><b>Ration Card No.:</b> {headData?.rationCardNo}</p>
+                        <p className={style.expandMargin}><b>Aadhaar Card No.:</b> {FormatAadharNumber(headData?.aadhaarNo)}</p>
                         <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={headData?.filePath} target='_' style={{color : "blue"}}>View Document</a></p>
 
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
@@ -201,7 +202,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                   <tr className={style.tr}>
                     <th className={style.th}>Name</th>
                     <th className={style.th}>Date of Birth</th>
-                    <th className={style.th}>Aadhaar Number</th>
+                    <th className={style.th}>Aadhaar No.</th>
                     <th className={style.th}>eKYC Varification Status</th>
                     <th className={style.th}></th>
                   </tr>
@@ -234,15 +235,15 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
 
                           </Grid>
                           <Grid item xs={4}>
-                            <p className={style.expandMargin}><b>Reference Number:</b> {v?.reference_no}</p>
+                            <p className={style.expandMargin}><b>Reference No.:</b> {v?.reference_no}</p>
                             <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
                             <p className={style.expandMargin}><b>Category:</b> { v?.socialCategory}</p>
 
                           </Grid>
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
-                            <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
-                            <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
+                            <p className={style.expandMargin}><b>Ration Card No.:</b> {v?.rationCardNo}</p>
+                            <p className={style.expandMargin}><b>Aadhaar Card No.:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
                             <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={v?.filePath} target='_' style={{color : "blue"}}>View Document</a></p>
 
 
@@ -403,8 +404,11 @@ disabled
                               title={t('aadharCardNumber')}
                               placeholder=""
                               type="text"
-                              onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                              name="aadhaarNo"
+                              onKeyDown={(e) => {
+                                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                                  e.preventDefault();
+                                }
+                              }}                              name="aadhaarNo"
                               value={memberDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                               onChange={(e) => e.target.value?.length > 14 ? null : handleChangeMemberDetails(e)}
                               requried
@@ -424,7 +428,7 @@ disabled
 
             {getfamilymemberList?.length == 0 && <h3>Family Member Not Found!</h3>}
 
-           <DialogActions>
+           <DialogActions style={{display : "flex", justifyContent : "center"}}>
            <SubmitButton onClick={handleClose} label="Close" />
 
       </DialogActions>

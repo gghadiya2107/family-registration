@@ -24,7 +24,7 @@ import SelectDropdown from '@/components/SelectDropdown'
 import { getWard } from '@/network/actions/getWard'
 import { getMunicipalities } from '@/network/actions/getMunicipalities'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex'
 import { useTranslation } from 'react-i18next'
 import Layout from '@/layout'
 import MainLayout from '@/layout/MainLayout'
@@ -582,7 +582,7 @@ const FamilyDetails = () => {
                   <p className={style.expandMargin}><b>Municipality:</b> {getFamilyByIdData?.municipalName}</p>
                   <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
 
-                    <p className={style.expandMargin}><b>Ration card number:</b> {getFamilyByIdData?.rationCardNo}</p>
+                    <p className={style.expandMargin}><b>Ration Card Number:</b> {getFamilyByIdData?.rationCardNo}</p>
 
                   </Grid>
                   <Grid item xs={4}>
@@ -804,7 +804,7 @@ disabled
 
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCardNo}</p>
+                        <p className={style.expandMargin}><b>Ration Card Number:</b> {formData?.rationCardNo}</p>
                         <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(formData?.aadhaarNo)}</p>
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
@@ -939,8 +939,11 @@ disabled
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="text"
-                          onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                          name="aadhaarNo"
+                          onKeyDown={(e) => {
+                            if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                              e.preventDefault();
+                            }
+                          }}                          name="aadhaarNo"
                           value={headDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                           onChange={(e) => e.target.value?.length > 14 ? null : handleChangeHeadDetails(e)}
                           requried
@@ -1012,7 +1015,7 @@ disabled
                           </Grid>
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
-                            <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
+                            <p className={style.expandMargin}><b>Ration Card Number:</b> {v?.rationCardNo}</p>
                             <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
 
                           </Grid>
@@ -1173,8 +1176,11 @@ disabled
                               title={t('aadharCardNumber')}
                               placeholder=""
                               type="text"
-                              onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                              name="aadhaarNo"
+                              onKeyDown={(e) => {
+                                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                                  e.preventDefault();
+                                }
+                              }}                              name="aadhaarNo"
                               value={memberDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                               onChange={(e) => e.target.value?.length > 14 ? null : handleChangeMemberDetails(e)}
                               requried

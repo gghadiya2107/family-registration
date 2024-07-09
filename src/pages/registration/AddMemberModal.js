@@ -23,7 +23,7 @@ import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex'
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex'
 import { addfamilymember } from '@/network/actions/addfamilymember'
 import { getfamilymember } from '@/network/actions/getfamilymember'
 import { getRelation } from '@/network/actions/getRelation'
@@ -593,8 +593,11 @@ dastavage2 : formData?.dastavage2 || "",
                 // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="text"
-              onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
-              name="adharCard"
+              onKeyDown={(e) => {
+                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                  e.preventDefault();
+                }
+              }}              name="adharCard"
               value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
               onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
               requried

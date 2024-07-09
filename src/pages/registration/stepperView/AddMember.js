@@ -13,7 +13,7 @@ import { getQualification } from '@/network/actions/getQualification';
 import { getRelation } from '@/network/actions/getRelation';
 import { getReligion } from '@/network/actions/getReligion';
 import { getfamilymember } from '@/network/actions/getfamilymember';
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex';
 import { Divider, Grid, Typography } from '@mui/material';
 import React, { use, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -618,8 +618,11 @@ const [oldMemberList, setOldMemberList] = useState([])
       // icon={<IoIosDocument size={20} />}
     placeholder=""
     type="text"
-    onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
-    name="adharCard"
+    onKeyDown={(e) => {
+      if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+        e.preventDefault();
+      }
+    }}    name="adharCard"
     value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
     onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
     requried

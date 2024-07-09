@@ -274,6 +274,7 @@ const EditMember = () => {
         setSelectedDocumentType("")
         setUpoadedDocument(null)
         setRemarks(null)
+        setOTP(null)
         // setOldValue(null)
         // setCurrentValue("")
 

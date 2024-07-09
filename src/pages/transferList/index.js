@@ -11,6 +11,7 @@ import { memberTransferList } from '@/network/actions/memberTransferList'
 import formatDate from '@/utils/formatDate'
 import toast from 'react-hot-toast'
 import ViewFamilyModal from './ViewFamilyModal'
+import { isNumericKeyWithSpace } from '@/utils/regex'
 
 const TransferList = () => {
   const { t } = useTranslation("translation");
@@ -150,8 +151,11 @@ const TransferList = () => {
                 // icon={<IoIosDocument size={20} />}
               placeholder=""
               type="text"
-              onKeyDown={(e) =>  e.key == "e" ? e.preventDefault() : null}
-              name="aadhaar_no"
+              onKeyDown={(e) => {
+                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                  e.preventDefault();
+                }
+              }}              name="aadhaar_no"
               value={formData?.aadhaar_no?.replace(/(\d{4})(?=\d)/g, '$1 ')}
               onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
             />

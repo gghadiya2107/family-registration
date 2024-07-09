@@ -21,7 +21,7 @@ import EditBtn from '@/components/EditBtn';
 import { Grid } from '@mui/material';
 import SelectDropdown from '@/components/SelectDropdown';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex';
 import EditFamilyConfirmation from './EditFamilyConfirmation';
 import { updateFamily } from '@/network/actions/updateFamily';
 import TextArea from '@/components/TextArea';
@@ -746,7 +746,7 @@ dastavage2 : formData?.dastavage2,
                     <p className={style.expandMargin}><b>Municipality:</b> {getFamilyByIdData?.municipalName}</p>
                     <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
 
-                    <p className={style.expandMargin}><b>Ration card number:</b> {getFamilyByIdData?.rationCardNo}</p>
+                    <p className={style.expandMargin}><b>Ration Card Number:</b> {getFamilyByIdData?.rationCardNo}</p>
 
                   </Grid>
                   <Grid item xs={4}>
@@ -971,7 +971,7 @@ dastavage2 : formData?.dastavage2,
 
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Ration card number:</b> {formData?.rationCardNo}</p>
+                        <p className={style.expandMargin}><b>Ration Card Number:</b> {formData?.rationCardNo}</p>
                         <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {formData?.aadhaarNo}</p>
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
@@ -1105,8 +1105,11 @@ dastavage2 : formData?.dastavage2,
                           // icon={<IoIosDocument size={20} />}
                           placeholder=""
                           type="text"
-                          onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                          name="aadhaarNo"
+                          onKeyDown={(e) => {
+                            if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                              e.preventDefault();
+                            }
+                          }}                          name="aadhaarNo"
                           value={headDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                           onChange={(e) => e.target.value?.length > 14 ? null : handleChangeHeadDetails(e)}
                           requried
@@ -1180,7 +1183,7 @@ dastavage2 : formData?.dastavage2,
                           </Grid>
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
-                            <p className={style.expandMargin}><b>Ration card number:</b> {v?.rationCardNo}</p>
+                            <p className={style.expandMargin}><b>Ration Card Number:</b> {v?.rationCardNo}</p>
                             {v?.reference_no &&<p className={style.expandMargin}><b>Reference Number:</b> {v?.reference_no}</p>}
 
                           </Grid>
@@ -1340,8 +1343,11 @@ dastavage2 : formData?.dastavage2,
                               title={t('aadharCardNumber')}
                               placeholder=""
                               type="text"
-                              onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                              name="aadhaarNo"
+                              onKeyDown={(e) => {
+                                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                                  e.preventDefault();
+                                }
+                              }}                              name="aadhaarNo"
                               value={memberDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                               onChange={(e) => e.target.value?.length > 14 ? null : handleChangeMemberDetails(e)}
                               requried
@@ -1585,8 +1591,11 @@ dastavage2 : formData?.dastavage2,
                 // icon={<IoIosDocument size={20} />}
                 placeholder=""
                 type="text"
-                onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                name="adharCard"
+                onKeyDown={(e) => {
+                  if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                    e.preventDefault();
+                  }
+                }}                name="adharCard"
                 value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                 onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
                 requried
