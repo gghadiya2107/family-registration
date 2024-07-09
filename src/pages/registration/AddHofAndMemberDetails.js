@@ -21,7 +21,7 @@ import EditBtn from '@/components/EditBtn';
 import { Grid } from '@mui/material';
 import SelectDropdown from '@/components/SelectDropdown';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace } from '@/utils/regex';
 import EditFamilyConfirmation from './EditFamilyConfirmation';
 import { updateFamily } from '@/network/actions/updateFamily';
 import TextArea from '@/components/TextArea';
@@ -905,8 +905,11 @@ dastavage2 : formData?.dastavage2,
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="text"
-                      onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                      name="mobileNumber"
+                      onKeyDown={(e) => {
+                        if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+                          e.preventDefault();
+                        }
+                      }}                       name="mobileNumber"
                       value={familyDetailsExtra?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
                       onChange={(e) => e.target.value?.length > 11 ? null : handleChangeFamilyDetails(e)}
                       requried

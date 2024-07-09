@@ -81,4 +81,5 @@ row
   )
 }
 
-export default withAuth(Registration)
+// export default withAuth(Registration)
+export default Registration

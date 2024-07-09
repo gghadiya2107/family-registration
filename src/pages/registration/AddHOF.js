@@ -28,7 +28,7 @@ import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex'
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace } from '@/utils/regex'
 import { getFamilyById } from '@/network/actions/getFamilyById'
 import { getRelation } from '@/network/actions/getRelation'
 import { addfamilymember } from '@/network/actions/addfamilymember'
@@ -884,8 +884,11 @@ const extraUpdate = () => {
                       // icon={<IoIosDocument size={20} />}
                       placeholder=""
                       type="text"
-                      onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                      name="mobileNumber"
+                      onKeyDown={(e) => {
+                        if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+                          e.preventDefault();
+                        }
+                      }}                       name="mobileNumber"
                       value={familyDetailsExtra?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
                       onChange={(e) => e.target.value?.length > 11 ? null : handleChangeFamilyDetails(e)}
                       requried

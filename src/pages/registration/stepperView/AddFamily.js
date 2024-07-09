@@ -5,7 +5,7 @@ import { getEconomicStatus } from '@/network/actions/economicStatus';
 import { getCategory } from '@/network/actions/getCategory';
 import { getDistrict } from '@/network/actions/getDistrict';
 import { getRationDetails } from '@/network/actions/getRationDetails';
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace } from '@/utils/regex';
 import { Divider, Grid } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useEffect, useState } from 'react'
@@ -318,7 +318,11 @@ console.log('districtList', districtList)
           name="mobile"
           value={formData?.mobile?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
           onChange={(e) => e.target.value?.length > 11 ? null : handleChange(e)}
-          onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
+          onKeyDown={(e) => {
+            if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+              e.preventDefault();
+            }
+          }} 
           requried
         />
         {errors?.mobile && <p className="error">{errors?.mobile}</p>}

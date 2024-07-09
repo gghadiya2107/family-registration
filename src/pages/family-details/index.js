@@ -24,7 +24,7 @@ import SelectDropdown from '@/components/SelectDropdown'
 import { getWard } from '@/network/actions/getWard'
 import { getMunicipalities } from '@/network/actions/getMunicipalities'
 import InputFieldWithIcon from '@/components/InputFieldWithIcon'
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex'
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace } from '@/utils/regex'
 import { useTranslation } from 'react-i18next'
 import Layout from '@/layout'
 import MainLayout from '@/layout/MainLayout'
@@ -736,8 +736,11 @@ disabled
                       title={t('mobileNumber')}
                       placeholder=""
                       type="text"
-                      onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                      name="mobileNumber"
+                      onKeyDown={(e) => {
+                        if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+                          e.preventDefault();
+                        }
+                      }}                       name="mobileNumber"
                       value={familyDetailsExtra?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
                       onChange={(e) => e.target.value?.length > 11 ? null : handleChangeFamilyDetails(e)}
                       requried

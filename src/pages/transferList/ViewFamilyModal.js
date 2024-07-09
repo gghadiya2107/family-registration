@@ -22,7 +22,7 @@ import SelectDropdown from '@/components/SelectDropdown';
 import { getMunicipalities } from '@/network/actions/getMunicipalities';
 import { getWard } from '@/network/actions/getWard';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
-import { isAlphabateKey, isAlphanumericKey } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan } from '@/utils/regex';
 import FileUpload from '@/components/FileUpload';
 import { getDistrict } from '@/network/actions/getDistrict';
 import { getEconomicStatus } from '@/network/actions/economicStatus';
@@ -392,8 +392,11 @@ requried
                     name="mobileNumber"
                     value={newData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
                     onChange={(e) => e.target.value?.length > 11 ? null : handleChange(e)}
-                    onKeyDown={(e) => e.key == "e" ? e.preventDefault() : null}
-                    requried
+                    onKeyDown={(e) => {
+                      if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+                        e.preventDefault();
+                      }
+                    }}                     requried
                   />
                   {errors?.mobileNumber && <p className="error">{errors?.mobileNumber}</p>}
 
