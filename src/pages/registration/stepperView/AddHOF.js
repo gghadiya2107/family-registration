@@ -46,7 +46,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   const religionList = useSelector((state) => state.getReligion?.data)
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
 
   const [errors, setErrors] = useState({});
 

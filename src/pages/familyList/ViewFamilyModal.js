@@ -30,8 +30,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const ViewFamilyModal = ({open, handleClose, viewData}) => {
     const dispatch = useDispatch()
-    const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
-console.log('getfamilymemberList', getfamilymemberList)
+    const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+    const getfamilymemberDoc = useSelector((state) => state.getfamilymember?.data?.familyDocData)
+console.log('getfamilymemberDoc', getfamilymemberDoc)
 const [memberList, setMemberList] = React.useState([])
 const [headData, setHeadData] = React.useState({})
 const [isHeadMore, setIsHeadMore] = React.useState(false)
@@ -144,16 +145,16 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
               <thead className={style.thead}>
                 <tr className={style.tr}>
                   <th className={style.th}>Head of Family Name</th>
-                  <th className={style.th}>Ration Card No.</th>
+                  <th className={style.th}>Aadhaar No.</th>
                   <th className={style.th}>Religion</th>
-                  <th className={style.th}>Social Category</th>
+                  <th className={style.th}>Category</th>
                   <th className={style.th}></th>
                 </tr>
               </thead>
               <tbody>
                 <tr className={style.tr}>
                   <td className={style.td}>{headData?.memberName}</td>
-                  <td className={style.td}>{headData?.rationCardNo}</td>
+                  <td className={style.td}>{FormatAadharNumber(headData?.aadhaarNo)}</td>
                   <td className={style.td}>{ headData?.religion}</td>
                   <td className={style.td}>{headData?.socialCategory}</td>
                   <td className={style.td}>
@@ -181,7 +182,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Ration Card No.:</b> {headData?.rationCardNo}</p>
-                        <p className={style.expandMargin}><b>Aadhaar Card No.:</b> {FormatAadharNumber(headData?.aadhaarNo)}</p>
+                        <p className={style.expandMargin}><b>Aadhaar No.:</b> {FormatAadharNumber(headData?.aadhaarNo)}</p>
                         <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={headData?.filePath} target='_' style={{color : "blue"}}>View Document</a></p>
 
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
@@ -200,10 +201,10 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
               <table className={style.table}>
                 <thead className={style.thead}>
                   <tr className={style.tr}>
-                    <th className={style.th}>Name</th>
-                    <th className={style.th}>Date of Birth</th>
+                    <th className={style.th}>Family Member Name</th>
                     <th className={style.th}>Aadhaar No.</th>
-                    <th className={style.th}>eKYC Varification Status</th>
+                    <th className={style.th}>Religion</th>
+                    <th className={style.th}>Category</th>
                     <th className={style.th}></th>
                   </tr>
                 </thead>
@@ -211,9 +212,9 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
-                      <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                       <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>
-                      <td className={style.td}>Document not Attached</td>
+                      <td className={style.td}>{v?.religion}</td>
+                      <td className={style.td}>{v?.socialCategory}</td>
                       <td className={style.td}>
 
                         <div className="action">
@@ -243,7 +244,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                           <Grid item xs={4}>
                             {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
                             <p className={style.expandMargin}><b>Ration Card No.:</b> {v?.rationCardNo}</p>
-                            <p className={style.expandMargin}><b>Aadhaar Card No.:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
+                            <p className={style.expandMargin}><b>Aadhaar No.:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
                             <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={v?.filePath} target='_' style={{color : "blue"}}>View Document</a></p>
 
 

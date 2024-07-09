@@ -132,8 +132,8 @@ export const ApiGetNoAuth = (url, params = {}) => {
     axios
       .get(BaseURL + apiUrl, defaultHeaders)
       .then(async (responseJson) => {
+        console.log('responseJson', responseJson)
         const data = decryptData(responseJson?.data?.data);
-        console.log('data1', data)
         resolve(data);
       })
       .catch((error) => {

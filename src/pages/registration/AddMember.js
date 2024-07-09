@@ -25,7 +25,7 @@ const AddMember = () => {
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
   console.log('getFamilyByIdData', getFamilyByIdData)
 
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
   console.log('getFamilyListData', getFamilyListData)
   const [openModal, setOpenModal] = React.useState(false);
 

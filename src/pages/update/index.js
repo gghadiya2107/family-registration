@@ -31,7 +31,7 @@ const Update = () => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyHeadList?.data || [])
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
 console.log('getFamilyListData', getFamilyListData)
 const [openDelete, setOpenDelete] = useState(false)
 const [openEdit, setOpenEdit] = useState(false)

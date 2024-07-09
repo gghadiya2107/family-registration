@@ -73,7 +73,7 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState ,setSele
   const [openModal, setOpenModal] = React.useState(false);
   const [memberFillDetails, setMemberFillDetails] = useState({})
 const [oldMemberList, setOldMemberList] = useState([])
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
 
 
   const [formData, setFormData] = useState({

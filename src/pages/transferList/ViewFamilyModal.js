@@ -46,7 +46,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   const { t } = useTranslation("translation");
 
   const dispatch = useDispatch()
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
   console.log('getfamilymemberList', getfamilymemberList, viewData)
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)

@@ -59,7 +59,7 @@ const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
 console.log('addFamilyData', addFamilyData)
 console.log('getfamilymemberList', getfamilymemberList)
