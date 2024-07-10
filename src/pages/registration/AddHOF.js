@@ -37,6 +37,7 @@ import { updateFamily } from '@/network/actions/updateFamily'
 import { updateFamilyMember } from '@/network/actions/updateFamilyMember'
 import formatDate from '@/utils/formatDate'
 import { isValidMobileNumber } from '@/utils/formatAadharNumber'
+import { useLoading } from '@/utils/LoadingContext'
 
 
 
@@ -44,6 +45,8 @@ import { isValidMobileNumber } from '@/utils/formatAadharNumber'
 const AddHOF = ({ setState, familyDetails, setFamilyDetails }) => {
   console.log('familyDetails', familyDetails)
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const router = useRouter()
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
@@ -80,7 +83,7 @@ console.log('getFamilyByIdData', getFamilyByIdData)
   console.log('memberList', memberList)
   // console.log('formData', formData)
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
     dispatch(getGender())
@@ -117,7 +120,7 @@ console.log('getFamilyByIdData', getFamilyByIdData)
     if(addFamilyData?.id){
 
       dispatch(getFamilyById(addFamilyData?.id))
-      dispatch(getfamilymember(addFamilyData?.id))
+      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
     }
 
   }, [addFamilyData])
@@ -296,7 +299,7 @@ if(getFamilyByIdData){
 
   const extra = () => {
     setSaveHof(true)
-    dispatch(getfamilymember(addFamilyData?.id))
+    dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
   }
 console.log('headDetailsExtra', headDetailsExtra)
   const handleSaveHOF = () => {
@@ -327,7 +330,7 @@ dastavage : formData?.dastavage,
 dastavage2 : formData?.dastavage2,
 
       }
-      dispatch(addfamilymember(body,extra))
+      dispatch(addfamilymember(body,extra,startLoading, stopLoading))
       // setSaveHof(true)
     } else {
       setErrors(validationErrors);
@@ -425,7 +428,7 @@ dastavage2 : formData?.dastavage2,
 const extraUpdate = () => {
   setFamilyDetails(familyDetailsExtra); setIsEditMode(false)
   setFamilyError({})
-  dispatch(getfamilymember(addFamilyData?.id))
+  dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
   dispatch(getFamilyById(addFamilyData?.id))
 
 
@@ -456,7 +459,7 @@ const extraUpdate = () => {
   const extraAferHeadUpdate = () => {
     setFormData(headDetailsExtra); setisEditModeHead(false)
       setHeadError({})
-      dispatch(getfamilymember(addFamilyData?.id))
+      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
   dispatch(getFamilyById(addFamilyData?.id))
   }
   const saveHeadAfterEdit = () => {
@@ -745,7 +748,7 @@ const extraUpdate = () => {
                       name="districtCode"
                       options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
                       value={familyDetailsExtra?.districtCode}
-                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) }}
                       requried
                     />
                     {familyError?.districtCode && <p className="error">{familyError?.districtCode}</p>}
@@ -759,7 +762,7 @@ const extraUpdate = () => {
                       options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
 
                       value={familyDetailsExtra?.municipalityId}
-                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value })) }}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
                       requried
                     />
                     {familyError?.municipalityId && <p className="error">{familyError?.municipalityId}</p>}

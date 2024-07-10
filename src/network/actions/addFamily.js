@@ -22,12 +22,12 @@ export const addFamilyFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const addFamily = (body,extra,startLoading, stopLoading) => {
+export const addFamily = (body,extra,startLoading=()=>{}, stopLoading=()=>{}) => {
 	return async (dispatch) => {
 		startLoading()
 		const formData = new FormData()
 		formData.append('consentDocName', body?.dastavage)
-		formData.append('CategoryDocument', body?.dastavage2)
+		formData.append('CastDocument', body?.dastavage2)
 		delete body.dastavage
 		delete body.dastavage2
 		formData.append('Family', encryptDataPost(JSON.stringify(body)))

@@ -85,7 +85,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     if (addFamilyData?.id) {
 
       dispatch(getFamilyById(addFamilyData?.id))
-      dispatch(getfamilymember(addFamilyData?.id))
+      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
     }
 
   }, [addFamilyData])
@@ -127,7 +127,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     if (formData?.EnglishName && selectedFamilyMember) changeLang(formData?.EnglishName)
   }, [formData?.EnglishName])
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
     dispatch(getGender())
@@ -194,7 +194,7 @@ console.log('formData', formData)
       console.log('body addmember', body)
       const extra = () => {
         setActiveStepper(2)
-        dispatch(getfamilymember(addFamilyData?.id))
+        dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
       }
       dispatch(addfamilymember(body, extra, startLoading, stopLoading))
       // setSaveHof(true)

@@ -15,11 +15,14 @@ import { getCategory } from '@/network/actions/getCategory';
 import { addFamily } from '@/network/actions/addFamily';
 import { isAlphabateKey, isNumericKeyWithHifan } from '@/utils/regex';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
+import { useLoading } from '@/utils/LoadingContext';
 
 const AddFamilyDetails = ({selectedFamilyMember, state, setState}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
     const { t } = useTranslation("translation");
     const dispatch = useDispatch()
+    const { loading, startLoading, stopLoading } = useLoading();
+
     const [formData, setFormData] = useState({})
     const [errors, setErrors] = useState({});
     const districtList = useSelector((state) => state.getDistrict?.data)
@@ -29,7 +32,7 @@ const AddFamilyDetails = ({selectedFamilyMember, state, setState}) => {
   const categorylist = useSelector((state) => state.getCategory?.data)
 console.log('districtList', districtList)
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
@@ -161,7 +164,7 @@ console.log('districtList', districtList)
             name="district"
             options={districtList?.map(v => ({value : v?.lgdCode, label : v?.nameE})) || []}
             value={formData?.district ?? null}
-            onChange={(e) => {handleChange(e); dispatch(getMunicipalities({districtCode: e.target.value}))}}
+            onChange={(e) => {handleChange(e); dispatch(getMunicipalities({districtCode: e.target.value},startLoading, stopLoading))}}
             requried
           />
           {errors?.district && <p className="error">{errors?.district}</p>}
@@ -174,7 +177,7 @@ console.log('districtList', districtList)
             options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
             disabled={formData?.district != "" ?false : true}
             value={formData?.municipal}
-            onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
+            onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value},startLoading, stopLoading))}}
             requried
           />
           {errors?.municipal && <p className="error">{errors?.municipal}</p>}

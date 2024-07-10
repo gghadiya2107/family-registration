@@ -34,11 +34,14 @@ import AddMemberModal from './AddMemberModal';
 import DeleteBtn from '@/components/MoreBtn/DeleteBtn';
 import { updateFamilyMember } from '@/network/actions/updateFamilyMember';
 import formatDate from '@/utils/formatDate';
+import { useLoading } from '@/utils/LoadingContext';
 
 
 const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState ,setSelectedFamilyMember}) => {
   const { t } = useTranslation("translation");
   const router = useRouter()
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const dispatch = useDispatch()
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
@@ -203,13 +206,13 @@ const [oldMemberList, setOldMemberList] = useState([])
     if (addFamilyData?.id) {
 
       dispatch(getFamilyById(addFamilyData?.id))
-      dispatch(getfamilymember(addFamilyData?.id))
+      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
     }
 
   }, [addFamilyData])
 
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
     dispatch(getGender())
@@ -404,7 +407,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   const extraAferHeadUpdate = () => {
     setFormData(headDetailsExtra); setisEditModeHead(false)
       setHeadError({})
-      dispatch(getfamilymember(addFamilyData?.id))
+      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
   dispatch(getFamilyById(addFamilyData?.id))
   }
   const saveHeadAfterEdit = () => {
@@ -577,7 +580,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 
   const extra = () => {
     setSaveHof(true)
-    dispatch(getfamilymember(addFamilyData?.id))
+    dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
   }
 
   const addMember = () => {
@@ -627,7 +630,7 @@ dastavage : formData?.dastavage,
 dastavage2 : formData?.dastavage2,
 
       }
-      dispatch(addfamilymember(body, extra))
+      dispatch(addfamilymember(body, extra,startLoading, stopLoading))
       // setSaveHof(true)
     } else {
       setErrors(validationErrors);
@@ -768,7 +771,7 @@ dastavage2 : formData?.dastavage2,
                       name="districtCode"
                       options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
                       value={familyDetailsExtra?.districtCode}
-                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) }}
                       requried
                     />
                     {familyError?.districtCode && <p className="error">{familyError?.districtCode}</p>}
@@ -782,7 +785,7 @@ dastavage2 : formData?.dastavage2,
                       options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
 
                       value={familyDetailsExtra?.municipalityId}
-                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value })) }}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
                       requried
                     />
                     {familyError?.municipalityId && <p className="error">{familyError?.municipalityId}</p>}

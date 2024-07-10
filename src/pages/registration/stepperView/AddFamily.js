@@ -36,7 +36,7 @@ const AddFamily = ({setActiveStepper,selectedFamilyMember}) => {
   const categorylist = useSelector((state) => state.getCategory?.data)
 console.log('districtList', districtList)
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
@@ -180,7 +180,7 @@ console.log('districtList', districtList)
           name="district"
           options={districtList?.map(v => ({value : v?.lgdCode, label : v?.nameE})) || []}
           value={formData?.district ?? null}
-          onChange={(e) => {handleChange(e); dispatch(getMunicipalities({districtCode: e.target.value}))}}
+          onChange={(e) => {handleChange(e); dispatch(getMunicipalities({districtCode: e.target.value},startLoading, stopLoading))}}
           requried
         />
         {errors?.district && <p className="error">{errors?.district}</p>}
@@ -193,7 +193,7 @@ console.log('districtList', districtList)
           options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
           disabled={formData?.district != "" ?false : true}
           value={formData?.municipal}
-          onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
+          onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value},startLoading, stopLoading))}}
           requried
         />
         {errors?.municipal && <p className="error">{errors?.municipal}</p>}

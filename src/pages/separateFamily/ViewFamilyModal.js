@@ -31,6 +31,7 @@ import { useTranslation } from 'react-i18next';
 import { separateMember } from '@/network/actions/separateMember';
 import { getFamilyList } from '@/network/actions/getFamilyList';
 import TextArea from '@/components/TextArea';
+import { useLoading } from '@/utils/LoadingContext';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -43,9 +44,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const dispatch = useDispatch()
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
   console.log('getfamilymemberList', getfamilymemberList, viewData)
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
@@ -72,16 +74,16 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   }, [viewData])
   React.useEffect(() => {
     if(newData?.districtCode){
-      dispatch(getMunicipalities({ districtCode: viewData?.districtCode }))
+      dispatch(getMunicipalities({ districtCode: viewData?.districtCode },startLoading, stopLoading))
     }
   }, [newData?.districtCode])
   React.useEffect(() => {
     if(newData?.municipalityId){
-      dispatch(getWard({ municipalId: viewData?.municipalityId }))
+      dispatch(getWard({ municipalId: viewData?.municipalityId },startLoading, stopLoading))
     }
   }, [newData?.municipalityId])
   React.useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
@@ -93,7 +95,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   React.useEffect(() => {
     if (viewData?.family_id) {
 
-      dispatch(getfamilymember(viewData?.family_id))
+      dispatch(getfamilymember(viewData?.family_id,startLoading, stopLoading))
     }
   }, [viewData])
   React.useEffect(() => {
@@ -139,7 +141,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
     } else {
       const extra = () => {
         handleClose()
-        dispatch(getFamilyList(formData))
+        dispatch(getFamilyList(formData,startLoading, stopLoading))
 
       }
       let body = {
@@ -204,7 +206,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                     name="district"
                     options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
                     value={originalData?.districtCode ?? null}
-                    onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                    onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) }}
                     disabled
                   />
                   {errors?.district && <p className="error">{errors?.district}</p>}
@@ -217,7 +219,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                     options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
                     // disabled={formData?.district != "" ? false : true}
                     value={originalData?.municipalityId}
-                    onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
+                    onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
                     disabled
                   />
                   {errors?.municipal && <p className="error">{errors?.municipal}</p>}

@@ -60,7 +60,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
   const qualificationList = useSelector((state) => state.getQualification?.data)
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
   console.log('getfamilymemberList', getfamilymemberList)
 
   const [formData, setFormData] = useState({
@@ -180,7 +180,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
 
     const extra = () => {
       console.log('addFamilyData', addFamilyData)
-      dispatch(getfamilymember(addFamilyData?.id || getFamilyByIdData?.family_id))
+      dispatch(getfamilymember(addFamilyData?.id || getFamilyByIdData?.family_id, startLoading, stopLoading))
     // setSaveHof(true)
     setErrors({})
     setFormData({...formData,  EnglishName: "", memberDetailsMore : false, isEditModeMember : false,

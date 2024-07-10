@@ -14,10 +14,13 @@ import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { getFamilyById } from '@/network/actions/getFamilyById';
 import AddMemberModal from './AddMemberModal';
 import formatDate from '@/utils/formatDate';
+import { useLoading } from '@/utils/LoadingContext';
 
 const AddMember = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
@@ -25,7 +28,7 @@ const AddMember = () => {
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
   console.log('getFamilyByIdData', getFamilyByIdData)
 
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
   console.log('getFamilyListData', getFamilyListData)
   const [openModal, setOpenModal] = React.useState(false);
 
@@ -37,10 +40,10 @@ const AddMember = () => {
     })
 
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
   }, [])
   useEffect(() => {
-    dispatch(getFamilyList(formData))
+    dispatch(getFamilyList(formData,startLoading, stopLoading))
   }, [formData])
   useEffect(() => {
     console.log('selectedFamilyHead', selectedFamilyHead)
@@ -55,7 +58,7 @@ const AddMember = () => {
   }
   const onFamilyHeadSelect = (e) => {
     setSelectedFamilyHead(e.target.value)
-    dispatch(getfamilymember(e.target.value))
+    dispatch(getfamilymember(e.target.value,startLoading, stopLoading))
 
   }
 
@@ -76,7 +79,7 @@ const AddMember = () => {
               name="district"
               options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
               value={formData?.district}
-              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) }}
               requried
             />
 
@@ -89,7 +92,7 @@ const AddMember = () => {
               options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
               disabled={formData?.district != "" ? false : true}
               value={formData?.municipal}
-              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
+              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
             requried
           />
 
@@ -109,7 +112,7 @@ const AddMember = () => {
             <SelectDropdown
               title={t('selectHOF')}
               name="hof"
-              options={[{value: "", label: "Select..."},...getFamilyListData?.content?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))]}
+              options={getFamilyListData?.content?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))}
               value={selectedFamilyHead}
               disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
 requried

@@ -20,11 +20,14 @@ import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan } from '@/util
 import { addFamily } from '@/network/actions/addFamily'
 import toast, { Toaster } from 'react-hot-toast'
 import { isValidMobileNumber } from '@/utils/formatAadharNumber'
+import { useLoading } from '@/utils/LoadingContext'
 
 
 const NewFamily = ({ setState, formData, setFormData }) => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const [errors, setErrors] = useState({});
   const [rationCardData, setRationCardData] = useState([])
   const districtList = useSelector((state) => state.getDistrict?.data)
@@ -36,7 +39,7 @@ const NewFamily = ({ setState, formData, setFormData }) => {
  
 
 useEffect(() => {
-  dispatch(getDistrict())
+  dispatch(getDistrict(startLoading, stopLoading))
   dispatch(getEconomicStatus())
   dispatch(getCategory())
 }, [])
@@ -166,7 +169,7 @@ const debouncedSearch = debounce(async (value) => {
             name="district"
             options={districtList?.map(v => ({value : v?.lgdCode, label : v?.nameE})) || []}
             value={formData?.district ?? null}
-            onChange={(e) => {handleChange(e); dispatch(getMunicipalities({districtCode: e.target.value}))}}
+            onChange={(e) => {handleChange(e); dispatch(getMunicipalities({districtCode: e.target.value},startLoading, stopLoading))}}
             requried
           />
           {errors?.district && <p className="error">{errors?.district}</p>}
@@ -179,7 +182,7 @@ const debouncedSearch = debounce(async (value) => {
             options={municipalList?.map(v => ({value : v?.id, label : v?.name}))}
             disabled={formData?.district != "" ?false : true}
             value={formData?.municipal}
-            onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value}))}}
+            onChange={(e) => {handleChange(e); dispatch(getWard({municipalId: e.target.value},startLoading, stopLoading))}}
             requried
           />
           {errors?.municipal && <p className="error">{errors?.municipal}</p>}

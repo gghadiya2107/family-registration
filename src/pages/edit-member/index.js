@@ -121,7 +121,7 @@ const EditMember = () => {
     dispatch(getQualification())
     dispatch(getProfession())
     dispatch(getMemberStatus())
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getTransferType())
 
 
@@ -139,7 +139,7 @@ const EditMember = () => {
     };
 
     if (userData?.relation) fetchData();
-    dispatch(getfamilymember(userData?.familyId))
+    dispatch(getfamilymember(userData?.familyId,startLoading, stopLoading))
   }, [userData]);
 
   console.log('userData', userData)
@@ -998,7 +998,7 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
                         id="district"
                         value={currentValue?.district || ""}
                         onChange={(e) => {
-                          handleChange(e); currentValue?.transferTo == "urban" ? dispatch(getMunicipalities({ districtCode: e.target.value })) :
+                          handleChange(e); currentValue?.transferTo == "urban" ? dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) :
                             dispatch(getBlock({ districtCode: e.target.value }))
                         }}
 
@@ -1013,7 +1013,7 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
                           id="block"
                           value={currentValue?.block || ""}
                           // onChange={handleChange}
-                          onChange={(e) => { handleChange(e); dispatch(getPanchayat({ municipalId: e.target.value })) }}
+                          onChange={(e) => { handleChange(e); dispatch(getPanchayat({ municipalId: e.target.value },startLoading, stopLoading)) }}
 
                           style={{ width: "80%" }}
                           options={getBlockList?.map(v => ({ value: v?.lgdCode, label: v?.nameE }))}
@@ -1034,7 +1034,7 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
                             name="municipal"
                             id="municipal"
                             value={currentValue?.municipal || ""}
-                            onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
+                            onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
 
                             style={{ width: "80%" }}
                             options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}

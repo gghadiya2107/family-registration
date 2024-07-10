@@ -1,9 +1,9 @@
 // actions/someActions.js
-import  { apiCall, survayAnalysis } from "../api";
+import { apiCall, survayAnalysis } from "../api";
 
 import {
-    GET_MUNICIPAL_SUCCESS,
-    GET_MUNICIPAL_FALIURE,
+	GET_MUNICIPAL_SUCCESS,
+	GET_MUNICIPAL_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData } from "@/utils/encryptDecryot";
 import { ApiGetNoAuth } from "../apiData";
@@ -20,13 +20,13 @@ export const getMunicipalFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getMunicipalities = (body) => {
+export const getMunicipalities = (body, startLoading = () => { }, stopLoading = () => { }) => {
 	return async (dispatch) => {
-
+		startLoading()
 		try {
 			let params = {
-				status : "true",
-				masterName : "municipal",
+				status: "true",
+				masterName: "municipal",
 				parentId: body?.districtCode
 			}
 			console.log('params', params, body)
@@ -37,7 +37,9 @@ export const getMunicipalities = (body) => {
 			// let responseData = decryptData(response?.data?.data)
 
 			dispatch(getMunicipalSuccess(response));
+			stopLoading()
 		} catch (error) {
+			stopLoading()
 			dispatch(getMunicipalFaliure(error));
 		}
 	};

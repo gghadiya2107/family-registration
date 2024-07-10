@@ -22,9 +22,10 @@ export const getfamilymemberFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getfamilymember = (family_id) => {
+export const getfamilymember = (family_id,startLoading = () => {}, stopLoading= () => {}) => {
     console.log('family_id', family_id)
 	return async (dispatch) => {
+		startLoading()
 		try {
 			let params = {
 				family_id : typeof family_id == "number" ?  JSON.stringify(family_id) : family_id,
@@ -39,7 +40,9 @@ export const getfamilymember = (family_id) => {
 // console.log('family_id', responseData)
 console.log(' error response', response)
 			dispatch(getfamilymemberSuccess(response));
+			stopLoading()
 		} catch (error) {
+			stopLoading()
             console.log('error', error)
             // toast.error(error?.message)
 			dispatch(getfamilymemberFaliure(error));

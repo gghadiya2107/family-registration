@@ -37,10 +37,13 @@ import DeleteConfirmation from '@/components/Dialogs/delete'
 import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember'
 import formatDate from '@/utils/formatDate'
 import FormatAadharNumber, { isValidMobileNumber } from '@/utils/formatAadharNumber'
+import { useLoading } from '@/utils/LoadingContext'
 
 const FamilyDetails = () => {
     const dispatch = useDispatch()
     const route = useRouter()
+    const { loading, startLoading, stopLoading } = useLoading();
+
     const {id} = route.query
 
     const { t } = useTranslation("translation");
@@ -86,7 +89,7 @@ const FamilyDetails = () => {
     console.log('memberList', memberList)
     // console.log('formData', formData)
     useEffect(() => {
-      dispatch(getDistrict())
+      dispatch(getDistrict(startLoading, stopLoading))
       dispatch(getEconomicStatus())
       dispatch(getCategory())
       dispatch(getGender())
@@ -136,7 +139,7 @@ const FamilyDetails = () => {
         console.log('route', id)
         dispatch(getFamilyById(+id))
 
-        dispatch(getfamilymember(id))
+        dispatch(getfamilymember(id,startLoading, stopLoading))
 
     }, [])
 
@@ -211,7 +214,7 @@ const FamilyDetails = () => {
     const extraUpdate = () => {
         setFamilyDetails(familyDetailsExtra); setIsEditMode(false)
         setFamilyError({})
-        dispatch(getfamilymember(addFamilyData?.id))
+        dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
         dispatch(getFamilyById(addFamilyData?.id))
       
       
@@ -263,7 +266,7 @@ const FamilyDetails = () => {
           const extraAferHeadUpdate = () => {
             setFormData(headDetailsExtra); setisEditModeHead(false)
               setHeadError({})
-              dispatch(getfamilymember(addFamilyData?.id))
+              dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
           dispatch(getFamilyById(addFamilyData?.id))
           }
           const saveHeadAfterEdit = () => {
@@ -518,11 +521,11 @@ const FamilyDetails = () => {
           const deleteMember = () => {
             const extraAferDelete = () => {
               handleCloseDelete()
-              dispatch(getfamilymember(addFamilyData?.id))
+              dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
               dispatch(getFamilyById(addFamilyData?.id))
 
             }
-            dispatch(deleteFamilyMember(deleteId,extraAferDelete))
+            dispatch(deleteFamilyMember(deleteId,extraAferDelete,startLoading, stopLoading))
 
           }
 
@@ -604,7 +607,7 @@ const FamilyDetails = () => {
                       name="districtCode"
                       options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
                       value={familyDetailsExtra?.districtCode}
-                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) }}
                       requried
                     />
                     {familyError?.districtCode && <p className="error">{familyError?.districtCode}</p>}
@@ -618,7 +621,7 @@ const FamilyDetails = () => {
                       options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
 
                       value={familyDetailsExtra?.municipalityId}
-                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value })) }}
+                      onChange={(e) => { handleChangeFamilyDetails(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
                       requried
                     />
                     {familyError?.municipalityId && <p className="error">{familyError?.municipalityId}</p>}

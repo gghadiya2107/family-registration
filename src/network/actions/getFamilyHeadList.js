@@ -19,9 +19,10 @@ export const getFamilyHeadListFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getFamilyHeadList = (body) => {
+export const getFamilyHeadList = (body,startLoading=()=> {}, stopLoading=()=> {}) => {
 	return async (dispatch) => {
 console.log('body', body)
+startLoading()
 		try {
 			let params = {}
             if(body?.district){
@@ -45,7 +46,9 @@ console.log('body', body)
 			// let responseData = decryptData(response?.data?.data)
 console.log('response', response)
 			dispatch(getFamilyHeadListSuccess(response));
+			stopLoading()
 		} catch (error) {
+			stopLoading()
 			dispatch(getFamilyHeadListFaliure(error));
 		}
 	};

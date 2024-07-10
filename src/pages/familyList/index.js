@@ -12,10 +12,13 @@ import { getWard } from '@/network/actions/getWard'
 import { getDistrict } from '@/network/actions/getDistrict'
 import { getFamilyList } from '@/network/actions/getFamilyList'
 import ViewFamilyModal from './ViewFamilyModal'
+import { useLoading } from '@/utils/LoadingContext'
 
 const FamilyList = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
@@ -41,14 +44,14 @@ const FamilyList = () => {
   };
 
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
   }, [])
   useEffect(() => {
     // if (getFamilyListData)
       // setPage(getFamilyListData?.number)
   }, [getFamilyListData])
   useEffect(() => {
-    dispatch(getFamilyList(formData))
+    dispatch(getFamilyList(formData,startLoading, stopLoading))
   }, [formData])
 
   const handleChange = (e) => {
@@ -58,7 +61,7 @@ const FamilyList = () => {
   const handlePageChange = (event, value) => {
     setPage(value)
     console.log('value', value)
-    dispatch(getFamilyList({...formData, page: value-1}))
+    dispatch(getFamilyList({...formData, page: value-1},startLoading, stopLoading))
 
   }
   return (
@@ -72,7 +75,7 @@ const FamilyList = () => {
               name="district"
               options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
               value={formData?.district}
-              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) }}
             />
 
 
@@ -84,7 +87,7 @@ const FamilyList = () => {
               options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
               disabled={formData?.district != "" ? false : true}
               value={formData?.municipal}
-              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
+              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
             />
 
           </Grid>

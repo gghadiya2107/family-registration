@@ -20,8 +20,9 @@ export const memberTransferListFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const memberTransferList = (body) => {
+export const memberTransferList = (body,startLoading = () => {}, stopLoading= () => {}) => {
 	return async (dispatch) => {
+        startLoading()
 console.log('body', body)
 		try {
 			let params = {}
@@ -54,7 +55,9 @@ console.log('body', body)
 			// let responseData = decryptData(response?.data?.data)
 console.log('response', response)
 			dispatch(memberTransferListSuccess(response));
+            stopLoading()
 		} catch (error) {
+            stopLoading()
 			dispatch(memberTransferListFaliure(error));
 		}
 	};

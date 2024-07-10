@@ -20,9 +20,9 @@ export const getDistrictFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getDistrict = () => {
+export const getDistrict = (startLoading = () => { }, stopLoading = () => { }) => {
 	return async (dispatch) => {
-
+startLoading()
 		try {
 			let params = {
 				status : "true",
@@ -34,7 +34,9 @@ export const getDistrict = () => {
 			// );
 			// let responseData = decryptData(response?.data?.data)
 			dispatch(getDistrictSuccess(response));
+			stopLoading()
 		} catch (error) {
+			stopLoading()
 			dispatch(getDistrictFaliure(error));
 		}
 	};

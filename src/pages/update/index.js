@@ -20,12 +20,15 @@ import ViewMemberData from '@/components/Dialogs/viewMemberData';
 import { useRouter } from 'next/router';
 import { getFamilyHeadList } from '@/network/actions/getFamilyHeadList';
 import formatDate from '@/utils/formatDate';
+import { useLoading } from '@/utils/LoadingContext';
 
 
 
 const Update = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const route = useRouter()
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
@@ -46,10 +49,10 @@ const [openEdit, setOpenEdit] = useState(false)
     })
 
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict( startLoading, stopLoading ))
   }, [])
   useEffect(() => {
-    dispatch(getFamilyHeadList(formData))
+    dispatch(getFamilyHeadList(formData,startLoading, stopLoading))
   }, [formData]) 
 
   const handleChange = (e) => {
@@ -58,7 +61,7 @@ const [openEdit, setOpenEdit] = useState(false)
   }
   const onFamilyHeadSelect = (e) => {
     setSelectedFamilyHead(e.target.value)
-    dispatch(getfamilymember(e.target.value))
+    dispatch(getfamilymember(e.target.value,startLoading, stopLoading))
 
   }
 
@@ -77,11 +80,11 @@ const [openEdit, setOpenEdit] = useState(false)
   const handleSubmitDelete = () => {
     const extraAferDelete = () => {
       handleCloseDelete()
-      dispatch(getfamilymember(selectedFamilyHead))
+      dispatch(getfamilymember(selectedFamilyHead,startLoading, stopLoading))
       // dispatch(getFamilyById(addFamilyData?.id))
 
     }
-    dispatch(deleteFamilyMember(deleteId,extraAferDelete))
+    dispatch(deleteFamilyMember(deleteId,extraAferDelete,startLoading, stopLoading))
   }
   console.log("getfamilymemberList",getfamilymemberList)
 
@@ -95,7 +98,7 @@ const [openEdit, setOpenEdit] = useState(false)
               name="district"
               options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
               value={formData?.district}
-              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })) }}
+              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading )) }}
               requried
             />
 
@@ -108,7 +111,7 @@ const [openEdit, setOpenEdit] = useState(false)
               options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
               disabled={formData?.district != "" ? false : true}
               value={formData?.municipal}
-              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
+              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading )) }}
             requried
           />
 

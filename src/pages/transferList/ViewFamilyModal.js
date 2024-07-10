@@ -32,6 +32,7 @@ import { separateMember } from '@/network/actions/separateMember';
 import { getFamilyList } from '@/network/actions/getFamilyList';
 import { memberTransferList } from '@/network/actions/memberTransferList';
 import { AddTransferMember } from '@/network/actions/AddTransferMember';
+import { useLoading } from '@/utils/LoadingContext';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -44,9 +45,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const dispatch = useDispatch()
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
   console.log('getfamilymemberList', getfamilymemberList, viewData)
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
@@ -81,7 +83,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   //   }
   // }, [newData?.municipalityId])
   React.useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
@@ -93,7 +95,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   React.useEffect(() => {
     if (viewData?.family_id) {
 
-      dispatch(getfamilymember(viewData?.family_id))
+      dispatch(getfamilymember(viewData?.family_id,startLoading, stopLoading))
     }
   }, [viewData])
   React.useEffect(() => {
@@ -184,7 +186,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
         const extra = () => {
           setNewData(null)
           handleClose()
-          dispatch(memberTransferList({...formData}))
+          dispatch(memberTransferList({...formData},startLoading, stopLoading))
   
   
         }
@@ -256,7 +258,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
                     name="districtCode"
                     options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
                     value={newData?.districtCode ?? null}
-                    onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value })); console.log(e.target.value) }}
+                    onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value }, startLoading, stopLoading )); console.log(e.target.value) }}
 requried
                   />
                   {errors?.districtCode && <p className="error">{errors?.districtCode}</p>}
@@ -269,7 +271,7 @@ requried
                     options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
                     disabled={newData?.district != "" ? false : true}
                     value={newData?.municipalityId}
-                    onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value })) }}
+                    onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value }, startLoading, stopLoading )) }}
                     requried
                   />
                   {errors?.municipalityId && <p className="error">{errors?.municipalityId}</p>}

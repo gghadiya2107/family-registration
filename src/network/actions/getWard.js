@@ -20,9 +20,9 @@ export const getWardFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getWard = (body) => {
+export const getWard = (body, startLoading = () => { }, stopLoading = () => { }) => {
 	return async (dispatch) => {
-
+startLoading()
 		try {
 			let params = {
 				status : "true",
@@ -37,7 +37,9 @@ export const getWard = (body) => {
 			// let responseData = decryptData(response?.data?.data)
 
 			dispatch(getWardSuccess(response));
+			stopLoading()
 		} catch (error) {
+			stopLoading()
 			dispatch(getWardFaliure(error));
 		}
 	};

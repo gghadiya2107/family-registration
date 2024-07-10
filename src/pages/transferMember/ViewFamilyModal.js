@@ -33,6 +33,7 @@ import { getFamilyList } from '@/network/actions/getFamilyList';
 import KeyValueDetails from '@/components/KeyValueDetails';
 import { TransferMember } from '@/network/actions/TransferMember';
 import TextArea from '@/components/TextArea';
+import { useLoading } from '@/utils/LoadingContext';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -45,6 +46,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   const { t } = useTranslation("translation");
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const dispatch = useDispatch()
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
@@ -78,16 +80,16 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   }, [viewData])
   React.useEffect(() => {
     if (newData?.districtCode) {
-      dispatch(getMunicipalities({ districtCode: viewData?.districtCode }))
+      dispatch(getMunicipalities({ districtCode: viewData?.districtCode }, startLoading, stopLoading ))
     }
   }, [newData?.districtCode])
   React.useEffect(() => {
     if (newData?.municipalityId) {
-      dispatch(getWard({ municipalId: viewData?.municipalityId }))
+      dispatch(getWard({ municipalId: viewData?.municipalityId }, startLoading, stopLoading ))
     }
   }, [newData?.municipalityId])
   React.useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading ))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
@@ -99,7 +101,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   React.useEffect(() => {
     if (viewData?.family_id) {
 
-      dispatch(getfamilymember(viewData?.family_id))
+      dispatch(getfamilymember(viewData?.family_id,startLoading, stopLoading))
     }
   }, [viewData])
   React.useEffect(() => {
@@ -143,7 +145,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
     } else {
       const extra = () => {
         handleClose()
-        dispatch(getFamilyList(formData))
+        dispatch(getFamilyList(formData,startLoading, stopLoading))
 
       }
       let body = {

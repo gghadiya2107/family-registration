@@ -22,10 +22,10 @@ export const deleteFamilyMemberFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const deleteFamilyMember = (familyMemberId,  extraAferDelete) => {
+export const deleteFamilyMember = (familyMemberId,  extraAferDelete,startLoading=()=>{}, stopLoading=()=>{}) => {
     console.log('familyMemberId', familyMemberId )
 	return async (dispatch) => {
-
+startLoading()
 		try {
 			
 			const response = await ApiPostNoAuth(`/urbanregister/DeleteFamilyMember?family_member_id=${encryptDataGet(familyMemberId)}`, {});
@@ -35,7 +35,9 @@ console.log('familyMemberId', response)
 extraAferDelete()
 
 			dispatch(deleteFamilyMemberSuccess(response));
+			stopLoading()
 		} catch (error) {
+			stopLoading()
             console.log('error', error)
             toast.error(error?.message)
 			dispatch(deleteFamilyMemberFaliure(error));

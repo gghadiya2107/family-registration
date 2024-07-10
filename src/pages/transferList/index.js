@@ -12,10 +12,13 @@ import formatDate from '@/utils/formatDate'
 import toast from 'react-hot-toast'
 import ViewFamilyModal from './ViewFamilyModal'
 import { isNumericKeyWithSpace } from '@/utils/regex'
+import { useLoading } from '@/utils/LoadingContext'
 
 const TransferList = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
@@ -51,7 +54,7 @@ const TransferList = () => {
   };
 
   useEffect(() => {
-    dispatch(getDistrict())
+    dispatch(getDistrict(startLoading, stopLoading))
 
     return(() => {
       setTableData([])
@@ -72,14 +75,14 @@ const TransferList = () => {
   const handlePageChange = (event, value) => {
     setPage(value)
     console.log('value', value)
-    dispatch(memberTransferList({...formData, page: value-1}))
+    dispatch(memberTransferList({...formData, page: value-1},startLoading, stopLoading))
 
   }
 
   const handleSearch = () => {
     if(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no){
 
-        dispatch(memberTransferList({...formData}))
+        dispatch(memberTransferList({...formData},startLoading, stopLoading))
     }else{
         toast.error("Please enter at leaset one data")
     }

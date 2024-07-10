@@ -28,8 +28,8 @@ export const addfamilymember = (body,extra, startLoading, stopLoading) => {
 startLoading()
 		try {
 			const formData = new FormData()
-		formData.append('memberDocument', body?.dastavage)
-		formData.append('CategoryDocument', body?.dastavage2)
+		formData.append('BonafideDocument', body?.dastavage)
+		formData.append('CastDocument', body?.dastavage2)
 		delete body.dastavage
 		delete body.dastavage2
 		formData.append('Member', encryptDataPost(JSON.stringify(body)))

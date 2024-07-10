@@ -166,7 +166,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   }, [])
   useEffect(() => {
     console.log('addFamilyData', addFamilyData)
-    dispatch(getfamilymember(addFamilyData?.id))
+    dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
 
 
   }, [addFamilyData])
@@ -193,7 +193,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   }
 
   const extra = () => {
-    dispatch(getfamilymember(addFamilyData?.id))
+    dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
     setIsOpenForm(false)
   // setSaveHof(true)
   setErrors({})
