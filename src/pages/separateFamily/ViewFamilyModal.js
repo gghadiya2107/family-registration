@@ -161,6 +161,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
           },
           remarks : remarks,
           consentDocName : newData?.dastavage,
+          CastDocument : newData?.dastavage2,
           SeparateMembers : {"members":rationCardData?.filter(v => v?.isChecked)?.map(k => +k?.familyMemberId), isHead : rationCardData?.find(v => v?.isHead)?.familyMemberId}
           
       }
@@ -371,11 +372,11 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                   {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
                 </Grid>
-                {formData?.subclass && <Grid item xs={12} sm={6} md={6}>
+                {originalData?.socialSubCategory && <Grid item xs={12} sm={6} md={6}>
                   <FileUpload
                     title={t('manifesto')}
                     // subTitle="(Declaration & Report)"
-                    requried
+                    // requried
                     name="dastavage2"
                     onChange={handleChange}
                     accept="image/*,.pdf"
@@ -565,7 +566,7 @@ requried
                   {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
                 </Grid>
-                {formData?.subclass && <Grid item xs={12} sm={6} md={6}>
+                {newData?.socialSubCategory && <Grid item xs={12} sm={6} md={6}>
                   <FileUpload
                     title={t('manifesto')}
                     // subTitle="(Declaration & Report)"

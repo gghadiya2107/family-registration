@@ -21,14 +21,14 @@ import { isValidMobileNumber } from '@/utils/formatAadharNumber';
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
 
-const AddFamily = ({setActiveStepper,selectedFamilyMember}) => {
+const AddFamily = ({setActiveStepper,selectedFamilyMember,formData, setFormData,onSave, errors, setErrors}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
     const { loading, startLoading, stopLoading } = useLoading();
 
     const { t } = useTranslation("translation");
     const dispatch = useDispatch()
-    const [formData, setFormData] = useState({})
-    const [errors, setErrors] = useState({});
+    // const [formData, setFormData] = useState({})
+    // const [errors, setErrors] = useState({});
     const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
@@ -83,88 +83,88 @@ console.log('districtList', districtList)
     }
   }
 
-  const onSave = () => {
-    // const validationErrors = {};
+  // const onSave = () => {
+  //   // const validationErrors = {};
 
-    const validationErrors = validateForm(formData);
-    if (Object.keys(validationErrors).length === 0) {
-      let body = {
-        houseAddress:formData?.makan || "",
-        rationCardNo:formData?.rationCard || "",
-        socialSubCategory: formData?.subclass || "",
-        wardId: formData?.ward || 0,
-        districtCode: formData?.district || 0,
-        socialCategoryId: formData?.class || 0,
-        municipalityId: formData?.municipal || 0,
-        mobileNumber: formData?.mobile?.replace("-", "") || "",
-        bplNumber: formData?.bpl || "",
-        active:true,
-        economicId : formData?.condition || 0,
-        dastavage: formData?.dastavage || "",
-        dastavage2 :  formData?.dastavage2 || ""
-    }
-    console.log('body', body)
-    const extra = () => {
-        setActiveStepper(1)
-    }
+  //   const validationErrors = validateForm(formData);
+  //   if (Object.keys(validationErrors).length === 0) {
+  //     let body = {
+  //       houseAddress:formData?.makan || "",
+  //       rationCardNo:formData?.rationCard || "",
+  //       socialSubCategory: formData?.subclass || "",
+  //       wardId: formData?.ward || 0,
+  //       districtCode: formData?.district || 0,
+  //       socialCategoryId: formData?.class || 0,
+  //       municipalityId: formData?.municipal || 0,
+  //       mobileNumber: formData?.mobile?.replace("-", "") || "",
+  //       bplNumber: formData?.bpl || "",
+  //       active:true,
+  //       economicId : formData?.condition || 0,
+  //       dastavage: formData?.dastavage || "",
+  //       dastavage2 :  formData?.dastavage2 || ""
+  //   }
+  //   console.log('body', body)
+  //   const extra = () => {
+  //       setActiveStepper(1)
+  //   }
       
-      dispatch(addFamily(body,extra, startLoading, stopLoading))
+  //     dispatch(addFamily(body,extra, startLoading, stopLoading))
 
      
-    } else {
-      console.log('validationErrors', validationErrors)
-      setErrors(validationErrors);
-    }
-  }
+  //   } else {
+  //     console.log('validationErrors', validationErrors)
+  //     setErrors(validationErrors);
+  //   }
+  // }
 
   console.log('formData', formData)
-  const validateForm = (formData) => {
-    const errors = {};
-    if (!formData.municipal?.trim() || formData?.municipal == "0") {
-      errors.municipal = t('validateMunucipal');
-    }
-    if (!formData.district?.trim() || formData?.district == "0") {
-      errors.district = t('validateDistrict');
-    }
-    if (!formData.ward?.trim() || formData?.ward == "0") {
-      errors.ward = t("validateward");
-    }
-    if (!formData.makan?.trim()) {
-      errors.makan = t("ValidateHouseNumber");
-    }
-    if (!formData.condition?.trim() || formData?.condition == "0") {
-      errors.condition = t("validateCondition");
-    }
-    if (formData?.condition == "2" && !formData.bpl?.trim()) {
-      errors.bpl = t("validateBPL");
-    }
-    if (!formData.class?.trim() || formData?.class == "0") {
-      errors.class = t("validateCategory");
-    }
-    // if (!formData.subclass?.trim()) {
-    //   errors.subclass = t("validateSubCategory");
-    // }
-    if (!formData.rationCard?.trim()) {
-      errors.rationCard = t("validateRationCard");
-    }
-    if (!formData.mobile?.trim()) {
-      errors.mobile = t("validateMobile");
-    }
-   else if (formData.mobile?.length < 11) {
-      errors.mobile = t("validateMobileLength");
-    }
-    else if (!isValidMobileNumber(formData.mobile?.replace("-", "")?.trim())) {
-      errors.mobile = t("validateMobileStart");
-    }    
-    if (!formData.dastavage) {
-      errors.dastavage = t("validateDocument");
-    }
-    if (formData?.subclass && !formData.dastavage2) {
-      errors.dastavage2 = t("validateDocument");
-    }
+  // const validateForm = (formData) => {
+  //   const errors = {};
+  //   if (!formData.municipal?.trim() || formData?.municipal == "0") {
+  //     errors.municipal = t('validateMunucipal');
+  //   }
+  //   if (!formData.district?.trim() || formData?.district == "0") {
+  //     errors.district = t('validateDistrict');
+  //   }
+  //   if (!formData.ward?.trim() || formData?.ward == "0") {
+  //     errors.ward = t("validateward");
+  //   }
+  //   if (!formData.makan?.trim()) {
+  //     errors.makan = t("ValidateHouseNumber");
+  //   }
+  //   if (!formData.condition?.trim() || formData?.condition == "0") {
+  //     errors.condition = t("validateCondition");
+  //   }
+  //   if (formData?.condition == "2" && !formData.bpl?.trim()) {
+  //     errors.bpl = t("validateBPL");
+  //   }
+  //   if (!formData.class?.trim() || formData?.class == "0") {
+  //     errors.class = t("validateCategory");
+  //   }
+  //   // if (!formData.subclass?.trim()) {
+  //   //   errors.subclass = t("validateSubCategory");
+  //   // }
+  //   if (!formData.rationCard?.trim()) {
+  //     errors.rationCard = t("validateRationCard");
+  //   }
+  //   if (!formData.mobile?.trim()) {
+  //     errors.mobile = t("validateMobile");
+  //   }
+  //  else if (formData.mobile?.length < 11) {
+  //     errors.mobile = t("validateMobileLength");
+  //   }
+  //   else if (!isValidMobileNumber(formData.mobile?.replace("-", "")?.trim())) {
+  //     errors.mobile = t("validateMobileStart");
+  //   }    
+  //   if (!formData.dastavage) {
+  //     errors.dastavage = t("validateDocument");
+  //   }
+  //   if (formData?.subclass && !formData.dastavage2) {
+  //     errors.dastavage2 = t("validateDocument");
+  //   }
 
-    return errors;
-  };
+  //   return errors;
+  // };
 
  
 

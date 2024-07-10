@@ -206,6 +206,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
             "economicId":newData?.economicId
             },
             consentDocName : newData?.dastavage,
+            CastDocument : newData?.dastavage,
             TransferMembers : {"members":viewData?.map(k => +k?.memberId), isHead : viewData?.find(v => v?.isHead)?.memberId}
             
         }
@@ -421,7 +422,7 @@ requried
                   {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
                 </Grid>
-                {formData?.subclass && <Grid item xs={12} sm={3} md={3}>
+                {newData?.socialSubCategory && <Grid item xs={12} sm={3} md={3}>
                   <FileUpload
                     title={t('manifesto')}
                     // subTitle="(Declaration & Report)"

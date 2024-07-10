@@ -56,7 +56,7 @@ const EditMember = () => {
   const qualificationList = useSelector((state) => state.getQualification?.data)
   const profesionList = useSelector((state) => state.getProfession?.data)
   const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
   const getUpdateHistoryList = useSelector((state) => state.getUpdateHistory?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)

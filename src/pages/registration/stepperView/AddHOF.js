@@ -167,6 +167,8 @@ console.log('formData', formData)
     const validationErrors = validateForm(formData);
     console.log('formData hof', formData)
     if (Object.keys(validationErrors).length === 0) {
+      onSaveFamily()
+
       let body = {
         "memberName": formData?.EnglishName || "",
         "memberNameHin": formData?.hindiName || "",
