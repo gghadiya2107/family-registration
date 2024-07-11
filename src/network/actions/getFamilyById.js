@@ -31,6 +31,7 @@ export const getFamilyById = (family_id) => {
 				family_id : JSON.stringify(family_id),
 			}
 			const response = await ApiGetNoAuth(`/urbanregister/getFamilyById?`, params);
+			console.log('getFamilyById', response)
 // 			const response = await apiCall.get(
 // 				`/urbanregister/getFamilyById?family_id=${encryptDataGet(JSON.stringify(family_id))}`
 // 			);

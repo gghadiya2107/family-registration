@@ -48,7 +48,7 @@ const FamilyDetails = () => {
 
     const { t } = useTranslation("translation");
 
-    const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
+    const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
     const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
     const [open, setOpen] = useState(false)
     const districtList = useSelector((state) => state.getDistrict?.data)

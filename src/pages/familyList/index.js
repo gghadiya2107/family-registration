@@ -13,11 +13,13 @@ import { getDistrict } from '@/network/actions/getDistrict'
 import { getFamilyList } from '@/network/actions/getFamilyList'
 import ViewFamilyModal from './ViewFamilyModal'
 import { useLoading } from '@/utils/LoadingContext'
+import { getFamilyById } from '@/network/actions/getFamilyById'
 
 const FamilyList = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const { loading, startLoading, stopLoading } = useLoading();
+
 
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
@@ -31,7 +33,7 @@ const FamilyList = () => {
     const [open, setOpen] = React.useState(false);
     const [viewData, setViewData] = useState({})
     const [page, setPage] = useState(1);
-    console.log('getFamilyListData', getFamilyListData, page)
+    console.log('getFamilyListData', getFamilyListData,page)
 
   console.log('open', open)
   const handleClickOpen = (v) => {
@@ -45,7 +47,9 @@ const FamilyList = () => {
 
   useEffect(() => {
     dispatch(getDistrict(startLoading, stopLoading))
+
   }, [])
+
   useEffect(() => {
     // if (getFamilyListData)
       // setPage(getFamilyListData?.number)
