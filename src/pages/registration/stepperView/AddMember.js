@@ -27,6 +27,7 @@ import formatDate from '@/utils/formatDate';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
+import { getFamilyById } from '@/network/actions/getFamilyById';
 
 const AddMember = ({selectedFamilyMember}) => {
   const { t } = useTranslation("translation");
@@ -43,8 +44,9 @@ const AddMember = ({selectedFamilyMember}) => {
   const qualificationList = useSelector((state) => state.getQualification?.data)
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
-  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
-  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
+
+  const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
 console.log('getfamilymemberList', getfamilymemberList)
 const [isOpenForm, setIsOpenForm] = useState(false)
   const [memberFillDetails, setMemberFillDetails] = useState({})
@@ -162,6 +164,8 @@ const [oldMemberList, setOldMemberList] = useState([])
     dispatch(getQualification())
     dispatch(getProfession())
     dispatch(getReligion())
+    dispatch(getFamilyById(addFamilyData?.id))
+
 
   }, [])
   useEffect(() => {

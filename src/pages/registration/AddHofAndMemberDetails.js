@@ -55,7 +55,7 @@ const AddHofAndMemberDetails = ({ selectedFamilyMember, state, setState ,setSele
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
-  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
+  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
   console.log('getFamilyByIdData', getFamilyByIdData)
   const [saveHof, setSaveHof] = useState(false)
   const [headDetailsExtra, setheadDetailsExtra] = useState()

@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import AddFamily from './AddFamily';
 import AddHOF from './AddHOF';
 import AddMember from './AddMember';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addFamily } from '@/network/actions/addFamily';
 import { useLoading } from '@/utils/LoadingContext';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
@@ -21,6 +21,7 @@ const steps = [
 export default function StepperView({ selectedFamilyMember }) {
   const dispatch = useDispatch()
   const { loading, startLoading, stopLoading } = useLoading();
+  const addFamilyData = useSelector((state) => state.addFamily?.data || [])
 
   const [activeStepper, setActiveStepper] = React.useState(0)
   const [formData, setFormData] = React.useState({})
@@ -36,7 +37,7 @@ export default function StepperView({ selectedFamilyMember }) {
     }
   }
 
-  const onSaveFamily = () => {
+  const onSaveFamily = (newBody,newExtra) => {
     // const validationErrors = {};
  
     const validationErrors = validateForm(formData);
@@ -59,9 +60,11 @@ export default function StepperView({ selectedFamilyMember }) {
       console.log('body', body)
       const extra = () => {
         // setActiveStepper(1)
+        console.log('addData', addFamilyData)
+        // newFunc(addFamilyData)
       }
 
-      dispatch(addFamily(body, extra, startLoading, stopLoading))
+      dispatch(addFamily(body, extra, startLoading, stopLoading,newBody,newExtra))
 
 
     } else {
@@ -131,7 +134,7 @@ export default function StepperView({ selectedFamilyMember }) {
 
       </Box>
       {activeStepper == 0 && <AddFamily setActiveStepper={setActiveStepper} selectedFamilyMember={selectedFamilyMember} formData={formData} setFormData={setFormData} onSave={onSave} errors={errors} setErrors={setErrors}/>}
-      {activeStepper == 1 && <AddHOF setActiveStepper={setActiveStepper} selectedFamilyMember={selectedFamilyMember} onSaveFamily={onSaveFamily}/>}
+      {activeStepper == 1 && <AddHOF setActiveStepper={setActiveStepper} selectedFamilyMember={selectedFamilyMember} onSaveFamily={onSaveFamily} formData1={formData}/>}
       {activeStepper == 2 && <AddMember selectedFamilyMember={selectedFamilyMember} />}
     </>
   );

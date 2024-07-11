@@ -27,7 +27,7 @@ import style from '../registration.module.css'
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
 
-const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
+const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) => {
   const { t } = useTranslation("translation");
   const { loading, startLoading, stopLoading } = useLoading();
 
@@ -45,7 +45,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
-  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
+  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
 
   const [errors, setErrors] = useState({});
@@ -69,6 +69,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
     dastavage: "",
     description: ""
   })
+  console.log('formData1', formData)
   const changeLang = async (name) => {
     if (name) {
 
@@ -90,7 +91,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
 
   }, [addFamilyData])
   useEffect(() => {
-    if (getFamilyByIdData && selectedFamilyMember) {
+    if ( selectedFamilyMember) {
       let head = selectedFamilyMember?.find(v => v?.isHead) || {}
       console.log('head', head)
 
@@ -105,7 +106,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
         refrence: "",
         education: "",
         work: "",
-        category: getFamilyByIdData?.socialCategoryId || "",
+        category: formData1?.socialCategoryId || "",
         subCategory: "",
         rationCard: head?.rationCardNumber || "",
         religion: "",
@@ -118,11 +119,11 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
 
     }
     if(!selectedFamilyMember){
-            setFormData({ rationCard: getFamilyByIdData?.rationCardNo, category: getFamilyByIdData?.socialCategoryId })
+            setFormData({ rationCard: formData1?.rationCard, category: formData1?.class })
 
     }
 
-  }, [getFamilyByIdData, selectedFamilyMember])
+  }, [ selectedFamilyMember,formData1])
   useEffect(() => {
     if (formData?.EnglishName && selectedFamilyMember) changeLang(formData?.EnglishName)
   }, [formData?.EnglishName])
@@ -162,47 +163,91 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper}) => {
   }
 
 console.log('formData', formData)
-  const handleSaveHOF = () => {
+ const newFunc = (addData) => {
+  console.log('addData', addData)
+  const validationErrors = validateForm(formData);
+  console.log('formData hof', formData)
+  if (Object.keys(validationErrors).length === 0) {
+
+
+    let body = {
+      "memberName": formData?.EnglishName || "",
+      "memberNameHin": formData?.hindiName || "",
+      "relativeName": formData?.relative || "",
+      "relationId": formData?.relation || 0,
+      "dateOfBirth": formData?.dob || "",
+      "genderId": formData?.gender || 0,
+      "memberStatusId":  "1",
+      "referenceNo": formData?.refrence || "",
+      "qualificationId": formData?.education || 0,
+      "professionId": formData?.work || 0,
+      "socialCategoryId": formData?.category || 0,
+      "socialSubCategory": formData?.subCategory || "",
+      "rationCardNo": formData?.rationCard || "",
+      "religionId": formData?.religion || 0,
+      "aadhaarNo": formData?.adharCard?.replaceAll(" ", "") || "",
+      "isHead": true,
+      "remarks": formData?.description || "",
+      "familyId": addData?.id,
+      "himParivarId" : addData?.HimParivarId,
+       dastavage: formData?.dastavage || "",
+      dastavage2 :  formData?.dastavage2 || ""
+
+    }
+    console.log('body addmember', body)
+    const extra = () => {
+      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
+      setActiveStepper(2)
+    }
+    console.log('addFamilyData', addFamilyData)
+    // if(addFamilyData){
+      
+      dispatch(addfamilymember(body, extra, startLoading, stopLoading))
+    // }
+    // setSaveHof(true)
+  } else {
+    setErrors(validationErrors);
+  }
+ }
+
+  const handleSaveHOF = async() => {
     // const validationErrors = {};
     const validationErrors = validateForm(formData);
-    console.log('formData hof', formData)
+    let body = {
+      "memberName": formData?.EnglishName || "",
+      "memberNameHin": formData?.hindiName || "",
+      "relativeName": formData?.relative || "",
+      "relationId": formData?.relation || 0,
+      "dateOfBirth": formData?.dob || "",
+      "genderId": formData?.gender || 0,
+      "memberStatusId":  "1",
+      "referenceNo": formData?.refrence || "",
+      "qualificationId": formData?.education || 0,
+      "professionId": formData?.work || 0,
+      "socialCategoryId": formData?.category || 0,
+      "socialSubCategory": formData?.subCategory || "",
+      "rationCardNo": formData?.rationCard || "",
+      "religionId": formData?.religion || 0,
+      "aadhaarNo": formData?.adharCard?.replaceAll(" ", "") || "",
+      "isHead": true,
+      "remarks": formData?.description || "",
+      // "familyId": addData?.id,
+      // "himParivarId" : addData?.HimParivarId,
+       dastavage: formData?.dastavage || "",
+      dastavage2 :  formData?.dastavage2 || ""
+
+    }
+    console.log('body addmember', body)
+    const extra = () => {
+      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
+      setActiveStepper(2)
+    }
     if (Object.keys(validationErrors).length === 0) {
-      onSaveFamily()
-
-      let body = {
-        "memberName": formData?.EnglishName || "",
-        "memberNameHin": formData?.hindiName || "",
-        "relativeName": formData?.relative || "",
-        "relationId": formData?.relation || 0,
-        "dateOfBirth": formData?.dob || "",
-        "genderId": formData?.gender || 0,
-        "memberStatusId":  "1",
-        "referenceNo": formData?.refrence || "",
-        "qualificationId": formData?.education || 0,
-        "professionId": formData?.work || 0,
-        "socialCategoryId": formData?.category || 0,
-        "socialSubCategory": formData?.subCategory || "",
-        "rationCardNo": formData?.rationCard || "",
-        "religionId": formData?.religion || 0,
-        "aadhaarNo": formData?.adharCard?.replaceAll(" ", "") || "",
-        "isHead": true,
-        "remarks": formData?.description || "",
-        "familyId": addFamilyData?.id,
-        "himParivarId" : addFamilyData?.HimParivarId,
-         dastavage: formData?.dastavage || "",
-        dastavage2 :  formData?.dastavage2 || ""
-
-      }
-      console.log('body addmember', body)
-      const extra = () => {
-        setActiveStepper(2)
-        dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
-      }
-      dispatch(addfamilymember(body, extra, startLoading, stopLoading))
-      // setSaveHof(true)
+      onSaveFamily(body,extra)
     } else {
       setErrors(validationErrors);
     }
+   
   }
 
   const validateForm = (formData) => {

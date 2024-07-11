@@ -25,8 +25,10 @@ const AddMember = () => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyList?.data || [])
-  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.[0])
+  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data || {})
   console.log('getFamilyByIdData', getFamilyByIdData)
+  const addFamilyData = useSelector((state) => state.addFamily?.data || [])
+
 
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
   console.log('getFamilyListData', getFamilyListData)
@@ -41,6 +43,7 @@ const AddMember = () => {
 
   useEffect(() => {
     dispatch(getDistrict(startLoading, stopLoading))
+    dispatch(getFamilyById(addFamilyData?.id))
   }, [])
   useEffect(() => {
     dispatch(getFamilyList(formData,startLoading, stopLoading))
