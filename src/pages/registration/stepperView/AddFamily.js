@@ -20,6 +20,7 @@ import Image from 'next/image';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
+import { getfamilymemberSuccess } from '@/network/actions/getfamilymember';
 
 const AddFamily = ({setActiveStepper,selectedFamilyMember,formData, setFormData,onSave, errors, setErrors}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
@@ -39,6 +40,7 @@ console.log('districtList', districtList)
     dispatch(getDistrict(startLoading, stopLoading))
     dispatch(getEconomicStatus())
     dispatch(getCategory())
+    getfamilymemberSuccess([])
   }, [])
 
   useEffect(() => {
@@ -222,7 +224,7 @@ console.log('districtList', districtList)
           type="text"
           name="makan"
           value={formData?.makan}
-          onChange={handleChange}
+          onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
           onKeyDown={(e) => {
             if (!isAlphanumericKey(e.key)) {
               e.preventDefault();
@@ -280,7 +282,7 @@ console.log('districtList', districtList)
           type="text"
           name="subclass"
           value={formData?.subclass}
-          onChange={handleChange}
+          onChange={ handleChange}
           onKeyDown={(e) => {
             if (!isAlphabateKey(e.key)) {
               e.preventDefault();
@@ -367,7 +369,7 @@ console.log('districtList', districtList)
     </Grid>
 
  
-    <div className={style.save}>
+    <div className={style.save} >
       <SubmitButton label={t('saveAndAddHof')} onClick={onSave} />
     </div>
   </div>

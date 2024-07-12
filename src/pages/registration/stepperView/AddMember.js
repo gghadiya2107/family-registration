@@ -47,7 +47,7 @@ const AddMember = ({selectedFamilyMember}) => {
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
 
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
-console.log('getfamilymemberList', getfamilymemberList)
+console.log('getfamilymemberList', profesionList)
 const [isOpenForm, setIsOpenForm] = useState(false)
   const [memberFillDetails, setMemberFillDetails] = useState({})
 const [memberList, setmemberList] = useState([])
@@ -341,7 +341,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   return (
     <>
     <Divider style={{marginTop : 20}}/>
-    {memberList?.length > 0 ?<><div className={style.heading} style={{ marginBottom: "5px", marginTop: "20px" }}>Family Member List</div>
+    {memberList?.length > 0 &&<><div className={style.heading} style={{ marginBottom: "5px", marginTop: "20px" }}>Family Member List</div>
             <div className={style.tablewrapper} style={{ margin: "0" }}>
               <table className={style.table}>
                 <thead className={style.thead}>
@@ -380,14 +380,12 @@ const [oldMemberList, setOldMemberList] = useState([])
               </table>
 
 
-            </div></> : 
-            <Typography my={5} textAlign={"center"}>You don't have any family member. pleae click on Add Member to add family members.</Typography>
-            }
-          <div className={style.save} style={{ float: "none", textAlign: "center" }}>
+            </div></> }
+          {memberList?.length > 0 &&<div className={style.save} style={{ float: "none", textAlign: "center" }}>
             <SubmitButton label="Add Member" onClick={() => setIsOpenForm(true)} />
             <SubmitButton label="View Family" onClick={() =>{!memberList?.every(v => v?.date_of_birth) ? alert("Please fill all members details.") : route.push(`/family-details?id=${addFamilyData?.id}`)}} style={{ marginLeft: "20px" }} />
-          </div>
-   { isOpenForm && <><Grid container spacing={3}  mt={0}>
+          </div>}
+   {( isOpenForm || memberList?.length == 0) && <><Grid container spacing={3}  mt={0}>
 
 <Grid item xs={12} sm={4} md={3}>
   <InputFieldWithIcon

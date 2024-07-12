@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import style from '../registration/registration.module.css'
 import FormatAadharNumber from '@/utils/formatAadharNumber';
-import { FaUserEdit } from "react-icons/fa";
+import { FaEdit, FaUserEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import DeleteConfirmation from '@/components/Dialogs/delete';
 import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember';
@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 import { getFamilyHeadList } from '@/network/actions/getFamilyHeadList';
 import formatDate from '@/utils/formatDate';
 import { useLoading } from '@/utils/LoadingContext';
+import toast from 'react-hot-toast';
 
 
 
@@ -47,7 +48,7 @@ const [openEdit, setOpenEdit] = useState(false)
     municipal: "",
     ward: "",
     })
-
+console.log('getFamilyListData', getFamilyListData)
   useEffect(() => {
     dispatch(getDistrict( startLoading, stopLoading ))
   }, [])
@@ -131,7 +132,7 @@ const [openEdit, setOpenEdit] = useState(false)
             <SelectDropdown
               title={t('selectHOF')}
               name="hof"
-              options={getFamilyListData?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))}
+              options={getFamilyListData?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.himParivarId+")" }))}
               value={selectedFamilyHead}
               disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
 requried
@@ -165,8 +166,8 @@ requried
                <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>
                <td className={style.td}>{v?.profession}</td>
                <td className={style.td}>
-               <FaUserEdit onClick={() => {handleOpenEdit(); setEditUserData(v)}} size={22} color='#42A5F5' cursor="pointer"/>
-               <MdDeleteForever onClick={() => {handleOpenDelete(); setDeleteId(v?.familyMemberId)}} size={24} color='#A04040' style={{marginLeft : "15px", cursor : "pointer"}}/>
+               <FaEdit onClick={() => {handleOpenEdit(); setEditUserData(v)}} size={22} color='#42A5F5' cursor="pointer" title='Update'/>
+               <MdDeleteForever onClick={() => {handleOpenDelete(); setDeleteId(v?.familyMemberId)}} size={24} color='#A04040' style={{marginLeft : "15px", cursor : "pointer"}} title='Delete'/>
 
 
                </td>

@@ -61,7 +61,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) 
     refrence: "",
     education: "",
     work: "",
-    category: "",
+    category: formData1?.class || "",
     subCategory: "",
     rationCard: "",
     religion: "",
@@ -69,7 +69,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) 
     dastavage: "",
     description: ""
   })
-  console.log('formData1', formData)
+  console.log('formData1', formData1)
   const changeLang = async (name) => {
     if (name) {
 
@@ -86,7 +86,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) 
     if (addFamilyData?.id) {
 
       dispatch(getFamilyById(addFamilyData?.id))
-      dispatch(getfamilymember(addFamilyData?.id,startLoading, stopLoading))
+      dispatch(getfamilymember(addFamilyData?.id,startLoading))
     }
 
   }, [addFamilyData])
@@ -106,7 +106,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) 
         refrence: "",
         education: "",
         work: "",
-        category: formData1?.socialCategoryId || "",
+        category: formData1?.class || "",
         subCategory: "",
         rationCard: head?.rationCardNumber || "",
         religion: "",
@@ -562,7 +562,7 @@ console.log('formData', formData)
 {formData?.subCategory &&<Grid item xs={12} sm={4} md={3}>
   <FileUpload
     title={t('manifesto')}
-    subTitle="(Bonafide Himachal)"
+    // subTitle="(Bonafide Himachal)"
     requried
     name="dastavage2"
     // value={formData?.rationCard}

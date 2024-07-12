@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { Typography } from '@mui/material';
+import {  StepConnector, Typography } from '@mui/material';
 import AddFamily from './AddFamily';
 import AddHOF from './AddHOF';
 import AddMember from './AddMember';
@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addFamily } from '@/network/actions/addFamily';
 import { useLoading } from '@/utils/LoadingContext';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
+import { useTranslation } from 'react-i18next';
+
 
 const steps = [
   'Add Family',
@@ -18,8 +20,23 @@ const steps = [
   'Add Member',
 ];
 
+// const useStyles = makeStyles((theme) => ({
+//   stepper: {
+//     backgroundColor: 'lightblue', // Change this to your desired color
+//   },
+//   stepConnector: {
+//     // Optionally, style the connectors between steps
+//     '& .MuiStepConnector-line': {
+//       borderColor: 'lightblue',
+//     },
+//   },
+// }));
+
 export default function StepperView({ selectedFamilyMember }) {
   const dispatch = useDispatch()
+  const { t } = useTranslation("translation");
+
+
   const { loading, startLoading, stopLoading } = useLoading();
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
 
@@ -124,10 +141,17 @@ export default function StepperView({ selectedFamilyMember }) {
   return (
     <>
       <Box sx={{ width: '100%' }} mt={5}>
-        <Stepper activeStep={activeStepper} alternativeLabel>
+        <Stepper  activeStep={activeStepper} alternativeLabel >
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel 
+              StepIconProps={{
+                classes: {
+                  completed: 'completed-step-icon',
+                  active: 'active-step-icon',
+                }
+              }}
+              >{label}</StepLabel>
             </Step>
           ))}
         </Stepper>

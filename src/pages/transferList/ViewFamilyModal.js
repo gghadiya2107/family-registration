@@ -299,7 +299,8 @@ requried
                     type="text"
                     name="houseAddress"
                     value={newData?.houseAddress}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
                     onKeyDown={(e) => {
                       if (!isAlphanumericKey(e.key)) {
                         e.preventDefault();
@@ -486,7 +487,7 @@ requried
               </div>
             </Grid>
             <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
-              <SubmitButton onClick={() => {handleClose(); setNewData(null)}} label="Cancel" />
+              <SubmitButton onClick={() => {handleClose(); setNewData(null)}} label="Cancel" type ="cancel"/>
 
               <SubmitButton label="Save" style={{ marginLeft: "10px" }} onClick={() => saveAndAddDetails()} />
               {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}

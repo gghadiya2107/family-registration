@@ -205,3 +205,11 @@ input[type=number]::-webkit-outer-spin-button {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.completed-step-icon {
+  color: #4caf50 !important; /* Color of the StepIcon when step is completed */
+}
+
+.active-step-icon {
+  color: #4caf50 !important; /* Color of the StepIcon when step is active */
+}

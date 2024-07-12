@@ -248,7 +248,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                     type="text"
                     name="makan"
                     value={originalData?.houseAddress}
-                    onChange={handleChange}
+                    onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
                     onKeyDown={(e) => {
                       if (!isAlphanumericKey(e.key)) {
                         e.preventDefault();
@@ -442,7 +442,7 @@ requried
                     type="text"
                     name="houseAddress"
                     value={newData?.houseAddress}
-                    onChange={handleChange}
+                    onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
                     onKeyDown={(e) => {
                       if (!isAlphanumericKey(e.key)) {
                         e.preventDefault();
@@ -668,7 +668,7 @@ requried
   />
            </Box>
             <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
-              <SubmitButton onClick={handleClose} label="Cancel" />
+              <SubmitButton onClick={handleClose} label="Cancel" type ="cancel"/>
 
               <SubmitButton label="Save" style={{ marginLeft: "10px" }} onClick={() => saveAndAddDetails()} />
               {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}

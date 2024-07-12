@@ -330,7 +330,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
               />
             </Box>
             <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
-              <SubmitButton onClick={handleClose} label="Cancel" />
+              <SubmitButton onClick={handleClose} label="Cancel" type ="cancel"/>
 
               <SubmitButton label="Transfer" style={{ marginLeft: "10px" }} onClick={() => saveAndAddDetails()} />
               {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
