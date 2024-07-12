@@ -40,9 +40,9 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                 fullWidth={true}
                 maxWidth={"sm"}
             >
-                {/* <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
-        </DialogTitle> */}
+                <DialogTitle sx={{ m: 0, p: 2, textAlign : "center", fontWeight : 500 }} id="customized-dialog-title">
+          Edit Member
+        </DialogTitle>
                 <IconButton
                     aria-label="close"
                     onClick={onCancle}
@@ -56,7 +56,6 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                     {/* <CloseIc/on /> */}
                 </IconButton>
                 <DialogContent dividers>
-
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={4} md={3} >
                             <KeyValueDetails title={t('name')} value={data?.memberName} />
@@ -102,7 +101,7 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                         
                     </Grid>
                     <Box style={{ textAlign: "center" }} mt={4}>
-                        <SubmitButton label="Cancel" onClick={onCancle} />
+                        <SubmitButton label="Cancel" type ="cancel" onClick={onCancle} />
                         <SubmitButton label="Edit Member" onClick={onSubmit} style={{ marginLeft: "10px" }} />
                     </Box>
                 </DialogContent>

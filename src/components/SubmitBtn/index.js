@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./Submit.module.css";
 
-const SubmitButton = ({ label, onClick, ...rest }) => {
+const SubmitButton = ({ label, onClick,type, ...rest }) => {
   return (
-    <button onClick={onClick} {...rest} className={style.signin}>
+    <button onClick={onClick} style={{backgroundColor : type =="cancel" ? "#A04040": ""}} {...rest} className={style.signin}>
       {label}
     </button>
   );

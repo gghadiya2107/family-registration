@@ -51,7 +51,7 @@ export default function DeleteConfirmation({text, onSubmit, onCancle, open}) {
           <Typography >{text}</Typography>
 
       <Box style={{textAlign : "right"}} mt={3}>
-      <SubmitButton label="Cancel" onClick={onCancle}/>
+      <SubmitButton label="Cancel" type ="cancel" onClick={onCancle}/>
       <SubmitButton label="Submit" onClick={onSubmit} style={{marginLeft : "10px"}} />
       </Box>
         </DialogContent>

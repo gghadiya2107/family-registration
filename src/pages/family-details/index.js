@@ -652,7 +652,7 @@ const FamilyDetails = () => {
                           e.preventDefault();
                         }
                       }}
-                      onChange={handleChangeFamilyDetails}
+                      onChange={(e) => e.target.value?.length > 20 ? null : handleChangeFamilyDetails(e)}
                     />
 
                   </Grid>
@@ -711,7 +711,7 @@ disabled
                       type="text"
                       name="houseAddress"
                       value={familyDetailsExtra?.houseAddress}
-                      onChange={handleChangeFamilyDetails}
+                      onChange={(e) => e.target.value?.length > 10 ? null : handleChangeFamilyDetails(e)}
                       requried
                       onKeyDown={(e) => {
                         if (!isAlphanumericKey(e.key)) {
@@ -909,7 +909,7 @@ disabled
                           type="text"
                           name="socialSubCategory"
                           value={headDetailsExtra?.socialSubCategory}
-                          onChange={handleChangeHeadDetails}
+                          onChange={(e) => e.target.value?.length > 20 ? null : handleChangeHeadDetails(e)}
                         // requried
                         onKeyDown={(e) => {
                           if (!isAlphabateKey(e.key)) {
@@ -1148,7 +1148,7 @@ disabled
                               type="text"
                               name="socialSubCategory"
                               value={memberDetailsExtra?.socialSubCategory}
-                              onChange={handleChangeMemberDetails}
+                              onChange={(e) => e.target.value?.length > 20 ? null : handleChangeMemberDetails(e)}
                             // requried
                             onKeyDown={(e) => {
                               if (!isAlphabateKey(e.key)) {
@@ -1205,7 +1205,7 @@ disabled
             </div></>}
           <div className={style.save} style={{ float: "none", textAlign: "center" }}>
             <SubmitButton label="Add Member" onClick={addMember} />
-            <SubmitButton label="Add New Family" onClick={() => route.push("/registration")} style={{marginLeft : "10px"}} />
+            {/* <SubmitButton label="Add New Family" onClick={() => route.push("/registration")} style={{marginLeft : "10px"}} /> */}
             {/* <SubmitButton label="Save Family" onClick={() => alert("done")} style={{ marginLeft: "20px" }} /> */}
           </div>
       <EditFamilyConfirmation nameTitle={nameTitle} memberList={memberList} setMemberList={setMemberList} handleClose={handleClose} open={open} data={confirmationData} EditModalType={EditModalType} setIsEditMode={setIsEditMode} setisEditModeHead={setisEditModeHead} getFamilyByIdData={getFamilyByIdData} formData={formData}/>

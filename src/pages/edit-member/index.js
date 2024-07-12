@@ -567,10 +567,11 @@ const EditMember = () => {
   return (
     <MainLayout>
       <Box>
+      <div className={style.heading} style={{ marginBottom: "20px" }}>Edit Member ({userData?.memberName} {userData?.himMemberId ? "- " + userData?.himMemberId : ""})</div>
         <Grid container spacing={3} >
           <Grid item xs={12} sm={4} md={4}>
             <SelectDropdown
-              title={`${t('typeEdit')} (${userData?.memberName}${userData?.himMemberId ? "- " + userData?.himMemberId : ""})`}
+              title={`${t('typeEdit')}`}
               name="district"
               options={getEditTypeList?.map(v => ({ value: v?.id, label: v?.editType })) || []}
               value={selectedEditType}
@@ -613,7 +614,7 @@ const EditMember = () => {
               </table>
             </div></>}
 
-          <div className={style.heading} style={{ marginBottom: "5px", marginTop: "30px" }}>Changes</div>
+          <div className={style.heading} style={{ marginBottom: "5px", marginTop: "30px" }}>Change in {getEditTypeList?.find(k => k?.id == selectedEditType)?.editType}</div>
 
           <div className={style.tablewrapper} >
             <table className={style.table}>
