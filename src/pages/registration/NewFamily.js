@@ -211,7 +211,7 @@ const debouncedSearch = debounce(async (value) => {
             type="text"
             name="makan"
             value={formData?.makan}
-            onChange={handleChange}
+            onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
             onKeyDown={(e) => {
               if (!isAlphanumericKey(e.key)) {
                 e.preventDefault();

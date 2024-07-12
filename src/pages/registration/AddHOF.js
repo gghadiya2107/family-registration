@@ -858,7 +858,7 @@ const extraUpdate = () => {
                       type="text"
                       name="houseAddress"
                       value={familyDetailsExtra?.houseAddress}
-                      onChange={handleChangeFamilyDetails}
+                      onChange={(e) => e.target.value?.length > 10 ? null : handleChangeFamilyDetails(e)}
                       requried
                       onKeyDown={(e) => {
                         if (!isAlphanumericKey(e.key)) {

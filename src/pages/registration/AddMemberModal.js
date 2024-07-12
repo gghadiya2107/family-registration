@@ -651,7 +651,7 @@ dastavage2 : formData?.dastavage2 || "",
         </Grid>
       </DialogContent>
       <DialogActions>
-        <SubmitButton onClick={onCancle} label="Cancel" />
+        <SubmitButton onClick={onCancle} label="Cancel" type ="cancel"/>
         <SubmitButton onClick={onSave} label="Save" />
 
       </DialogActions>

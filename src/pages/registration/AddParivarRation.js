@@ -183,7 +183,7 @@ const AddParivarRation = ({ setState, state }) => {
 
                     </div>
                 </Grid>
-                <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
+                <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
                     <SubmitButton label="Proceed To Add Family" onClick={() => saveAndAddDetails()} />
                     {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
                 </div>

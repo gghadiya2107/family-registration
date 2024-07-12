@@ -43,7 +43,7 @@ const AddMember = () => {
 
   useEffect(() => {
     dispatch(getDistrict(startLoading, stopLoading))
-    dispatch(getFamilyById(addFamilyData?.id))
+    // dispatch(getFamilyById(addFamilyData?.id))
   }, [])
   useEffect(() => {
     dispatch(getFamilyList(formData,startLoading, stopLoading))
@@ -115,7 +115,7 @@ const AddMember = () => {
             <SelectDropdown
               title={t('selectHOF')}
               name="hof"
-              options={getFamilyListData?.content?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.family_id+")" }))}
+              options={getFamilyListData?.content?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.himParivarId+")" }))}
               value={selectedFamilyHead}
               disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
 requried

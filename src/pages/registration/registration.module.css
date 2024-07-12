@@ -24,7 +24,8 @@
 }
 
 .save{
-    float: right;
+    /* float: right; */
+    text-align: center;
     margin-top: 20px;
 }
 
