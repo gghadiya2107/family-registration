@@ -909,7 +909,7 @@ dastavage2 : formData?.dastavage2,
                       placeholder=""
                       type="text"
                       onKeyDown={(e) => {
-                        if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+                        if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                           e.preventDefault();
                         }
                       }}                       name="mobileNumber"
@@ -1112,10 +1112,10 @@ dastavage2 : formData?.dastavage2,
                           placeholder=""
                           type="text"
                           onKeyDown={(e) => {
-                            if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                            if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                               e.preventDefault();
                             }
-                          }}                          name="aadhaarNo"
+                          }}                         name="aadhaarNo"
                           value={headDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                           onChange={(e) => e.target.value?.length > 14 ? null : handleChangeHeadDetails(e)}
                           requried
@@ -1350,10 +1350,10 @@ dastavage2 : formData?.dastavage2,
                               placeholder=""
                               type="text"
                               onKeyDown={(e) => {
-                                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                                   e.preventDefault();
                                 }
-                              }}                              name="aadhaarNo"
+                              }}                             name="aadhaarNo"
                               value={memberDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                               onChange={(e) => e.target.value?.length > 14 ? null : handleChangeMemberDetails(e)}
                               requried
@@ -1598,10 +1598,10 @@ dastavage2 : formData?.dastavage2,
                 placeholder=""
                 type="text"
                 onKeyDown={(e) => {
-                  if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                  if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                     e.preventDefault();
                   }
-                }}                name="adharCard"
+                }}               name="adharCard"
                 value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                 onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
                 requried

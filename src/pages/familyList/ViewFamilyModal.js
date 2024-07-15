@@ -418,10 +418,10 @@ disabled
                               placeholder=""
                               type="text"
                               onKeyDown={(e) => {
-                                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                                   e.preventDefault();
                                 }
-                              }}                              name="aadhaarNo"
+                              }}                             name="aadhaarNo"
                               value={memberDetailsExtra?.aadhaarNo?.replace(/(\d{4})(?=\d)/g, '$1 ')}
                               onChange={(e) => e.target.value?.length > 14 ? null : handleChangeMemberDetails(e)}
                               requried
