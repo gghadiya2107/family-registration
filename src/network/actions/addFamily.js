@@ -35,15 +35,12 @@ export const addFamily = (body,extra,startLoading=()=>{}, stopLoading=()=>{},new
 
 		try {
 			const response = await ApiPostFormData('/urbanregister/addfamily', formData)
-			
+			extra()
+            // toast.success( response?.message)
+			dispatch(addFamilySuccess(response));
 			console.log('response adddFamily', response)
 			dispatch(addfamilymember({...newBody,  "familyId": response?.id,
 				"himParivarId" : response?.HimParivarId,},newExtra, startLoading, stopLoading))
-
-			
-			extra()
-            toast.success( response?.message)
-			dispatch(addFamilySuccess(response));
 			stopLoading()
 		} catch (error) {   
 			stopLoading()

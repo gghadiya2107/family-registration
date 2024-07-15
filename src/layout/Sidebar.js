@@ -76,6 +76,11 @@ const menu = [
         icon: <MdOutlineTransferWithinAStation size={20} />
     },
     {
+        title: "Rural Transfer List",
+        url: "/transferListRural",
+        icon: <MdOutlineTransferWithinAStation size={20} />
+    },
+    {
         title: "Parivar Nakal",
         url: "/parivarNakal",
         icon: <IoDocumentsOutline size={20} />
@@ -132,7 +137,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                         </div>
                     </>))}
                 </div>
-                <div>
+                {/* <div>
                     <Divider style={{ marginBottom: "7px" }} />
                     <div className={style.menu} onClick={logout}>
                         <div><IoLogOut size={21} style={{ marginTop: "5px" }} /></div>
@@ -140,14 +145,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     </div>
                     <div className={style.menu}>
                         <div><FaUserCircle size={20} style={{ marginTop: "5px" }} /></div>
-                        {/* <div className={style.menuTitle}>Gaurang Ghadiya</div> */}
                         <div className={style.menuTitle}>{userData?.user_id || userData?.username}</div>
                     </div>
                     <div className={style.menu} onClick={changeLanguae}>
                         <div><MdGTranslate size={20} style={{ marginTop: "5px" }} /></div>
                         <div className={style.menuTitle} >Change Language to {i18n.language == "en" ? "Hindi" : "English"}</div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
         
