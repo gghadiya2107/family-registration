@@ -308,7 +308,7 @@ const debouncedSearch = debounce(async (value) => {
             value={formData?.mobile?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
             onChange={(e) => e.target.value?.length > 11 ? null : handleChange(e)}
             onKeyDown={(e) => {
-              if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+              if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                 e.preventDefault();
               }
             }}             requried

@@ -195,6 +195,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
           {/* <CloseIcon /> */}
         </IconButton>
         <DialogContent dividers>
+        <div className={style.heading} style={{ marginBottom: "3px" }}>Separate Member </div>
+
           <Grid container spacing={3} mt={0}>
             {/* left side */}
             {originalData && <Grid item xs={12} sm={6} md={5.8}  >
@@ -346,7 +348,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                     value={originalData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
                     onChange={(e) => e.target.value?.length > 11 ? null : handleChange(e)}
                     onKeyDown={(e) => {
-                      if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+                      if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                         e.preventDefault();
                       }
                     }}                     disabled
@@ -540,7 +542,7 @@ requried
                     value={newData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
                     onChange={(e) => e.target.value?.length > 11 ? null : handleChange(e)}
                     onKeyDown={(e) => {
-                      if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace')) {
+                      if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                         e.preventDefault();
                       }
                     }}                     requried
@@ -667,7 +669,7 @@ requried
 
   />
            </Box>
-            <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
+            <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
               <SubmitButton onClick={handleClose} label="Cancel" type ="cancel"/>
 
               <SubmitButton label="Save" style={{ marginLeft: "10px" }} onClick={() => saveAndAddDetails()} />

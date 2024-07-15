@@ -12,6 +12,7 @@ import { addFamily } from '@/network/actions/addFamily';
 import { useLoading } from '@/utils/LoadingContext';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 
 const steps = [
@@ -47,7 +48,7 @@ export default function StepperView({ selectedFamilyMember }) {
   const onSave = () => {
     const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length === 0) {
-
+toast.success("Family saved sucessfully")
       setActiveStepper(1)
     }else{
       setErrors(validationErrors);
@@ -132,7 +133,7 @@ export default function StepperView({ selectedFamilyMember }) {
       errors.dastavage = t("validateDocument");
     }
     if (formData?.subclass && !formData.dastavage2) {
-      errors.dastavage2 = t("validateDocument");
+      errors.dastavage2 = t("validateSupportingDocument");
     }
 
     return errors;

@@ -312,7 +312,7 @@ dastavage2 : formData?.dastavage2 || "",
       errors.dastavage = t("validateDocument");
     }
     if (formData?.subCategory && !formData.dastavage2) {
-      errors.dastavage2 = t("validateDocument");
+      errors.dastavage2 = t("validateSupportingDocument");
     }
     if (!formData.description) {
       errors.description = t("validateComment");
@@ -594,10 +594,10 @@ dastavage2 : formData?.dastavage2 || "",
               placeholder=""
               type="text"
               onKeyDown={(e) => {
-                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+                if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                   e.preventDefault();
                 }
-              }}              name="adharCard"
+              }}             name="adharCard"
               value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
               onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
               requried

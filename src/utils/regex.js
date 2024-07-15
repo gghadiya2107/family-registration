@@ -8,5 +8,5 @@ export const isNumericKeyWithSpace = (key) => {
     return /^[0-9 \b]+$/.test(key);
   };
 export const isNumericKeyWithHifan = (key) => {
-    return /^[0-9-\b]+$/.test(key);
+    return /^[0-9-]+$/.test(key);
   };

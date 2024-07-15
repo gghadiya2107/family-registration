@@ -310,7 +310,7 @@ const [oldMemberList, setOldMemberList] = useState([])
       errors.dastavage = t("validateDocument");
     }
     if (formData?.subCategory && !formData.dastavage2) {
-      errors.dastavage2 = t("validateDocument");
+      errors.dastavage2 = t("validateSupportingDocument");
     }
     if (!formData.description) {
       errors.description = t("validateComment");
@@ -383,7 +383,7 @@ const [oldMemberList, setOldMemberList] = useState([])
             </div></> }
           {memberList?.length > 0 &&<div className={style.save} style={{ float: "none", textAlign: "center" }}>
             <SubmitButton label="Add Member" onClick={() => setIsOpenForm(true)} />
-            <SubmitButton label="View Family" onClick={() =>{!memberList?.every(v => v?.date_of_birth) ? alert("Please fill all members details.") : route.push(`/family-details?id=${addFamilyData?.id}`)}} style={{ marginLeft: "20px" }} />
+            <SubmitButton label="View Family" onClick={() =>{!memberList?.every(v => v?.date_of_birth) ? alert("Please fill all members details.") : route.push(`/family-details?id=${addFamilyData?.id}`)}} style={{ marginLeft: "20px", background : "#4caf50" }} />
           </div>}
    {( isOpenForm || memberList?.length == 0) && <><Grid container spacing={3}  mt={0}>
 
@@ -621,10 +621,10 @@ const [oldMemberList, setOldMemberList] = useState([])
     placeholder=""
     type="text"
     onKeyDown={(e) => {
-      if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+      if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
         e.preventDefault();
       }
-    }}    name="adharCard"
+    }}   name="adharCard"
     value={formData?.adharCard?.replace(/(\d{4})(?=\d)/g, '$1 ')}
     onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
     requried

@@ -300,7 +300,7 @@ console.log('formData', formData)
       errors.dastavage = t("validateDocument");
     }
     if (formData?.subCategory &&!formData.dastavage2) {
-      errors.dastavage2 = t("validateDocument");
+      errors.dastavage2 = t("validateSupportingDocument");
     }
     if (!formData.description) {
       errors.description = t("validateComment");
@@ -534,7 +534,7 @@ console.log('formData', formData)
     placeholder=""
     type="text"
     onKeyDown={(e) => {
-      if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace')) {
+      if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
         e.preventDefault();
       }
     }}    name="adharCard"

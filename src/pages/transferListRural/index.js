@@ -13,8 +13,9 @@ import toast from 'react-hot-toast'
 import ViewFamilyModal from './ViewFamilyModal'
 import { isNumericKeyWithSpace } from '@/utils/regex'
 import { useLoading } from '@/utils/LoadingContext'
+import axios from 'axios'
 
-const TransferList = () => {
+const TransferListUrban = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const { loading, startLoading, stopLoading } = useLoading();
@@ -60,13 +61,7 @@ const TransferList = () => {
       setTableData([])
     })
   }, [])
-  useEffect(() => {
-    // if (getFamilyListData)
-      // setPage(getFamilyListData?.number)
-  }, [getFamilyListData])
-//   useEffect(() => {
-//     dispatch(memberTransferList({...formData}))
-//   }, [formData])
+
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -79,9 +74,17 @@ const TransferList = () => {
 
   }
 
+  const getList =async () => {
+   await axios.get(`https://staging1.hp.gov.in/eparivarregister/WebService/wsHimID.asmx?op=GetHimMemberTransferedToUrban&cAccessID=${encodeURIComponent("IPH#$$@")}&cAccessKey=${encodeURIComponent("#$$@123")}`).then(res => {
+    console.log('res piyush', res)
+   }).catch(e => {
+    console.log('e', e)
+   })
+  }
+
   const handleSearch = () => {
     if(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no){
-
+        getList()
         dispatch(memberTransferList({...formData},startLoading, stopLoading))
     }else{
         toast.error("Please enter at leaset one data")
@@ -158,7 +161,7 @@ const TransferList = () => {
                 if (!(isNumericKeyWithSpace(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                   e.preventDefault();
                 }
-              }}             name="aadhaar_no"
+              }}            name="aadhaar_no"
               value={formData?.aadhaar_no?.replace(/(\d{4})(?=\d)/g, '$1 ')}
               onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
             />
@@ -228,4 +231,4 @@ const TransferList = () => {
   )
 }
 
-export default TransferList
+export default TransferListUrban

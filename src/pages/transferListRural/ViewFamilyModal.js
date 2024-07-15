@@ -87,11 +87,11 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
-  // React.useEffect(() => {
-  //   let data = [...getfamilymemberList]
-  //   let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
-  //   setRationCardData(newData)
-  // }, [getfamilymemberList])
+//   React.useEffect(() => {
+//     let data = [...getfamilymemberList]
+//     let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
+//     setRationCardData(newData)
+//   }, [getfamilymemberList])
   React.useEffect(() => {
     if (viewData?.family_id) {
 
@@ -100,7 +100,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   }, [viewData])
   React.useEffect(() => {
     if (getfamilymemberList) {
-
+        // let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
+        // setRationCardData(newData)
       setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
       setHeadData(getfamilymemberList?.find(v => v?.isHead == "true"))
     }
@@ -249,8 +250,6 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
           {/* <CloseIcon /> */}
         </IconButton>
         <DialogContent dividers>
-        <div className={style.heading} style={{ marginBottom: "-20px" }}>Transfer Member </div>
-
           <Grid container spacing={3} mt={0}>
          
             <Grid item xs={12} sm={12} md={12}  >
@@ -402,7 +401,7 @@ requried
                       if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
                         e.preventDefault();
                       }
-                    }}                     requried
+                    }}                      requried
                   />
                   {errors?.mobileNumber && <p className="error">{errors?.mobileNumber}</p>}
 
@@ -488,7 +487,7 @@ requried
 
               </div>
             </Grid>
-            <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
+            <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
               <SubmitButton onClick={() => {handleClose(); setNewData(null)}} label="Cancel" type ="cancel"/>
 
               <SubmitButton label="Save" style={{ marginLeft: "10px" }} onClick={() => saveAndAddDetails()} />
