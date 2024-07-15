@@ -15,6 +15,8 @@ import KeyValueDetails from '@/components/KeyValueDetails';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import formatDate from '@/utils/formatDate';
 import { useTranslation } from 'react-i18next';
+import { FaEdit } from 'react-icons/fa';
+import { MdClose, MdModeEdit } from 'react-icons/md';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -100,9 +102,9 @@ export default function ViewMemberData({ onSubmit, onCancle, open, data }) {
                         </Grid>
                         
                     </Grid>
-                    <Box style={{ textAlign: "center" }} mt={4}>
-                        <SubmitButton label="Cancel" type ="cancel" onClick={onCancle} />
-                        <SubmitButton label="Edit Member" onClick={onSubmit} style={{ marginLeft: "10px" }} />
+                    <Box style={{ display: "flex" }} justifyContent={"center"} mt={4}>
+                        <SubmitButton label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} type ="cancel" onClick={onCancle} />
+                        <SubmitButton label="Edit Member" icon={<MdModeEdit size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={onSubmit} style={{ marginLeft: "10px" }} />
                     </Box>
                 </DialogContent>
                 {/* <DialogActions>

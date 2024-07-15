@@ -28,6 +28,7 @@ import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
 import { getFamilyById } from '@/network/actions/getFamilyById';
+import { MdAdd, MdOutlineRemoveRedEye, MdOutlineSave } from 'react-icons/md';
 
 const AddMember = ({selectedFamilyMember}) => {
   const { t } = useTranslation("translation");
@@ -382,8 +383,8 @@ const [oldMemberList, setOldMemberList] = useState([])
 
             </div></> }
           {memberList?.length > 0 &&<div className={style.save} style={{ float: "none", textAlign: "center" }}>
-            <SubmitButton label="Add Member" onClick={() => setIsOpenForm(true)} />
-            <SubmitButton label="View Family" onClick={() =>{!memberList?.every(v => v?.date_of_birth) ? alert("Please fill all members details.") : route.push(`/family-details?id=${addFamilyData?.id}`)}} style={{ marginLeft: "20px", background : "#4caf50" }} />
+            <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() => setIsOpenForm(true)} />
+            <SubmitButton label="View Family" icon={<MdOutlineRemoveRedEye size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() =>{!memberList?.every(v => v?.date_of_birth) ? alert("Please fill all members details.") : route.push(`/family-details?id=${addFamilyData?.id}`)}} style={{ marginLeft: "20px", background : "#4caf50" }} />
           </div>}
    {( isOpenForm || memberList?.length == 0) && <><Grid container spacing={3}  mt={0}>
 
@@ -677,7 +678,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 
 </Grid>
 <div className={style.save}>
-<SubmitButton label="Save" onClick={onSave} />
+<SubmitButton label="Save" icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={onSave} />
 </div></>}
 <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={setmemberList} memberList={memberList}  getFamilyByIdData={getFamilyByIdData} memberFillDetails={memberFillDetails} />
 

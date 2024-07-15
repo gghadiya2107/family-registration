@@ -17,6 +17,8 @@ import FormatAadharNumber from '@/utils/formatAadharNumber'
 import { useLoading } from '@/utils/LoadingContext'
 import Loader from '@/utils/Loader'
 import { isAlphabateKey, isNumericKeyWithSpace } from '@/utils/regex'
+import { MdOutlineFileDownload, MdSearch } from "react-icons/md";
+
 
 const ParivarNakal = () => {
   const { t } = useTranslation("translation");
@@ -133,7 +135,7 @@ const ParivarNakal = () => {
 
         </Grid>
         <Grid item xs={12} sm={4} md={3} mt={3}>
-          <SubmitButton label={"Search"} onClick={handleSearch} />
+          <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch} />
           {/* {(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no) && data && Object.keys(data)?.length > 0 &&<SubmitButton label={"Download Nakal"} style={{marginLeft : "10px"}} onClick={downloadNakal}/>} */}
         </Grid>
       </Grid>
@@ -211,7 +213,7 @@ const ParivarNakal = () => {
 
           </Box>
         </Box>
-      </div><Typography textAlign={"center"} mt={3}><SubmitButton label={"Download Nakal"} style={{ marginRight: "10px" }} onClick={downloadNakal} />
+      </div><Typography textAlign={"center"} display={"flex"} justifyContent={"center"} mt={3}><SubmitButton label={"Download Nakal"} icon={<MdOutlineFileDownload size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} style={{ marginRight: "10px" }} onClick={downloadNakal} />
           {/* <SubmitButton label={"Check Editing History"} onClick={() => router.push(`/parivarNakal/editing-history?familyId=${getparivarnakalList?.familyId}`)}/> */}
         </Typography></> : <Typography textAlign={"center"} mt={5}>No Data Found!</Typography>}
     </MainLayout>

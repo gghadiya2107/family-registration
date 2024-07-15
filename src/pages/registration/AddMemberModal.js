@@ -29,6 +29,7 @@ import { getfamilymember } from '@/network/actions/getfamilymember'
 import { getRelation } from '@/network/actions/getRelation'
 import { useLoading } from '@/utils/LoadingContext'
 import Loader from '@/utils/Loader'
+import { MdClose, MdOutlineSave } from 'react-icons/md'
 
 function generateUserId() {
   const timestamp = Date.now(); // Current timestamp in milliseconds
@@ -650,9 +651,9 @@ dastavage2 : formData?.dastavage2 || "",
 
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <SubmitButton onClick={onCancle} label="Cancel" type ="cancel"/>
-        <SubmitButton onClick={onSave} label="Save" />
+      <DialogActions style={{display : "flex", justifyContent : "center"}}>
+        <SubmitButton onClick={onCancle} label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} type ="cancel"/>
+        <SubmitButton onClick={onSave} label="Save" icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} />
 
       </DialogActions>
     </BootstrapDialog>

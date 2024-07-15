@@ -38,6 +38,7 @@ import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember'
 import formatDate from '@/utils/formatDate'
 import FormatAadharNumber, { isValidMobileNumber } from '@/utils/formatAadharNumber'
 import { useLoading } from '@/utils/LoadingContext'
+import { MdAdd } from 'react-icons/md'
 
 const FamilyDetails = () => {
     const dispatch = useDispatch()
@@ -1204,7 +1205,7 @@ disabled
 
             </div></>}
           <div className={style.save} style={{ float: "none", textAlign: "center" }}>
-            <SubmitButton label="Add Member" onClick={addMember} />
+            <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={addMember} />
             {/* <SubmitButton label="Add New Family" onClick={() => route.push("/registration")} style={{marginLeft : "10px"}} /> */}
             {/* <SubmitButton label="Save Family" onClick={() => alert("done")} style={{ marginLeft: "20px" }} /> */}
           </div>

@@ -13,6 +13,7 @@ import toast from 'react-hot-toast'
 import ViewFamilyModal from './ViewFamilyModal'
 import { isNumericKeyWithSpace } from '@/utils/regex'
 import { useLoading } from '@/utils/LoadingContext'
+import { MdSearch } from 'react-icons/md'
 
 const TransferList = () => {
   const { t } = useTranslation("translation");
@@ -164,7 +165,7 @@ const TransferList = () => {
             />
           </Grid>
           <Grid item xs={12} sm={4} md={1} mt={3}>
-         <SubmitButton label={"Search"} onClick={handleSearch}/>
+         <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch}/>
           </Grid>
         </Grid>
 

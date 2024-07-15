@@ -20,6 +20,7 @@ import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { isNumericKeyWithSpace } from '@/utils/regex';
 import { getFamilyById } from '@/network/actions/getFamilyById';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
+import { MdClose } from 'react-icons/md';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -442,7 +443,7 @@ disabled
             {getfamilymemberList?.length == 0 && <h3>Family Member Not Found!</h3>}
 
            <DialogActions style={{display : "flex", justifyContent : "center"}}>
-           <SubmitButton onClick={handleClose} label="Close" />
+           <SubmitButton onClick={handleClose} label="Close" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel" />
 
       </DialogActions>
         </DialogContent>

@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from '../registration.module.css'
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
+import { MdOutlineSave } from 'react-icons/md';
 
 const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) => {
   const { t } = useTranslation("translation");
@@ -590,7 +591,7 @@ console.log('formData', formData)
 
 </Grid>
 <div className={style.save}>
-<SubmitButton label="Save HOF and Add Member" onClick={() => handleSaveHOF()} />
+<SubmitButton label="Save HOF and Add Member" icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() => handleSaveHOF()} />
 </div>
     </>
   )

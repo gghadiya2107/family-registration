@@ -21,6 +21,7 @@ import { isValidMobileNumber } from '@/utils/formatAadharNumber';
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
 import { getfamilymemberSuccess } from '@/network/actions/getfamilymember';
+import { MdOutlineSave } from 'react-icons/md';
 
 const AddFamily = ({setActiveStepper,selectedFamilyMember,formData, setFormData,onSave, errors, setErrors}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
@@ -340,10 +341,10 @@ console.log('districtList', districtList)
           onChange={handleChange}
           accept="image/*,.pdf"
         />
-       {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
+       {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>)
-} */}
+}
       {/* {formData?.dastavage && <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>} */}
 
         {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
@@ -358,10 +359,10 @@ console.log('districtList', districtList)
           onChange={handleChange}
           accept="image/*,.pdf"
         />
-       {/* {formData?.dastavage2 && ( formData.dastavage2.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage2)} alt="Uploaded file"  width={250} height={150}
+       {formData?.dastavage2 && ( formData.dastavage2.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage2)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>)
-} */}
+}
 
         {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
 
@@ -370,7 +371,7 @@ console.log('districtList', districtList)
 
  
     <div className={style.save} >
-      <SubmitButton label={t('saveAndAddHof')} onClick={onSave} />
+      <SubmitButton label={t('saveAndAddHof')} icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={onSave} />
     </div>
   </div>
   )

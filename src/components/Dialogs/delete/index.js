@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import SubmitButton from '@/components/SubmitBtn';
 import CancelBtn from '@/components/CancelBtn';
 import { Box } from '@mui/material';
+import { MdCheck, MdClose } from 'react-icons/md';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -50,9 +51,9 @@ export default function DeleteConfirmation({text, onSubmit, onCancle, open}) {
         <DialogContent dividers>
           <Typography >{text}</Typography>
 
-      <Box style={{textAlign : "right"}} mt={3}>
-      <SubmitButton label="Cancel" type ="cancel" onClick={onCancle}/>
-      <SubmitButton label="Submit" onClick={onSubmit} style={{marginLeft : "10px"}} />
+      <Box style={{display : "flex"}} justifyContent={"center"} mt={3}>
+      <SubmitButton label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel" onClick={onCancle}/>
+      <SubmitButton label="Submit" onClick={onSubmit} icon={<MdCheck size={18} style={{marginTop : "5px", marginRight : "5px"}} />} style={{marginLeft : "10px"}} />
       </Box>
         </DialogContent>
         {/* <DialogActions>

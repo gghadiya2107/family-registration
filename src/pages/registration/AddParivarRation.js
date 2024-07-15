@@ -16,6 +16,7 @@ import BeneficiaryModal from './BeneficiaryModal';
 import StepperView from './stepperView';
 import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
+import { MdArrowForward, MdRemoveRedEye, MdSearch } from 'react-icons/md';
 
 const AddParivarRation = ({ setState, state }) => {
     const { t } = useTranslation("translation");
@@ -102,14 +103,14 @@ const AddParivarRation = ({ setState, state }) => {
 
                 </Grid>
                 <Grid item xs={12} sm={4} md={4} mt={3.2}>
-                <SubmitButton label="Search" onClick={() => dispatch(getRationDetails(formData?.rationCard?.toUpperCase(), startLoading, stopLoading))}/>
+                <SubmitButton label="Search" icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() => dispatch(getRationDetails(formData?.rationCard?.toUpperCase(), startLoading, stopLoading))}/>
 
                 </Grid>
                 
                 </>
            }
           {state == "2" &&  <Grid item xs={12} sm={4} md={4} mt={3}>
-                <SubmitButton label={"View All Members"} onClick={handleClickOpen} />
+                <SubmitButton label={"View All Members"} icon={<MdRemoveRedEye size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleClickOpen} />
 
                 </Grid>}
             </Grid>
@@ -184,7 +185,7 @@ const AddParivarRation = ({ setState, state }) => {
                     </div>
                 </Grid>
                 <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
-                    <SubmitButton label="Proceed To Add Family" onClick={() => saveAndAddDetails()} />
+                    <SubmitButton label="Proceed To Add Family" icon={<MdArrowForward size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() => saveAndAddDetails()} />
                     {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
                 </div>
             </Grid> : (rationCardData?.length == 0 && formData?.rationCard) ?

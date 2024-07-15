@@ -15,6 +15,7 @@ import { getFamilyById } from '@/network/actions/getFamilyById';
 import AddMemberModal from './AddMemberModal';
 import formatDate from '@/utils/formatDate';
 import { useLoading } from '@/utils/LoadingContext';
+import { MdAdd } from 'react-icons/md';
 
 const AddMember = () => {
   const { t } = useTranslation("translation");
@@ -161,8 +162,8 @@ requried
         :(getfamilymemberList?.length == 0 && selectedFamilyHead)?
         <Typography>No member found in this family</Typography> : ""
         }
-    {selectedFamilyHead &&     <div  style={{ float: "none", textAlign: "center", marginTop : "30px" }}>
-            <SubmitButton label="Add Member" onClick={handleClickOpen} />
+    {selectedFamilyHead &&     <div  style={{ float: "none", display: "flex",justifyContent :"center", marginTop : "30px" }}>
+            <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleClickOpen} />
           </div>}
     </Box>
     <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={[]} memberList={{}} getFamilyByIdData={getFamilyByIdData}/>

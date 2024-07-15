@@ -32,6 +32,7 @@ import { separateMember } from '@/network/actions/separateMember';
 import { getFamilyList } from '@/network/actions/getFamilyList';
 import TextArea from '@/components/TextArea';
 import { useLoading } from '@/utils/LoadingContext';
+import { MdClose, MdOutlineSave } from 'react-icons/md';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -670,9 +671,9 @@ requried
   />
            </Box>
             <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
-              <SubmitButton onClick={handleClose} label="Cancel" type ="cancel"/>
+              <SubmitButton onClick={handleClose} label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel"/>
 
-              <SubmitButton label="Save" style={{ marginLeft: "10px" }} onClick={() => saveAndAddDetails()} />
+              <SubmitButton label="Save" style={{ marginLeft: "10px" }} icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}} />} onClick={() => saveAndAddDetails()} />
               {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
             </div>
           </Grid>

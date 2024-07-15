@@ -39,6 +39,7 @@ import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
 import { getImagePath } from '@/utils/CustomImagePath';
 import toast from 'react-hot-toast';
+import { MdOutlineSave } from 'react-icons/md';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -914,7 +915,7 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
 													verifyOTP();
 												}}
                         label={"Perform EKYC"}
-												style={{ width: 200, background: "green", color : "white", marginTop : "4px" }}
+												style={{ width: 120, background: "green", color : "white", marginTop : "4px" }}
 											/>
 												
 										</Grid>
@@ -1168,9 +1169,9 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
             </Grid>}
           </Grid>
 
-          <Box textAlign={"center"} mt={5}>
-          {selectedEditType != 5 && <SubmitButton label="Save Details" onClick={handleSubmit} />}
-            {selectedEditType == 5 && otpVerified && <SubmitButton label="Save Details" onClick={handleSubmit} />}
+          <Box display={"flex"} justifyContent={"center"} mt={5}>
+          {selectedEditType != 5 && <SubmitButton label="Save Details" icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSubmit} />}
+            {selectedEditType == 5 && otpVerified && <SubmitButton label="Save Details" icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}} />} onClick={handleSubmit} />}
           </Box></>}
 
       </Box>
