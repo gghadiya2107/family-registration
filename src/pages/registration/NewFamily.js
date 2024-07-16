@@ -326,6 +326,8 @@ const debouncedSearch = debounce(async (value) => {
             onChange={handleChange}
             accept="image/*,.pdf"
           />
+                    {formData?.dastavage && <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
           {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
         </Grid>

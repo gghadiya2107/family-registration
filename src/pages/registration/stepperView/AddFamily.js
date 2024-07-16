@@ -341,11 +341,11 @@ console.log('districtList', districtList)
           onChange={handleChange}
           accept="image/*,.pdf"
         />
-       {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
+       {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>)
-}
-      {/* {formData?.dastavage && <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>} */}
+} */}
+      {formData?.dastavage && <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
         {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
@@ -359,10 +359,12 @@ console.log('districtList', districtList)
           onChange={handleChange}
           accept="image/*,.pdf"
         />
-       {formData?.dastavage2 && ( formData.dastavage2.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage2)} alt="Uploaded file"  width={250} height={150}
+       {/* {formData?.dastavage2 && ( formData.dastavage2.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage2)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>)
-}
+} */}
+
+{formData?.dastavage2 && <a href={URL.createObjectURL(formData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
         {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
 

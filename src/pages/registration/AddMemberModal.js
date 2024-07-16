@@ -198,6 +198,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
     religion: "",
     adharCard: "",
     dastavage: "",
+    dastavage2: "",
     description: ""})
     // setMemberList([...memberList,{...formData, id : generateUserId()}])
     handleClose()
@@ -617,6 +618,8 @@ dastavage2 : formData?.dastavage2 || "",
               accept="image/*,.pdf"
 
             />
+                      {formData?.dastavage && <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
             {errors?.dastavage && <p className="error">{errors?.dastavage}</p>}
 
           </Grid>
@@ -631,6 +634,8 @@ dastavage2 : formData?.dastavage2 || "",
               accept="image/*,.pdf"
 
             />
+                      {formData?.dastavage2 && <a href={URL.createObjectURL(formData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
             {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
 
           </Grid>}
