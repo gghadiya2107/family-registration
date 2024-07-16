@@ -64,7 +64,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   const [originalData, setOriginalData] = React.useState({})
   const [newData, setNewData] = React.useState({})
   const [remarks, setRemarks] = React.useState("")
-
+console.log('originalData', originalData)
 
 
 
@@ -88,11 +88,14 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
-  React.useEffect(() => {
-    let data = [...getfamilymemberList]
-    let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
-    setRationCardData(newData)
-  }, [getfamilymemberList])
+  // React.useEffect(() => {
+  //   if(getfamilymemberList){
+
+  //     let data = [...getfamilymemberList]
+  //     let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
+  //     setRationCardData(newData)
+  //   }
+  // }, [])
   React.useEffect(() => {
     if (viewData?.family_id) {
 
@@ -101,11 +104,13 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
   }, [viewData])
   React.useEffect(() => {
     if (getfamilymemberList) {
-
+      let data = [...getfamilymemberList]
+      let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
+      setRationCardData(newData)
       setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
       setHeadData(getfamilymemberList?.find(v => v?.isHead == "true"))
     }
-  }, [getfamilymemberList])
+  }, [])
 
   const viewMoreMember = (index, value) => {
     let newData = memberList?.map((v, i) => index == i ? { ...v, memberDetailsMore: value } : v)
@@ -367,6 +372,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                     accept="image/*,.pdf"
                     disabled
                   />
+                            {originalData?.dastavage && <a href={URL.createObjectURL(originalData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
@@ -384,6 +391,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
                     onChange={handleChange}
                     accept="image/*,.pdf"
                   />
+                                              {originalData?.dastavage2 && <a href={URL.createObjectURL(originalData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
@@ -561,6 +570,8 @@ requried
                     onChange={handleChange}
                     accept="image/*,.pdf"
                   />
+                                              {newData?.dastavage && <a href={URL.createObjectURL(newData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
@@ -578,6 +589,8 @@ requried
                     onChange={handleChange}
                     accept="image/*,.pdf"
                   />
+                                              {newData?.dastavage2 && <a href={URL.createObjectURL(newData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)

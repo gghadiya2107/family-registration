@@ -416,7 +416,8 @@ requried
                     name="dastavage"
                     onChange={handleChange}
                     accept="image/*,.pdf"
-                  />
+                    />
+                    {newData?.dastavage && <a href={URL.createObjectURL(newData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
@@ -434,6 +435,8 @@ requried
                     onChange={handleChange}
                     accept="image/*,.pdf"
                   />
+                                              {newData?.dastavage2 && <a href={URL.createObjectURL(newData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
