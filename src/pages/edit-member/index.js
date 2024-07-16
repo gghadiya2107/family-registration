@@ -1164,6 +1164,7 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
                 accept="image/*,.pdf"
 
               />
+              {upoadedDocument && <a href={URL.createObjectURL(upoadedDocument)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
               {errors?.upoadedDocument && <p className="error">{errors?.upoadedDocument}</p>}
 
             </Grid>}
