@@ -88,7 +88,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
           {/* <CloseIcon /> */}
         </IconButton>
         <DialogContent dividers>
-        {viewData && <><div className={style.heading} style={{ marginBottom: "5px", marginTop: "20px" }}>Family Details</div>
+        {viewData && <><div className={style.heading} style={{ marginBottom: "5px"}}>Family Details</div>
         <div className={style.tablewrapper} style={{ margin: "0" }}>
             <table className={style.table}>
               <thead className={style.thead}>
@@ -124,13 +124,13 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                         <p className={style.expandMargin}><b>District:</b> {viewData?.district}</p>
                         <p className={style.expandMargin}><b>Ration Card No.:</b> {viewData?.rationCardNo}</p>
                         <p className={style.expandMargin}><b>House No.:</b> {viewData?.houseAddress}</p>
-                        <p className={style.expandMargin}><b>Consent Doc.:</b> <a href={getFamilyByIdDataDoc?.find(k => k?.document == "Consent")?.fileName} target='_' style={{color : "blue"}}>View Document</a></p>
+                        <p className={style.expandMargin}><b>Declaration Document:</b> <a href={getFamilyByIdDataDoc?.find(k => k?.document == "Consent")?.fileName} target='_' style={{color : "blue"}}>View</a></p>
                       </Grid>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Municipal:</b> {viewData?.municipalName}</p>
                         <p className={style.expandMargin}><b>Economic Status:</b> {viewData?.economic}</p>
                         <p className={style.expandMargin}><b>Total Members:</b> {viewData?.totalMembers}</p>
-                        {getFamilyByIdDataDoc?.find(k => k?.document == "Cast Certificate")?.fileName &&<p className={style.expandMargin}><b>Cast Doc.:</b> <a href={getFamilyByIdDataDoc?.find(k => k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View Document</a></p>}
+                        {getFamilyByIdDataDoc?.find(k => k?.document == "Cast Certificate")?.fileName &&<p className={style.expandMargin}><b>Supporting Document:</b> <a href={getFamilyByIdDataDoc?.find(k => k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>}
 
 
                       </Grid>
@@ -182,7 +182,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                         <p className={style.expandMargin}><b>Head Of Family:</b> {headData?.memberName}</p>
                         <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(headData?.date_of_birth)}</p>
                         <p className={style.expandMargin}><b>Gender:</b> {headData?.gender}</p>
-                        {getfamilymemberDoc?.find(k => k?.memberId == headData?.familyMemberId && k?.document == "Cast Certificate")?.fileName && <p className={style.expandMargin}><b>Cast Doc.:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == headData?.familyMemberId && k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View Document</a></p>}
+                        {getfamilymemberDoc?.find(k => k?.memberId == headData?.familyMemberId && k?.document == "Cast Certificate")?.fileName && <p className={style.expandMargin}><b>Supporting  Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == headData?.familyMemberId && k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>}
 
                       </Grid>
                       <Grid item xs={4}>
@@ -194,7 +194,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>Ration Card No.:</b> {headData?.rationCardNo}</p>
                         <p className={style.expandMargin}><b>Aadhaar No.:</b> {FormatAadharNumber(headData?.aadhaarNo)}</p>
-                        <p className={style.expandMargin}><b>Bonafide Doc.:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == headData?.familyMemberId && k?.document == "Bonafide Certificate")?.fileName} target='_' style={{color : "blue"}}>View Document</a></p>
+                        <p className={style.expandMargin}><b>Bonafide Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == headData?.familyMemberId && k?.document == "Bonafide Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>
 
                         {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
 
@@ -243,9 +243,8 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.memberName}</p>
                             <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(v?.date_of_birth)}</p>
                             <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
-                            {getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Cast Certificate")?.fileName && <p className={style.expandMargin}><b>Cast Doc.:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View Document</a></p>}
+                            {getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Cast Certificate")?.fileName && <p className={style.expandMargin}><b>Supporting Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>}
 
-                            {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
 
                           </Grid>
                           <Grid item xs={4}>
@@ -259,7 +258,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                             <p className={style.expandMargin}><b>Ration Card No.:</b> {v?.rationCardNo}</p>
                             <p className={style.expandMargin}><b>Aadhaar No.:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
 
-                            <p className={style.expandMargin}><b>Bonafide Doc.:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Bonafide Certificate")?.fileName} target='_' style={{color : "blue"}}>View Document</a></p>
+                            <p className={style.expandMargin}><b>Bonafide Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Bonafide Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>
 
                           </Grid>
                         </Grid>

@@ -50,7 +50,9 @@ const FamilyDetails = () => {
     const { t } = useTranslation("translation");
 
     const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
+    const getFamilyByIdDataDoc = useSelector((state) => state.getFamilyById?.data?.familyDocData || {})
     const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+    const getfamilymemberDoc = useSelector((state) => state.getfamilymember?.data?.familyDocData)
     const [open, setOpen] = useState(false)
     const districtList = useSelector((state) => state.getDistrict?.data)
     const municipalList = useSelector((state) => state.getMunicipalities?.data)
@@ -530,7 +532,8 @@ const FamilyDetails = () => {
 
           }
 
-          console.log("headDetailsExtra",headDetailsExtra)
+          console.log("formData",formData)
+          console.log('getFamilyByIdData', getFamilyByIdData)
   return (
     <MainLayout>
       <DeleteConfirmation text={"Are you sure you want to delete this member?"} onSubmit={() => deleteMember()} onCancle={handleCloseDelete} open={openDeleteConfirmation} />
@@ -542,8 +545,8 @@ const FamilyDetails = () => {
               <th className={style.th}>District</th>
               <th className={style.th}>Municipality</th>
               <th className={style.th}>Ward</th>
-              <th className={style.th}>Ration Card Number</th>
-              <th className={style.th}>Mobile Number</th>
+              <th className={style.th}>Ration Card No.</th>
+              <th className={style.th}>Economic Status</th>
               <th className={style.th}></th>
             </tr>
           </thead>
@@ -553,7 +556,7 @@ const FamilyDetails = () => {
               <td className={style.td}>{getFamilyByIdData?.municipalName}</td>
               <td className={style.td}>{getFamilyByIdData?.wardName}</td>
               <td className={style.td}>{getFamilyByIdData?.rationCardNo}</td>
-              <td className={style.td}>{getFamilyByIdData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}</td>
+              <td className={style.td}>{getFamilyByIdData?.economic}</td>
               <td className={style.td}>
 
                 <div className="action">
@@ -580,6 +583,7 @@ const FamilyDetails = () => {
                     <p className={style.expandMargin}><b>District:</b> {getFamilyByIdData?.district}</p>
                     <p className={style.expandMargin}><b>Financial Condition:</b> {getFamilyByIdData?.economic}</p>
                     <p className={style.expandMargin}><b>Category:</b> {getFamilyByIdData?.socialCategory}</p>
+                    {getFamilyByIdData?.socialSubCategory &&<p className={style.expandMargin}><b>Sub Category:</b> {getFamilyByIdData?.socialSubCategory}</p>}
 
                   </Grid>
                   <Grid item xs={4}>
@@ -587,6 +591,8 @@ const FamilyDetails = () => {
                   <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
 
                     <p className={style.expandMargin}><b>Ration Card Number:</b> {getFamilyByIdData?.rationCardNo}</p>
+                    <p className={style.expandMargin}><b>Declaration Document:</b> <a href={getFamilyByIdDataDoc?.find(k => k?.document == "Consent")?.fileName} target='_' style={{color : "blue"}}>View</a></p>
+
 
                   </Grid>
                   <Grid item xs={4}>
@@ -594,6 +600,7 @@ const FamilyDetails = () => {
 
                     <p className={style.expandMargin}><b>House Number:</b> {getFamilyByIdData?.houseAddress}</p>
                     <p className={style.expandMargin}><b>Mobile Number:</b> {getFamilyByIdData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}</p>
+                    {getFamilyByIdDataDoc?.find(k => k?.document == "Cast Certificate")?.fileName &&<p className={style.expandMargin}><b>Supporting Document:</b> <a href={getFamilyByIdDataDoc?.find(k => k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>}
 
                   </Grid>
                 </Grid>
@@ -766,16 +773,16 @@ disabled
               <thead className={style.thead}>
                 <tr className={style.tr}>
                   <th className={style.th}>Head of Family Name</th>
-                  <th className={style.th}>Ration Card Number</th>
+                  <th className={style.th}>Aadhaar No.</th>
                   <th className={style.th}>Religion</th>
-                  <th className={style.th}>Social Category</th>
+                  <th className={style.th}>Category</th>
                   <th className={style.th}></th>
                 </tr>
               </thead>
               <tbody>
                 <tr className={style.tr}>
                   <td className={style.td}>{formData?.memberName}</td>
-                  <td className={style.td}>{formData?.rationCardNo}</td>
+                  <td className={style.td}>{FormatAadharNumber(formData?.aadhaarNo)}</td>
                   <td className={style.td}>{ formData?.religion}</td>
                   <td className={style.td}>{formData?.socialCategory}</td>
                   <td className={style.td}>
@@ -803,17 +810,20 @@ disabled
                         <p className={style.expandMargin}><b>Head Of Family:</b> {formData?.memberName}</p>
                         <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(formData?.date_of_birth)}</p>
                         <p className={style.expandMargin}><b>Gender:</b> {formData?.gender}</p>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Reference Number:</b> {formData?.reference_no}</p>
-                        <p className={style.expandMargin}><b>Religion:</b> {formData?.religion}</p>
-                        <p className={style.expandMargin}><b>Category:</b> {formData?.socialCategory}</p>
+                        <p className={style.expandMargin}><b>Bonafide Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == formData?.familyMemberId && k?.document == "Bonafide Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>
 
                       </Grid>
                       <Grid item xs={4}>
-                        <p className={style.expandMargin}><b>Ration Card Number:</b> {formData?.rationCardNo}</p>
-                        <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(formData?.aadhaarNo)}</p>
-                        {/* <p className={style.expandMargin}><b>Sub Category:</b> {formData?.subCategory}</p> */}
+                        <p className={style.expandMargin}><b>Reference No.:</b> {formData?.reference_no}</p>
+                        <p className={style.expandMargin}><b>Religion:</b> {formData?.religion}</p>
+                        <p className={style.expandMargin}><b>Category:</b> {formData?.socialCategory}</p>
+                        {getfamilymemberDoc?.find(k => k?.memberId == formData?.familyMemberId && k?.document == "Cast Certificate")?.fileName && <p className={style.expandMargin}><b>Supporting  Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == formData?.familyMemberId && k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>}
+
+                      </Grid>
+                      <Grid item xs={4}>
+                        <p className={style.expandMargin}><b>Ration Card No.:</b> {formData?.rationCardNo}</p>
+                        <p className={style.expandMargin}><b>Aadhaar No.:</b> {FormatAadharNumber(formData?.aadhaarNo)}</p>
+                        {formData?.socialSubCategory && <p className={style.expandMargin}><b>Sub Category:</b> {formData?.socialSubCategory}</p>}
 
                       </Grid>
                     </Grid>
@@ -971,10 +981,10 @@ disabled
               <table className={style.table}>
                 <thead className={style.thead}>
                   <tr className={style.tr}>
-                    <th className={style.th}>Name</th>
-                    <th className={style.th}>Date of Birth</th>
-                    <th className={style.th}>Aadhaar Number</th>
-                    <th className={style.th}>eKYC Varification Status</th>
+                    <th className={style.th}>Family Member Name	</th>
+                    <th className={style.th}>Aadhaar No.</th>
+                    <th className={style.th}>Religion</th>
+                    <th className={style.th}>Category</th>
                     <th className={style.th}></th>
                   </tr>
                 </thead>
@@ -982,9 +992,9 @@ disabled
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
                       <td className={style.td}>{v?.memberName}</td>
-                      <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                       <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>
-                      <td className={style.td}>Document not Attached</td>
+                      <td className={style.td}>{v?.religion}</td>
+                      <td className={style.td}>{v?.socialCategory}</td>
                       <td className={style.td}>
 
                         <div className="action">
@@ -1011,19 +1021,20 @@ disabled
                             <p className={style.expandMargin}><b>Member Name:</b> {v?.memberName}</p>
                             <p className={style.expandMargin}><b>Date of Birth:</b> {formatDate(v?.date_of_birth)}</p>
                             <p className={style.expandMargin}><b>Gender:</b> {v?.gender}</p>
-                            {/* <p className={style.expandMargin}><b>Is Verified:</b> Document not Attached</p> */}
+                            <p className={style.expandMargin}><b>Bonafide Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Bonafide Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>
 
                           </Grid>
                           <Grid item xs={4}>
-                            <p className={style.expandMargin}><b>Reference Number:</b> {v?.reference_no}</p>
+                            <p className={style.expandMargin}><b>Reference No.:</b> {v?.reference_no}</p>
                             <p className={style.expandMargin}><b>Religion:</b> {v?.religion}</p>
                             <p className={style.expandMargin}><b>Category:</b> { v?.socialCategory}</p>
+                            {getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Cast Certificate")?.fileName && <p className={style.expandMargin}><b>Supporting Document:</b> <a href={getfamilymemberDoc?.find(k => k?.memberId == v?.familyMemberId && k?.document == "Cast Certificate")?.fileName} target='_' style={{color : "blue"}}>View</a></p>}
 
                           </Grid>
                           <Grid item xs={4}>
-                            {/* <p className={style.expandMargin}><b>Sub Category:</b> {v?.subCategory}</p> */}
-                            <p className={style.expandMargin}><b>Ration Card Number:</b> {v?.rationCardNo}</p>
-                            <p className={style.expandMargin}><b>Aadhaar Card Number:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
+                            <p className={style.expandMargin}><b>Ration Card No:</b> {v?.rationCardNo}</p>
+                            <p className={style.expandMargin}><b>Aadhaar No:</b> {FormatAadharNumber(v?.aadhaarNo)}</p>
+                            {v?.socialSubCategory &&<p className={style.expandMargin}><b>Sub Category:</b> {v?.socialSubCategory}</p>}
 
                           </Grid>
                         </Grid>
