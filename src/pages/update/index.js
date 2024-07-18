@@ -22,6 +22,8 @@ import { getFamilyHeadList } from '@/network/actions/getFamilyHeadList';
 import formatDate from '@/utils/formatDate';
 import { useLoading } from '@/utils/LoadingContext';
 import toast from 'react-hot-toast';
+import EditFamilyData from './EditFamilyData';
+import { updateFamily } from '@/network/actions/updateFamily';
 
 
 
@@ -36,12 +38,33 @@ const Update = () => {
   const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyHeadList?.data || [])
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
+  const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
+  console.log('getFamilyByIdData', getFamilyByIdData)
+  const getFamilyByIdDataDoc = useSelector((state) => state.getFamilyById?.data?.familyDocData || [])
 console.log('getFamilyListData', getFamilyListData)
 const [openDelete, setOpenDelete] = useState(false)
+const [openDeleteFamily, setOpenDeleteFamily] = useState(false)
 const [openEdit, setOpenEdit] = useState(false)
+const [openEditFamily, setOpenEditFamily] = useState(false)
   const [selectedFamilyHead, setSelectedFamilyHead] = useState(null)
   const [editUserData, setEditUserData] = useState({})
   const [deleteId, setDeleteId] = useState(null)
+  const [deleteIdFamily, setDeleteIdFamily] = useState(null)
+  const [editFamilyData, setEditFamilyData] = useState({})
+
+  const handleChangeFamily = (e) => {
+    const {name, value} = e.target
+    if (name == "dastavage" || name == "dastavage2") {
+      const selectedFile = e.target.files[0];
+      setEditFamilyData({...editFamilyData, [name] : e.target.files[0]})
+      
+
+    } else {
+      setEditFamilyData({...editFamilyData, [name]: value})
+      
+    }
+
+  }
 
   const [formData, setFormData] = useState({
     district: "",
@@ -63,20 +86,48 @@ console.log('getFamilyListData', getFamilyListData)
   const onFamilyHeadSelect = (e) => {
     setSelectedFamilyHead(e.target.value)
     dispatch(getfamilymember(e.target.value,startLoading, stopLoading))
+    dispatch(getFamilyById(+e.target.value,startLoading, stopLoading))
 
   }
 
   const handleOpenEdit = () => setOpenEdit(true)
   const handleCloseEdit = () => setOpenEdit(false)
+  const handleOpenEditFamily = () => {setOpenEditFamily(true); setEditFamilyData({...getFamilyByIdData, headName : getfamilymemberList?.[0]?.familyMemberId})}
+  const handleCloseEditFamily = () => setOpenEditFamily(false)
 
   const handleSubmitEdit = () => {
     handleCloseEdit()
     console.log('router', editUserData)
     route.push({pathname :'/edit-member',  query: { state: JSON.stringify(editUserData) }})
   }
+  const handleSubmitEditFamily = () => {
+    const extraUpdate = () => {
+
+      handleCloseEditFamily()
+      dispatch(getFamilyById(+editFamilyData?.family_id,startLoading, stopLoading))
+
+    }
+    let body = {
+      "districtCode":editFamilyData?.districtCode,
+      "houseAddress":editFamilyData?.houseAddress,
+      "rationCardNo":editFamilyData?.rationCardNo,
+      "socialSubCategory":editFamilyData?.socialSubCategory,
+      "wardId":editFamilyData?.wardId,
+      "socialCategoryId":editFamilyData?.socialCategoryId,
+      "municipalityId":editFamilyData?.municipalityId,
+      "bplNumber":editFamilyData?.bplNumber || "",
+      "mobileNumber":editFamilyData?.mobileNumber?.replace("-",""),
+      "economicId":editFamilyData?.economicId
+      
+  }
+  dispatch(updateFamily(editFamilyData?.family_id, body, extraUpdate))
+    // route.push({pathname :'/edit-member',  query: { state: JSON.stringify(editUserData) }})
+  }
 
   const handleOpenDelete = () => setOpenDelete(true)
   const handleCloseDelete = () => setOpenDelete(false)
+  const handleOpenDeleteFamily = () => setOpenDeleteFamily(true)
+  const handleCloseDeleteFamily = () => setOpenDeleteFamily(false)
 
   const handleSubmitDelete = () => {
     const extraAferDelete = () => {
@@ -86,6 +137,16 @@ console.log('getFamilyListData', getFamilyListData)
 
     }
     dispatch(deleteFamilyMember(deleteId,extraAferDelete,startLoading, stopLoading))
+  }
+  const handleSubmitDeleteFamily = () => {
+    const extraAferDelete = () => {
+      handleCloseDeleteFamily()
+      dispatch(getFamilyById(+selectedFamilyHead,startLoading, stopLoading))
+      // dispatch(getFamilyById(addFamilyData?.id))
+
+    }
+    alert("api integration remainng")
+    // dispatch(deleteFamilyMember(deleteId,extraAferDelete,startLoading, stopLoading))
   }
   console.log("getfamilymemberList",getfamilymemberList)
 
@@ -132,7 +193,7 @@ console.log('getFamilyListData', getFamilyListData)
             <SelectDropdown
               title={t('selectHOF')}
               name="hof"
-              options={getFamilyListData?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.himParivarId+")" }))}
+              options={[{value : "", label : "Select..."},...getFamilyListData?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.himParivarId+")" }))]}
               value={selectedFamilyHead}
               disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
 requried
@@ -140,9 +201,44 @@ requried
             />
           </Grid>
         </Grid>
+        {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Family Details</div>}
+        {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.tablewrapper} style={{ margin: "0" }}>
+            <table className={style.table}>
+              <thead className={style.thead}>
+                <tr className={style.tr}>
+                  <th className={style.th}>District</th>
+                  <th className={style.th}>Municipal</th>
+                  <th className={style.th}>Ward</th>
+                  <th className={style.th}>Ration Card No.</th>
+                  <th className={style.th}>Economic Status</th>
+                  <th className={style.th}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className={style.tr}>
+                  <td className={style.td}>{getFamilyByIdData?.district}</td>
+                  <td className={style.td}>{getFamilyByIdData?.municipalName}</td>
+                  <td className={style.td}>{ getFamilyByIdData?.wardName}</td>
+                  <td className={style.td}>{getFamilyByIdData?.rationCardNo}</td>
+                  <td className={style.td}>{getFamilyByIdData?.economic}</td>
+                  <td className={style.td}>
+               <FaEdit onClick={() => {handleOpenEditFamily()}} size={22} color='#42A5F5' cursor="pointer" title='Update'/>
+               <MdDeleteForever onClick={() => {handleOpenDeleteFamily(); setDeleteIdFamily(getFamilyByIdData?.family_id)}} size={24} color='#A04040' style={{marginLeft : "15px", cursor : "pointer"}} title='Delete'/>
 
+
+               </td>
+                </tr>
+              
+              </tbody>
+            </table>
+
+
+          </div>}
+
+
+        {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Member Details</div>}
         {(getfamilymemberList?.length > 0 && selectedFamilyHead) ? 
-         <div className={style.tablewrapper} >
+         <div className={style.tablewrapper} style={{margin : "0"}} >
          <table className={style.table}>
            <thead className={style.thead}>
              <tr className={style.tr}>
@@ -189,7 +285,9 @@ requried
   
     </Box>
     <DeleteConfirmation text="Are you sure you want to delete this member?" onSubmit={handleSubmitDelete} onCancle={handleCloseDelete} open={openDelete}/>
+    <DeleteConfirmation text="Are you sure you want to delete this Family?" onSubmit={handleSubmitDeleteFamily} onCancle={handleCloseDeleteFamily} open={openDeleteFamily}/>
     <ViewMemberData onSubmit={handleSubmitEdit} onCancle={handleCloseEdit} open={openEdit} data={{...editUserData, ...formData}}/>
+    <EditFamilyData onSubmit={handleSubmitEditFamily} onCancle={handleCloseEditFamily} open={openEditFamily} data={editFamilyData} handleChange={handleChangeFamily} getfamilymemberList={getfamilymemberList}/>
       
     </MainLayout>
   )

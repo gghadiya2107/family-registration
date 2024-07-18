@@ -339,7 +339,7 @@ const [oldMemberList, setOldMemberList] = useState([])
     setOpenModal(false);
   };
 
- 
+ console.log('memberList', memberList)
   return (
     <>
     <Divider style={{marginTop : 20}}/>
@@ -383,7 +383,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 
 
             </div></> }
-          {memberList?.length > 0 &&<div className={style.save} style={{ float: "none", textAlign: "center" }}>
+          {memberList?.length > 0 && memberList?.every(v => v?.date_of_birth) &&<div className={style.save} style={{ float: "none", textAlign: "center" }}>
             <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() => setIsOpenForm(true)} />
             <SubmitButton label="View Family" icon={<MdOutlineRemoveRedEye size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() =>{!memberList?.every(v => v?.date_of_birth) ? alert("Please fill all members details.") : route.push(`/family-details?id=${addFamilyData?.id}`)}} style={{ marginLeft: "20px", background : "#4caf50" }} />
           </div>}
@@ -666,7 +666,7 @@ const [oldMemberList, setOldMemberList] = useState([])
   {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
 
 </Grid>}
-<Grid item xs={24} sm={8} md={6}>
+<Grid item xs={24} sm={24} md={24}>
   <TextArea
       title={t('comment')}
       placeholder="Text area"
