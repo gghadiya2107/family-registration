@@ -111,6 +111,7 @@ const FamilyList = () => {
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
+                <th className={style.th}>PARIVAR NO.</th>
                 <th className={style.th}>HEAD OF FAMILY	</th>
                 <th className={style.th}>RATION NO.	</th>
                 <th className={style.th}>TOTAL MEMBERS	</th>
@@ -118,11 +119,15 @@ const FamilyList = () => {
                 <th className={style.th}>DISTRICT</th>
                 <th className={style.th}>MUNICIPAL</th>
                 <th className={style.th}>WARD	</th>
-                <th className={style.th}>ACTION</th>
               </tr>
             </thead>
             <tbody>{getFamilyListData?.content?.map(v => (
               <tr className={style.tr}>
+                <td className={style.td}><div className={style.btns}>
+                  <p style={{color : "blue", cursor : "pointer"}} onClick={() => handleClickOpen(v)} >{v?.himParivarId}</p>
+                  {/* <VerifyBtn title={"Verify"} onClick={() => { }} /> */}
+
+                </div></td>
                 <td className={style.td}>{v?.headMemberName}	</td>
                 <td className={style.td}>{v?.rationCardNo}	</td>
                 <td className={style.td}>{v?.totalMembers}</td>
@@ -130,11 +135,7 @@ const FamilyList = () => {
                 <td className={style.td}>{v?.district}</td>
                 <td className={style.td}>{v?.municipalName}</td>
                 <td className={style.td}>{v?.wardName}	</td>
-                <td className={style.td}><div className={style.btns}>
-                  <ViewBtn title={"View"} onClick={() => handleClickOpen(v)} />
-                  {/* <VerifyBtn title={"Verify"} onClick={() => { }} /> */}
-
-                </div></td>                    </tr>
+                                    </tr>
             ))}
 
 

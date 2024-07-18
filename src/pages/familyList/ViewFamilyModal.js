@@ -64,6 +64,9 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
         let newData = memberList?.map((v,i) => index == i ? {...v, memberDetailsMore : value} : v)
         setMemberList(newData)
     }
+
+    console.log('headData', headData)
+    console.log('memberList', memberList)
  
   return (
     <React.Fragment>
@@ -93,6 +96,8 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
             <table className={style.table}>
               <thead className={style.thead}>
                 <tr className={style.tr}>
+
+                  <th className={style.th}>Parivar No.</th>
                   <th className={style.th}>District</th>
                   <th className={style.th}>Municipal</th>
                   <th className={style.th}>Ward</th>
@@ -103,6 +108,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
               </thead>
               <tbody>
                 <tr className={style.tr}>
+                  <td className={style.td}>{viewData?.himParivarId}</td>
                   <td className={style.td}>{viewData?.district}</td>
                   <td className={style.td}>{viewData?.municipalName}</td>
                   <td className={style.td}>{ viewData?.wardName}</td>
@@ -153,6 +159,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
             <table className={style.table}>
               <thead className={style.thead}>
                 <tr className={style.tr}>
+                  <th className={style.th}>Him Member ID</th>
                   <th className={style.th}>Head of Family Name</th>
                   <th className={style.th}>Aadhaar No.</th>
                   <th className={style.th}>Religion</th>
@@ -162,6 +169,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
               </thead>
               <tbody>
                 <tr className={style.tr}>
+                  <td className={style.td}>{headData?.himMemberId}</td>
                   <td className={style.td}>{headData?.memberName}</td>
                   <td className={style.td}>{FormatAadharNumber(headData?.aadhaarNo)}</td>
                   <td className={style.td}>{ headData?.religion}</td>
@@ -212,6 +220,8 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
               <table className={style.table}>
                 <thead className={style.thead}>
                   <tr className={style.tr}>
+                  <th className={style.th}>Him Member ID</th>
+
                     <th className={style.th}>Family Member Name</th>
                     <th className={style.th}>Aadhaar No.</th>
                     <th className={style.th}>Religion</th>
@@ -222,6 +232,8 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                 <tbody>
                   {memberList?.map((v, index) => (<>
                     <tr className={style.tr}>
+                    <td className={style.td}>{v?.himMemberId}</td>
+
                       <td className={style.td}>{v?.memberName}</td>
                       <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>
                       <td className={style.td}>{v?.religion}</td>

@@ -173,9 +173,9 @@ const TransferList = () => {
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
+                <th className={style.th}>HIM MEMBER ID	</th>
                 <th className={style.th}>NAME	</th>
                 <th className={style.th}>RATION NO.	</th>
-                <th className={style.th}>GENDER	</th>
                 <th className={style.th}>BIRTH DATE	</th>
                 {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
                 <th className={style.th}>DISTRICT</th>
@@ -186,9 +186,10 @@ const TransferList = () => {
             </thead>
             <tbody>{tableData?.map(v => (
               <tr className={style.tr}>
+                <td className={style.td}>{v?.himMemberId}	</td>
+
                 <td className={style.td}>{v?.memberName}	</td>
                 <td className={style.td}>{v?.rationCardNo}	</td>
-                <td className={style.td}>{v?.gender}</td>
                 <td className={style.td}>{formatDate(v?.dateOfBirth)}	</td>
                 {/* <td className={style.td}>{v?.socialCategory}</td> */}
                 <td className={style.td}>{v?.district}</td>

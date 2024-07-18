@@ -107,6 +107,7 @@ const SeparateFamily = () => {
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
+                <th className={style.th}>PARIVAR NO.	</th>
                 <th className={style.th}>HEAD OF FAMILY	</th>
                 <th className={style.th}>RATION NO.	</th>
                 <th className={style.th}>TOTAL MEMBERS	</th>
@@ -119,6 +120,7 @@ const SeparateFamily = () => {
             </thead>
             <tbody>{getFamilyListData?.content?.map(v => (
               <tr className={style.tr}>
+                <td className={style.td}>{v?.himParivarId}	</td>
                 <td className={style.td}>{v?.headMemberName}	</td>
                 <td className={style.td}>{v?.rationCardNo}	</td>
                 <td className={style.td}>{v?.totalMembers}</td>

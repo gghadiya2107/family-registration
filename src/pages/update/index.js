@@ -206,6 +206,7 @@ requried
             <table className={style.table}>
               <thead className={style.thead}>
                 <tr className={style.tr}>
+                  <th className={style.th}>Parivar No.</th>
                   <th className={style.th}>District</th>
                   <th className={style.th}>Municipal</th>
                   <th className={style.th}>Ward</th>
@@ -216,6 +217,7 @@ requried
               </thead>
               <tbody>
                 <tr className={style.tr}>
+                  <td className={style.td}>{getfamilymemberList?.[0]?.himParivarId}</td>
                   <td className={style.td}>{getFamilyByIdData?.district}</td>
                   <td className={style.td}>{getFamilyByIdData?.municipalName}</td>
                   <td className={style.td}>{ getFamilyByIdData?.wardName}</td>
@@ -242,25 +244,26 @@ requried
          <table className={style.table}>
            <thead className={style.thead}>
              <tr className={style.tr}>
-               <th className={style.th}>NAME	</th>
-               <th className={style.th}>GENDER	</th>
-               <th className={style.th}>BIRTH DATE	</th>
-               <th className={style.th}>CATEGORY	</th>
+             <th className={style.th}>Him Member ID</th>
+
+               <th className={style.th}>Name	</th>
+               <th className={style.th}>Gender	</th>
+               <th className={style.th}>Birth Date	</th>
+               <th className={style.th}>Category	</th>
                {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
-               <th className={style.th}>AADHAAR NUMBER</th>
-               <th className={style.th}>PROFESSION</th>
-               <th className={style.th}>ACTION</th>
+               <th className={style.th}>Aadhaar No.</th>
+               <th className={style.th}>Action</th>
              </tr>
            </thead>
            <tbody>{getfamilymemberList?.map(v => (
              <tr className={style.tr}>
+               <td className={style.td}>{v?.himMemberId}	</td>
                <td className={style.td}>{v?.memberName}	</td>
                <td className={style.td}>{v?.gender}	</td>
                <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                <td className={style.td}>{v?.socialCategory}	</td>
                {/* <td className={style.td}>{v?.socialCategory}</td> */}
                <td className={style.td}>{FormatAadharNumber(v?.aadhaarNo)}</td>
-               <td className={style.td}>{v?.profession}</td>
                <td className={style.td}>
                <FaEdit onClick={() => {handleOpenEdit(); setEditUserData(v)}} size={22} color='#42A5F5' cursor="pointer" title='Update'/>
                <MdDeleteForever onClick={() => {handleOpenDelete(); setDeleteId(v?.familyMemberId)}} size={24} color='#A04040' style={{marginLeft : "15px", cursor : "pointer"}} title='Delete'/>
