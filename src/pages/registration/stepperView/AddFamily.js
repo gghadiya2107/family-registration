@@ -225,7 +225,7 @@ console.log('districtList', districtList)
           type="text"
           name="makan"
           value={formData?.makan}
-          onChange={(e) => e.target.value?.length > 10 ? null : handleChange(e)}
+          onChange={ handleChange}
           onKeyDown={(e) => {
             if (!isAlphanumericKey(e.key)) {
               e.preventDefault();

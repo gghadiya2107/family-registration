@@ -639,7 +639,7 @@ dastavage2 : formData?.dastavage2 || "",
             {errors?.dastavage2 && <p className="error">{errors?.dastavage2}</p>}
 
           </Grid>}
-          <Grid item xs={24} sm={8} md={6}>
+          <Grid item xs={24} sm={24} md={24}>
             <TextArea
                 title={t('comment')}
                 placeholder="Text area"
