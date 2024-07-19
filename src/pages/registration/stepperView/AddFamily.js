@@ -339,7 +339,7 @@ console.log('districtList', districtList)
           requried
           name="dastavage"
           onChange={handleChange}
-          accept="image/*,.pdf"
+          accept="image/*"
         />
        {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
@@ -357,7 +357,7 @@ console.log('districtList', districtList)
           requried
           name="dastavage2"
           onChange={handleChange}
-          accept="image/*,.pdf"
+          accept="image/*"
         />
        {/* {formData?.dastavage2 && ( formData.dastavage2.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage2)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          

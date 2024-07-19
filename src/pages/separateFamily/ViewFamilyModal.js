@@ -369,7 +369,7 @@ console.log('originalData', originalData)
                     subTitle="(Declaration & Report)"
                     name="dastavage"
                     onChange={handleChange}
-                    accept="image/*,.pdf"
+                    accept="image/*"
                     disabled
                   />
                             {originalData?.dastavage && <a href={URL.createObjectURL(originalData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
@@ -389,7 +389,7 @@ console.log('originalData', originalData)
                     // requried
                     name="dastavage2"
                     onChange={handleChange}
-                    accept="image/*,.pdf"
+                    accept="image/*"
                   />
                                               {originalData?.dastavage2 && <a href={URL.createObjectURL(originalData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
@@ -568,7 +568,7 @@ requried
                     requried
                     name="dastavage"
                     onChange={handleChange}
-                    accept="image/*,.pdf"
+                    accept="image/*"
                   />
                                               {newData?.dastavage && <a href={URL.createObjectURL(newData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
@@ -587,7 +587,7 @@ requried
                     requried
                     name="dastavage2"
                     onChange={handleChange}
-                    accept="image/*,.pdf"
+                    accept="image/*"
                   />
                                               {newData?.dastavage2 && <a href={URL.createObjectURL(newData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
