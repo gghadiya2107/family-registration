@@ -124,7 +124,7 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
                   </td>
                 </tr>
                 {isFamilyMore && <tr  >
-                  <td colspan="6" style={{ padding: "20px 20px 0 20px" }}>
+                  <td colspan="12" style={{ padding: "20px 20px 0 20px" }}>
                     <Grid container spacing={5}>
                       <Grid item xs={4}>
                         <p className={style.expandMargin}><b>District:</b> {viewData?.district}</p>

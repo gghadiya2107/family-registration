@@ -1161,7 +1161,7 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
               <FileUpload
                 name="dastavage"
                 onChange={(e) => setUpoadedDocument(e.target.files?.[0])}
-                accept="image/*,.pdf"
+                accept="image/*"
 
               />
               {upoadedDocument && <a href={URL.createObjectURL(upoadedDocument)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}

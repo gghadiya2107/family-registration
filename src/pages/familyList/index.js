@@ -29,11 +29,11 @@ const FamilyList = () => {
     district: "",
     municipal: "",
     ward: "",
-    })
-    const [open, setOpen] = React.useState(false);
-    const [viewData, setViewData] = useState({})
-    const [page, setPage] = useState(1);
-    console.log('getFamilyListData', getFamilyListData,page)
+  })
+  const [open, setOpen] = React.useState(false);
+  const [viewData, setViewData] = useState({})
+  const [page, setPage] = useState(1);
+  console.log('getFamilyListData', getFamilyListData, page)
 
   console.log('open', open)
   const handleClickOpen = (v) => {
@@ -52,10 +52,10 @@ const FamilyList = () => {
 
   useEffect(() => {
     // if (getFamilyListData)
-      // setPage(getFamilyListData?.number)
+    // setPage(getFamilyListData?.number)
   }, [getFamilyListData])
   useEffect(() => {
-    dispatch(getFamilyList(formData,startLoading, stopLoading))
+    dispatch(getFamilyList(formData, startLoading, stopLoading))
   }, [formData])
 
   const handleChange = (e) => {
@@ -65,7 +65,7 @@ const FamilyList = () => {
   const handlePageChange = (event, value) => {
     setPage(value)
     console.log('value', value)
-    dispatch(getFamilyList({...formData, page: value-1},startLoading, stopLoading))
+    dispatch(getFamilyList({ ...formData, page: value - 1 }, startLoading, stopLoading))
 
   }
   return (
@@ -79,7 +79,7 @@ const FamilyList = () => {
               name="district"
               options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
               value={formData?.district}
-              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value },startLoading, stopLoading)) }}
+              onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value }, startLoading, stopLoading)) }}
             />
 
 
@@ -91,7 +91,7 @@ const FamilyList = () => {
               options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
               disabled={formData?.district != "" ? false : true}
               value={formData?.municipal}
-              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value },startLoading, stopLoading)) }}
+              onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value }, startLoading, stopLoading)) }}
             />
 
           </Grid>
@@ -111,20 +111,20 @@ const FamilyList = () => {
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
-                <th className={style.th}>PARIVAR NO.</th>
-                <th className={style.th}>HEAD OF FAMILY	</th>
-                <th className={style.th}>RATION NO.	</th>
-                <th className={style.th}>TOTAL MEMBERS	</th>
+                <th className={style.th}>Parivar No.</th>
+                <th className={style.th}>Head of Family	</th>
+                <th className={style.th}>Ration No.	</th>
+                <th className={style.th}>Total Members	</th>
                 {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
-                <th className={style.th}>DISTRICT</th>
-                <th className={style.th}>MUNICIPAL</th>
-                <th className={style.th}>WARD	</th>
+                <th className={style.th}>District</th>
+                <th className={style.th}>Municipal</th>
+                <th className={style.th}>Ward	</th>
               </tr>
             </thead>
             <tbody>{getFamilyListData?.content?.map(v => (
               <tr className={style.tr}>
                 <td className={style.td}><div className={style.btns}>
-                  <p style={{color : "blue", cursor : "pointer"}} onClick={() => handleClickOpen(v)} >{v?.himParivarId}</p>
+                  <p style={{ color: "blue", cursor: "pointer" }} onClick={() => handleClickOpen(v)} >{v?.himParivarId}</p>
                   {/* <VerifyBtn title={"Verify"} onClick={() => { }} /> */}
 
                 </div></td>
@@ -135,7 +135,7 @@ const FamilyList = () => {
                 <td className={style.td}>{v?.district}</td>
                 <td className={style.td}>{v?.municipalName}</td>
                 <td className={style.td}>{v?.wardName}	</td>
-                                    </tr>
+              </tr>
             ))}
 
 
@@ -148,13 +148,13 @@ const FamilyList = () => {
         </div>
 
         <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
-        <Typography></Typography>
+          <Typography></Typography>
 
-        <Stack spacing={2} >
-          <Pagination color="primary" onChange={handlePageChange} count={getFamilyListData?.totalPages} page={page} />
+          <Stack spacing={2} >
+            <Pagination color="primary" onChange={handlePageChange} count={getFamilyListData?.totalPages} page={page} />
 
-        </Stack>
-        <Typography>Total Family: {getFamilyListData?.totalElements}</Typography>
+          </Stack>
+          <Typography>Total Family: {getFamilyListData?.totalElements}</Typography>
         </Box>
       </MainLayout>
     </>
