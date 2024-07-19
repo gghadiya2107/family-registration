@@ -1617,7 +1617,7 @@ dastavage2 : formData?.dastavage2,
                 name="dastavage"
                 // value={formData?.rationCard}
                 onChange={handleChange}
-                accept="image/*,.pdf"
+                accept="image/*"
 
               />
                         {formData?.dastavage && <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}

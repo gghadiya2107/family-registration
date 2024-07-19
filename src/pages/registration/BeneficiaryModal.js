@@ -10,6 +10,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import style from "./registration.module.css"
+import SubmitButton from '@/components/SubmitBtn';
+import { MdClose } from 'react-icons/md';
+import { Box } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -78,12 +81,12 @@ const BeneficiaryModal = ({selectedFamilyMember, handleClose, open}) => {
 
 
                     </div>
+                    <Box display={"flex"} justifyContent={"center"} mt={2}>
+                    <SubmitButton label={"Close"} type={"cancel"} autoFocus onClick={handleClose} icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} />
+
+                    </Box>
       </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose}>
-          Close
-        </Button>
-      </DialogActions>
+      
     </BootstrapDialog>
   </React.Fragment>
   )
