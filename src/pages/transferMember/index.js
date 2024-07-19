@@ -107,14 +107,14 @@ const TransferMember = () => {
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
-                <th className={style.th}>HEAD OF FAMILY	</th>
-                <th className={style.th}>RATION NO.	</th>
-                <th className={style.th}>TOTAL MEMBERS	</th>
-                <th className={style.th}>ECONOMIC STATUS	</th>
+                <th className={style.th}>Head of Family	</th>
+                <th className={style.th}>Ration No.	</th>
+                <th className={style.th}>Total Members	</th>
+                <th className={style.th}>Economic Status	</th>
                 {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
-                <th className={style.th}>DISTRICT</th>
-                <th className={style.th}>MUNICIPAL</th>
-                <th className={style.th}>ACTION</th>
+                <th className={style.th}>District</th>
+                <th className={style.th}>Municipal</th>
+                <th className={style.th}>Action</th>
               </tr>
             </thead>
             <tbody>{getFamilyListData?.content?.map(v => (

@@ -14,7 +14,7 @@ import ViewFamilyModal from './ViewFamilyModal'
 import { isNumericKeyWithSpace } from '@/utils/regex'
 import { useLoading } from '@/utils/LoadingContext'
 import axios from 'axios'
-import { MdSearch } from 'react-icons/md'
+import { MdArrowForward, MdSearch } from 'react-icons/md'
 
 const TransferListUrban = () => {
   const { t } = useTranslation("translation");
@@ -176,15 +176,15 @@ const TransferListUrban = () => {
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
-                <th className={style.th}>NAME	</th>
-                <th className={style.th}>RATION NO.	</th>
-                <th className={style.th}>GENDER	</th>
-                <th className={style.th}>BIRTH DATE	</th>
+                <th className={style.th}>Name	</th>
+                <th className={style.th}>Ration No.	</th>
+                <th className={style.th}>Gender	</th>
+                <th className={style.th}>Birth Date	</th>
                 {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
-                <th className={style.th}>DISTRICT</th>
-                <th className={style.th}>MUNICIPAL</th>
-                <th className={style.th}>WARD</th>
-                <th className={style.th}>ACTION</th>
+                <th className={style.th}>District</th>
+                <th className={style.th}>Municipal</th>
+                <th className={style.th}>Ward</th>
+                <th className={style.th}>Action</th>
               </tr>
             </thead>
             <tbody>{tableData?.map(v => (
@@ -215,7 +215,7 @@ const TransferListUrban = () => {
 
         </div> : <Typography textAlign={"center"} mt={5}>No Data Found!</Typography>}
         {tableData?.some(k => k?.isChecked) && <Box display={"flex"} alignItems={"center"} justifyContent={"center"} mt={3}>
-            <SubmitButton label={"Next"} onClick={() => handleClickOpen()} />
+            <SubmitButton label={"Next"} icon={<MdArrowForward size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={() => handleClickOpen()} />
         </Box>}
 
         {/* <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>

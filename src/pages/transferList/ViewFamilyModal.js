@@ -416,7 +416,7 @@ requried
                     requried
                     name="dastavage"
                     onChange={handleChange}
-                    accept="image/*,.pdf"
+                    accept="image/*"
                   />
                                               {newData?.dastavage && <a href={URL.createObjectURL(newData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
@@ -435,7 +435,7 @@ requried
                     requried
                     name="dastavage2"
                     onChange={handleChange}
-                    accept="image/*,.pdf"
+                    accept="image/*"
                   />
                                               {newData?.dastavage2 && <a href={URL.createObjectURL(newData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
@@ -494,7 +494,7 @@ requried
               </div>
             </Grid>
             <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
-              <SubmitButton onClick={() => {handleClose(); setNewData(null)}} icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel"/>
+              <SubmitButton label="Cancel" onClick={() => {handleClose(); setNewData(null)}} icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel"/>
 
               <SubmitButton label="Save" style={{ marginLeft: "10px" }} icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}} />} onClick={() => saveAndAddDetails()} />
               {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
