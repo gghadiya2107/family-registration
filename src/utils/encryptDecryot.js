@@ -19,18 +19,10 @@ export function encryptData(employeeCode) {
 }
 
 export function encryptDataPost(employeeCode) {
-    console.log('employeeCode', employeeCode)
     const encrypted = CryptoJS.AES.encrypt(employeeCode, secretKey).toString();
-
-    console.log("Encrypted with char codes: ", encrypted);
-    console.log("Encrypted with char codes: ", decryptData(encrypted));
     return encrypted;
 }
 export function encryptDataGet(employeeCode) {
-    console.log('employeeCode', employeeCode)
     const encrypted = CryptoJS.AES.encrypt(employeeCode, secretKey).toString();
-
-    console.log("Encrypted with char codes: ", encrypted);
-    console.log("Encrypted with char codes: ", decryptData(encrypted));
     return encodeURIComponent(encrypted);
 }

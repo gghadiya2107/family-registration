@@ -5,31 +5,46 @@ import bodyParser from 'body-parser';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 export async function getServerSideProps(context) {
-	const { req } = context;
+	try {
+		const { req } = context;
 
-	await new Promise((resolve, reject) => {
-		bodyParser.urlencoded({ extended: true })(req, null, resolve);
-	});
+		await new Promise((resolve, reject) => {
+			bodyParser.urlencoded({ extended: true })(req, null, resolve);
+		});
 
-	const {
-		token ,
-		user_id 
-	} = req?.body;
-	return {
-	  props: {
-	data : {token : token || "",
-		user_id : user_id || ""} },
-	};
-  }
-  
+		const {
+			token,
+			user_id
+		} = req?.body;
+		return {
+			props: {
+				data: {
+					token: token || "",
+					user_id: user_id || ""
+				}
+			},
+		};
+	} catch (error) {
+		console.error('Error fetching data:', error);
+		return {
+			props: {
+				data: {
+					message: 'Failed to fetch data',
+					error: error
+				}
+			}
+		};
+	} 
+}
 
 
-const ParichaySSO = ({data}) => {
+
+const ParichaySSO = ({ data }) => {
 	const router = useRouter()
-console.log("data login", data)
+	console.log("data login", data)
 	useEffect(() => {
-		
-		if(data){
+
+		if (data) {
 			let response = setCookiesValues("userData", data);
 
 			if (response) {
@@ -37,24 +52,24 @@ console.log("data login", data)
 			}
 		}
 	}, []);
-  return (
-	<Box
-				style={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					minHeight: "100vh",
-				}}
-			>
-					<Typography style={{ fontSize: 32 }} textAlign={"center"}>
-						Please wait...
-					</Typography>
-					<Typography style={{ fontSize: 28 }} textAlign={"center"}>
-						We are verifying your details
-					</Typography>
-					<LinearProgress variant="solid" />
-			</Box>
-  )
+	return (
+		<Box
+			style={{
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				minHeight: "100vh",
+			}}
+		>
+			<Typography style={{ fontSize: 32 }} textAlign={"center"}>
+				Please wait...
+			</Typography>
+			<Typography style={{ fontSize: 28 }} textAlign={"center"}>
+				We are verifying your details
+			</Typography>
+			<LinearProgress variant="solid" />
+		</Box>
+	)
 }
 
 export default ParichaySSO
