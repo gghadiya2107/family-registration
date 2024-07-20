@@ -55,7 +55,6 @@ export const ApiPostNoAuth = (url, body) => {
 
     encryptedBody = encryptDataPost(JSON.stringify(body))
   }
-  console.log('encryptedBody', encryptedBody)
 
   return new Promise((resolve, reject) => {
     axios
@@ -66,7 +65,6 @@ export const ApiPostNoAuth = (url, body) => {
       )
       .then((responseJson) => {
         const data = decryptData(responseJson?.data?.data);
-        console.log('data api', data)
         resolve(data);
       })
 
@@ -101,7 +99,6 @@ export const ApiPostFormData = (url, body) => {
       )
       .then((responseJson) => {
         const data = decryptData(responseJson?.data?.data);
-        console.log('data api', data)
         resolve(data);
       })
 
@@ -127,12 +124,10 @@ export const ApiPostFormData = (url, body) => {
 
 export const ApiGetNoAuth = (url, params = {}) => {
   let apiUrl = url + objectToQueryString(params)
-  console.log("apiUrl",apiUrl,params)
   return new Promise((resolve, reject) => {
     axios
       .get(BaseURL + apiUrl, defaultHeaders)
       .then(async (responseJson) => {
-        console.log('responseJson', responseJson)
         const data = decryptData(responseJson?.data?.data);
         resolve(data);
       })

@@ -1,6 +1,6 @@
 import SelectDropdown from '@/components/SelectDropdown';
 import MainLayout from '@/layout/MainLayout'
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -40,6 +40,7 @@ import Loader from '@/utils/Loader';
 import { getImagePath } from '@/utils/CustomImagePath';
 import toast from 'react-hot-toast';
 import { MdOutlineSave } from 'react-icons/md';
+import Image from 'next/image';
 
 const EditMember = () => {
   const { t } = useTranslation("translation");
@@ -877,7 +878,7 @@ const EditMember = () => {
 										</div>
 									</Box>
 								)}</div>
-                   {OtpSent && <Grid
+                   {Object.keys(aadhaarDetails).length === 0 && OtpSent && <Grid
 										item
 										mt={1}
 										container
@@ -921,6 +922,342 @@ onChange={(e) => e.target.value?.length > 6 ? null : setOTP(e.target.value)}
 										</Grid>
 									</Grid>}
                     </td>
+                    
+                </tr>
+                <tr>
+                  <td colspan="12" style={{ padding: "0px 20px 20px 20px" }}>
+                {aadhaarDetails?.uidData?.Poi?.$?.name && (
+									<Grid
+										mt={1}
+										container
+										columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+										xs={12}
+									>
+										<Grid item xs={6}>
+											<Stack
+												direction={"row"}
+												style={{ background: "#dedede", padding: 8 }}
+											>
+												<Image
+													src={getImagePath("/HPGovt.png")}
+													alt="Background Image"
+													width={30}
+													height={20}
+													objectFit="cover"
+												/>
+
+												<Typography
+													style={{
+														fontSize: 14,
+														fontWeight: 600,
+														marginLeft: 10,
+													}}
+												>
+													Existing Details
+												</Typography>
+											</Stack>
+
+											<div className="table">
+												<div className="row header">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															Name{""}{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														{" "}
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.nameError ? "red" : "green",
+															}}
+														>
+															{userData?.memberName ? userData?.memberName : "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												<div className="row">
+													<div className="cell">
+														<Typography
+															style={{
+																fontSize: 12,
+																fontWeight: 600,
+															}}
+														>
+															Date of Birth
+														</Typography>
+													</div>
+													<div className="cell">
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.dobError ? "red" : "green",
+															}}
+														>
+															{" "}
+															{userData?.date_of_birth ? formatDate(userData?.date_of_birth) : "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												<div className="row header">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															Care of S/o {""}{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														{" "}
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.coError ? "red" : "green",
+															}}
+														>
+															{userData?.relativeName ? userData?.relativeName : "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												<div className="row">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															Gender:{""}{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														{" "}
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.genderError ? "red" : "green",
+															}}
+														>
+															{" "}
+															{userData?.gender ? userData?.gender : "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												<div className="row header">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															State{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.stateError ? "red" : "green",
+															}}
+														>
+                              Himachal Pradesh
+															{/* {state ? state : "N.A"} */}
+														</Typography>
+													</div>
+												</div>
+												<div className="row">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															District
+														</Typography>
+													</div>
+													<div className="cell">
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.distError ? "red" : "green",
+															}}
+														>
+															{userData?.district ? userData?.district : "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												{/* Add more rows and cells as needed */}
+											</div>
+										</Grid>
+
+										<Grid item xs={6}>
+											<Stack
+												direction={"row"}
+												style={{ background: "#dedede", padding: 8 }}
+											>
+												<Image
+													src={getImagePath("/aadhaar.svg")}
+													width={30}
+													height={20}
+												/>
+
+												<Typography
+													style={{
+														fontSize: 14,
+														fontWeight: 600,
+														marginLeft: 10,
+													}}
+												>
+													Aadhaar Details
+												</Typography>
+											</Stack>
+
+											<div className="table">
+												<div className="row header">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															Name{""}{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														{" "}
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.nameError ? "red" : "green",
+															}}
+														>
+															{aadhaarDetails?.uidData?.Poi?.$?.name
+																? aadhaarDetails?.uidData.Poi.$.name
+																: "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												<div className="row">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															Date of Birth
+														</Typography>
+													</div>
+													<div className="cell">
+														
+															<Typography
+																style={{
+																	fontSize: 12,
+																	color: errors.dobError ? "red" : "green",
+																}}
+															>
+																{" "}
+                                {console.log('aadhaarDetails', aadhaarDetails)}
+																{aadhaarDetails?.uidData?.Poi?.$?.dob
+																? aadhaarDetails?.uidData.Poi.$.dob
+																: "N.A"}
+															</Typography>
+														
+													</div>
+												</div>
+
+												<div className="row header">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															Care of S/o {""}{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														{" "}
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.coError ? "red" : "green",
+															}}
+														>
+															{aadhaarDetails?.uidData?.Poa?.$?.co
+																? aadhaarDetails?.uidData?.Poa?.$?.co
+																: "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												<div className="row">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															Gender:{""}{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														{" "}
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.genderError ? "red" : "green",
+															}}
+														>
+															{" "}
+															{aadhaarDetails.uidData?.Poi?.$?.gender
+																? aadhaarDetails.uidData?.Poi?.$?.gender
+																: "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												<div className="row header">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															State{" "}
+														</Typography>
+													</div>
+													<div className="cell">
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.stateError ? "red" : "green",
+															}}
+														>
+															{aadhaarDetails.uidData?.Poa?.$?.state
+																? aadhaarDetails.uidData?.Poa?.$?.state
+																: "N.A"}
+														</Typography>
+													</div>
+												</div>
+												<div className="row">
+													<div className="cell">
+														<Typography
+															style={{ fontSize: 12, fontWeight: 600 }}
+														>
+															District
+														</Typography>
+													</div>
+													<div className="cell">
+														<Typography
+															style={{
+																fontSize: 12,
+																color: errors.distError ? "red" : "green",
+															}}
+														>
+															{aadhaarDetails.uidData?.Poa?.$?.dist
+																? aadhaarDetails.uidData?.Poa?.$?.dist
+																: "N.A"}
+														</Typography>
+													</div>
+												</div>
+
+												{/* Add more rows and cells as needed */}
+											</div>
+										</Grid>
+									</Grid>
+								)}
+                </td>
                 </tr>
               </tbody>}
               {selectedEditType == 6 && <tbody>

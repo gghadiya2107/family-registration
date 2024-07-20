@@ -10,17 +10,18 @@ import { AuthProvider } from "@/utils/AuthContext";
 
 
 function MyApp({ Component, pageProps }) {
-  return (<AuthProvider> <LoadingProvider>
-    <Provider store={store}>
-      <Toaster position="top-center" containerStyle={{
-    top: 100,
-    
-
-  }}/>
-
-      <Component {...pageProps} />
-    </Provider>
-  </LoadingProvider></AuthProvider>);
+  return (
+    <AuthProvider>
+      <LoadingProvider>
+        <Provider store={store}>
+          <Toaster position="top-center" containerStyle={{
+            top: 100,
+          }} />
+          <Component {...pageProps} />
+        </Provider>
+      </LoadingProvider>
+    </AuthProvider>
+  );
 }
 
 export default appWithTranslation(MyApp);
