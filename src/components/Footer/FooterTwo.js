@@ -49,8 +49,8 @@ const FooterTwo = () => {
 
 
                             </p>
-                            <p className={style.desc} style={{ margin: "10px 0" }}>Phone. <a href="tel:+911772628914">+91 1772628914</a>
-                                <br /> Email. <a href="mailto:dirit-hp@nic.in">dirit-hp@nic.in</a></p>
+                            <p className={style.desc} style={{ margin: "10px 0" }}>Phone: +91 1772628914
+                                <br /> Email: dirit-hp@nic.in</p>
                             {/* <p className={style.desc}>
                                 Office Visiting Hours: <br />
                                 Monday to Friday (010:00 AM to 06:00 PM)
