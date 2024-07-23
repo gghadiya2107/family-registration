@@ -1,40 +1,43 @@
 import { setCookiesValues } from '@/utils/cookies';
 import { Box, LinearProgress, Typography } from '@mui/material';
 import axios from 'axios'
-import bodyParser from 'body-parser';
-import { useRouter } from 'next/router';
+import bodyParser from 'body-parser';import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 export async function getServerSideProps(context) {
-	try {
-		const { req } = context;
+    try {
+        const { req } = context;
 
-		await new Promise((resolve, reject) => {
-			bodyParser.urlencoded({ extended: true })(req, null, resolve);
-		});
 
-		const {
-			token,
-			user_id
-		} = req?.body;
-		return {
-			props: {
-				data: {
-					token: token || "",
-					user_id: user_id || ""
-				}
-			},
-		};
-	} catch (error) {
-		console.error('Error fetching data:', error);
-		return {
-			props: {
-				data: {
-					message: 'Failed to fetch data',
-					error: error
-				}
-			}
-		};
-	} 
+		console.log(req, "server side props")
+
+        // Parse request body using body-parser middleware
+        await new Promise((resolve, reject) => {
+            bodyParser.urlencoded({ extended: true })(req, null, resolve);
+        });
+
+
+		console.log(req.body , "skjndasnjdkjasndjkasdnjk")
+        const { token, user_id } = req.body || {};
+
+        return {
+            props: {
+                data: {
+                    token: token || "",
+                    user_id: user_id || ""
+                }
+            }
+        };
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {
+            props: {
+                data: {
+                    message: 'Failed to fetch data',
+                    error: error.message || error.toString()
+                }
+            }
+        };
+    }
 }
 
 
@@ -42,9 +45,14 @@ export async function getServerSideProps(context) {
 const ParichaySSO = ({ data }) => {
 	const router = useRouter()
 	console.log("data login", data)
-	useEffect(() => {
 
+	console.log("data login", router.query)
+
+
+
+	useEffect(() => {
 		if (data) {
+			console.log('data', data)
 			let response = setCookiesValues("userData", data);
 
 			if (response) {
