@@ -14,6 +14,11 @@ import { getFamilyList } from '@/network/actions/getFamilyList'
 import ViewFamilyModal from './ViewFamilyModal'
 import { useLoading } from '@/utils/LoadingContext'
 import { getFamilyById } from '@/network/actions/getFamilyById'
+import InputFieldWithIcon from '@/components/InputFieldWithIcon'
+import { isAlphanumericKey } from '@/utils/regex'
+import SubmitButton from '@/components/SubmitBtn'
+import { MdSearch } from 'react-icons/md'
+import toast from 'react-hot-toast'
 
 const FamilyList = () => {
   const { t } = useTranslation("translation");
@@ -30,6 +35,8 @@ const FamilyList = () => {
     municipal: "",
     ward: "",
   })
+  const [selectedFamilyHead, setSelectedFamilyHead] = useState(null)
+
   const [open, setOpen] = React.useState(false);
   const [viewData, setViewData] = useState({})
   const [page, setPage] = useState(1);
@@ -54,9 +61,9 @@ const FamilyList = () => {
     // if (getFamilyListData)
     // setPage(getFamilyListData?.number)
   }, [getFamilyListData])
-  useEffect(() => {
-    dispatch(getFamilyList(formData, startLoading, stopLoading))
-  }, [formData])
+  // useEffect(() => {
+  //   dispatch(getFamilyList(formData, startLoading, stopLoading))
+  // }, [formData])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -67,6 +74,16 @@ const FamilyList = () => {
     console.log('value', value)
     dispatch(getFamilyList({ ...formData, page: value - 1 }, startLoading, stopLoading))
 
+  }
+
+  const handleSearch = () => {
+    console.log('formData', formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead !="", formData, selectedFamilyHead)
+    if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead != null){
+
+      dispatch(getFamilyList(formData, startLoading, stopLoading))
+    }else{
+      toast.error("Please select all fields")
+    }
   }
   return (
     <>
@@ -105,9 +122,32 @@ const FamilyList = () => {
               onChange={handleChange}
             />
           </Grid>
+          <Grid item xs={12} sm={4} md={4}>
+          <InputFieldWithIcon
+          title={t('searchByParivarIdorRationNo')}
+          // icon={<IoIosDocument size={20} />}
+          placeholder=""
+          type="text"
+          name="hof"
+          value={selectedFamilyHead}
+          disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
+          requried
+                        onChange={(e) => setSelectedFamilyHead(e.target.value)}
+          onKeyDown={(e) => {
+            if (!isAlphanumericKey(e.key)) {
+              e.preventDefault();
+            }
+          }}
+        />
+           
+          </Grid>
+          <Grid item xs={12} sm={4} md={4} mt={3}>
+            <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch}
+            /> 
+          </Grid>
         </Grid>
 
-        <div className={style.tablewrapper} >
+       {getFamilyListData?.content && <div className={style.tablewrapper} >
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
@@ -146,8 +186,8 @@ const FamilyList = () => {
 
 
         </div>
-
-        <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+}
+        {getFamilyListData?.content &&<Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
           <Typography></Typography>
 
           <Stack spacing={2} >
@@ -155,7 +195,7 @@ const FamilyList = () => {
 
           </Stack>
           <Typography>Total Family: {getFamilyListData?.totalElements}</Typography>
-        </Box>
+        </Box>}
       </MainLayout>
     </>
   )

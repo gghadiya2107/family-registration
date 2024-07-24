@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
 
 		console.log(req.body , "skjndasnjdkjasndjkasdnjk")
         const { token, user_id } = req.body || {};
-
+		console.log('before return')
         return {
             props: {
                 data: {
@@ -28,7 +28,7 @@ export async function getServerSideProps(context) {
             }
         };
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.log('Error fetching data:', error);
         return {
             props: {
                 data: {

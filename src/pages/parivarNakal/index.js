@@ -49,11 +49,11 @@ const ParivarNakal = () => {
   }
 
   const handleSearch = () => {
-    if (formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no) {
+    if ( formData?.himparivar_no ) {
 
       dispatch(getparivarnakal(formData, startLoading, stopLoading))
     } else {
-      toast.error("Please enter at leaset one data")
+      toast.error("Please fill search data")
     }
   }
 
@@ -91,10 +91,10 @@ const ParivarNakal = () => {
   return (
     <MainLayout>
       <Grid container spacing={3} >
-        <Grid item xs={12} sm={3} md={3}>
+        <Grid item xs={12} sm={6} md={6}>
           <InputFieldWithIcon
             // title={t('rathinCardNumber')}
-            title={t('himParivarNo')}
+            title={t('searchByParivarIdorRationNoAadharNo')}
             // icon={<IoIosDocument size={20} />}
             placeholder=""
             type="text"
@@ -104,7 +104,7 @@ const ParivarNakal = () => {
 
           />
         </Grid>
-        <Grid item xs={12} sm={4} md={3}>
+        {/* <Grid item xs={12} sm={4} md={3}>
           <InputFieldWithIcon
             title={t('rathinCardNumber')}
             // icon={<IoIosDocument size={20} />}
@@ -133,7 +133,7 @@ const ParivarNakal = () => {
 
           />
 
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} sm={4} md={3} mt={3}>
           <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch} />
           {/* {(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no) && data && Object.keys(data)?.length > 0 &&<SubmitButton label={"Download Nakal"} style={{marginLeft : "10px"}} onClick={downloadNakal}/>} */}
