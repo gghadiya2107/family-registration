@@ -93,6 +93,8 @@ const TransferList = () => {
     <>
       <ViewFamilyModal open={open} handleClose={handleClose} viewData={tableData?.filter(k => k?.isChecked)} setTableData={setTableData} />
       <MainLayout>
+      <div className={style.heading} style={{ marginBottom: "10px",}}>Transfer List</div>
+
         <Grid container spacing={3} >
           {/* <Grid item xs={12} sm={4} md={4}>
             <SelectDropdown

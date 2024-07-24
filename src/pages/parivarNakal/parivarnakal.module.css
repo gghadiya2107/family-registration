@@ -42,4 +42,12 @@ margin:  7px 0;
     background-color: #f2f2f2;
   }
 
-  
+  .heading{
+    text-align: center;
+    background-color: #d8dbdc;
+    /* background-color: #F0F4F8; */
+    padding: 10px 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 18px;
+}

@@ -89,6 +89,8 @@ const FamilyList = () => {
     <>
       <ViewFamilyModal open={open} handleClose={handleClose} viewData={viewData} />
       <MainLayout>
+      <div className={style.heading} style={{ marginBottom: "10px",}}>Check Parivar Details</div>
+
         <Grid container spacing={3} >
           <Grid item xs={12} sm={4} md={4}>
             <SelectDropdown
