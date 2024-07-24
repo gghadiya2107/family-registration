@@ -110,7 +110,7 @@ console.log('originalData', originalData)
       setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
       setHeadData(getfamilymemberList?.find(v => v?.isHead == "true"))
     }
-  }, [])
+  }, [getfamilymemberList])
 
   const viewMoreMember = (index, value) => {
     let newData = memberList?.map((v, i) => index == i ? { ...v, memberDetailsMore: value } : v)

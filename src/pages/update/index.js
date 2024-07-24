@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from '../registration/registration.module.css'
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { FaEdit, FaUserEdit } from "react-icons/fa";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdSearch } from "react-icons/md";
 import DeleteConfirmation from '@/components/Dialogs/delete';
 import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember';
 import ViewMemberData from '@/components/Dialogs/viewMemberData';
@@ -24,6 +24,9 @@ import { useLoading } from '@/utils/LoadingContext';
 import toast from 'react-hot-toast';
 import EditFamilyData from './EditFamilyData';
 import { updateFamily } from '@/network/actions/updateFamily';
+import InputFieldWithIcon from '@/components/InputFieldWithIcon';
+import { isAlphanumericKey } from '@/utils/regex';
+import SubmitButton from '@/components/SubmitBtn';
 
 
 
@@ -85,8 +88,19 @@ console.log('getFamilyListData', getFamilyListData)
   }
   const onFamilyHeadSelect = (e) => {
     setSelectedFamilyHead(e.target.value)
-    dispatch(getfamilymember(e.target.value,startLoading, stopLoading))
-    dispatch(getFamilyById(+e.target.value,startLoading, stopLoading))
+   
+  }
+
+  const handleSearch = () => {
+    
+if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead !=""){
+
+  dispatch(getfamilymember(selectedFamilyHead,startLoading, stopLoading))
+  dispatch(getFamilyById(+selectedFamilyHead,startLoading, stopLoading))
+}else{
+  toast.error("Please select all fields")
+}
+    
 
   }
 
@@ -190,15 +204,36 @@ console.log('getFamilyListData', getFamilyListData)
             />
           </Grid>
           <Grid item xs={12} sm={4} md={4}>
-            <SelectDropdown
-              title={t('selectHOF')}
+          <InputFieldWithIcon
+          title={t('searchByParivarIdorRationNo')}
+          // icon={<IoIosDocument size={20} />}
+          placeholder=""
+          type="text"
+          name="hof"
+          value={selectedFamilyHead}
+          disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
+          requried
+                        onChange={onFamilyHeadSelect}
+          onKeyDown={(e) => {
+            if (!isAlphanumericKey(e.key)) {
+              e.preventDefault();
+            }
+          }}
+        />
+            {/* <SelectDropdown
+              // title={t('selectHOF')}
+              title={t('searchByParivarIdorRationNo')}
               name="hof"
               options={[{value : "", label : "Select..."},...getFamilyListData?.map(v => ({ value: v?.family_id, label: v?.headMemberName+" ("+v?.himParivarId+")" }))]}
               value={selectedFamilyHead}
               disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
 requried
               onChange={onFamilyHeadSelect}
-            />
+            /> */}
+          </Grid>
+          <Grid item xs={12} sm={4} md={4} mt={3}>
+            <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch}
+            /> 
           </Grid>
         </Grid>
         {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Family Details</div>}
@@ -247,7 +282,7 @@ requried
              <th className={style.th}>Him Member ID</th>
 
                <th className={style.th}>Name	</th>
-               <th className={style.th}>Gender	</th>
+               <th className={style.th}>Head of Family	</th>
                <th className={style.th}>Birth Date	</th>
                <th className={style.th}>Category	</th>
                {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
@@ -259,7 +294,7 @@ requried
              <tr className={style.tr}>
                <td className={style.td}>{v?.himMemberId}	</td>
                <td className={style.td}>{v?.memberName}	</td>
-               <td className={style.td}>{v?.gender}	</td>
+               <td className={style.td}>{v?.isHead == "true" ? "Yes" : "No"}	</td>
                <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                <td className={style.td}>{v?.socialCategory}	</td>
                {/* <td className={style.td}>{v?.socialCategory}</td> */}

@@ -81,11 +81,11 @@ const TransferList = () => {
   }
 
   const handleSearch = () => {
-    if(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no){
+    if( formData?.himparivar_no ){
 
         dispatch(memberTransferList({...formData},startLoading, stopLoading))
     }else{
-        toast.error("Please enter at leaset one data")
+        toast.error("Please fill search data")
     }
   }
   console.log('tableData', tableData)
@@ -126,9 +126,9 @@ const TransferList = () => {
               onChange={handleChange}
             />
           </Grid> */}
-          <Grid item xs={12} sm={3} md={3}>
+          <Grid item xs={12} sm={6} md={6}>
           <InputFieldWithIcon
-                title={t('himParivarNo')}           
+                title={t('searchByParivarIdorRationNoAadharNo')}           
               placeholder=""
               type="text"
               name="himparivar_no"
@@ -137,7 +137,7 @@ const TransferList = () => {
               
             />
           </Grid>
-          <Grid item xs={12} sm={4} md={3}>
+          {/* <Grid item xs={12} sm={4} md={3}>
           <InputFieldWithIcon
                 title={t('rathinCardNumber')}
                 // icon={<IoIosDocument size={20} />}
@@ -163,7 +163,7 @@ const TransferList = () => {
               value={formData?.aadhaar_no?.replace(/(\d{4})(?=\d)/g, '$1 ')}
               onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={4} md={1} mt={3}>
          <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch}/>
           </Grid>
