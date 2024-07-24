@@ -73,13 +73,17 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) 
   console.log('formData1', formData1)
   const changeLang = async (name) => {
     if (name) {
-
+startLoading()
       const text = await translateToHindi(name);
       if (text) {
 
         setFormData({ ...formData, hindiName: text })
         // return text
+        stopLoading()
       }
+      stopLoading()
+    }else{
+      setFormData({ ...formData, hindiName: "" })
     }
   }
 
@@ -371,10 +375,10 @@ console.log('formData', formData)
       // title={t('nameOfRelative')}
       // icon={<IoIosDocument size={20} />}
       topStyle={{width : "100%"}}
-      placeholder=""
       type="text"
       name="relative"
       value={formData?.relative}
+      placeholder="Enter relative name"
       onChange={handleChange}
       onKeyDown={(e) => {
         if (!isAlphabateKey(e.key)) {

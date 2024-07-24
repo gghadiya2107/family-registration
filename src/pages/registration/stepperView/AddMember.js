@@ -324,12 +324,16 @@ const [oldMemberList, setOldMemberList] = useState([])
   const changeLang = async(name) => {
     if(name){
       
-
+startLoading()
       const text  = await translateToHindi(name);
       if(text){
         setFormData((prev) => ({...prev,hindiName: text }))
         // return text
+        stopLoading()
       }
+      stopLoading()
+    }else{
+      setFormData((prev) => ({...prev,hindiName: "" }))
     }
   }
   const handleClickOpen = () => {
@@ -454,9 +458,10 @@ const [oldMemberList, setOldMemberList] = useState([])
            {formData?.relative == "other" &&<Grid item xs={12} sm={4} >
            <InputFieldWithIcon
                 style={{width : "100%"}}
-                placeholder=""
                 type="text"
                 name="relativeName"
+                placeholder="Enter relative name"
+
                 value={formData?.relativeName}
                 onChange={handleChange}
                 onKeyDown={(e) => {

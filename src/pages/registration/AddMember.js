@@ -15,9 +15,12 @@ import { getFamilyById } from '@/network/actions/getFamilyById';
 import AddMemberModal from './AddMemberModal';
 import formatDate from '@/utils/formatDate';
 import { useLoading } from '@/utils/LoadingContext';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdSearch } from 'react-icons/md';
 import CloseBtn from '@/components/MoreBtn/CloseBtn';
 import MoreBtn from '@/components/MoreBtn';
+import { isAlphanumericKey } from '@/utils/regex';
+import InputFieldWithIcon from '@/components/InputFieldWithIcon';
+import toast from 'react-hot-toast';
 
 const AddMember = () => {
   const { t } = useTranslation("translation");
@@ -58,10 +61,10 @@ const AddMember = () => {
   useEffect(() => {
     dispatch(getFamilyList(formData, startLoading, stopLoading))
   }, [formData])
-  useEffect(() => {
-    console.log('selectedFamilyHead', selectedFamilyHead)
-    if (selectedFamilyHead) dispatch(getFamilyById(+selectedFamilyHead))
-  }, [selectedFamilyHead])
+  // useEffect(() => {
+  //   console.log('selectedFamilyHead', selectedFamilyHead)
+  //   if (selectedFamilyHead) dispatch(getFamilyById(+selectedFamilyHead))
+  // }, [selectedFamilyHead])
   useEffect(() => {
     if (getfamilymemberList ) setMemberList(getfamilymemberList)
   }, [getfamilymemberList])
@@ -74,9 +77,22 @@ const AddMember = () => {
   }
   const onFamilyHeadSelect = (e) => {
     setSelectedFamilyHead(e.target.value)
-    dispatch(getfamilymember(e.target.value, startLoading, stopLoading))
+    // dispatch(getfamilymember(e.target.value, startLoading, stopLoading))
 
   }
+  const handleSearch = () => {
+    
+    if(formData?.district!="" && formatDate?.municipal!="" && formData?.ward!="" && selectedFamilyHead !=""){
+    
+        dispatch(getfamilymember(selectedFamilyHead, startLoading, stopLoading))
+        dispatch(getFamilyById(+selectedFamilyHead))
+
+    }else{
+      toast.error("Please select all fields")
+    }
+        
+    
+      }
 
   const handleClickOpen = () => {
     setOpenModal(true);
@@ -131,7 +147,23 @@ const AddMember = () => {
             />
           </Grid>
           <Grid item xs={12} sm={4} md={4}>
-            <SelectDropdown
+          <InputFieldWithIcon
+          title={t('searchByParivarIdorRationNo')}
+          // icon={<IoIosDocument size={20} />}
+          placeholder=""
+          type="text"
+          name="hof"
+          value={selectedFamilyHead}
+          disabled={formData?.district != "" && formData?.municipal != ""  && formData?.ward != "" ? false : true}
+          requried
+                        onChange={onFamilyHeadSelect}
+          onKeyDown={(e) => {
+            if (!isAlphanumericKey(e.key)) {
+              e.preventDefault();
+            }
+          }}
+        />
+            {/* <SelectDropdown
               title={t('selectHOF')}
               name="hof"
               options={[{ value: "", label: "Select..." }, ...getFamilyListData?.map(v => ({ value: v?.family_id, label: v?.headMemberName + " (" + v?.himParivarId + ")" })) ]}
@@ -139,7 +171,11 @@ const AddMember = () => {
               disabled={formData?.district != "" && formData?.municipal != "" && formData?.ward != "" ? false : true}
               requried
               onChange={onFamilyHeadSelect}
-            />
+            /> */}
+          </Grid>
+          <Grid item xs={12} sm={4} md={4} mt={3}>
+            <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch}
+            /> 
           </Grid>
         </Grid>
         {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Family Details</div>}
@@ -212,7 +248,7 @@ const AddMember = () => {
                 <tr className={style.tr}>
                   <th className={style.th}>Him Member ID	</th>
                   <th className={style.th}>Name	</th>
-                  <th className={style.th}>Gender	</th>
+                  <th className={style.th}>Head of Family	</th>
                   <th className={style.th}>Birth Date	</th>
                   <th className={style.th}>Category	</th>
                   {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
@@ -226,7 +262,7 @@ const AddMember = () => {
                 <tr className={style.tr}>
                   <td className={style.td}>{v?.himMemberId}	</td>
                   <td className={style.td}>{v?.memberName}	</td>
-                  <td className={style.td}>{v?.gender}	</td>
+                  <td className={style.td}>{v?.isHead == "true" ? "Yes" : "No"}	</td>
                   <td className={style.td}>{formatDate(v?.date_of_birth)}</td>
                   <td className={style.td}>{v?.socialCategory}	</td>
                   {/* <td className={style.td}>{v?.socialCategory}</td> */}
@@ -285,7 +321,7 @@ const AddMember = () => {
           : (getfamilymemberList?.length == 0 && selectedFamilyHead) ?
             <Typography>No member found in this family</Typography> : ""
         }
-        {selectedFamilyHead && <div style={{ float: "none", display: "flex", justifyContent: "center", marginTop: "30px" }}>
+        {selectedFamilyHead && getfamilymemberList?.length > 0 && <div style={{ float: "none", display: "flex", justifyContent: "center", marginTop: "30px" }}>
           <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{ marginTop: "5px", marginRight: "5px" }} />} onClick={handleClickOpen} />
         </div>}
       </Box>

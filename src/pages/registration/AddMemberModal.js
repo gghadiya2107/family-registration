@@ -326,12 +326,16 @@ dastavage2 : formData?.dastavage2 || "",
   const changeLang = async(name) => {
     if(name){
       
-
+      startLoading()
       const text  = await translateToHindi(name);
       if(text){
         setFormData((prev) => ({...prev,hindiName: text }))
         // return text
+        stopLoading()
       }
+      stopLoading()
+    }else{
+      setFormData((prev) => ({...prev,hindiName: "" }))
     }
   }
   
@@ -427,7 +431,7 @@ dastavage2 : formData?.dastavage2 || "",
            {formData?.relative == "other" &&<Grid item xs={12} sm={4} >
            <InputFieldWithIcon
                 style={{width : "100%"}}
-                placeholder=""
+                placeholder="Enter relative name"
                 type="text"
                 name="relativeName"
                 value={formData?.relativeName}
