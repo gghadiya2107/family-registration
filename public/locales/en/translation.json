@@ -18,7 +18,7 @@
     "saveAndAddHof" : "Save and Add HOF",
     "headOfFamilyName" : "Head of Family Name",
     "memberName" : "Member Name",
-    "nameOfRelative" : "Name of Relative",
+    "nameOfRelative" : "Relative Relation and Name",
     "dateOfBirth" : "Date of Birth",
     "gender" : "Gender",
     "baseOfRegistration" : "Base Of Registration",
@@ -44,7 +44,7 @@
     "validateSupportingDocument" : "Supporting document is required",
     "validateFileSize" : "File size must be less than 1MB",
     "validateHeadName" : "Name is required",
-    "validateRelativeName" : "Relative is required",
+    "validateRelativeName" : "Relative Relation and Name is required",
     "validateDOB" :  "Date of birth is required",
     "validateGender" : "Gender is required",
     "validateBaseOfRegistration" : "Base of registraation is required",
@@ -75,7 +75,9 @@
     "rationCardNo" : "Ration Card No.",
     "referanceNo" : "Referance No.",
     "remark" : "Remarks",
-    "himParivarNo" : "Him Parivar Number"
+    "himParivarNo" : "Him Parivar Number",
+    "searchByParivarIdorRationNo" : "Search by Ration No. / Him Parivar No.",
+    "searchByParivarIdorRationNoAadharNo" : "Search by Ration No. / Him Parivar No. / Aadhaar Card No."
     
 
 

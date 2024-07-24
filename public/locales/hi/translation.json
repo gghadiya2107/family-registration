@@ -43,7 +43,7 @@
     "validateDocument" : "दस्तावेज़ आवश्यक है",
     "validateFileSize" : "फ़ाइल 1MB से कम होना चाहिए",
     "validateHeadName" : "मुखिया का नाम आवश्यक है",
-    "validateRelativeName" : "संबंधी का नाम आवश्यक है",
+    "validateRelativeName" : "संबंधी का नाम एवं संबंध आवश्यक है",
     "validateDOB" :  "जन्म तिथि आवश्यक है",
     "validateGender" : "लिंग आवश्यक है",
     "validateBaseOfRegistration" : "दर्ज करने का आधार आवश्यक है",
@@ -73,7 +73,10 @@
     "rationCardNo" : "राशन कार्ड नंबर",
     "referanceNo" : "संदर्भ नंबर",
     "remark" : "टिप्पणी",
-    "himParivarNo" : "हिम परिवार नंबर"
+    "himParivarNo" : "हिम परिवार नंबर",
+    "searchByParivarIdorRationNo" : "राशन नंबर / हिम परिवार नंबर",
+    "searchByParivarIdorRationNoAadharNo" : "राशन नंबर / हिम परिवार नंबर / आधार नंबर"
+
 
 
 
