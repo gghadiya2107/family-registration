@@ -188,17 +188,20 @@ console.log('originalData', originalData)
         maxWidth={"lg"}
       >
 
-        <IconButton
+<IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            right: 0,
+            top: 0,
             color: (theme) => theme.palette.grey[500],
+            zIndex: 999
           }}
         >
-          {/* <CloseIcon /> */}
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
         </IconButton>
         <DialogContent dividers>
         <div className={style.heading} style={{ marginBottom: "3px" }}>Separate Member </div>

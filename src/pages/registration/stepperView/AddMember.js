@@ -73,6 +73,7 @@ const [oldMemberList, setOldMemberList] = useState([])
     religion: "",
     adharCard: "",
     dastavage: "",
+    dastavage2: "",
     description: "",
     isEditModeMember : false,
   })
@@ -106,6 +107,7 @@ const [oldMemberList, setOldMemberList] = useState([])
       religion: "",
       aadhaarNo: v?.aadhaarNumber || "",
       dastavage: "",
+      dastavage2: "",
       description: "",
       isEditModeMember : false,
     }))
