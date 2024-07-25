@@ -13,7 +13,7 @@ import { getfamilymember } from '@/network/actions/getfamilymember';
 import style from "../registration/registration.module.css"
 import MoreBtn from '@/components/MoreBtn';
 import CloseBtn from '@/components/MoreBtn/CloseBtn';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import SubmitButton from '@/components/SubmitBtn';
 import formatDate from '@/utils/formatDate';
 import FormatAadharNumber, { isValidMobileNumber } from '@/utils/formatAadharNumber';
@@ -238,17 +238,20 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
         maxWidth={"lg"}
       >
 
-        <IconButton
+<IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            right: 0,
+            top: 0,
             color: (theme) => theme.palette.grey[500],
+            zIndex: 999
           }}
         >
-          {/* <CloseIcon /> */}
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
         </IconButton>
         <DialogContent dividers>
           <Grid container spacing={3} mt={0}>

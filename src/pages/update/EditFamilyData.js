@@ -58,17 +58,20 @@ const EditFamilyData = ({ onSubmit, onCancle, open, data,handleChange,getfamilym
         <DialogTitle sx={{ m: 0, p: 2, textAlign : "center", fontWeight : 500 }} id="customized-dialog-title">
   Edit Family
 </DialogTitle>
-        <IconButton
-            aria-label="close"
-            onClick={onCancle}
-            sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-            }}
+<IconButton
+          aria-label="close"
+          onClick={onCancle}
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            color: (theme) => theme.palette.grey[500],
+            zIndex: 999
+          }}
         >
-            {/* <CloseIc/on /> */}
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
         </IconButton>
         <DialogContent dividers>
             <Grid container spacing={3}>
@@ -263,7 +266,7 @@ const EditFamilyData = ({ onSubmit, onCancle, open, data,handleChange,getfamilym
                 
                 
             </Grid>
-            <Box style={{ display: "flex" }} justifyContent={"center"} mt={4}>
+            <Box style={{ display: "flex" }} justifyContent={"center"} mt={2}>
                 <SubmitButton label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} type ="cancel" onClick={onCancle} />
                 <SubmitButton label="Submit" icon={<MdCheck size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={onSubmit} style={{ marginLeft: "10px" }} />
             </Box>

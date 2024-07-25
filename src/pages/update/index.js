@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from '../registration/registration.module.css'
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { FaEdit, FaUserEdit } from "react-icons/fa";
-import { MdDeleteForever, MdSearch } from "react-icons/md";
+import { MdAdd, MdDeleteForever, MdSearch } from "react-icons/md";
 import DeleteConfirmation from '@/components/Dialogs/delete';
 import { deleteFamilyMember } from '@/network/actions/deleteFamilyMember';
 import ViewMemberData from '@/components/Dialogs/viewMemberData';
@@ -27,6 +27,7 @@ import { updateFamily } from '@/network/actions/updateFamily';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
 import { isAlphanumericKey } from '@/utils/regex';
 import SubmitButton from '@/components/SubmitBtn';
+import AddMemberModal from '../registration/AddMemberModal';
 
 
 
@@ -54,6 +55,7 @@ const [openEditFamily, setOpenEditFamily] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
   const [deleteIdFamily, setDeleteIdFamily] = useState(null)
   const [editFamilyData, setEditFamilyData] = useState({})
+  const [openModal, setOpenModal] = React.useState(false);
 
   const handleChangeFamily = (e) => {
     const {name, value} = e.target
@@ -163,6 +165,13 @@ if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && se
     // dispatch(deleteFamilyMember(deleteId,extraAferDelete,startLoading, stopLoading))
   }
   console.log("getfamilymemberList",getfamilymemberList)
+
+  const handleClickOpen = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <MainLayout>
@@ -316,7 +325,9 @@ requried
            </tbody>
          </table>
 
-
+         <div className={style.save} style={{ float: "none", textAlign: "center" }}>
+            <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleClickOpen} />
+              </div>
        </div>
         :(getfamilymemberList?.length == 0 && selectedFamilyHead)?
         <Typography>No member found in this family</Typography> : ""
@@ -327,7 +338,8 @@ requried
     <DeleteConfirmation text="Are you sure you want to delete this Family?" onSubmit={handleSubmitDeleteFamily} onCancle={handleCloseDeleteFamily} open={openDeleteFamily}/>
     <ViewMemberData onSubmit={handleSubmitEdit} onCancle={handleCloseEdit} open={openEdit} data={{...editUserData, ...formData}}/>
     <EditFamilyData onSubmit={handleSubmitEditFamily} onCancle={handleCloseEditFamily} open={openEditFamily} data={editFamilyData} handleChange={handleChangeFamily} getfamilymemberList={getfamilymemberList}/>
-      
+    <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={[]} memberList={{}} getFamilyByIdData={getFamilyByIdData} />
+
     </MainLayout>
   )
 }

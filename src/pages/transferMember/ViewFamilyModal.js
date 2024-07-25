@@ -34,6 +34,7 @@ import KeyValueDetails from '@/components/KeyValueDetails';
 import { TransferMember } from '@/network/actions/TransferMember';
 import TextArea from '@/components/TextArea';
 import { useLoading } from '@/utils/LoadingContext';
+import { MdClose } from 'react-icons/md';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -176,17 +177,20 @@ const ViewFamilyModal = ({ open, handleClose, viewData }) => {
         maxWidth={"lg"}
       >
 
-        <IconButton
+<IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            right: 0,
+            top: 0,
             color: (theme) => theme.palette.grey[500],
+            zIndex: 999
           }}
         >
-          {/* <CloseIcon /> */}
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
         </IconButton>
         <DialogContent dividers>
           <Grid container spacing={3}>
