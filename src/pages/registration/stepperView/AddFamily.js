@@ -56,7 +56,8 @@ console.log('districtList', districtList)
         class : "",
         subclass: "",
         mobile : selectedFamilyMember?.[0]?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')|| "",
-        dastavage: ""
+        dastavage: "",
+        dastavage2: ""
     })
 
     // dispatch(getMunicipalities({districtCode: selectedFamilyMember?.[0]?.districtId }))

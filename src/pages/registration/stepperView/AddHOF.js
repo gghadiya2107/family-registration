@@ -68,6 +68,7 @@ const AddHOF = ({selectedFamilyMember,setActiveStepper,onSaveFamily,formData1}) 
     religion: "",
     adharCard: "",
     dastavage: "",
+    dastavage2: "",
     description: ""
   })
   console.log('formData1', formData1)
@@ -117,6 +118,7 @@ startLoading()
         religion: "",
         adharCard: head?.aadhaarNumber?.replace(/(\d{4})(?=\d)/g, '$1 ') || "",
         dastavage: "",
+        dastavage2: "",
         description: ""
       }
       setFormData(headData)

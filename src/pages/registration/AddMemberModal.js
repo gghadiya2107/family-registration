@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useTranslation } from 'next-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategory } from '@/network/actions/getCategory'
@@ -352,17 +352,20 @@ dastavage2 : formData?.dastavage2 || "",
         Add Member
       </DialogTitle>
       <IconButton
-        aria-label="close"
-        onClick={handleClose}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: (theme) => theme.palette.grey[500],
-        }}
-      >
-        {/* <CloseIcon /> */}
-      </IconButton>
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            color: (theme) => theme.palette.grey[500],
+            zIndex: 999
+          }}
+        >
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
+        </IconButton>
       <DialogContent dividers>
         <Grid container spacing={3} >
 

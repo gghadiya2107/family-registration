@@ -1,7 +1,8 @@
 import CancelBtn from '@/components/CancelBtn';
 import SubmitButton from '@/components/SubmitBtn'
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, styled } from '@mui/material'
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, styled } from '@mui/material'
 import React from 'react'
+import { MdClose } from 'react-icons/md';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -36,17 +37,20 @@ const EditFamilyConfirmation = ({nameTitle,memberList, setMemberList, handleClos
         Edit Family
       </DialogTitle>
       <IconButton
-        aria-label="close"
-        onClick={handleClose}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: (theme) => theme.palette.grey[500],
-        }}
-      >
-        {/* <CloseIcon /> */}
-      </IconButton>
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            color: (theme) => theme.palette.grey[500],
+            zIndex: 999
+          }}
+        >
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
+        </IconButton>
       <DialogContent dividers style={{fontSize : "18px"}}>
         {EditModalType == "family" &&<div>
 
