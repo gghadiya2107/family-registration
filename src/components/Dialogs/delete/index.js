@@ -36,17 +36,20 @@ export default function DeleteConfirmation({text, onSubmit, onCancle, open}) {
         {/* <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           Modal title
         </DialogTitle> */}
-        <IconButton
+         <IconButton
           aria-label="close"
           onClick={onCancle}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            right: 0,
+            top: 0,
             color: (theme) => theme.palette.grey[500],
+            zIndex: 999
           }}
         >
-          {/* <CloseIc/on /> */}
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
         </IconButton>
         <DialogContent dividers>
           <Typography >{text}</Typography>

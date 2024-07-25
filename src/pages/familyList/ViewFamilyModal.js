@@ -13,14 +13,16 @@ import { getfamilymember } from '@/network/actions/getfamilymember';
 import style from "../registration/registration.module.css"
 import MoreBtn from '@/components/MoreBtn';
 import CloseBtn from '@/components/MoreBtn/CloseBtn';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import SubmitButton from '@/components/SubmitBtn';
 import formatDate from '@/utils/formatDate';
 import FormatAadharNumber from '@/utils/formatAadharNumber';
 import { isNumericKeyWithSpace } from '@/utils/regex';
 import { getFamilyById } from '@/network/actions/getFamilyById';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
-import { MdClose } from 'react-icons/md';
+import { MdAdd, MdClose } from 'react-icons/md';
+import AddMemberModal from '../registration/AddMemberModal';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -43,6 +45,7 @@ const [memberList, setMemberList] = React.useState([])
 const [headData, setHeadData] = React.useState({})
 const [isHeadMore, setIsHeadMore] = React.useState(false)
 const [isFamilyMore, setIsFamilyMore] = React.useState(false)
+const [openModal, setOpenModal] = React.useState(false);
 
     React.useEffect(() => {
         if(viewData?.family_id){
@@ -67,6 +70,13 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
 
     console.log('headData', headData)
     console.log('memberList', memberList)
+
+    const handleClickOpen = () => {
+      setOpenModal(true);
+    };
+    const handleCloseModal = () => {
+      setOpenModal(false);
+    };
  
   return (
     <React.Fragment>
@@ -83,12 +93,15 @@ const [isFamilyMore, setIsFamilyMore] = React.useState(false)
           onClick={handleClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            right: 0,
+            top: 0,
             color: (theme) => theme.palette.grey[500],
+            zIndex: 999
           }}
         >
-          {/* <CloseIcon /> */}
+         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+         <MdClose color='white' size={18}/>
+         </Box>
         </IconButton>
         <DialogContent dividers>
         {viewData && <><div className={style.heading} style={{ marginBottom: "5px"}}>Family Details</div>
@@ -453,13 +466,16 @@ disabled
 
             {getfamilymemberList?.length == 0 && <h3>Family Member Not Found!</h3>}
 
-           <DialogActions style={{display : "flex", justifyContent : "center"}}>
+           <DialogActions style={{display : "flex", justifyContent : "center", marginTop : "5px"}}>
            <SubmitButton onClick={handleClose} label="Close" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel" />
+           <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleClickOpen} />
 
       </DialogActions>
         </DialogContent>
        
       </BootstrapDialog>
+      <AddMemberModal handleClose={handleCloseModal} open={openModal} setMemberList={[]} memberList={{}} getFamilyByIdData={getFamilyByIdData} />
+
     </React.Fragment>
   );
 }
