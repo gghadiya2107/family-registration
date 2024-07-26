@@ -149,7 +149,7 @@ const FamilyList = () => {
           </Grid>
         </Grid>
 
-       {getFamilyListData?.content && <div className={style.tablewrapper} >
+       {getFamilyListData?.content?.length > 0 ? <div className={style.tablewrapper} >
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
@@ -187,9 +187,9 @@ const FamilyList = () => {
           </table>
 
 
-        </div>
+        </div> :  <Box textAlign={"center"} mt={5}>No Family Found</Box>
 }
-        {getFamilyListData?.content &&<Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+        {getFamilyListData?.content?.length > 0 &&<Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
           <Typography></Typography>
 
           <Stack spacing={2} >
