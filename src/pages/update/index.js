@@ -2,10 +2,10 @@ import SelectDropdown from '@/components/SelectDropdown';
 import MainLayout from '@/layout/MainLayout'
 import { getDistrict } from '@/network/actions/getDistrict';
 import { getFamilyById } from '@/network/actions/getFamilyById';
-import { getFamilyList } from '@/network/actions/getFamilyList';
+import { getFamilyList, getFamilyListSuccess } from '@/network/actions/getFamilyList';
 import { getMunicipalities } from '@/network/actions/getMunicipalities';
 import { getWard } from '@/network/actions/getWard';
-import { getfamilymember } from '@/network/actions/getfamilymember';
+import { getfamilymember, getfamilymemberSuccess } from '@/network/actions/getfamilymember';
 import { Box, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -41,11 +41,13 @@ const Update = () => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyHeadList?.data || [])
+  const getFamilyListDataApi = useSelector((state) => state.getFamilyList?.data)
+
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData)
   const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
   console.log('getFamilyByIdData', getFamilyByIdData)
   const getFamilyByIdDataDoc = useSelector((state) => state.getFamilyById?.data?.familyDocData || [])
-console.log('getFamilyListData', getFamilyListData)
+console.log('getFamilyListDataApi', getFamilyListDataApi)
 const [openDelete, setOpenDelete] = useState(false)
 const [openDeleteFamily, setOpenDeleteFamily] = useState(false)
 const [openEdit, setOpenEdit] = useState(false)
@@ -56,6 +58,7 @@ const [openEditFamily, setOpenEditFamily] = useState(false)
   const [deleteIdFamily, setDeleteIdFamily] = useState(null)
   const [editFamilyData, setEditFamilyData] = useState({})
   const [openModal, setOpenModal] = React.useState(false);
+  const [data, setData] = useState(null)
 
   const handleChangeFamily = (e) => {
     const {name, value} = e.target
@@ -70,6 +73,7 @@ const [openEditFamily, setOpenEditFamily] = useState(false)
     }
 
   }
+  console.log('getfamilymemberList', getfamilymemberList)
 
   const [formData, setFormData] = useState({
     district: "",
@@ -79,7 +83,18 @@ const [openEditFamily, setOpenEditFamily] = useState(false)
 console.log('getFamilyListData', getFamilyListData)
   useEffect(() => {
     dispatch(getDistrict( startLoading, stopLoading ))
+    return (() => {
+      dispatch(getfamilymemberSuccess([]))
+      dispatch(getFamilyListSuccess([]));
+      setData(null)
+    })
   }, [])
+  useEffect(() => {
+    dispatch(getFamilyListSuccess([]));
+      dispatch(getfamilymemberSuccess([]))
+      setData(null)
+  }, [route])
+  
   useEffect(() => {
     dispatch(getFamilyHeadList(formData,startLoading, stopLoading))
   }, [formData]) 
@@ -90,15 +105,27 @@ console.log('getFamilyListData', getFamilyListData)
   }
   const onFamilyHeadSelect = (e) => {
     setSelectedFamilyHead(e.target.value)
+    if(e.target.value == ""){
+      setData(null)
+    }
    
   }
+
+  useEffect(() => {
+    if(getFamilyListDataApi?.content?.[0]?.family_id){
+      dispatch(getfamilymember(getFamilyListDataApi?.content?.[0]?.family_id,startLoading, stopLoading))
+      dispatch(getFamilyById(+getFamilyListDataApi?.content?.[0]?.family_id,startLoading, stopLoading))
+    }
+  }, [getFamilyListDataApi])
+  
 
   const handleSearch = () => {
     
 if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead !=""){
+  dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead},startLoading, stopLoading))
 
-  dispatch(getfamilymember(selectedFamilyHead,startLoading, stopLoading))
-  dispatch(getFamilyById(+selectedFamilyHead,startLoading, stopLoading))
+  // dispatch(getfamilymember(selectedFamilyHead,startLoading, stopLoading))
+  // dispatch(getFamilyById(+selectedFamilyHead,startLoading, stopLoading))
 }else{
   toast.error("Please select all fields")
 }
@@ -148,7 +175,7 @@ if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && se
   const handleSubmitDelete = () => {
     const extraAferDelete = () => {
       handleCloseDelete()
-      dispatch(getfamilymember(selectedFamilyHead,startLoading, stopLoading))
+      dispatch(getfamilymember(getFamilyListDataApi?.content?.[0]?.family_id,startLoading, stopLoading))
       // dispatch(getFamilyById(addFamilyData?.id))
 
     }
@@ -157,11 +184,12 @@ if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && se
   const handleSubmitDeleteFamily = () => {
     const extraAferDelete = () => {
       handleCloseDeleteFamily()
-      dispatch(getFamilyById(+selectedFamilyHead,startLoading, stopLoading))
+      dispatch(getFamilyById(+getFamilyListDataApi?.content?.[0]?.family_id,startLoading, stopLoading))
       // dispatch(getFamilyById(addFamilyData?.id))
 
     }
     alert("api integration remainng")
+    // (family_id) -- DeleteFamily
     // dispatch(deleteFamilyMember(deleteId,extraAferDelete,startLoading, stopLoading))
   }
   console.log("getfamilymemberList",getfamilymemberList)
@@ -172,6 +200,13 @@ if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && se
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
+  useEffect(() => {
+    if(getfamilymemberList){
+setData(getfamilymemberList)
+    }
+  }, [getfamilymemberList])
+  
 
   return (
     <MainLayout>
@@ -246,12 +281,12 @@ requried
             /> 
           </Grid>
         </Grid>
-        {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Family Details</div>}
-        {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.tablewrapper} style={{ margin: "0" }}>
+        {(getfamilymemberList?.length > 0 && data && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Family Details</div>}
+        {(getfamilymemberList?.length > 0 && data && selectedFamilyHead) &&<div className={style.tablewrapper} style={{ margin: "0" }}>
             <table className={style.table}>
               <thead className={style.thead}>
                 <tr className={style.tr}>
-                  <th className={style.th}>Parivar No.</th>
+                  <th className={style.th}>Him Parivar No.</th>
                   <th className={style.th}>District</th>
                   <th className={style.th}>Municipal</th>
                   <th className={style.th}>Ward</th>
@@ -283,8 +318,8 @@ requried
           </div>}
 
 
-        {(getfamilymemberList?.length > 0 && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Member Details</div>}
-        {(getfamilymemberList?.length > 0 && selectedFamilyHead) ? 
+        {(getfamilymemberList?.length > 0 && data && selectedFamilyHead) &&<div className={style.heading} style={{ marginTop: "20px" , marginBottom : "5px"}}>Member Details</div>}
+        {(getfamilymemberList?.length > 0 && data && selectedFamilyHead) ? 
          <div className={style.tablewrapper} style={{margin : "0"}} >
          <table className={style.table}>
            <thead className={style.thead}>
@@ -329,7 +364,7 @@ requried
             <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleClickOpen} />
               </div>
        </div>
-        :(getfamilymemberList?.length == 0 && selectedFamilyHead)?
+        :(getfamilymemberList?.length == 0 && data && selectedFamilyHead)?
         <Typography>No member found in this family</Typography> : ""
         }
   

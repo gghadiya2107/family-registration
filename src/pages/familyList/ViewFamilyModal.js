@@ -110,7 +110,7 @@ const [openModal, setOpenModal] = React.useState(false);
               <thead className={style.thead}>
                 <tr className={style.tr}>
 
-                  <th className={style.th}>Parivar No.</th>
+                  <th className={style.th}>Him Parivar No.</th>
                   <th className={style.th}>District</th>
                   <th className={style.th}>Municipal</th>
                   <th className={style.th}>Ward</th>
