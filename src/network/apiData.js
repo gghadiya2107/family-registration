@@ -124,6 +124,7 @@ export const ApiPostFormData = (url, body) => {
 
 export const ApiGetNoAuth = (url, params = {}) => {
   let apiUrl = url + objectToQueryString(params)
+  console.log('params', params,apiUrl)
   return new Promise((resolve, reject) => {
     axios
       .get(BaseURL + apiUrl, defaultHeaders)

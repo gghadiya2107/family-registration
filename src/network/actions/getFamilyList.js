@@ -33,6 +33,9 @@ startLoading()
             if(body?.ward){
                 params.ward_id = body?.ward
             }
+            if(body?.searchByParivar){
+                params.searchByParivar = body?.searchByParivar
+            }
             // if(body?.page){
             //     params.page = JSON.stringify(body?.page)
             // }

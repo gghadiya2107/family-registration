@@ -45,6 +45,9 @@ console.log('body', body)
             if(body?.himparivar_no){
                 params.himparivar_no = body?.himparivar_no
             }
+            if(body?.searchByParivar){
+                params.searchByParivar = body?.searchByParivar
+            }
           
 				console.log('params', params)
 			

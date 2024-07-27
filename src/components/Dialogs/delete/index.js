@@ -47,9 +47,9 @@ export default function DeleteConfirmation({text, onSubmit, onCancle, open}) {
             zIndex: 999
           }}
         >
-         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-         <MdClose color='white' size={18}/>
-         </Box>
+         {/* <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}> */}
+         {/* <MdClose color='white' size={18}/> */}
+         {/* </Box> */}
         </IconButton>
         <DialogContent dividers>
           <Typography >{text}</Typography>
