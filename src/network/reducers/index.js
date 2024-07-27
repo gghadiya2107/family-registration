@@ -37,6 +37,7 @@ import getFamilyUpdationList from "./getFamilyUpdationList";
 import getBlock from "./getBlock";
 import getPanchayat from "./getPanchayat";
 import getTransferType from "./getTransferType";
+import deleteFamily from "./deleteFamily";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -74,7 +75,8 @@ const rootReducer = combineReducers({
 	getFamilyUpdationList,
 	getBlock,
 	getPanchayat,
-	getTransferType
+	getTransferType,
+	deleteFamily
 });
 
 export default rootReducer;

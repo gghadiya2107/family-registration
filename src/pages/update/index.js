@@ -28,6 +28,7 @@ import InputFieldWithIcon from '@/components/InputFieldWithIcon';
 import { isAlphanumericKey } from '@/utils/regex';
 import SubmitButton from '@/components/SubmitBtn';
 import AddMemberModal from '../registration/AddMemberModal';
+import { deleteFamily } from '@/network/actions/deleteFamily';
 
 
 
@@ -190,7 +191,7 @@ if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && se
     }
     alert("api integration remainng")
     // (family_id) -- DeleteFamily
-    // dispatch(deleteFamilyMember(deleteId,extraAferDelete,startLoading, stopLoading))
+    dispatch(deleteFamily(deleteId,extraAferDelete,startLoading, stopLoading))
   }
   console.log("getfamilymemberList",getfamilymemberList)
 
