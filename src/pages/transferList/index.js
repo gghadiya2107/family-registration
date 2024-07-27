@@ -76,14 +76,13 @@ const TransferList = () => {
   const handlePageChange = (event, value) => {
     setPage(value)
     console.log('value', value)
-    dispatch(memberTransferList({...formData, page: value-1},startLoading, stopLoading))
+    dispatch(memberTransferList({searchByParivar:formData?.himparivar_no, page: value-1},startLoading, stopLoading))
 
   }
 
   const handleSearch = () => {
     if( formData?.himparivar_no ){
-
-        dispatch(memberTransferList({...formData},startLoading, stopLoading))
+        dispatch(memberTransferList({searchByParivar:formData?.himparivar_no},startLoading, stopLoading))
     }else{
         toast.error("Please fill search data")
     }

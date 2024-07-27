@@ -51,7 +51,7 @@ const ParivarNakal = () => {
   const handleSearch = () => {
     if ( formData?.himparivar_no ) {
 
-      dispatch(getparivarnakal(formData, startLoading, stopLoading))
+      dispatch(getparivarnakal({searchByParivar:formData?.himparivar_no}, startLoading, stopLoading))
     } else {
       toast.error("Please fill search data")
     }

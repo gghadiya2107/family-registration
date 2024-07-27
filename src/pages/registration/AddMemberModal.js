@@ -62,7 +62,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
   const profesionList = useSelector((state) => state.getProfession?.data)
   const religionList = useSelector((state) => state.getReligion?.data)
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
-  console.log('getfamilymemberList', getfamilymemberList)
+  console.log('getFamilyByIdData', getFamilyByIdData)
 
   const [formData, setFormData] = useState({
     EnglishName: "",

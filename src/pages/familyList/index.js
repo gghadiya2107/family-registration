@@ -31,9 +31,9 @@ const FamilyList = () => {
   const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyList?.data)
   const [formData, setFormData] = useState({
-    district: "",
-    municipal: "",
-    ward: "",
+    district: null,
+    municipal: null,
+    ward: null,
   })
   const [selectedFamilyHead, setSelectedFamilyHead] = useState(null)
 
@@ -61,9 +61,10 @@ const FamilyList = () => {
     // if (getFamilyListData)
     // setPage(getFamilyListData?.number)
   }, [getFamilyListData])
-  // useEffect(() => {
-  //   dispatch(getFamilyList(formData, startLoading, stopLoading))
-  // }, [formData])
+  useEffect(() => {
+    dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead}, startLoading, stopLoading))
+
+  }, [formData])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -72,7 +73,7 @@ const FamilyList = () => {
   const handlePageChange = (event, value) => {
     setPage(value)
     console.log('value', value)
-    dispatch(getFamilyList({ ...formData, page: value - 1 }, startLoading, stopLoading))
+    dispatch(getFamilyList({ ...formData, searchByParivar : selectedFamilyHead, page: value - 1 }, startLoading, stopLoading))
 
   }
 
@@ -80,7 +81,7 @@ const FamilyList = () => {
     console.log('formData', formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead !="", formData, selectedFamilyHead)
     if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead != null){
 
-      dispatch(getFamilyList(formData, startLoading, stopLoading))
+      dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead}, startLoading, stopLoading))
     }else{
       toast.error("Please select all fields")
     }
@@ -153,7 +154,7 @@ const FamilyList = () => {
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
-                <th className={style.th}>Parivar No.</th>
+                <th className={style.th}>Him Parivar No.</th>
                 <th className={style.th}>Head of Family	</th>
                 <th className={style.th}>Ration No.	</th>
                 <th className={style.th}>Total Members	</th>

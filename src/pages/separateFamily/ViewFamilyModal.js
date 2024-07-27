@@ -43,7 +43,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const ViewFamilyModal = ({ open, handleClose, viewData }) => {
+const ViewFamilyModal = ({ open, handleClose, viewData , apiData}) => {
   const { t } = useTranslation("translation");
   const { loading, startLoading, stopLoading } = useLoading();
 
@@ -147,7 +147,8 @@ console.log('originalData', originalData)
     } else {
       const extra = () => {
         handleClose()
-        dispatch(getFamilyList(formData,startLoading, stopLoading))
+        setRemarks(null)
+        dispatch(getFamilyList(apiData,startLoading, stopLoading))
 
       }
       let body = {
@@ -181,7 +182,7 @@ console.log('originalData', originalData)
   return (
     <React.Fragment>
       <BootstrapDialog
-        onClose={handleClose}
+        onClose={() => {handleClose(); setRemarks(null)}}
         aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth={true}
@@ -190,7 +191,7 @@ console.log('originalData', originalData)
 
 <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={() => {handleClose(); setRemarks(null)}}
           sx={{
             position: 'absolute',
             right: 0,
@@ -687,7 +688,7 @@ requried
   />
            </Box>
             <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
-              <SubmitButton onClick={handleClose} label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel"/>
+              <SubmitButton onClick={() => {handleClose(); setRemarks(null)}} label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel"/>
 
               <SubmitButton label="Save" style={{ marginLeft: "10px" }} icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}} />} onClick={() => saveAndAddDetails()} />
               {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
