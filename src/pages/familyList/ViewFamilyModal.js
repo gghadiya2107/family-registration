@@ -33,7 +33,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const ViewFamilyModal = ({open, handleClose, viewData}) => {
+const ViewFamilyModal = ({open, handleClose, viewData, formData}) => {
     const dispatch = useDispatch()
     const getFamilyByIdData = useSelector((state) => state.getFamilyById?.data?.familyData?.[0] || {})
     const getFamilyByIdDataDoc = useSelector((state) => state.getFamilyById?.data?.familyDocData || {})

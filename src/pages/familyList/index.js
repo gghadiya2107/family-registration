@@ -26,16 +26,16 @@ const FamilyList = () => {
   const { loading, startLoading, stopLoading } = useLoading();
 
 
-  const districtList = useSelector((state) => state.getDistrict?.data)
-  const municipalList = useSelector((state) => state.getMunicipalities?.data)
-  const wardList = useSelector((state) => state.getWard?.data)
-  const getFamilyListData = useSelector((state) => state.getFamilyList?.data)
-  const [formData, setFormData] = useState({
-    district: null,
-    municipal: null,
-    ward: null,
-  })
-  const [selectedFamilyHead, setSelectedFamilyHead] = useState(null)
+    const districtList = useSelector((state) => state.getDistrict?.data)
+    const municipalList = useSelector((state) => state.getMunicipalities?.data)
+    const wardList = useSelector((state) => state.getWard?.data)
+    const getFamilyListData = useSelector((state) => state.getFamilyList?.data)
+    const [formData, setFormData] = useState({
+      district: null,
+      municipal: null,
+      ward: null,
+    })
+    const [selectedFamilyHead, setSelectedFamilyHead] = useState(null)
 
   const [open, setOpen] = React.useState(false);
   const [viewData, setViewData] = useState({})
@@ -49,6 +49,7 @@ const FamilyList = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead}, startLoading, stopLoading))
     setViewData({})
   };
 
@@ -79,16 +80,16 @@ const FamilyList = () => {
 
   const handleSearch = () => {
     console.log('formData', formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead !="", formData, selectedFamilyHead)
-    if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead != null){
+    // if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead != null){
 
       dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead}, startLoading, stopLoading))
-    }else{
-      toast.error("Please select all fields")
-    }
+    // }else{
+    //   toast.error("Please select all fields")
+    // }
   }
   return (
     <>
-      <ViewFamilyModal open={open} handleClose={handleClose} viewData={viewData} />
+      <ViewFamilyModal open={open} handleClose={handleClose} viewData={viewData} formData={{...formData, selectedFamilyHead}}/>
       <MainLayout>
       <div className={style.heading} style={{ marginBottom: "10px",}}>Check Parivar Details</div>
 

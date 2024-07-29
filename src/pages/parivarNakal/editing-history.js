@@ -18,12 +18,14 @@ import { getProfession } from '@/network/actions/getProfession'
 import { getMemberStatus } from '@/network/actions/getMemberStatus'
 import FormatAadharNumber from '@/utils/formatAadharNumber'
 import RevertModal from './RevertModal'
+import { MdClose, MdRotateLeft, MdVerified } from 'react-icons/md'
+import { Box } from '@mui/material'
 
 const EditingHistory = () => {
     const router = useRouter()
     const dispatch = useDispatch()
     const searchParams = useSearchParams()
-    const getFamilyUpdationListData = useSelector((state) => state.getFamilyUpdationList?.data)
+    const getFamilyUpdationListData = useSelector((state) => state.getFamilyUpdationList?.data || [])
     const documentList = useSelector((state) => state.getDocumentList?.data)
     const relationlist = useSelector((state) => state.getRelation?.data)
     const categorylist = useSelector((state) => state.getCategory?.data)
@@ -46,10 +48,13 @@ const EditingHistory = () => {
 
   const familyId = searchParams.get('familyId')
 
-  useLayoutEffect(() => {
-    if(familyId) dispatch(getFamilyUpdationList({family_id : familyId}, router))
+  useEffect(() => {
+    console.log('router?.query?.familyId', router?.query?.familyId)
+    if(router?.query?.familyId){
+      dispatch(getFamilyUpdationList({family_id : router?.query?.familyId}, router))
+    }
 
-  }, [familyId])
+  }, [router])
 
   useEffect(() => {
     dispatch(getEditType())
@@ -145,11 +150,11 @@ const EditingHistory = () => {
   return (
     <MainLayout>
       <div className={style.heading} style={{ marginBottom: "5px" }}>Editing History</div>
-          <div className={style.tablewrapper} >
+         {getFamilyUpdationListData?.length > 0 ? <><div className={style.tablewrapper} >
             <table className={style.table}>
               <thead className={style.thead}>
                 <tr className={style.tr}>
-                  <th className={style.th}>Member Name & Id</th>
+                  <th className={style.th}>Name & Him Member Id</th>
                   <th className={style.th}>Change In</th>
                   <th className={style.th}>Details Before Editing	</th>
                   <th className={style.th}>Details After Editing</th>
@@ -160,17 +165,21 @@ const EditingHistory = () => {
               </thead>
               <tbody>
               {getFamilyUpdationListData?.map(v =>  <tr className={style.tr}>
-                  <td className={style.td}>{v?.memberName+" ("+v?.memberId+")" }	</td>
+                  <td className={style.td}>{v?.memberName+" ("+v?.himMemberId+")" }	</td>
                   <td className={style.td}>{v?.editType }	</td>
                   <td className={style.td}>{getOldValue(v)}	</td>
                   <td className={style.td}>{getCurrentValue(v)}</td>
                   <td className={style.td}>{formatDateTime(v?.createdOn)}	</td>
                   <td className={style.td}><p style={{color : "blue", cursor: "pointer"}} onClick={() => window.open(v?.filePath)}>{v?.documentName }</p></td>
-                  <td className={style.td}><SubmitButton label={"Revert"} onClick={() => {openModal(); setRevertData(v)}}/></td>
+                  <td className={style.td}><SubmitButton icon={<MdRotateLeft size={18} style={{ marginTop: "5px", marginRight: "5px" }} />} label={"Revert"} onClick={() => {openModal(); setRevertData(v)}}/></td>
                 </tr>) }
               </tbody>
             </table>
           </div>
+<Box display={"flex"} justifyContent={"center"}>
+{/* <SubmitButton label={"Verify Changes"} icon={<MdVerified size={18} style={{ marginTop: "5px", marginRight: "5px" }} />}/> */}
+
+</Box></> : <Box textAlign={"center"} mt={10} fontWeight={600} fontSize={20}>No Records Found</Box>}
           <RevertModal open={open} onCancle={closeModal} revertData={revertData}/>
     </MainLayout>
   )
