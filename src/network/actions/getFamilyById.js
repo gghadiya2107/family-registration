@@ -22,9 +22,10 @@ export const getFamilyByIdFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const getFamilyById = (family_id) => {
+export const getFamilyById = (family_id,startLoading=() => {}, stopLoading = () => {}) => {
     console.log('family_id', family_id)
 	return async (dispatch) => {
+		startLoading()
 
 		try {
 			let params = {
@@ -39,10 +40,12 @@ export const getFamilyById = (family_id) => {
 // 			let responseData = decryptData(response?.data?.data)
 // console.log('family_id', responseData)
 			dispatch(getFamilyByIdSuccess(response));
+			stopLoading()
 		} catch (error) {
             console.log('error', error)
             toast.error(error?.message)
 			dispatch(getFamilyByIdFaliure(error));
+			stopLoading()
 		}
 	};
 };

@@ -38,6 +38,7 @@ export const getFamilyUpdationList = (params,router) => {
 			// let responseData = decryptData(response?.data?.data)
 			dispatch(getFamilyUpdationListSuccess(response));
 		} catch (error) {
+			console.log('error', error)
 			dispatch(getFamilyUpdationListFaliure(error));
 		}
 	};

@@ -1,11 +1,11 @@
 // actions/someActions.js
-import  { apiCall, survayAnalysis } from "../api";
+import { apiCall, survayAnalysis } from "../api";
 import { toast } from 'react-hot-toast';
 
 
 import {
-    SEPARATE_MEMBER_SUCCESS,
-    SEPARATE_MEMBER_FALIURE,
+	SEPARATE_MEMBER_SUCCESS,
+	SEPARATE_MEMBER_FALIURE,
 } from "../action_types";
 import { decryptData, encryptData, encryptDataPost } from "@/utils/encryptDecryot";
 import { ApiPostNoAuth } from "../apiData";
@@ -22,18 +22,20 @@ export const separateMemberFaliure = (error) => ({
 
 
 // Async Action to Fetch Data
-export const separateMember = (body,extra) => {
+export const separateMember = (body, extra, startLoading = () => { }, stopLoading = () => { }) => {
 	return async (dispatch) => {
-
+		startLoading()
 		try {
 			const response = await ApiPostNoAuth('/urbanregister/separateMember', body)
-            toast.success( response?.message)
-            extra()
+			toast.success(response?.message)
+			extra()
 			dispatch(separateMemberSuccess(response));
-		} catch (error) {   
-            console.log('error member', error)
-            toast.error(error?.message)
+			stopLoading()
+		} catch (error) {
+			console.log('error member', error)
+			toast.error(error?.message)
 			dispatch(separateMemberFaliure(error));
+			stopLoading()
 		}
 	};
 };

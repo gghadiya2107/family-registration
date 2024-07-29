@@ -35,11 +35,11 @@ const menu = [
         url: "/update",
         icon: <FaUserEdit size={20} />
     },
-    // {
-    //     title: "Verifications",
-    //     url: "/verification",
-    //     icon: <MdVerifiedUser size={20} />
-    // },
+    {
+        title: "Verifications",
+        url: "/verification",
+        icon: <MdVerifiedUser size={20} />
+    },
     // {
     //     title: "Reports",
     //     url: "/reports",

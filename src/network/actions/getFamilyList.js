@@ -41,7 +41,7 @@ startLoading()
             // }
 				console.log('params', params)
 			
-			const response = await ApiGetNoAuth(`/urbanregister/getFamilyList?page=${body?.page || 0}&${Object.keys(params).length > 0 ? "" : ""}`, params);
+			const response = await ApiGetNoAuth(`/urbanregister/getFamilyList?page=${body?.page || 0}${Object.keys(params).length > 0 ? "&" : ""}`, params);
 			// const response = await apiCall.get(
 			// 	`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.municipalId)}&masterName=${encryptData("ward")}`
 			// );
