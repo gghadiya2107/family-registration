@@ -76,7 +76,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
     refrence: "",
     education: "",
     work: "",
-    category: getFamilyByIdData?.socialCategory || "",
+    category: getFamilyByIdData?.socialCategoryId || "",
     subCategory: "",
     rationCard: getFamilyByIdData?.rationCardNo || "",
     religion: "",
@@ -116,21 +116,22 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
       }
       setFormData(data)
     }
-     else{
-      // alert("cal")
-      // setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId })
+    //  else if(Object.keys(memberFillDetails)?.length == 0 ){
+    //   // alert("cal")
+    //   setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId })
 
-    }
+    // }
     
   }, [getFamilyByIdData,memberFillDetails ])
 
   useEffect(() => {
-    if(Object.keys(memberFillDetails)?.length == 0 ){
+    if(Object.keys(memberFillDetails)?.length == 0 && getFamilyByIdData  ){
       setFormData({...formData,rationCard: getFamilyByIdData?.rationCardNo,category: getFamilyByIdData?.socialCategoryId })
 
     }
    
   }, [getFamilyByIdData])
+  console.log('formData', formData)
   
 
   useEffect(() => {
@@ -180,7 +181,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
   }
 
     const extra = () => {
-      console.log('addFamilyData', addFamilyData)
+      console.log('id of family', addFamilyData?.id || getFamilyByIdData?.family_id)
       dispatch(getfamilymember(addFamilyData?.id || getFamilyByIdData?.family_id, startLoading, stopLoading))
     // setSaveHof(true)
     setErrors({})
@@ -211,7 +212,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
     relative: "",
     dob: "",
     gender: "",
-    registrationBase: "",
+    registrationBase: "1",
     refrence: "",
     education: "",
     work: "",
@@ -236,7 +237,7 @@ const AddMemberModal = ({ handleClose, open,setMemberList ,memberList, getFamily
 "relationId":formData?.relation || 0,
 "dateOfBirth":formData?.dob || "",
 "genderId": formData?.gender || 0,
-"memberStatusId": formData?.registrationBase || 0,
+"memberStatusId": formData?.registrationBase || "1",
 "referenceNo":formData?.refrence || "",
 "qualificationId": formData?.education || 0,
 "professionId": formData?.work || 0,
@@ -254,6 +255,7 @@ dastavage : formData?.dastavage || "",
 dastavage2 : formData?.dastavage2 || "",
 
       }
+      console.log('body add member modal', body,  addFamilyData?.id , getFamilyByIdData?.family_id)
       dispatch(addfamilymember(body,extra, startLoading, stopLoading))
     
     } else {

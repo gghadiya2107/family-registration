@@ -235,7 +235,7 @@ const [oldMemberList, setOldMemberList] = useState([])
 "relationId":formData?.relation || 0,
 "dateOfBirth":formData?.dob || "",
 "genderId": formData?.gender || 0,
-"memberStatusId": formData?.registrationBase || 0,
+"memberStatusId": formData?.registrationBase || "1",
 "referenceNo":formData?.refrence || "",
 "qualificationId": formData?.education || 0,
 "professionId": formData?.work || 0,
@@ -253,6 +253,8 @@ const [oldMemberList, setOldMemberList] = useState([])
         dastavage2 :  formData?.dastavage2 || ""
 
       }
+      console.log('body add member modal', body,addFamilyData?.id)
+
       
       dispatch(addfamilymember(body,extra,startLoading, stopLoading))
     

@@ -22,7 +22,8 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import Loader from '@/utils/Loader';
 import { useLoading } from '@/utils/LoadingContext';
-import { MdClose } from 'react-icons/md';
+import { MdClose, MdSave } from 'react-icons/md';
+import style from './edithistory.module.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -76,7 +77,7 @@ const handleRevert = () => {
         </DialogTitle> */}
           <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={onCancle}
           sx={{
             position: 'absolute',
             right: 0,
@@ -90,7 +91,10 @@ const handleRevert = () => {
          </Box>
         </IconButton>
         <DialogContent dividers>
+        <div className={style.heading} style={{ marginBottom: "15px" }}>Family Details</div>
+
         <TextArea
+        
         title={"Reason for Revision"}
                 placeholder="Add reason..."
                 name="remarks"
@@ -111,9 +115,9 @@ requried
                             {upoadedDocument && <a href={URL.createObjectURL(upoadedDocument)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
 
 </Box>
-<Box mt={3} textAlign={"right"}>
-          <SubmitButton label={"Cancel"} onClick={onCancle}/>
-          <SubmitButton label={"Save"} style={{marginLeft : "10px"}} onClick={handleRevert}/>
+<Box mt={3} display={"flex"} justifyContent={"center"}>
+          <SubmitButton label={"Cancel"} onClick={onCancle} type={"cancel"} icon={<MdClose size={18} style={{ marginTop: "5px", marginRight: "5px" }} />}/>
+          <SubmitButton label={"Save"} style={{marginLeft : "10px"}} onClick={handleRevert} icon={<MdSave size={18} style={{ marginTop: "5px", marginRight: "5px" }} />}/>
 </Box>
         </DialogContent>
         {/* <DialogActions>
