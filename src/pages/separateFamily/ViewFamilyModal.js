@@ -174,7 +174,7 @@ console.log('originalData', originalData)
       }
       console.log("body123",body)
       
-      dispatch(separateMember(body, extra))
+      dispatch(separateMember(body, extra,startLoading, stopLoading))
       // setSelectedFamilyMember(rationCardData?.filter(v => v?.isChecked)?.familyMemberId)
     }
 
@@ -513,7 +513,6 @@ requried
                     title={t('subCategory')}
                     // icon={<IoIosDocument size={20} />}
                     placeholder=""
-                    requried
                     type="text"
                     name="socialSubCategory"
                     value={newData?.socialSubCategory}

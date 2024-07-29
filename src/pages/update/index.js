@@ -61,6 +61,12 @@ const [openEditFamily, setOpenEditFamily] = useState(false)
   const [openModal, setOpenModal] = React.useState(false);
   const [data, setData] = useState(null)
 
+  useEffect(() => {
+    dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead},startLoading, stopLoading))
+
+  }, [])
+  
+
   const handleChangeFamily = (e) => {
     const {name, value} = e.target
     if (name == "dastavage" || name == "dastavage2") {
@@ -105,6 +111,8 @@ console.log('getFamilyListData', getFamilyListData)
     setFormData({ ...formData, [name]: value })
   }
   const onFamilyHeadSelect = (e) => {
+    dispatch(getfamilymemberSuccess([]))
+      dispatch(getFamilyListSuccess([]));
     setSelectedFamilyHead(e.target.value)
     if(e.target.value == ""){
       setData(null)
@@ -122,14 +130,11 @@ console.log('getFamilyListData', getFamilyListData)
 
   const handleSearch = () => {
     
-if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && selectedFamilyHead !=""){
   dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead},startLoading, stopLoading))
 
   // dispatch(getfamilymember(selectedFamilyHead,startLoading, stopLoading))
   // dispatch(getFamilyById(+selectedFamilyHead,startLoading, stopLoading))
-}else{
-  toast.error("Please select all fields")
-}
+
     
 
   }
@@ -176,6 +181,8 @@ if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && se
   const handleSubmitDelete = () => {
     const extraAferDelete = () => {
       handleCloseDelete()
+      dispatch(getfamilymemberSuccess([]))
+      dispatch(getFamilyListSuccess([]));
       dispatch(getfamilymember(getFamilyListDataApi?.content?.[0]?.family_id,startLoading, stopLoading))
       // dispatch(getFamilyById(addFamilyData?.id))
 
@@ -189,9 +196,9 @@ if(formData?.district!="" && formData?.municipal!="" && formData?.ward!="" && se
       // dispatch(getFamilyById(addFamilyData?.id))
 
     }
-    alert("api integration remainng")
     // (family_id) -- DeleteFamily
-    dispatch(deleteFamily(deleteId,extraAferDelete,startLoading, stopLoading))
+    console.log('deleteId', deleteId,getFamilyByIdData)
+    dispatch(deleteFamily(deleteIdFamily,extraAferDelete,startLoading, stopLoading))
   }
   console.log("getfamilymemberList",getfamilymemberList)
 
@@ -365,8 +372,8 @@ requried
             <SubmitButton label="Add Member" icon={<MdAdd size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleClickOpen} />
               </div>
        </div>
-        :(getfamilymemberList?.length == 0 && data && selectedFamilyHead)?
-        <Typography>No member found in this family</Typography> : ""
+        :(getFamilyListDataApi?.content?.length == 0   && selectedFamilyHead)?
+        <Typography textAlign={"center"} mt={5}>Family Not Found.</Typography> : ""
         }
   
     </Box>

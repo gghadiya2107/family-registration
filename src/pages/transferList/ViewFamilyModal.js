@@ -460,24 +460,24 @@ requried
                 <table className={style.table}>
                   <thead className={style.thead}>
                     <tr className={style.tr}>
+                      <th className={style.th}>Him Member Id</th>
                       <th className={style.th}>Name</th>
                       <th className={style.th}>Birth Date</th>
-                      <th className={style.th}>Aadhaar Number</th>
-                      <th className={style.th}>District</th>
-                      <th className={style.th}>Municipal</th>
-                      <th className={style.th}>ward</th>
+                      <th className={style.th}>Aadhaar No.</th>
+                      <th className={style.th}>Ration Card No.</th>
+                      <th className={style.th}>Gender</th>
                       <th className={style.th}>HOF</th>
                     </tr>
                   </thead>
                   <tbody>
                     {viewData?.map(v => <>
                       <tr className={style.tr}>
+                        <td className={style.td}>{v?.himMemberId}</td>
                         <td className={style.td}>{v?.memberName}</td>
                         <td className={style.td}>{formatDate(v?.dateOfBirth) || "-"}</td>
                         <td className={style.td}>{v?.aadhaarNo ? FormatAadharNumber(v?.aadhaarNo) : "-"}</td>
-                        <td className={style.td}>{v?.district}</td>
-                        <td className={style.td}>{v?.municipalName}</td>
-                        <td className={style.td}>{v?.wardName}</td>
+                        <td className={style.td}>{v?.rationCardNo}</td>
+                        <td className={style.td}>{v?.gender}</td>
 
                         <td className={style.td}>
                           <input type="radio"
