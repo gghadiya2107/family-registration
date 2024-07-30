@@ -13,7 +13,7 @@ import { getDistrict } from '@/network/actions/getDistrict';
 import { getEconomicStatus } from '@/network/actions/economicStatus';
 import { getCategory } from '@/network/actions/getCategory';
 import { addFamily } from '@/network/actions/addFamily';
-import { isAlphabateKey, isNumericKeyWithHifan } from '@/utils/regex';
+import { isAlphabateKey, isNumericKeyWithHifan, isValidRationCardNumber } from '@/utils/regex';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
 import { useLoading } from '@/utils/LoadingContext';
 
@@ -137,6 +137,9 @@ console.log('districtList', districtList)
     // }
     if (!formData.rationCard?.trim()) {
       errors.rationCard = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
     }
     if (!formData.mobile?.trim()) {
       errors.mobile = t("validateMobile");

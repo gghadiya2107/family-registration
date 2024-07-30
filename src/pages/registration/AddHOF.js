@@ -28,7 +28,7 @@ import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace } from '@/utils/regex'
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace, isValidRationCardNumber } from '@/utils/regex'
 import { getFamilyById } from '@/network/actions/getFamilyById'
 import { getRelation } from '@/network/actions/getRelation'
 import { addfamilymember } from '@/network/actions/addfamilymember'
@@ -375,6 +375,9 @@ dastavage2 : formData?.dastavage2,
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
     }
+    else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
+    }
     if (!formData.religion || formData?.religion == "0") {
       errors.religion = t("validateReligion");
     }
@@ -561,6 +564,9 @@ const extraUpdate = () => {
     if (!memberDetailsExtra.rationCardNo) {
       errors.rationCardNo = t("validateRationCard");
     }
+    else if (!isValidRationCardNumber(memberDetailsExtra.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
+    }
     if (!memberDetailsExtra.religionId ||  memberDetailsExtra.religionId == "0") {
       errors.religionId = t("validateReligion");
     }
@@ -611,6 +617,9 @@ const extraUpdate = () => {
     if (!headDetailsExtra.rationCardNo) {
       errors.rationCardNo = t("validateRationCard");
     }
+    else if (!isValidRationCardNumber(headDetailsExtra.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
+    }
     if (!headDetailsExtra.religionId ||  headDetailsExtra.religionId == "0") {
       errors.religionId = t("validateReligion");
     }
@@ -658,6 +667,9 @@ const extraUpdate = () => {
     // }
     if (!familyDetailsExtra.rationCardNo?.trim()) {
       errors.rationCardNo = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(familyDetailsExtra.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
     }
     if (!familyDetailsExtra.mobileNumber?.trim()) {
       errors.mobileNumber = t("validateMobile");

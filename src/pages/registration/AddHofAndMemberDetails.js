@@ -21,7 +21,7 @@ import EditBtn from '@/components/EditBtn';
 import { Grid } from '@mui/material';
 import SelectDropdown from '@/components/SelectDropdown';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isNumericKeyWithSpace, isValidRationCardNumber } from '@/utils/regex';
 import EditFamilyConfirmation from './EditFamilyConfirmation';
 import { updateFamily } from '@/network/actions/updateFamily';
 import TextArea from '@/components/TextArea';
@@ -392,6 +392,9 @@ const [oldMemberList, setOldMemberList] = useState([])
     if (!familyDetailsExtra.rationCardNo?.trim()) {
       errors.rationCardNo = t("validateRationCard");
     }
+    else if (!isValidRationCardNumber(familyDetailsExtra.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
+    }
     if (!familyDetailsExtra.mobileNumber?.trim()) {
       errors.mobileNumber = t("validateMobile");
     }
@@ -510,6 +513,9 @@ const [oldMemberList, setOldMemberList] = useState([])
     if (!memberDetailsExtra.rationCardNo) {
       errors.rationCardNo = t("validateRationCard");
     }
+    else if (!isValidRationCardNumber(memberDetailsExtra.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
+    }
     if (!memberDetailsExtra.religionId || memberDetailsExtra.religionId == "0") {
       errors.religionId = t("validateReligion");
     }
@@ -559,6 +565,9 @@ const [oldMemberList, setOldMemberList] = useState([])
     // }
     if (!headDetailsExtra.rationCardNo) {
       errors.rationCardNo = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(headDetailsExtra.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
     }
     if (!headDetailsExtra.religionId || headDetailsExtra.religionId == "0") {
       errors.religionId = t("validateReligion");
@@ -674,6 +683,9 @@ dastavage2 : formData?.dastavage2,
     // }
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
     }
     if (!formData.religion || formData?.religion == "0") {
       errors.religion = t("validateReligion");

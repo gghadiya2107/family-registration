@@ -20,6 +20,8 @@ import FormatAadharNumber from '@/utils/formatAadharNumber'
 import RevertModal from './RevertModal'
 import { MdClose, MdRotateLeft, MdVerified } from 'react-icons/md'
 import { Box } from '@mui/material'
+import VerifyConfirmation from '@/components/Dialogs/Verify'
+import toast from 'react-hot-toast'
 
 const EditingHistory = () => {
     const router = useRouter()
@@ -35,13 +37,23 @@ const EditingHistory = () => {
     const profesionList = useSelector((state) => state.getProfession?.data)
     const memberStatusList = useSelector((state) => state.getMemberStatus?.data)
     const [open, setOpen] = useState(false)
+    const [openVerify, setOpenVerify] = useState(false)
     const [revertData, setRevertData] = useState({})
+    const [remarks, setRemarks] = useState("");
+
 
     const openModal = () => {
       setOpen(true)
     }
     const closeModal = () => {
       setOpen(false)
+    }
+    const openModalVerify = () => {
+      setOpenVerify(true)
+    }
+    const closeModalVerify = () => {
+      setOpenVerify(false)
+      setRemarks("")
     }
 
     console.log('getFamilyUpdationListData', getFamilyUpdationListData)
@@ -69,6 +81,16 @@ const EditingHistory = () => {
 
 
   }, [])
+
+  const handleVerify = () => {
+    if(remarks){
+
+      closeModalVerify()
+      setRemarks("")
+    }else {
+      toast.error("Please enter remark")
+    }
+  }
 
   const getOldValue = (data) => {
     let value = JSON.parse(data?.oldValue)
@@ -177,10 +199,11 @@ const EditingHistory = () => {
             </table>
           </div>
 <Box display={"flex"} justifyContent={"center"}>
-{/* <SubmitButton label={"Verify Changes"} icon={<MdVerified size={18} style={{ marginTop: "5px", marginRight: "5px" }} />}/> */}
+<SubmitButton label={"Verify Changes"} icon={<MdVerified size={18} style={{ marginTop: "5px", marginRight: "5px" }} />} onClick={openModalVerify}/>
 
 </Box></> : <Box textAlign={"center"} mt={10} fontWeight={600} fontSize={20}>No Records Found</Box>}
           <RevertModal open={open} onCancle={closeModal} revertData={revertData}/>
+          <VerifyConfirmation open={openVerify} onCancle={closeModalVerify} onSubmit={handleVerify} remarks={remarks} setRemarks={setRemarks}/>
     </MainLayout>
   )
 }

@@ -1,8 +1,11 @@
+import { checkUser } from '@/network/actions/checkUser';
 import { setCookiesValues } from '@/utils/cookies';
 import { Box, LinearProgress, Typography } from '@mui/material';
 import axios from 'axios'
 import bodyParser from 'body-parser';import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 export async function getServerSideProps(context) {
     try {
         const { req } = context;
@@ -23,7 +26,8 @@ export async function getServerSideProps(context) {
             props: {
                 data: {
                     token: token || "",
-                    user_id: user_id || ""
+                    email: user_id || "",
+					allData: req.body
                 }
             }
         };
@@ -44,22 +48,37 @@ export async function getServerSideProps(context) {
 
 const ParichaySSO = ({ data }) => {
 	const router = useRouter()
-	console.log("data login", data)
+	const dispatch = useDispatch()
+	const checkUserData = useSelector((state) => state.checkUser?.data)
+	console.log("data login", data,checkUserData)
 
+	console.log('checkUserData', checkUserData)
 	console.log("data login", router.query)
+
+
 
 
 
 	useEffect(() => {
 		if (data) {
 			console.log('data', data)
-			let response = setCookiesValues("userData", data);
-
-			if (response) {
-				router.push("/dashboard");
-			}
+			const extra = () => {}
+			dispatch(checkUser({username : data?.email}, extra))
+			
+		}else{
+			toast.error('User not mapped with SSO Admin')
+			router.push("/");
 		}
 	}, []);
+	useEffect(() => {
+	  if(checkUserData){
+		let response = setCookiesValues("userData ", {...data, ...checkUserData});
+		if (response) {
+			router.push("/dashboard");
+		}
+	  }
+	}, [checkUserData])
+	
 	return (
 		<Box
 			style={{
