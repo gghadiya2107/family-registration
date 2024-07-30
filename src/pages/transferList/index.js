@@ -14,18 +14,19 @@ import ViewFamilyModal from './ViewFamilyModal'
 import { isNumericKeyWithSpace } from '@/utils/regex'
 import { useLoading } from '@/utils/LoadingContext'
 import { MdArrowForward, MdNavigateNext, MdSearch } from 'react-icons/md'
+import { getUpdateHistory } from '@/network/actions/getUpdateHistory'
 
 const TransferList = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const { loading, startLoading, stopLoading } = useLoading();
 
-  const districtList = useSelector((state) => state.getDistrict?.data)
-  const municipalList = useSelector((state) => state.getMunicipalities?.data)
-  const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyList?.data)
   const memberTransferListData = useSelector((state) => state.memberTransferList?.data)
+  const getUpdateHistoryList = useSelector((state) => state.getUpdateHistory?.data)
+
   console.log("memberTransferListData",memberTransferListData)
+  console.log("getUpdateHistoryList",getUpdateHistoryList)
   const [formData, setFormData] = useState({
     district_id: "",
     municipal: "",

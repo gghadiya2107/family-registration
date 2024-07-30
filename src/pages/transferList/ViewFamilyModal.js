@@ -22,7 +22,7 @@ import SelectDropdown from '@/components/SelectDropdown';
 import { getMunicipalities } from '@/network/actions/getMunicipalities';
 import { getWard } from '@/network/actions/getWard';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isValidRationCardNumber } from '@/utils/regex';
 import FileUpload from '@/components/FileUpload';
 import { getDistrict } from '@/network/actions/getDistrict';
 import { getEconomicStatus } from '@/network/actions/economicStatus';
@@ -34,6 +34,8 @@ import { memberTransferList } from '@/network/actions/memberTransferList';
 import { AddTransferMember } from '@/network/actions/AddTransferMember';
 import { useLoading } from '@/utils/LoadingContext';
 import { MdClose, MdOutlineSave } from 'react-icons/md';
+import { getUpdateHistory } from '@/network/actions/getUpdateHistory';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -55,6 +57,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
+  const getUpdateHistoryList = useSelector((state) => state.getUpdateHistory?.data)
+
   const categorylist = useSelector((state) => state.getCategory?.data)
   const [memberList, setMemberList] = React.useState([])
   const [headData, setHeadData] = React.useState({})
@@ -67,6 +71,35 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
 
 
 
+console.log('getUpdateHistoryList', getUpdateHistoryList)
+React.useEffect(() => {
+  if(getUpdateHistoryList?.length > 0){
+
+    let data = JSON.parse(getUpdateHistoryList?.[0]?.currentValue) || {}
+    console.log('getUpdateHistoryList', data)
+    dispatch(getMunicipalities({ districtCode: data?.district }, startLoading, stopLoading ))
+
+    setNewData({...newData, districtCode: data?.district})
+  }
+}, [getUpdateHistoryList])
+React.useEffect(() => {
+  if(getUpdateHistoryList?.length > 0 && newData?.districtCode){
+
+    let data = JSON.parse(getUpdateHistoryList?.[0]?.currentValue) || {}
+    console.log('getUpdateHistoryList', data)
+    dispatch(getWard({ municipalId: data?.municipal }, startLoading, stopLoading ))
+
+    setNewData({...newData, municipalityId:data?.municipal })
+  }
+}, [newData?.districtCode])
+React.useEffect(() => {
+  if(getUpdateHistoryList?.length > 0 && newData?.municipalityId){
+
+    let data = JSON.parse(getUpdateHistoryList?.[0]?.currentValue) || {}
+    console.log('getUpdateHistoryList', data)
+    setNewData({...newData, wardId: data?.ward})
+  }
+}, [newData?.municipalityId])
 
   console.log('newData', newData)
   React.useEffect(() => {
@@ -94,16 +127,18 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   //   setRationCardData(newData)
   // }, [getfamilymemberList])
   React.useEffect(() => {
-    if (viewData?.family_id) {
-
-      dispatch(getfamilymember(viewData?.family_id,startLoading, stopLoading))
+    console.log('viewData', viewData)
+    if (viewData?.[0]?.familyId) {
+      dispatch(getfamilymember(viewData?.[0]?.memberId,startLoading, stopLoading))
+      dispatch(getUpdateHistory({ familymember_id: viewData?.[0]?.memberId, editType_id: "8" }))
     }
-  }, [viewData])
+  }, [viewData?.[0]?.familyId])
   React.useEffect(() => {
     if (getfamilymemberList) {
 
       setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
       setHeadData(getfamilymemberList?.find(v => v?.isHead == "true"))
+      
     }
   }, [])
 
@@ -157,6 +192,9 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
     if (!formData?.rationCardNo?.trim()) {
       errors.rationCardNo = t("validateRationCard");
     }
+    else if (!isValidRationCardNumber(formData.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
+    }
     if (!formData?.mobileNumber?.trim()) {
       errors.mobileNumber = t("validateMobile");
     }
@@ -200,7 +238,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
             "wardId":newData?.wardId,
             "socialCategoryId":newData?.socialCategoryId,
             "municipalityId":newData?.municipalityId,
-            "bplNumber":newData?.bplNumber,
+            "bplNumber":newData?.bplNumber || "",
             "mobileNumber":newData?.mobileNumber?.replace("-", ""),
             "active":"true",
             "verifiedBy":"1",

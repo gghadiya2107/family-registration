@@ -14,6 +14,9 @@ import { useTranslation } from 'react-i18next'
 import { useLoading } from '@/utils/LoadingContext'
 import { getDistrict } from '@/network/actions/getDistrict'
 import { getFamilyList } from '@/network/actions/getFamilyList'
+import { PiClockUserBold } from "react-icons/pi";
+import { MdOutlineVerified } from "react-icons/md";
+
 import { useRouter } from 'next/router'
 
 const Verification = () => {
@@ -125,6 +128,33 @@ const Verification = () => {
             /> 
           </Grid>
         </Grid>
+
+        <Grid container spacing={3} mt={1}>
+          <Grid item xs={12} sm={3} md={3}>
+            </Grid>
+          <Grid item xs={12} sm={3} md={3}>
+            <Box className={style.main}>
+               <div>
+               <p className={style.pending} style={{color : "#CC8800"}}>Pending</p>
+               <h1 style={{color : "#CC8800"}}>10</h1>
+               </div>
+               <PiClockUserBold size={30} color='#CC8800'/>
+
+            </Box>
+            </Grid>
+          <Grid item xs={12} sm={3} md={3}>
+          <Box className={style.main}>
+        <div>
+        <p className={style.pending} style={{color : "#1B5E20"}}>Verified</p>
+        <h1 style={{color : "#1B5E20"}}>10</h1>
+        </div>
+        <MdOutlineVerified size={30} color='#1B5E20'/>
+
+            </Box>
+            </Grid>
+          <Grid item xs={12} sm={3} md={3}>
+            </Grid>
+          </Grid>
 
         {getFamilyListData?.content?.length > 0 ? <div className={style.tablewrapper} >
           <table className={style.table}>

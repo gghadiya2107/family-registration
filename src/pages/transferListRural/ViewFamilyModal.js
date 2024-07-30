@@ -158,6 +158,9 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
     if (!formData?.rationCardNo?.trim()) {
       errors.rationCardNo = t("validateRationCard");
     }
+    else if (!isValidRationCardNumber(formData.rationCardNo?.trim())) {
+      errors.rationCardNo = t("validateRationCardValidation");
+    }
     if (!formData?.mobileNumber?.trim()) {
       errors.mobileNumber = t("validateMobile");
     }

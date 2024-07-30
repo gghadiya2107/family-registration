@@ -57,6 +57,7 @@ const TransferListUrban = () => {
 
   useEffect(() => {
     dispatch(getDistrict(startLoading, stopLoading))
+    getList()
 
     return(() => {
       setTableData([])
@@ -85,7 +86,6 @@ const TransferListUrban = () => {
 
   const handleSearch = () => {
     if( formData?.himparivar_no ){
-      getList()
         dispatch(memberTransferList({...formData},startLoading, stopLoading))
     }else{
         toast.error("Please fill search data")

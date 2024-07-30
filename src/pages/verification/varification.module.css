@@ -65,3 +65,20 @@
 .expandMargin{
     margin-bottom: 20px;
 }
+.main{
+    border : 1px solid #EBEDEF;
+    /* border-radius:  4px; */
+    text-align: center;
+    padding: 20px 0;
+    background-color: #EBEDEF;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.pending{
+    font-size: 20px;
+    color: #222222;
+    font-weight: 500;
+}
