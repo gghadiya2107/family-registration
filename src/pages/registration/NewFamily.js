@@ -16,7 +16,7 @@ import { getEconomicStatus } from '@/network/actions/economicStatus'
 import { getCategory } from '@/network/actions/getCategory'
 import { debounce } from 'lodash';
 import { getRationDetails } from '@/network/actions/getRationDetails'
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan } from '@/utils/regex'
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isValidRationCardNumber } from '@/utils/regex'
 import { addFamily } from '@/network/actions/addFamily'
 import toast, { Toaster } from 'react-hot-toast'
 import { isValidMobileNumber } from '@/utils/formatAadharNumber'
@@ -140,6 +140,9 @@ const debouncedSearch = debounce(async (value) => {
     // }
     if (!formData.rationCard?.trim()) {
       errors.rationCard = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
     }
     if (!formData.mobile?.trim()) {
       errors.mobile = t("validateMobile");

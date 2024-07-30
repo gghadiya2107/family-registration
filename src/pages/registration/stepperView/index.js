@@ -13,6 +13,7 @@ import { useLoading } from '@/utils/LoadingContext';
 import { isValidMobileNumber } from '@/utils/formatAadharNumber';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { isValidRationCardNumber } from '@/utils/regex';
 
 
 const steps = [
@@ -119,6 +120,9 @@ toast.success("Family saved sucessfully")
     // }
     if (!formData.rationCard?.trim()) {
       errors.rationCard = t("validateRationCard");
+    }
+   else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
     }
     if (!formData.mobile?.trim()) {
       errors.mobile = t("validateMobile");

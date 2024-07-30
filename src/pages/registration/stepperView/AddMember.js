@@ -13,7 +13,7 @@ import { getQualification } from '@/network/actions/getQualification';
 import { getRelation } from '@/network/actions/getRelation';
 import { getReligion } from '@/network/actions/getReligion';
 import { getfamilymember } from '@/network/actions/getfamilymember';
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace, isValidRationCardNumber } from '@/utils/regex';
 import { Divider, Grid, Typography } from '@mui/material';
 import React, { use, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -303,6 +303,9 @@ const [oldMemberList, setOldMemberList] = useState([])
     // }
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
     }
     if (!formData.religion || formData?.religion == "0") {
       errors.religion = t("validateReligion");

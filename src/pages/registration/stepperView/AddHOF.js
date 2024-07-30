@@ -16,7 +16,7 @@ import { getQualification } from '@/network/actions/getQualification';
 import { getRelation } from '@/network/actions/getRelation';
 import { getReligion } from '@/network/actions/getReligion';
 import { getfamilymember } from '@/network/actions/getfamilymember';
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace, isValidRationCardNumber } from '@/utils/regex';
 import translateToHindi from '@/utils/translate';
 import { Divider, Grid } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -294,6 +294,9 @@ console.log('formData', formData)
     // }
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
     }
     if (!formData.religion || formData?.religion == "0") {
       errors.religion = t("validateReligion");

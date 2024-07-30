@@ -23,7 +23,7 @@ import { getQualification } from '@/network/actions/getQualification'
 import { getProfession } from '@/network/actions/getProfession'
 import { getReligion } from '@/network/actions/getReligion'
 import translateToHindi from '@/utils/translate'
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace } from '@/utils/regex'
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithSpace, isValidRationCardNumber } from '@/utils/regex'
 import { addfamilymember } from '@/network/actions/addfamilymember'
 import { getfamilymember } from '@/network/actions/getfamilymember'
 import { getRelation } from '@/network/actions/getRelation'
@@ -303,6 +303,9 @@ dastavage2 : formData?.dastavage2 || "",
     // }
     if (!formData.rationCard) {
       errors.rationCard = t("validateRationCard");
+    }
+    else if (!isValidRationCardNumber(formData.rationCard?.trim())) {
+      errors.rationCard = t("validateRationCardValidation");
     }
     if (!formData.religion || formData?.religion == "0") {
       errors.religion = t("validateReligion");
