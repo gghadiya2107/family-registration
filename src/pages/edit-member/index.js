@@ -67,7 +67,7 @@ const EditMember = () => {
   const getTransferTypeList = useSelector((state) => state.getTransferType?.data)
   console.log('getBlockList', getBlockList, getPanchayatList, getTransferTypeList)
 
-
+console.log('getEditTypeList', getEditTypeList)
   console.log('getUpdateHistoryList', getUpdateHistoryList)
   const [userData, setUserData] = useState({})
   const [selectedEditType, setSelectedEditType] = useState(null)

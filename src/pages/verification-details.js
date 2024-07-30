@@ -35,7 +35,7 @@ const VerificationDetails = () => {
   }, [route])
 
   useEffect(() => {
-    dispatch(getparivarnakal({ searchByParivar: getFamilyByIdData?.rationCardNo }, startLoading, stopLoading))
+    dispatch(getparivarnakal({ searchByParivar: getFamilyByIdData?.himParivarId }, startLoading, stopLoading))
   }, [getFamilyByIdData])
 
 
