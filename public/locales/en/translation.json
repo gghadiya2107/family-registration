@@ -37,6 +37,7 @@
     "validateCategory" : "Category is required",
     "validateSubCategory" : "Sub category is required",
     "validateRationCard" :  "Ration card number is required",
+    "validateRationCardValidation" :  "Please enter valid ration card number",
     "validateMobile" : "Mobile number is required",
     "validateMobileLength" : "Please enter 10 digit mobie number",
     "validateMobileStart" : "Mobile number must be start with 6,7,8 or 9",

@@ -135,7 +135,7 @@ const logout = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>{userData?.user_id || userData?.username}</MenuItem>
+                <MenuItem onClick={handleClose}>{userData?.email || userData?.username}</MenuItem>
                 <MenuItem onClick={changeLanguae}>Change Language to {i18n.language == "en" ? "Hindi" : "English"}</MenuItem>
                 <MenuItem onClick={logout}>Logout</MenuItem>
               </Menu>
