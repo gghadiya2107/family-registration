@@ -23,6 +23,7 @@ export const getWardFaliure = (error) => ({
 export const getWard = (body, startLoading = () => { }, stopLoading = () => { }) => {
 	return async (dispatch) => {
 startLoading()
+// debugger
 		try {
 			let params = {
 				status : "true",
@@ -30,12 +31,13 @@ startLoading()
 				parentId: body?.municipalId
 
 			}
+			console.log('response ward', params)
 			const response = await ApiGetNoAuth(`/master-data?`, params);
 			// const response = await apiCall.get(
 			// 	`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.municipalId)}&masterName=${encryptData("ward")}`
 			// );
 			// let responseData = decryptData(response?.data?.data)
-
+console.log('response ward', response)
 			dispatch(getWardSuccess(response));
 			stopLoading()
 		} catch (error) {
