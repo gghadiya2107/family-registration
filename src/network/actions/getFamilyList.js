@@ -25,13 +25,13 @@ startLoading()
 		try {
 			let params = {}
             if(body?.district){
-                params.district_id = body?.district
+                params.district_id = typeof body?.district == "String" ? body?.district : body?.district?.toString()
             }
             if(body?.municipal){
-                params.municipal_id = body?.municipal
+                params.municipal_id = typeof body?.municipal == "String" ? body?.municipal : body?.municipal?.toString()
             }
             if(body?.ward){
-                params.ward_id = body?.ward
+                params.ward_id = typeof body?.ward == "String" ? body?.ward : body?.ward?.toString()
             }
             if(body?.searchByParivar){
                 params.searchByParivar = body?.searchByParivar
@@ -46,7 +46,7 @@ startLoading()
 			// 	`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.municipalId)}&masterName=${encryptData("ward")}`
 			// );
 			// let responseData = decryptData(response?.data?.data)
-console.log('response', response)
+console.log('response search', response)
 			dispatch(getFamilyListSuccess(response));
 			stopLoading()
 		} catch (error) {

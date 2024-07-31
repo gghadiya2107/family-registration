@@ -35,10 +35,12 @@ export const getMunicipalities = (body, startLoading = () => { }, stopLoading = 
 			// 	`/master-data?status=${encryptData(`true`)}&parentId=${encryptData(body?.districtCode)}&masterName=${encryptData("municipal")}`
 			// );
 			// let responseData = decryptData(response?.data?.data)
-
+console.log('response municipal', response)
 			dispatch(getMunicipalSuccess(response));
 			stopLoading()
 		} catch (error) {
+			console.log('response municipal', error)
+
 			stopLoading()
 			dispatch(getMunicipalFaliure(error));
 		}

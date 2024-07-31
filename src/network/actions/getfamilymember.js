@@ -30,7 +30,6 @@ export const getfamilymember = (family_id,startLoading = () => {}, stopLoading= 
 			let params = {
 				family_id : typeof family_id == "number" ?  JSON.stringify(family_id) : family_id,
 			}
-			console.log('family_id', family_id)
 			const response = await ApiGetNoAuth(`/urbanregister/getfamilymember?`, params);
 // 			const response = await apiCall.get(
 // 				`/urbanregister/getfamilymember?family_id=${encryptDataGet(JSON.stringify(family_id))}`
@@ -39,6 +38,8 @@ export const getfamilymember = (family_id,startLoading = () => {}, stopLoading= 
 //             console.log('response getfamilymember', responseData)
 // console.log('family_id', responseData)
 console.log(' error response', response)
+console.log('params getfamilymember', params,response)
+
 			dispatch(getfamilymemberSuccess(response));
 			stopLoading()
 		} catch (error) {
