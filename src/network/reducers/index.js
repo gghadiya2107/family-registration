@@ -39,6 +39,7 @@ import getPanchayat from "./getPanchayat";
 import getTransferType from "./getTransferType";
 import deleteFamily from "./deleteFamily";
 import checkUser from "./checkUser";
+import getVerificationReport from "./getVerificationReport";
 
 const rootReducer = combineReducers({
 	authDetails,
@@ -78,7 +79,8 @@ const rootReducer = combineReducers({
 	getPanchayat,
 	getTransferType,
 	deleteFamily,
-	checkUser
+	checkUser,
+	getVerificationReport
 });
 
 export default rootReducer;

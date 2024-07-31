@@ -22,12 +22,14 @@ import { isAlphanumericKey } from '@/utils/regex';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import getDefaultData from '@/utils/getDefaultData';
 
 const AddMember = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const route = useRouter()
   const { loading, startLoading, stopLoading } = useLoading();
+  const defaultData = getDefaultData()
 
   const districtList = useSelector((state) => state.getDistrict?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
@@ -41,7 +43,7 @@ const AddMember = () => {
   const getFamilyByIdDataDoc = useSelector((state) => state.getFamilyById?.data?.familyDocData || [])
   const getfamilymemberList = useSelector((state) => state.getfamilymember?.data?.familyData || [])
   const getfamilymemberDoc = useSelector((state) => state.getfamilymember?.data?.familyDocData)
-
+console.log('getfamilymemberList', getfamilymemberList,getFamilyByIdData)
   console.log('getfamilymemberDoc', getfamilymemberDoc,useSelector((state) => state.getfamilymember?.data))
   const addFamilyData = useSelector((state) => state.addFamily?.data || [])
 
@@ -59,6 +61,24 @@ const AddMember = () => {
     municipal: "",
     ward: "",
   })
+
+  useEffect(() => {
+    if(defaultData?.district && !formData?.district){
+      dispatch(getMunicipalities({ districtCode: defaultData?.district?.toString() } , startLoading, stopLoading ))
+      setFormData({...formData, district : defaultData?.district })
+    }
+  }, [defaultData])
+  useEffect(() => {
+    if(defaultData?.municipal && formData?.district){
+      dispatch(getWard({ municipalId: defaultData?.municipal?.toString() }, startLoading, stopLoading ))
+      setFormData({...formData, municipal : defaultData?.municipal })
+    }
+  }, [formData?.district])
+  useEffect(() => {
+    if(defaultData?.ward && formData?.municipal){
+      setFormData({...formData, ward : defaultData?.ward })
+    }
+  }, [formData?.municipal])
 
   useEffect(() => {
     dispatch(getDistrict(startLoading, stopLoading))
@@ -100,17 +120,18 @@ console.log('getfamilymemberList', getfamilymemberList, memberList)
     }
 
   }, [getFamilyListDataApi])
+  console.log('wardList', wardList)
   const handleSearch = () => {
-    
-    if(formData?.district!="" && formatDate?.municipal!="" && formData?.ward!="" && selectedFamilyHead !=""){
+    console.log('formData search', formData)
+    // if(formData?.district && formData?.municipal && formData?.ward && selectedFamilyHead !=""){
       dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead},startLoading, stopLoading))
 
         // dispatch(getfamilymember(selectedFamilyHead, startLoading, stopLoading))
         // dispatch(getFamilyById(+selectedFamilyHead))
 
-    }else{
-      toast.error("Please select all fields")
-    }
+    // }else{
+    //   toast.error("Please select all fields")
+    // }
         
     
       }

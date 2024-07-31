@@ -94,13 +94,13 @@ toast.success("Family saved sucessfully")
 
   const validateForm = (formData) => {
     const errors = {};
-    if (!formData.municipal?.trim() || formData?.municipal == "0") {
+    if (!formData.municipal || formData?.municipal == "0") {
       errors.municipal = t('validateMunucipal');
     }
-    if (!formData.district?.trim() || formData?.district == "0") {
+    if (!formData.district || formData?.district == "0") {
       errors.district = t('validateDistrict');
     }
-    if (!formData.ward?.trim() || formData?.ward == "0") {
+    if (!formData.ward || formData?.ward == "0") {
       errors.ward = t("validateward");
     }
     if (!formData.makan?.trim()) {

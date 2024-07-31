@@ -22,13 +22,15 @@ import { useLoading } from '@/utils/LoadingContext';
 import Loader from '@/utils/Loader';
 import { getfamilymemberSuccess } from '@/network/actions/getfamilymember';
 import { MdOutlineSave } from 'react-icons/md';
+import getDefaultData from '@/utils/getDefaultData';
 
 const AddFamily = ({setActiveStepper,selectedFamilyMember,formData, setFormData,onSave, errors, setErrors}) => {
     console.log('selectedFamilyMember', selectedFamilyMember)
     const { loading, startLoading, stopLoading } = useLoading();
-
+    const defaultData = getDefaultData()
     const { t } = useTranslation("translation");
     const dispatch = useDispatch()
+    console.log('defaultData', defaultData)
     // const [formData, setFormData] = useState({})
     // const [errors, setErrors] = useState({});
     const districtList = useSelector((state) => state.getDistrict?.data)
@@ -43,6 +45,25 @@ console.log('districtList', districtList)
     dispatch(getCategory())
     getfamilymemberSuccess([])
   }, [])
+
+  useEffect(() => {
+    if(defaultData?.district && !formData?.district){
+      dispatch(getMunicipalities({ districtCode: defaultData?.district?.toString() } , startLoading, stopLoading ))
+      setFormData({...formData, district : defaultData?.district })
+    }
+  }, [defaultData])
+  useEffect(() => {
+    if(defaultData?.municipal && formData?.district){
+      dispatch(getWard({ municipalId: defaultData?.municipal?.toString() }, startLoading, stopLoading ))
+      setFormData({...formData, municipal : defaultData?.municipal })
+    }
+  }, [formData?.district])
+  useEffect(() => {
+    if(defaultData?.ward && formData?.municipal){
+      setFormData({...formData, ward : defaultData?.ward })
+    }
+  }, [formData?.municipal])
+  
 
   useEffect(() => {
     setFormData({
