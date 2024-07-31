@@ -29,6 +29,7 @@ import { isAlphanumericKey } from '@/utils/regex';
 import SubmitButton from '@/components/SubmitBtn';
 import AddMemberModal from '../registration/AddMemberModal';
 import { deleteFamily } from '@/network/actions/deleteFamily';
+import getDefaultData from '@/utils/getDefaultData';
 
 
 
@@ -36,6 +37,7 @@ const Update = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const { loading, startLoading, stopLoading } = useLoading();
+  const defaultData = getDefaultData()
 
   const route = useRouter()
   const districtList = useSelector((state) => state.getDistrict?.data)
@@ -87,6 +89,24 @@ const [openEditFamily, setOpenEditFamily] = useState(false)
     municipal: "",
     ward: "",
     })
+
+    useEffect(() => {
+      if(defaultData?.district && !formData?.district){
+        dispatch(getMunicipalities({ districtCode: defaultData?.district?.toString() } , startLoading, stopLoading ))
+        setFormData({...formData, district : defaultData?.district })
+      }
+    }, [defaultData])
+    useEffect(() => {
+      if(defaultData?.municipal && formData?.district){
+        dispatch(getWard({ municipalId: defaultData?.municipal?.toString() }, startLoading, stopLoading ))
+        setFormData({...formData, municipal : defaultData?.municipal })
+      }
+    }, [formData?.district])
+    useEffect(() => {
+      if(defaultData?.ward && formData?.municipal){
+        setFormData({...formData, ward : defaultData?.ward })
+      }
+    }, [formData?.municipal])
 console.log('getFamilyListData', getFamilyListData)
   useEffect(() => {
     dispatch(getDistrict( startLoading, stopLoading ))

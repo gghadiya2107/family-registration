@@ -77,6 +77,11 @@ const TransferListUrban = () => {
   }
 
   const getList =async () => {
+   await axios.get(`https://eparivarservice.hp.gov.in/Service.asmx?op=PariwarinfoByAaadhaar_PNO`).then(res => {
+    console.log('res piyush', res)
+   }).catch(e => {
+    console.log('e', e)
+   })
    await axios.get(`https://staging1.hp.gov.in/eparivarregister/WebService/wsHimID.asmx?op=GetHimMemberTransferedToUrban&cAccessID=${encodeURIComponent("IPH#$$@")}&cAccessKey=${encodeURIComponent("#$$@123")}`).then(res => {
     console.log('res piyush', res)
    }).catch(e => {

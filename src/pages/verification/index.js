@@ -18,13 +18,18 @@ import { PiClockUserBold } from "react-icons/pi";
 import { MdOutlineVerified } from "react-icons/md";
 
 import { useRouter } from 'next/router'
+import getDefaultData from '@/utils/getDefaultData'
+import { getVerificationReport } from '@/network/actions/getVerificationReport'
 
 const Verification = () => {
   const { t } = useTranslation("translation");
   const dispatch = useDispatch()
   const route = useRouter()
+  const defaultData = getDefaultData()
+
   const { loading, startLoading, stopLoading } = useLoading();
   const districtList = useSelector((state) => state.getDistrict?.data)
+  const getVerificationReportCount = useSelector((state) => state.getVerificationReport?.data)
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const getFamilyListData = useSelector((state) => state.getFamilyList?.data)
@@ -33,17 +38,38 @@ const Verification = () => {
     municipal: null,
     ward: null,
   })
+console.log('getVerificationReportCount', getVerificationReportCount)
   const [selectedFamilyHead, setSelectedFamilyHead] = useState(null)
 
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    if(defaultData?.district && !formData?.district){
+      dispatch(getMunicipalities({ districtCode: defaultData?.district?.toString() } , startLoading, stopLoading ))
+      setFormData({...formData, district : defaultData?.district })
+    }
+  }, [defaultData])
+  useEffect(() => {
+    if(defaultData?.municipal && formData?.district){
+      dispatch(getWard({ municipalId: defaultData?.municipal?.toString() }, startLoading, stopLoading ))
+      setFormData({...formData, municipal : defaultData?.municipal })
+    }
+  }, [formData?.district])
+  useEffect(() => {
+    if(defaultData?.ward && formData?.municipal){
+      setFormData({...formData, ward : defaultData?.ward })
+    }
+  }, [formData?.municipal])
+
+  useEffect(() => {
     dispatch(getDistrict(startLoading, stopLoading))
 
   }, [])
+  console.log('formData', formData)
 
   useEffect(() => {
     dispatch(getFamilyList({...formData, searchByParivar : selectedFamilyHead}, startLoading, stopLoading))
+    dispatch(getVerificationReport(formData,startLoading, stopLoading))
 
   }, [formData])
   const handleChange = (e) => {
@@ -136,7 +162,7 @@ const Verification = () => {
             <Box className={style.main}>
                <div>
                <p className={style.pending} style={{color : "#CC8800"}}>Pending</p>
-               <h1 style={{color : "#CC8800"}}>10</h1>
+               <h1 style={{color : "#CC8800"}}>{getVerificationReportCount?.[0]?.pending}</h1>
                </div>
                <PiClockUserBold size={30} color='#CC8800'/>
 
@@ -146,7 +172,7 @@ const Verification = () => {
           <Box className={style.main}>
         <div>
         <p className={style.pending} style={{color : "#1B5E20"}}>Verified</p>
-        <h1 style={{color : "#1B5E20"}}>10</h1>
+        <h1 style={{color : "#1B5E20"}}>{getVerificationReportCount?.[0]?.verified}</h1>
         </div>
         <MdOutlineVerified size={30} color='#1B5E20'/>
 
