@@ -22,7 +22,7 @@ import SelectDropdown from '@/components/SelectDropdown';
 import { getMunicipalities } from '@/network/actions/getMunicipalities';
 import { getWard } from '@/network/actions/getWard';
 import InputFieldWithIcon from '@/components/InputFieldWithIcon';
-import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan } from '@/utils/regex';
+import { isAlphabateKey, isAlphanumericKey, isNumericKeyWithHifan, isValidRationCardNumber } from '@/utils/regex';
 import FileUpload from '@/components/FileUpload';
 import { getDistrict } from '@/network/actions/getDistrict';
 import { getEconomicStatus } from '@/network/actions/economicStatus';
@@ -34,6 +34,8 @@ import { memberTransferList } from '@/network/actions/memberTransferList';
 import { AddTransferMember } from '@/network/actions/AddTransferMember';
 import { useLoading } from '@/utils/LoadingContext';
 import { MdClose, MdOutlineSave } from 'react-icons/md';
+import { getUpdateHistory } from '@/network/actions/getUpdateHistory';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -44,7 +46,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
+const ViewFamilyModal = ({ open, handleClose, viewData, setTableData }) => {
   const { t } = useTranslation("translation");
   const { loading, startLoading, stopLoading } = useLoading();
 
@@ -55,6 +57,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   const municipalList = useSelector((state) => state.getMunicipalities?.data)
   const wardList = useSelector((state) => state.getWard?.data)
   const economicStatusList = useSelector((state) => state.getEconomicStatus?.data)
+  const getUpdateHistoryList = useSelector((state) => state.getUpdateHistory?.data)
+
   const categorylist = useSelector((state) => state.getCategory?.data)
   const [memberList, setMemberList] = React.useState([])
   const [headData, setHeadData] = React.useState({})
@@ -67,6 +71,35 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
 
 
 
+  console.log('getUpdateHistoryList', getUpdateHistoryList)
+  React.useEffect(() => {
+    if (getUpdateHistoryList?.length > 0) {
+
+      let data = viewData?.[0] || {}
+      console.log('getUpdateHistoryList', data)
+      dispatch(getMunicipalities({ districtCode: +data?.District }, startLoading, stopLoading))
+
+      setNewData({ ...newData, districtCode: data?.District })
+    }
+  }, [getUpdateHistoryList])
+  React.useEffect(() => {
+    if (getUpdateHistoryList?.length > 0 && newData?.districtCode) {
+
+      let data = viewData?.[0] || {}
+      console.log('getUpdateHistoryList', data)
+      dispatch(getWard({ municipalId: data?.MC }, startLoading, stopLoading))
+
+      setNewData({ ...newData, municipalityId: data?.MC })
+    }
+  }, [newData?.districtCode])
+  React.useEffect(() => {
+    if (getUpdateHistoryList?.length > 0 && newData?.municipalityId) {
+
+      let data = viewData?.[0] || {}
+      console.log('getUpdateHistoryList', data)
+      setNewData({ ...newData, wardId: data?.WardCode })
+    }
+  }, [newData?.municipalityId])
 
   console.log('newData', newData)
   React.useEffect(() => {
@@ -88,23 +121,24 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
     dispatch(getEconomicStatus())
     dispatch(getCategory())
   }, [])
-//   React.useEffect(() => {
-//     let data = [...getfamilymemberList]
-//     let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
-//     setRationCardData(newData)
-//   }, [getfamilymemberList])
+  // React.useEffect(() => {
+  //   let data = [...getfamilymemberList]
+  //   let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
+  //   setRationCardData(newData)
+  // }, [getfamilymemberList])
   React.useEffect(() => {
-    if (viewData?.family_id) {
-
-      dispatch(getfamilymember(viewData?.family_id,startLoading, stopLoading))
+    console.log('viewData', viewData)
+    if (viewData?.[0]?.familyId) {
+      dispatch(getfamilymember(viewData?.[0]?.memberId, startLoading, stopLoading))
+      dispatch(getUpdateHistory({ familymember_id: viewData?.[0]?.memberId, editType_id: "8" }))
     }
-  }, [viewData])
+  }, [viewData?.[0]?.familyId])
   React.useEffect(() => {
     if (getfamilymemberList) {
-        // let newData = data?.map(v => ({ ...v, isChecked: false, isHead: false }))
-        // setRationCardData(newData)
+
       setMemberList(getfamilymemberList?.filter(v => v?.isHead != "true"))
       setHeadData(getfamilymemberList?.find(v => v?.isHead == "true"))
+
     }
   }, [])
 
@@ -164,12 +198,12 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
     if (!formData?.mobileNumber?.trim()) {
       errors.mobileNumber = t("validateMobile");
     }
-   else if (formData?.mobileNumber?.length < 11) {
+    else if (formData?.mobileNumber?.length < 11) {
       errors.mobileNumber = t("validateMobileLength");
     }
     else if (!isValidMobileNumber(formData?.mobileNumber?.replace("-", "")?.trim())) {
       errors.mobileNumber = t("validateMobileStart");
-    }    
+    }
     if (!formData?.dastavage) {
       errors.dastavage = t("validateDocument");
     }
@@ -181,6 +215,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
   };
 
   const saveAndAddDetails = () => {
+    console.log('newData', newData)
     const validationErrors = validateForm(newData);
     if (Object.keys(validationErrors).length === 0) {
 
@@ -191,42 +226,42 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
         const extra = () => {
           setNewData(null)
           handleClose()
-          dispatch(memberTransferList({...formData},startLoading, stopLoading))
-  
-  
+          dispatch(memberTransferList({ ...formData }, startLoading, stopLoading))
+
+
         }
         let body = {
-          AddFamily : {
-            "districtCode":newData?.districtCode,
-            "houseAddress":newData?.houseAddress,
-            "rationCardNo":newData?.rationCardNo,
-            "socialSubCategory":newData?.socialSubCategory || "",
-            "wardId":newData?.wardId,
-            "socialCategoryId":newData?.socialCategoryId,
-            "municipalityId":newData?.municipalityId,
-            "bplNumber":newData?.bplNumber,
-            "mobileNumber":newData?.mobileNumber?.replace("-", ""),
-            "active":"true",
-            "verifiedBy":"1",
-            "economicId":newData?.economicId
-            },
-            consentDocName : newData?.dastavage,
-            CastDocument : newData?.dastavage,
-            TransferMembers : {"members":viewData?.map(k => +k?.memberId), isHead : viewData?.find(v => v?.isHead)?.memberId}
-            
+          AddFamily: {
+            "districtCode": newData?.districtCode,
+            "houseAddress": newData?.houseAddress,
+            "rationCardNo": newData?.rationCardNo,
+            "socialSubCategory": newData?.socialSubCategory || "",
+            "wardId": newData?.wardId,
+            "socialCategoryId": newData?.socialCategoryId,
+            "municipalityId": newData?.municipalityId,
+            "bplNumber": newData?.bplNumber || "",
+            "mobileNumber": newData?.mobileNumber?.replace("-", ""),
+            "active": "true",
+            "verifiedBy": "1",
+            "economicId": newData?.economicId
+          },
+          consentDocName: newData?.dastavage,
+          CastDocument: newData?.dastavage,
+          TransferMembers: { "members": viewData?.map(k => +k?.HimmemberID), isHead: viewData?.find(v => v?.isHead)?.HimmemberID }
+
         }
-        console.log("body123",body)
-        
+        console.log("body123", body)
+
         dispatch(AddTransferMember(body, extra))
       }
 
 
-  } else {
-    console.log('validationErrors', validationErrors)
-    setErrors(validationErrors);
-  }
-  
-    
+    } else {
+      console.log('validationErrors', validationErrors)
+      setErrors(validationErrors);
+    }
+
+
 
   }
 
@@ -241,7 +276,7 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
         maxWidth={"lg"}
       >
 
-<IconButton
+        <IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
@@ -252,13 +287,15 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
             zIndex: 999
           }}
         >
-         <Box style={{height : "30px", width : "30px", background : "#A04040"}} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-         <MdClose color='white' size={18}/>
-         </Box>
+          <Box style={{ height: "30px", width: "30px", background: "#A04040" }} borderRadius={"4px"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+            <MdClose color='white' size={18} />
+          </Box>
         </IconButton>
         <DialogContent dividers>
+          <div className={style.heading} style={{ marginBottom: "-20px" }}>Transfer Member (Rural to Urban) </div>
+
           <Grid container spacing={3} mt={0}>
-         
+
             <Grid item xs={12} sm={12} md={12}  >
               <Grid container spacing={3} mt={0} >
                 <Grid item xs={12} sm={3} md={3}>
@@ -267,8 +304,8 @@ const ViewFamilyModal = ({ open, handleClose, viewData ,setTableData}) => {
                     name="districtCode"
                     options={districtList?.map(v => ({ value: v?.lgdCode, label: v?.nameE })) || []}
                     value={newData?.districtCode ?? null}
-                    onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value }, startLoading, stopLoading )); console.log(e.target.value) }}
-requried
+                    onChange={(e) => { handleChange(e); dispatch(getMunicipalities({ districtCode: e.target.value }, startLoading, stopLoading)); console.log(e.target.value) }}
+                    requried
                   />
                   {errors?.districtCode && <p className="error">{errors?.districtCode}</p>}
 
@@ -280,7 +317,7 @@ requried
                     options={municipalList?.map(v => ({ value: v?.id, label: v?.name }))}
                     disabled={newData?.district != "" ? false : true}
                     value={newData?.municipalityId}
-                    onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value }, startLoading, stopLoading )) }}
+                    onChange={(e) => { handleChange(e); dispatch(getWard({ municipalId: e.target.value }, startLoading, stopLoading)) }}
                     requried
                   />
                   {errors?.municipalityId && <p className="error">{errors?.municipalityId}</p>}
@@ -405,10 +442,10 @@ requried
                     value={newData?.mobileNumber?.replace(/^(\d{5})(\d{1,5})/, '$1-$2')}
                     onChange={(e) => e.target.value?.length > 11 ? null : handleChange(e)}
                     onKeyDown={(e) => {
-                      if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace'|| e.key === "ArrowLeft"|| e.key === "ArrowRight")) {
+                      if (!(isNumericKeyWithHifan(e.key) || e.key === 'Backspace' || e.key === "ArrowLeft" || e.key === "ArrowRight")) {
                         e.preventDefault();
                       }
-                    }}                      requried
+                    }} requried
                   />
                   {errors?.mobileNumber && <p className="error">{errors?.mobileNumber}</p>}
 
@@ -422,8 +459,9 @@ requried
                     name="dastavage"
                     onChange={handleChange}
                     accept="image/*"
-                    />
-                    {newData?.dastavage && <a href={URL.createObjectURL(newData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+                  />
+                  {newData?.dastavage && <a href={URL.createObjectURL(newData.dastavage)} target="_" style={{ marginTop: "3px", fontSize: "14px", float: "right", color: "blue" }}>View Uploaded File</a>}
+
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
            <a href={URL.createObjectURL(formData.dastavage)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View File</a>)
@@ -441,7 +479,7 @@ requried
                     onChange={handleChange}
                     accept="image/*"
                   />
-                                              {newData?.dastavage2 && <a href={URL.createObjectURL(newData.dastavage2)} target="_" style={{marginTop : "3px", fontSize :"14px", float : "right", color : "blue"}}>View Uploaded File</a>}
+                  {newData?.dastavage2 && <a href={URL.createObjectURL(newData.dastavage2)} target="_" style={{ marginTop: "3px", fontSize: "14px", float: "right", color: "blue" }}>View Uploaded File</a>}
 
                   {/* {formData?.dastavage && ( formData.dastavage.type.startsWith('image/') ?   <Image src={URL.createObjectURL(formData?.dastavage)} alt="Uploaded file"  width={250} height={150}
         style={{marginTop: "10px", width : "100%", height : "auto"}}/> :          
@@ -455,30 +493,28 @@ requried
             </Grid>
           </Grid>
           <Grid container spacing={3} mt={2}>
-            
+
             <Grid item xs={12} sm={12} md={12}>
               <div className={style.tablewrapper} style={{ margin: "0" }}>
                 <table className={style.table}>
                   <thead className={style.thead}>
                     <tr className={style.tr}>
-                      <th className={style.th}>Name</th>
-                      <th className={style.th}>Birth Date</th>
-                      <th className={style.th}>Aadhaar Number</th>
-                      <th className={style.th}>District</th>
-                      <th className={style.th}>Municipal</th>
-                      <th className={style.th}>ward</th>
+                      <th className={style.th}>Him Parivar Id	</th>
+                      <th className={style.th}>Him Member Id	</th>
+                      <th className={style.th}>Name	</th>
+                      <th className={style.th}>Aadhaar No.	</th>
+                      <th className={style.th}>Birth Date	</th>
                       <th className={style.th}>HOF</th>
                     </tr>
                   </thead>
                   <tbody>
                     {viewData?.map(v => <>
                       <tr className={style.tr}>
-                        <td className={style.td}>{v?.memberName}</td>
-                        <td className={style.td}>{formatDate(v?.dateOfBirth) || "-"}</td>
-                        <td className={style.td}>{v?.aadhaarNo ? FormatAadharNumber(v?.aadhaarNo) : "-"}</td>
-                        <td className={style.td}>{v?.district}</td>
-                        <td className={style.td}>{v?.municipalName}</td>
-                        <td className={style.td}>{v?.wardName}</td>
+                        <td className={style.td}>{v?.ParivarID}	</td>
+                        <td className={style.td}>{v?.HimmemberID}	</td>
+                        <td className={style.td}>{v?.M_Name}	</td>
+                        <td className={style.td}>{FormatAadharNumber(v?.AdharNumber)}	</td>
+                        <td className={style.td}>{formatDate(v?.['Date of Birth'])}	</td>
 
                         <td className={style.td}>
                           <input type="radio"
@@ -497,10 +533,10 @@ requried
 
               </div>
             </Grid>
-            <div className={style.save} style={{ textAlign: "right", width: "100%" }}>
-              <SubmitButton onClick={() => {handleClose(); setNewData(null)}} label="Cancel" icon={<MdClose size={18} style={{marginTop : "5px", marginRight : "5px"}} />} type ="cancel"/>
+            <div className={style.save} style={{ textAlign: "center", width: "100%" }}>
+              <SubmitButton label="Cancel" onClick={() => { handleClose(); setNewData(null) }} icon={<MdClose size={18} style={{ marginTop: "5px", marginRight: "5px" }} />} type="cancel" />
 
-              <SubmitButton label="Save" style={{ marginLeft: "10px" }} icon={<MdOutlineSave size={18} style={{marginTop : "5px", marginRight : "5px"}} />} onClick={() => saveAndAddDetails()} />
+              <SubmitButton label="Save" style={{ marginLeft: "10px" }} icon={<MdOutlineSave size={18} style={{ marginTop: "5px", marginRight: "5px" }} />} onClick={() => saveAndAddDetails()} />
               {/* <SubmitButton label={t('proceedToAddFamily')} onClick={() => saveAndAddDetails()} /> */}
             </div>
           </Grid>

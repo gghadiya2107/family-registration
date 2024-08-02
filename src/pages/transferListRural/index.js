@@ -15,6 +15,7 @@ import { isNumericKeyWithSpace } from '@/utils/regex'
 import { useLoading } from '@/utils/LoadingContext'
 import axios from 'axios'
 import { MdArrowForward, MdSearch } from 'react-icons/md'
+import FormatAadharNumber from '@/utils/formatAadharNumber'
 
 const TransferListUrban = () => {
   const { t } = useTranslation("translation");
@@ -38,10 +39,10 @@ const TransferListUrban = () => {
     const [open, setOpen] = React.useState(false);
     const [page, setPage] = useState(1);
     const [tableData, setTableData] = useState([])
-    useEffect(() => {
-      if(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no)
-        setTableData(memberTransferListData)
-    }, [memberTransferListData])
+    // useEffect(() => {
+    //   if(formData?.aadhaar_no || formData?.himparivar_no || formData?.ration_card_no)
+    //     setTableData(memberTransferListData)
+    // }, [memberTransferListData])
     
     console.log('getFamilyListData', getFamilyListData, page)
 
@@ -77,8 +78,9 @@ const TransferListUrban = () => {
   }
 
   const getList =async () => {
-   await axios.get(`https://eparivarservice.hp.gov.in/Service.asmx?op=PariwarinfoByAaadhaar_PNO`).then(res => {
+   await axios.get(`https://eparivarservice.hp.gov.in/Service.asmx/GetHimMemberTransferedToUrban?&cAccessID=/Zn3ROuIOE98kSk+vUQg8A==&cAccessKey=cQNL0sL8H0Sas0etiCMwyw==`).then(res => {
     console.log('res piyush', res)
+    setTableData(res?.data?.GetHimMemberTransferedToUrban || [])
    }).catch(e => {
     console.log('e', e)
    })
@@ -136,7 +138,7 @@ const TransferListUrban = () => {
               onChange={handleChange}
             />
           </Grid> */}
-          <Grid item xs={12} sm={6} md={6}>
+          {/* <Grid item xs={12} sm={6} md={6}>
           <InputFieldWithIcon
                 title={t('searchByParivarIdorRationNoAadharNo')}           
               placeholder=""
@@ -146,7 +148,7 @@ const TransferListUrban = () => {
               onChange={handleChange}
               
             />
-          </Grid>
+          </Grid> */}
           {/* <Grid item xs={12} sm={4} md={3}>
           <InputFieldWithIcon
                 title={t('rathinCardNumber')}
@@ -174,36 +176,38 @@ const TransferListUrban = () => {
               onChange={(e) => e.target.value?.length > 14 ? null : handleChange(e)}
             />
           </Grid> */}
-          <Grid item xs={12} sm={4} md={1} mt={3}>
+          {/* <Grid item xs={12} sm={4} md={1} mt={3}>
          <SubmitButton label={"Search"} icon={<MdSearch size={18} style={{marginTop : "5px", marginRight : "5px"}}/>} onClick={handleSearch}/>
-          </Grid>
+          </Grid> */}
         </Grid>
 
        {tableData?.length >  0 ? <div className={style.tablewrapper} >
           <table className={style.table}>
             <thead className={style.thead}>
               <tr className={style.tr}>
+                <th className={style.th}>Him Parivar Id	</th>
+                <th className={style.th}>Him Member Id	</th>
                 <th className={style.th}>Name	</th>
-                <th className={style.th}>Ration No.	</th>
-                <th className={style.th}>Gender	</th>
+                <th className={style.th}>Aadhaar No.	</th>
                 <th className={style.th}>Birth Date	</th>
                 {/* <th className={style.th}>SOCIAL CATEGORY	</th> */}
-                <th className={style.th}>District</th>
+                {/* <th className={style.th}>District</th>
                 <th className={style.th}>Municipal</th>
-                <th className={style.th}>Ward</th>
+                <th className={style.th}>Ward</th> */}
                 <th className={style.th}>Action</th>
               </tr>
             </thead>
             <tbody>{tableData?.map(v => (
               <tr className={style.tr}>
-                <td className={style.td}>{v?.memberName}	</td>
-                <td className={style.td}>{v?.rationCardNo}	</td>
-                <td className={style.td}>{v?.gender}</td>
-                <td className={style.td}>{formatDate(v?.dateOfBirth)}	</td>
+                <td className={style.td}>{v?.ParivarID}	</td>
+                <td className={style.td}>{v?.HimmemberID}	</td>
+                <td className={style.td}>{v?.M_Name}	</td>
+                <td className={style.td}>{FormatAadharNumber(v?.AdharNumber)}	</td>
+                <td className={style.td}>{formatDate(v?.['Date of Birth'])}	</td>
                 {/* <td className={style.td}>{v?.socialCategory}</td> */}
-                <td className={style.td}>{v?.district}</td>
+                {/* <td className={style.td}>{v?.district}</td>
                 <td className={style.td}>{v?.municipalName}</td>
-                <td className={style.td}>{v?.wardName}</td>
+                <td className={style.td}>{v?.wardName}</td> */}
                 <td className={style.td}><div className={style.btns}>
                     {/* <p style={{cursor : "pointer", color : "blue"}} onClick={() => handleClickOpen(v)}>Select</p> */}
                     <input type="checkbox" className={style.checkbox} value={v?.isChecked}
